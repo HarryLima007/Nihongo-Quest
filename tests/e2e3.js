@@ -40,7 +40,7 @@ const V20 = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'v2.0-save.json')
 (async () => {
   const browser = await chromium.launch();
   const errors = [];
-  const mk = async (vp) => { const ctx = await browser.newContext(vp || { ...devices['Pixel 5'] }); await ctx.addInitScript(stub(JA)); const p = await ctx.newPage(); p.on('pageerror', e => errors.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/fonts|ERR_FAILED/.test(m.text())) errors.push(m.text()); }); await p.route(/fonts\.(googleapis|gstatic)/, r => r.abort()); return p; };
+  const mk = async (vp) => { const ctx = await browser.newContext(vp || { ...devices['Pixel 5'] }); await ctx.addInitScript(stub(JA)); const p = await ctx.newPage(); p.on('pageerror', e => errors.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/fonts|ERR_FAILED/.test(m.text())) errors.push(m.text()); }); await p.route(/fonts\.(googleapis|gstatic)/, r => r.abort()); return require('./reveal')(p); };
 
   /* ---------- 1. save real da 2.0.0 abre sem perder nada ---------- */
   const page = await mk();
@@ -52,20 +52,22 @@ const V20 = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'v2.0-save.json')
   const same = (a, b, m) => ok(JSON.stringify(a) === JSON.stringify(b), m);
   same(S.lessons, V20.lessons, 'lições da 2.0 preservadas (' + Object.keys(S.lessons).length + ')');
   same(S.catExams, V20.catExams, 'avaliações finais preservadas');
-  same(S.items, V20.items, 'itens de revisão preservados (' + Object.keys(S.items).length + ')');
+  // 3.0 acrescenta campos aos itens (d, ld, lw); os campos da 2.0 devem continuar idênticos
+  const keep = Object.fromEntries(Object.entries(S.items).map(([k, v]) => [k, Object.fromEntries(Object.keys(V20.items[k] || {}).map(f => [f, v[f]]))]));
+  same(keep, V20.items, 'itens de revisão preservados (' + Object.keys(S.items).length + ')');
   same(S.listening.recognized, V20.listening.recognized, 'palavras reconhecidas preservadas');
   same(S.listening.dialogs, V20.listening.dialogs, 'diálogos concluídos preservados');
   same(S.discoveries, V20.discoveries, 'descobertas do Detetive preservadas');
   ok(S.xp === V20.xp && S.streak.best === V20.streak.best, 'XP e sequência preservados');
   ok(Object.keys(V20.achievements).every(k => S.achievements[k] === V20.achievements[k]), 'conquistas da 2.0 preservadas');
-  ok(S.schemaVersion === 2 && S.appVersion === '2.1.0', 'versão 2.1.0, mesmo esquema de save (' + S.schemaVersion + ')');
+  ok(S.schemaVersion === 3 && S.appVersion === '3.0.0', 'save da 2.0 migrado para a 3.0.0 (esquema ' + S.schemaVersion + ')');
   ok(await page.evaluate(() => localStorage.getItem('nihongoQuest:backup') === null || true), 'nenhuma migração necessária');
 
   /* ---------- 2. mapa da Academia ---------- */
   await page.click('.tab[data-view="academia"]');
   if (await page.isVisible('[data-act="acadMode"][data-mode="trad"]')) await page.click('[data-act="acadMode"][data-mode="trad"]');
   const wings = await page.$$eval('.wing', w => w.map(x => x.id));
-  ok(wings.join() === 'wing-c1,wing-c4,wing-c2,wing-c5,wing-c3,wing-c6,wing-c8,wing-c7,wing-c9,wing-c10', '10 alas, trilhas intercaladas: ' + wings.join(' '));
+  ok(wings.slice(0, 10).join() === 'wing-c1,wing-c4,wing-c2,wing-c5,wing-c3,wing-c6,wing-c8,wing-c7,wing-c9,wing-c10', 'alas da 2.x na ordem original, trilhas intercaladas: ' + wings.join(' '));
   ok(!(await page.$('.soon-box')), 'nenhuma ala “em breve”');
   ok(await page.evaluate(() => { const c = __NQ.CATS.find(x => x.id === 'c4'); return c.requires === 'c1'; }), 'Vocabulário depende de Primeiros Passos');
   await page.screenshot({ path: shots + '/01-mapa.png', fullPage: true });
@@ -131,7 +133,7 @@ const V20 = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'v2.0-save.json')
   /* ---------- 5. Academia Auditiva: diálogos e pares de som novos ---------- */
   await page.click('.tab[data-view="academia"]'); await page.click('[data-act="acadMode"][data-mode="aud"]');
   await page.click('[data-act="audSub"][data-sub="dlg"]');
-  ok((await page.$$eval('.dlg-card', e => e.length)) === 16, '16 diálogos no Laboratório');
+  const nDlg = await page.evaluate(() => __NQ.DIALOGS.length); ok(nDlg >= 22 && (await page.$$eval('.dlg-card', e => e.length)) === nDlg, nDlg + ' diálogos no Laboratório');
   await page.click('[data-act="dialog"][data-id="dlg-rival"]'); await page.click('[data-act="dlgAll"]'); await page.waitForTimeout(2600);
   const lines = await page.evaluate(() => __spoken.slice(-5).map(s => s.text));
   ok(lines[1] === 'にげねえよ。' && lines.length === 5, 'diálogo novo toca todas as falas com a leitura em kana');

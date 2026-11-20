@@ -87,7 +87,7 @@ function speak(text, opts = {}) {
       let u;
       try { u = new SpeechSynthesisUtterance(cleanSay(text)); } catch (e) { AUDIO.status = 'unsupported'; audioProblem(); return resolve(false); }
       u.lang = 'ja-JP'; if (AUDIO.ja) u.voice = AUDIO.ja;
-      u.rate = opts.rate || RATES[S.settings.rate] || RATES.normal; u.pitch = opts.pitch || 1;
+      u.rate = opts.rate || (AUDIO.slow ? 0.6 : RATES[S.settings.rate] || RATES.normal); u.pitch = opts.pitch || 1;
       let started = false;
       const guard = setTimeout(() => {
         if (started || my !== AUDIO.token) return;
@@ -147,6 +147,7 @@ function listenPool(type, level) {
   if (type === 'expressao') return packItems('aud-expr').concat(expr.filter(it => !it.id.startsWith('aud-expr')));
   if (type === 'frase') return L === 1 ? expr.concat(v1(['c5l1'])) : fra.filter(it => L === 3 ? (it.lv === 3 || it.lesson.kind === 'grammar') : true);
   if (type === 'anime') return packItems('aud-ani');
+  if (type === 'resposta') { const r = packItems('aud-resp').filter(it => it.lv <= L); return r.length >= 4 ? r : packItems('aud-resp'); }
   return v1Words.concat(pal, expr, L >= 2 ? fra : []);
 }
 function groupOf(it) {
@@ -186,6 +187,16 @@ function genPronQ(set, level) {
     answerText: it.ro + ' (' + it.pt + ')', explain: items.map(x => x.ro + ' = ' + x.pt).join(' · ') + '. ' + (it.note || ''), stat: 'som'
   };
 }
+/* 3.0: Responder certo — ouça a fala e escolha a resposta adequada */
+function genRespQ(it, level = 'iniciante') {
+  const opts = shuffle([{ r: it.reply, correct: true }].concat((it.wrong || []).map(w => ({ r: w, correct: false }))));
+  return {
+    type: 'listen', mode: 'resp', lvl: level, itemId: it.id, say: sayOf(it), jp: it.jp, ro: it.ro, pt: it.pt,
+    prompt: 'Ouça a fala. Qual é a resposta mais adequada?', allowRoHint: levelNum(level) < 3,
+    options: opts.map(o => ({ label: o.r.jp, sub: o.r.ro, correct: o.correct })),
+    answerText: it.reply.jp + ' (' + it.reply.ro + ') = ' + it.reply.pt, explain: (it.note || '') + ' ' + opts.filter(o => !o.correct).map(o => o.r.jp + ' = ' + o.r.pt).join(' · '), stat: 'resposta'
+  };
+}
 function genDialogQs(dlg) {
   return dlg.qs.map((qq, i) => ({
     type: 'listen', mode: 'dialog', lvl: ['iniciante', 'intermediario', 'avancado'][dlg.lv - 1], itemId: null, dialogId: dlg.id,
@@ -207,7 +218,13 @@ function buildListenSession(type, level) {
     const fr = shuffle(listenPool('frase', level)).slice(0, 3).map(it => genListenQ(it, 'phrase', level));
     const so = shuffle(PRON_SETS.filter(s => s.lv <= L)).slice(0, 2).map(s => genPronQ(s, level));
     const ex = shuffle(listenPool('expressao', level).filter(it => (it.lv || 1) <= L)).slice(0, 1).map(it => genListenQ(it, 'word', level));
-    return shuffle(words.concat(fr, so, ex));
+    const rs = shuffle(listenPool('resposta', level)).slice(0, L >= 2 ? 2 : 1).map(it => genRespQ(it, level));
+    return shuffle(words.concat(fr, so, ex, rs));
+  }
+  if (type === 'resposta') {
+    const pool = listenPool('resposta', level);
+    const score = it => { const r = S.items[it.id]; return r ? (r.w * 2 - r.c + (r.due <= Date.now() ? 1 : 0)) : 1.5; };
+    return shuffle(shuffle(pool).sort((a, b) => score(b) - score(a) + (Math.random() - .5) * 2).slice(0, 8)).map(it => genRespQ(it, level));
   }
   let pool = listenPool(type, level);
   if (type === 'anime') pool = pool.filter(it => S.discoveries[it.id]);
@@ -222,7 +239,7 @@ function recordListen(q, ok) {
   const st = S.listening.stats; st.answers++; if (ok) st.correct++;
   const bl = st.byLevel[q.lvl] || (st.byLevel[q.lvl] = { a: 0, c: 0 }); bl.a++; if (ok) bl.c++;
   const bt = st.byType[q.stat] || (st.byType[q.stat] = { a: 0, c: 0 }); bt.a++; if (ok) bt.c++;
-  if (ok && q.itemId) { if (q.stat === 'frase') S.listening.phrases[q.itemId] = Date.now(); else S.listening.recognized[q.itemId] = Date.now(); }
+  if (ok && q.itemId) { if (q.stat === 'frase' || q.stat === 'resposta') S.listening.phrases[q.itemId] = Date.now(); else S.listening.recognized[q.itemId] = Date.now(); }
   missionEvent('listen');
   save();
 }
@@ -266,9 +283,9 @@ function afterRenderPlayer() {
   if (q && q.type === 'listen' && !P.answered && P.autoplayed !== P.i && !audioBlocked()) { P.autoplayed = P.i; setTimeout(() => { if (P && P.qs && P.qs[P.i] === q && !P.answered) playQ(); }, 300); }
 }
 function playQ() {
-  const q = P && P.qs && P.qs[P.i]; if (!q) return;
-  if (q.mode === 'dialog') { const d = DIALOGS.find(x => x.id === q.dialogId); speakSeq(d.lines); return; }
-  speak(q.say);
+  const q = P && P.qs && P.qs[P.i]; if (!q) return Promise.resolve(false);
+  if (q.mode === 'dialog') { const d = DIALOGS.find(x => x.id === q.dialogId); return speakSeq(d.lines); }
+  return speak(q.say);
 }
 function endListenQuiz() {
   if (!['listen', 'dialog', 'case'].includes(P.quiz)) return false;
@@ -313,7 +330,7 @@ function renderListenBody(q) {
   const showJp = q.revealJp && !P.answered;
   let h = `<div class="audio-card">
     <button class="play-big" data-act="playQ" aria-label="Ouvir o áudio">${IC.play}<span>Ouvir</span></button>
-    <div class="audio-ctrls"><button class="btn btn-ghost btn-small" data-act="playQ">${IC.repeat.replace('<svg', '<svg width="18" height="18"')} Repetir</button>${rateSeg()}</div>`;
+    <div class="audio-ctrls"><button class="btn btn-ghost btn-small" data-act="playQ">${IC.repeat.replace('<svg', '<svg width="18" height="18"')} Repetir</button><button class="btn btn-ghost btn-small" data-act="playSlow">Bem devagar</button>${rateSeg()}</div>`;
   if (q.ctx) h += `<p class="clue"><b>Pista:</b> ${esc(q.ctx)}</p>`;
   if (blocked) h += `<div class="banner" style="margin:0">${AUDIO.status === 'unsupported' ? 'Este navegador não reproduz voz.' : 'Não há voz japonesa neste aparelho.'} Modo leitura: leia em voz alta <b class="tabnum">${esc(q.mode === 'dialog' ? q.ro : q.ro)}</b> e responda. <button class="link-btn" data-act="voiceHelp">Como ativar a voz</button></div>`;
   if (!P.answered && !blocked) {
@@ -413,6 +430,7 @@ function viewAudioHub() {
       ${mod('listen', 'data-type="palavra"', IC.headphones, 'Reconhecer palavras', 'Ouça e escolha o significado', '')}
       ${mod('listen', 'data-type="som"', IC.wave, 'Distinguir sons', 'Sons longos, curtos e pausas', '')}
       ${mod('listen', 'data-type="frase"', IC.chat, 'Compreender frases', levelNum(lv) === 1 ? 'Expressões e frases bem curtas' : 'O que foi dito?', '')}
+      ${mod('listen', 'data-type="resposta"', '<span class="jp" style="font-weight:800">答</span>', 'Responder certo', 'Ouça a fala e escolha a reação adequada', '')}
       ${mod('listen', 'data-type="misto"', IC.spark, 'Treino misto', 'Um pouco de tudo do seu nível', '')}
     </div></section>
     <section class="section"><h2>Módulos</h2><div class="mod-grid">
@@ -499,12 +517,12 @@ function profileListenStats() {
 /* ==========================================================
    CADERNO (expandido): v1 + descobertas + diálogos
    ========================================================== */
-const NB_TYPES = [['todas', 'Todas'], ['palavra', 'Palavras'], ['expressao', 'Expressões'], ['anime', 'Animes'], ['frase', 'Frases'], ['dialogo', 'Diálogos'], ['dificeis', 'Mais difíceis']];
-const GROUP_LABEL = { palavra: 'Palavra', expressao: 'Expressão', anime: 'Anime', frase: 'Frase', dialogo: 'Diálogo' };
+const NB_TYPES = [['todas', 'Todas'], ['palavra', 'Palavras'], ['expressao', 'Expressões'], ['anime', 'Animes'], ['frase', 'Frases'], ['resposta', 'Respostas'], ['dialogo', 'Diálogos'], ['dificeis', 'Mais difíceis']];
+const GROUP_LABEL = { palavra: 'Palavra', expressao: 'Expressão', anime: 'Anime', frase: 'Frase', resposta: 'Resposta', dialogo: 'Diálogo' };
 function originOf(it) {
   const l = it.lesson;
   if (l.kind !== 'audio') return l.cat.title + ' · ' + l.title;
-  return { 'aud-pal': 'Academia Auditiva · Palavras', 'aud-expr': 'Expressões do Cotidiano', 'aud-fra': 'Academia Auditiva · Frases', 'aud-ani': 'Detetive dos Animes' }[l.id] || 'Academia Auditiva';
+  return { 'aud-pal': 'Academia Auditiva · Palavras', 'aud-expr': 'Expressões do Cotidiano', 'aud-fra': 'Academia Auditiva · Frases', 'aud-ani': 'Detetive dos Animes', 'aud-resp': 'Academia Auditiva · Responder certo' }[l.id] || 'Academia Auditiva';
 }
 function viewNotebook() {
   if (!nb.t) nb.t = 'todas';
@@ -528,6 +546,7 @@ function viewNotebook() {
       <div><b>${esc(it.pt)}</b> <span class="ro">· ${esc(it.ro)}${it.alt ? ' · também ' + esc(it.alt) : ''}</span>${it.kanji ? ` <span class="ro">· kanji: <span class="jp">${esc(it.kanji)}</span></span>` : ''}</div>
       ${it.note ? `<div class="muted" style="font-size:.88rem">${esc(it.note)}</div>` : ''}
       ${it.when ? `<div class="muted" style="font-size:.88rem">Quando usar: ${esc(it.when)}</div>` : ''}
+      ${it.reply ? `<div class="nb-ex"><span class="muted">Resposta adequada:</span><br><span class="jp" style="font-weight:700">${esc(it.reply.jp)}</span><br><span class="ro">${esc(it.reply.ro)}</span><br>${esc(it.reply.pt)}</div>` : ''}
       ${it.ex ? `<div class="nb-ex"><span class="jp" style="font-weight:700">${esc(it.ex.jp)}</span><br><span class="ro">${esc(it.ex.ro)}</span><br>${esc(it.ex.pt)}</div>` : ''}
       <div class="nb-meta"><span class="chip nova">${GROUP_LABEL[g]}</span><span>${esc(originOf(it))}</span><span>· desde ${new Date(r.seen).toLocaleDateString('pt-BR')}</span>${r.c + r.w ? `<span class="tabnum">· ${r.c} acerto${r.c === 1 ? '' : 's'}, ${r.w} erro${r.w === 1 ? '' : 's'}</span>` : ''}${g === 'anime' ? `<button class="link-btn" style="padding:0" data-act="discOpen" data-id="${it.id}">Ver descoberta</button>` : ''}</div></div>`;
   };
@@ -553,6 +572,7 @@ function viewNotebook() {
 Object.assign(ACT, {
   speak: el => speak(el.dataset.text),
   playQ: () => playQ(),
+  playSlow: async () => { AUDIO.slow = true; try { await playQ(); } finally { AUDIO.slow = false; } },
   rate: el => { S.settings.rate = el.dataset.val; save(); document.querySelectorAll('.rate-seg button').forEach(b => b.classList.toggle('on', b.dataset.val === S.settings.rate)); if (P && P.phase === 'quiz') playQ(); },
   revealJp: () => { const q = P.qs[P.i]; q.revealJp = true; q.hinted = true; P.keepScroll = true; renderPlayer(); },
   hintRo: () => { const q = P.qs[P.i]; q.hintRo = true; q.hinted = true; P.keepScroll = true; renderPlayer(); },

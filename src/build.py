@@ -1,8 +1,9 @@
-import re, pathlib
+import re, pathlib, json
 src = pathlib.Path('src')
 css = (src/'style.css').read_text()
 css = '[hidden]{display:none!important}\n' + css
-js = '\n'.join((src/f).read_text() for f in ['content.js','content2.js','content3.js','content4.js','content5.js','app.js','audio.js'])
+man = json.loads((src/'manifest.json').read_text())
+js = '\n'.join((src/f).read_text() for f in man['content'] + man['app'])
 shell = (src/'shell.html').read_text()
 # inline tab icons from IC object in app.js
 for name in ['home','academy','review','book','user']:

@@ -428,3 +428,30 @@ details.expr summary { display: flex; flex-direction: column; gap: 2px; }
 .filter.small { padding: 5px 12px; font-size: .78rem; }
 .aud-home { display: flex; flex-direction: column; gap: 12px; }
 .aud-home .row-btns .btn { flex: 1; }
+/* ===== 3.0: estágios, alas recolhíveis, revisão e estatísticas ===== */
+.kpis4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.kpis4 .kpi { padding: 10px 8px; }
+.kpis4 .kpi b { font-size: 1.25rem; }
+.chip.vista { background: var(--surface-2); color: var(--muted); }
+.row-btn { width: 100%; text-align: left; }
+.act-chart { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 4px; align-items: end; height: 96px; margin-top: 8px; }
+.act-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 4px; }
+.act-col i { display: block; width: 100%; max-width: 18px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--violet), var(--royal)); }
+.act-col i.zero { background: var(--line); }
+.act-col span { font-size: .62rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stage-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 12px 0 4px; }
+.stage-tabs button { background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 8px 4px; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+.stage-tabs button b { font-size: .82rem; line-height: 1.1; }
+.stage-tabs button span { font-size: .66rem; color: var(--muted); font-weight: 700; text-align: center; line-height: 1.15; }
+.stage-tabs button.on { border-color: var(--gold); background: var(--gold-soft); }
+.stage-tabs button.on span { color: var(--gold-ink); }
+.stage-tabs .sbar { width: 80%; height: 4px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 2px; }
+.stage-tabs .sbar i { display: block; height: 100%; background: var(--gold); }
+.stage-info { margin: 8px 2px 0; font-size: .9rem; }
+.wing-head.wing-btn { width: 100%; text-align: left; cursor: pointer; }
+.wing-head .chev { flex: none; transition: transform .15s; opacity: .8; }
+.wing-head .chev.open { transform: rotate(180deg); }
+.wing-head.done-wing { background: linear-gradient(135deg, color-mix(in srgb, var(--night) 85%, var(--gold)), var(--night-2)); }
+.reading-card .ex { border-left: 3px solid var(--gold); padding-left: 10px; }
+.reading-card .ex + .ex { margin-top: 10px; }
+.text-tools { display: flex; gap: 8px; flex-wrap: wrap; }

@@ -1,0 +1,37 @@
+{
+  "content": [
+    "content.js",
+    "content2.js",
+    "content3.js",
+    "content4.js",
+    "content5.js",
+    "kit.js",
+    "content6.js",
+    "content7.js",
+    "content8.js",
+    "content9.js",
+    "content10.js",
+    "content11.js",
+    "content12.js",
+    "content13.js",
+    "content14.js",
+    "content15.js",
+    "content16.js",
+    "content17.js",
+    "content18.js",
+    "content19.js",
+    "content20.js",
+    "content21.js",
+    "content22.js",
+    "content23.js",
+    "content24.js",
+    "content25.js",
+    "content26.js",
+    "content27.js",
+    "finalize.js"
+  ],
+  "app": [
+    "app.js",
+    "audio.js"
+  ]
+}

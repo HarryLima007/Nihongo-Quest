@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '2.1.0';
-const SCHEMA_VERSION = 2;
+const APP_VERSION = '3.0.0';
+const SCHEMA_VERSION = 3;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -53,7 +53,8 @@ function defaultState() {
     flags: { comeback: false },
     settings: { romaji: true, sound: true, theme: 'system', rate: 'normal', academyMode: 'trad' },
     listening: defaultListening(),
-    discoveries: {}
+    discoveries: {},
+    exStats: {}, skills: {}, log: {}, tests: []
   };
 }
 function defaultListening() {
@@ -62,7 +63,7 @@ function defaultListening() {
     level: 'iniciante',
     stats: { answers: 0, correct: 0, ms: 0, sessions: 0,
       byLevel: { iniciante: ac(), intermediario: ac(), avancado: ac() },
-      byType: { palavra: ac(), som: ac(), frase: ac(), expressao: ac(), anime: ac(), dialogo: ac() } },
+      byType: { palavra: ac(), som: ac(), frase: ac(), expressao: ac(), anime: ac(), dialogo: ac(), resposta: ac() } },
     recognized: {}, phrases: {}, dialogs: {}
   };
 }
@@ -82,6 +83,22 @@ const MIGRATIONS = {
     if (!s.settings.academyMode) s.settings.academyMode = 'trad';
     s.migratedFrom = s.migratedFrom || { schema: 1, at: Date.now() };
     return s;
+  },
+  2: s => { // 2.x -> 3.0: só ACRESCENTA campos (estatísticas por habilidade, registro diário, exercícios)
+    if (!isPlainObj(s.exStats)) s.exStats = {};
+    if (!isPlainObj(s.log)) s.log = {};
+    if (!isPlainObj(s.skills)) s.skills = {};
+    const items = isPlainObj(s.items) ? s.items : {}, hist = Array.isArray(s.history) ? s.history : [];
+    // dias distintos com acerto, reconstruídos do histórico (o domínio passa a exigir acertos em dias diferentes)
+    const days = {};
+    hist.forEach(h => { if (h && h.ok && h.id && h.t) { const d = dayKey(new Date(h.t)); (days[h.id] || (days[h.id] = new Set())).add(d); } });
+    Object.keys(items).forEach(id => { const r = items[id]; if (!isPlainObj(r) || r.d != null) return; r.d = Math.max(r.c > 0 ? 1 : 0, days[id] ? days[id].size : 0); });
+    // habilidades: estimadas a partir dos acertos e erros já registrados em cada item
+    Object.keys(items).forEach(id => { const r = items[id], it = ITEM[id]; if (!isPlainObj(r) || !it) return; const k = skillOfItem(it); const o = s.skills[k] || (s.skills[k] = { a: 0, c: 0 }); o.a += (r.c || 0) + (r.w || 0); o.c += r.c || 0; });
+    // atividade diária a partir do histórico recente
+    hist.forEach(h => { if (!h || !h.t) return; const d = dayKey(new Date(h.t)); const o = s.log[d] || (s.log[d] = { a: 0, c: 0 }); o.a++; if (h.ok) o.c++; });
+    s.migratedFrom3 = { schema: 2, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -99,8 +116,9 @@ function normalize(data) {
   if (v > SCHEMA_VERSION) loadNotice = 'Este progresso foi salvo por uma versão mais nova do app. Tudo foi mantido.';
   while (v < SCHEMA_VERSION) { const m = MIGRATIONS[v]; if (m) s = m(s) || s; v++; s.schemaVersion = v; }
   s = fillDefaults(s, defaultState());
-  ['lessons', 'catExams', 'items', 'achievements'].forEach(k => { if (!isPlainObj(s[k])) s[k] = {}; });
+  ['lessons', 'catExams', 'items', 'achievements', 'exStats', 'skills', 'log'].forEach(k => { if (!isPlainObj(s[k])) s[k] = {}; });
   if (!Array.isArray(s.history)) s.history = [];
+  if (!Array.isArray(s.tests)) s.tests = [];
   if (!Array.isArray(s.shop.owned)) s.shop.owned = [];
   if (!Array.isArray(s.daily.missions)) s.daily.missions = [];
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
@@ -130,9 +148,28 @@ function load() {
 let S = load();
 let saveTimer = null;
 let saveSuspended = false;
+const AUTO_KEY = 'nihongoQuest:backup:auto';
+let allowEmptySave = false;
+/* cópia automática diária: antes do primeiro salvamento do dia, guarda o progresso do dia anterior */
+function autoBackup() {
+  try {
+    const today = dayKey();
+    if (localStorage.getItem(AUTO_KEY + ':day') === today) return;
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (raw) { localStorage.setItem(AUTO_KEY, raw); localStorage.setItem(AUTO_KEY + ':day', today); }
+  } catch (e) {}
+}
+/* nunca troca um progresso salvo por um perfil vazio (ex.: o navegador falhou ao ler) */
+function wouldEraseProgress() {
+  if (allowEmptySave || S.profile.onboarded || S.xp > 0 || Object.keys(S.lessons).length) return false;
+  try { const d = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); return !!(d && ((Number(d.xp) || 0) > 0 || (d.profile && d.profile.onboarded))); } catch (e) { return false; }
+}
 function saveNow() {
   clearTimeout(saveTimer); saveTimer = null;
   if (saveSuspended) return;
+  if (wouldEraseProgress()) return;
+  allowEmptySave = false;
+  autoBackup();
   S.updatedAt = Date.now();
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); storageOK = true; }
   catch (e) { if (storageOK) toast('!', 'Não foi possível salvar automaticamente. Use Perfil → Exportar progresso.'); storageOK = false; }
@@ -229,28 +266,69 @@ function checkAchievements() {
 }
 
 /* ---------- revisão espaçada ---------- */
-function rec(id) { return S.items[id] || (S.items[id] = { seen: 0, c: 0, w: 0, box: 0, due: 0, last: 0 }); }
+function rec(id) { return S.items[id] || (S.items[id] = { seen: 0, c: 0, w: 0, box: 0, due: 0, last: 0, d: 0 }); }
 function markSeen(id) { const r = rec(id); if (!r.seen) { r.seen = Date.now(); save(); } }
-function recordAnswer(id, ok, ctx) {
+/* 3.0: a caixa do item sobe no máximo uma vez por dia. Assim, acertar a mesma palavra
+   cinco vezes na mesma lição não a marca como dominada: o domínio exige acertos em dias diferentes. */
+function recordAnswer(id, ok, ctx, skill) {
   S.stats.answers++; if (ok) S.stats.correct++;
   missionEvent('answer'); if (ok) missionEvent('correct');
+  const today = dayKey();
   if (id && ITEM[id]) {
     const r = rec(id); if (!r.seen) r.seen = Date.now();
-    if (ok) { r.c++; r.box = Math.min(5, r.box + 1); } else { r.w++; r.box = 0; }
-    r.due = Date.now() + SRS_DAYS[r.box] * 86400000; r.last = Date.now();
+    if (ok) {
+      r.c++;
+      if (r.ld !== today) { r.box = Math.min(5, r.box + 1); r.d = (r.d || 0) + 1; r.ld = today; }
+    } else { r.w++; r.box = 0; r.lw = Date.now(); }
+    r.due = Date.now() + SRS_DAYS[r.box] * 86400000; r.last = Date.now(); r.lastOk = !!ok;
+    if (!skill) skill = skillOfItem(ITEM[id]);
   }
+  if (skill) { const o = S.skills[skill] || (S.skills[skill] = { a: 0, c: 0 }); o.a++; if (ok) o.c++; }
+  const lg = S.log[today] || (S.log[today] = { a: 0, c: 0 }); lg.a++; if (ok) lg.c++;
   S.history.push({ t: Date.now(), id: id || null, ok: !!ok, ctx });
   if (S.history.length > 400) S.history.splice(0, S.history.length - 400);
   save();
 }
+/* apresentada (só viu na teoria) ≠ aprendendo ≠ dominada (acertou em pelo menos 3 dias diferentes, sem erro recente) */
 function itemStatus(id) {
   const r = S.items[id];
-  if (!r || r.c + r.w === 0) return 'nova';
-  if (r.box >= 3) return 'dominada';
+  if (!r || r.c + r.w === 0) return r && r.seen ? 'vista' : 'nova';
+  if (r.box >= 3 && (r.d || 0) >= 3) return 'dominada';
   if (r.w > 0 && r.box < 2) return 'revisar';
   return 'aprendendo';
 }
-const STATUS_LABEL = { nova: 'Nova', aprendendo: 'Aprendendo', dominada: 'Dominada', revisar: 'Revisar' };
+const STATUS_LABEL = { nova: 'Nova', vista: 'Apresentada', aprendendo: 'Aprendendo', dominada: 'Dominada', revisar: 'Revisar' };
+/* habilidades acompanhadas nas estatísticas */
+const SKILLS = [['vocabulario', 'Vocabulário'], ['gramatica', 'Gramática'], ['frases', 'Construção de frases'], ['leitura', 'Leitura e escrita'], ['interpretacao', 'Interpretação de textos'], ['audicao', 'Compreensão auditiva']];
+function skillOfItem(it) {
+  const l = it && it.lesson; if (!l) return 'vocabulario';
+  if (l.kind === 'audio') return 'audicao';
+  if (l.kind === 'kana' || l.kind === 'kanaword') return 'leitura';
+  if (l.text) return 'interpretacao';
+  if (l.kind === 'grammar') return 'gramatica';
+  return 'vocabulario';
+}
+function skillOfQ(q) {
+  if (q.type === 'listen') return 'audicao';
+  if (q.authored) { const L = LESSON[q.lessonId]; if (L && L.text) return 'interpretacao'; if (q.type === 'build' || q.type === 'error') return 'frases'; return L && L.kind === 'vocab' ? 'vocabulario' : L && (L.kind === 'kana' || L.kind === 'kanaword') ? 'leitura' : 'gramatica'; }
+  if (q.itemId && ITEM[q.itemId]) return skillOfItem(ITEM[q.itemId]);
+  if (q.type === 'match' && q.items && ITEM[q.items[0]]) return skillOfItem(ITEM[q.items[0]]);
+  return 'vocabulario';
+}
+/* exercícios escritos (completar, montar frase, achar o erro) também têm histórico próprio */
+function recordEx(exId, ok) {
+  if (!exId) return;
+  const r = S.exStats[exId] || (S.exStats[exId] = { c: 0, w: 0, last: 0, lastOk: false });
+  if (ok) r.c++; else r.w++; r.last = Date.now(); r.lastOk = !!ok;
+}
+function exById(exId) { const i = exId.lastIndexOf('#'); const L = LESSON[exId.slice(0, i)]; return L && L.exercises ? { L, ex: L.exercises[+exId.slice(i + 1)] } : null; }
+/* desempenho de uma lição: itens + exercícios */
+function lessonAcc(L) {
+  let a = 0, c = 0;
+  L.items.forEach(it => { const r = S.items[it.id]; if (r) { a += r.c + r.w; c += r.c; } });
+  (L.exercises || []).forEach((_, i) => { const r = S.exStats[L.id + '#' + i]; if (r) { a += r.c + r.w; c += r.c; } });
+  return { a, c, pct: a ? Math.round(c / a * 100) : null };
+}
 function seenItems() { return Object.keys(S.items).filter(id => ITEM[id] && S.items[id].seen); }
 function dueItems() { const now = Date.now(); return seenItems().filter(id => { const r = S.items[id]; return (r.c + r.w > 0 && r.due <= now && r.box < 5) || itemStatus(id) === 'revisar'; }); }
 
@@ -258,7 +336,8 @@ function dueItems() { const now = Date.now(); return seenItems().filter(id => { 
 const lessonPassed = id => !!(S.lessons[id] && S.lessons[id].passed);
 const catPassed = id => !!(S.catExams[id] && S.catExams[id].passed);
 const catHasContent = c => c.lessons.length > 0;
-function catUnlocked(c) { return !c.requires || catPassed(c.requires); }
+const reqsOf = c => [].concat(c.requires || []);
+function catUnlocked(c) { return reqsOf(c).every(catPassed); }
 function lessonUnlocked(l) { return catUnlocked(l.cat) && (l.index === 0 || lessonPassed(l.cat.lessons[l.index - 1].id)); }
 function examUnlocked(c) { return catUnlocked(c) && catHasContent(c) && c.lessons.every(l => lessonPassed(l.id)); }
 function catProgress(c) { const tot = c.lessons.length + (catHasContent(c) ? 1 : 0); const done = c.lessons.filter(l => lessonPassed(l.id)).length + (catPassed(c.id) ? 1 : 0); return { done, tot }; }
@@ -271,7 +350,22 @@ function nextStep() {
   }
   return null;
 }
-function reqText(c) { if (c.reqNote) return c.reqNote; const r = CAT[c.requires]; return r ? 'Passe na avaliação final de “' + r.title + '” para liberar.' : ''; }
+function reqText(c) {
+  if (c.reqNote && reqsOf(c).length <= 1) return c.reqNote;
+  const miss = reqsOf(c).filter(id => !catPassed(id)).map(id => CAT[id]).filter(Boolean);
+  if (!miss.length) return '';
+  return 'Passe na avaliação final de ' + miss.map(r => '“' + r.title + '”').join(' e ') + ' para liberar.' + (c.reqWhy ? ' ' + c.reqWhy : '');
+}
+/* 3.0: estágios da jornada (o JLPT é referência, não o único critério) */
+const STAGES = [
+  { id: 'ini', name: 'Iniciante', jlpt: 'Fundamentos · N5 e N4', jp: 'しょきゅう', desc: 'Escrita japonesa, frases básicas, partículas, verbos e as situações do dia a dia.' },
+  { id: 'int', name: 'Intermediário', jlpt: 'Desenvolvimento · N3', jp: 'ちゅうきゅう', desc: 'Gramática do dia a dia real, keigo na prática, fala natural e leitura de textos curtos.' },
+  { id: 'ava', name: 'Avançado', jlpt: 'N2', jp: 'じょうきゅう', desc: 'Japonês de trabalho, notícias, opiniões, expressões idiomáticas e dialetos.' },
+  { id: 'pro', name: 'Proficiente', jlpt: 'N1 e além', jp: 'ちょうじょうきゅう', desc: 'Gramática culta, linguagem escrita formal, nuances, subentendidos e leitura avançada.' }
+];
+const stageOf = c => c.stage || 'ini';
+function stageProgress(sid) { let d = 0, t = 0; CATS.filter(c => stageOf(c) === sid).forEach(c => { const p = catProgress(c); d += p.done; t += p.tot; }); return { done: d, tot: t, pct: t ? Math.round(d / t * 100) : 0 }; }
+function currentStage() { const nx = nextStep(); const c = nx ? (nx.lesson ? nx.lesson.cat : nx.exam) : CATS[CATS.length - 1]; return stageOf(c); }
 
 /* ---------- números dinâmicos (11–100) ---------- */
 const DIG = [null, ['いち', 'ichi'], ['に', 'ni'], ['さん', 'san'], ['よん', 'yon'], ['ご', 'go'], ['ろく', 'roku'], ['なな', 'nana'], ['はち', 'hachi'], ['きゅう', 'kyuu']];
@@ -311,7 +405,7 @@ function poolFor(item, n, field) {
 function explainItem(it) { return it.jp + ' (' + it.ro + ') = ' + it.pt + '. ' + (it.note || ''); }
 function genItemQ(it, forceType) {
   const kind = it.lesson.kind;
-  if (kind === 'audio') return genListenQ(it, it.group === 'frase' ? 'phrase' : 'word', S.listening.level);
+  if (kind === 'audio') return it.group === 'resposta' ? genRespQ(it, S.listening.level) : genListenQ(it, it.group === 'frase' ? 'phrase' : 'word', S.listening.level);
   const types = { number: ['num_type', 'num_pick', 'jp2pt'], vocab: ['jp2pt', 'pt2jp'], grammar: ['jp2pt', 'pt2jp'], kana: ['kana_read', 'kana_find'], kanaword: ['word_read', 'jp2pt', 'pt2jp'] }[kind];
   const type = forceType || pick(types);
   const base = { itemId: it.id, explain: explainItem(it), say: it.say };
@@ -332,7 +426,8 @@ function genMatch(items) {
   return { type: 'match', prompt: kind === 'kana' ? 'Ligue cada caractere ao seu som' : 'Ligue os pares correspondentes', left: shuffle(L), right: R, items: items.map(x => x.id), explain: items.map(it => it.jp + ' = ' + right(it)).join(' · ') };
 }
 function authoredQ(ex, lesson) {
-  const base = { explain: ex.explain, itemId: null, authored: true, lessonId: lesson.id, noRomaji: !!ex.noRomaji };
+  const idx = (lesson.exercises || []).indexOf(ex);
+  const base = { explain: ex.explain, itemId: null, authored: true, lessonId: lesson.id, exId: idx >= 0 ? lesson.id + '#' + idx : null, noRomaji: !!ex.noRomaji };
   if (ex.t === 'fill' || ex.t === 'situation') {
     const opts = ex.opts.map((o, i) => { const s = sp(o); return { label: s.jp, sub: s.ro, correct: i === ex.ans, kana: ex.noRomaji && isKanaOnly(s.jp) && s.jp.length <= 2 }; });
     const right = sp(ex.opts[ex.ans]);
@@ -393,14 +488,56 @@ function buildCatExam(c) {
   });
   return shuffle(qs).slice(0, 15);
 }
+/* ---------- revisão (3.0): usa o histórico de acertos e erros ---------- */
+const passedLessons = () => ALL_LESSONS.filter(l => lessonPassed(l.id));
+function exQ(exId) { const x = exById(exId); return x && x.ex ? authoredQ(x.ex, x.L) : null; }
+function lessonExIds(L) { return (L.exercises || []).map((_, i) => L.id + '#' + i); }
+function wrongExIds() { return Object.keys(S.exStats).filter(id => S.exStats[id].w > 0 && !S.exStats[id].lastOk && exById(id)).sort((a, b) => S.exStats[b].last - S.exStats[a].last); }
+function weakLessons(n = 3) {
+  return ALL_LESSONS.map(L => ({ L, acc: lessonAcc(L) })).filter(x => x.acc.a >= 6 && x.acc.pct < 75).sort((a, b) => a.acc.pct - b.acc.pct).slice(0, n);
+}
+function itemQs(ids, n) { return ids.filter(id => ITEM[id]).slice(0, n).map(id => genItemQ(ITEM[id])); }
 function buildReview(mode) {
-  let ids;
-  if (mode === 'due') ids = dueItems();
-  else if (mode === 'hard') ids = seenItems().filter(id => S.items[id].w > 0).sort((a, b) => S.items[b].w - S.items[a].w);
-  else ids = seenItems();
-  ids = shuffle(ids);
-  if (mode === 'due' && ids.length < 6) ids = ids.concat(shuffle(seenItems().filter(id => !ids.includes(id))).slice(0, 6 - ids.length));
-  return ids.slice(0, 10).map(id => genItemQ(ITEM[id]));
+  const seen = seenItems();
+  let qs = [];
+  if (mode === 'due') {
+    // primeiro os mais atrasados e os que erraram por último
+    const due = dueItems().sort((a, b) => (S.items[a].lastOk === false ? -1 : 0) - (S.items[b].lastOk === false ? -1 : 0) || S.items[a].due - S.items[b].due);
+    let ids = due.slice(0, 10);
+    if (ids.length < 6) ids = ids.concat(shuffle(seen.filter(id => !ids.includes(id))).slice(0, 6 - ids.length));
+    qs = itemQs(shuffle(ids), 10).concat(wrongExIds().slice(0, 2).map(exQ));
+  } else if (mode === 'hard') {
+    const ids = seen.filter(id => S.items[id].w > 0).sort((a, b) => (S.items[a].lastOk ? 1 : 0) - (S.items[b].lastOk ? 1 : 0) || (S.items[b].lw || 0) - (S.items[a].lw || 0));
+    qs = itemQs(ids, 8).concat(wrongExIds().slice(0, 4).map(exQ));
+  } else if (mode && mode.startsWith('cat:')) {
+    const c = CAT[mode.slice(4)]; if (!c) return [];
+    const ls = c.lessons.filter(l => lessonPassed(l.id) || l.items.some(it => S.items[it.id] && S.items[it.id].seen));
+    const ids = ls.flatMap(l => l.items.map(it => it.id)).filter(id => S.items[id] && S.items[id].seen);
+    qs = itemQs(shuffle(ids).sort((a, b) => S.items[b].w - S.items[a].w), 9).concat(shuffle(ls.flatMap(lessonExIds)).slice(0, 3).map(exQ));
+  } else if (mode === 'weak') {
+    const ls = weakLessons(3).map(x => x.L); if (!ls.length) return [];
+    ls.forEach(L => { qs.push(...shuffle(L.items).slice(0, 3).map(it => genItemQ(it))); qs.push(...shuffle(lessonExIds(L)).slice(0, 2).map(exQ)); });
+  } else if (mode && mode.startsWith('lesson:')) {
+    const L = LESSON[mode.slice(7)]; if (!L) return [];
+    qs = shuffle(L.items).slice(0, 6).map(it => genItemQ(it)).concat(lessonExIds(L).map(exQ), lessonListenQs(L, 2));
+    if (L.items.length >= 4) qs.push(genMatch(shuffle(L.items).slice(0, 4)));
+  } else if (mode === 'test') {
+    // teste de conhecimento: 20 perguntas de todas as lições aprovadas, misturando habilidades
+    const ls = shuffle(passedLessons()); if (!ls.length) return [];
+    for (let i = 0; qs.length < 20 && i < 60; i++) {
+      const L = ls[i % ls.length];
+      const r = Math.random();
+      if (r < .35 && L.exercises && L.exercises.length) qs.push(exQ(pick(lessonExIds(L))));
+      else if (r < .5 && lessonCanListen(L)) qs.push(...lessonListenQs(L, 1));
+      else qs.push(genItemQ(pick(L.items)));
+    }
+    return qs.filter(Boolean).slice(0, 20);
+  } else {
+    qs = itemQs(shuffle(seen), 8).concat(shuffle(passedLessons().flatMap(lessonExIds)).slice(0, 3).map(exQ));
+  }
+  qs = shuffle(qs.filter(Boolean));
+  if (qs[0] && qs[0].type === 'match') qs.push(qs.shift());
+  return qs.slice(0, 14);
 }
 
 /* ---------- som e voz ---------- */
@@ -535,13 +672,15 @@ function viewHome() {
   let cont;
   if (nx && nx.lesson) cont = `<div class="card continue-card"><div class="emb jp">${esc(nx.lesson.emblem)}</div><div class="meta"><span class="eyebrow">${esc(nx.lesson.cat.title)} · Lição ${nx.lesson.index + 1}</span><h3>${esc(nx.lesson.title)}</h3></div></div><button class="btn btn-gold btn-block" data-act="startLesson" data-id="${nx.lesson.id}">${S.lessons[nx.lesson.id] ? 'Continuar lição' : 'Começar próxima lição'}</button>`;
   else if (nx && nx.exam) cont = `<div class="card continue-card"><div class="emb jp">${esc(nx.exam.emblem)}</div><div class="meta"><span class="eyebrow">Avaliação final</span><h3>${esc(nx.exam.title)}</h3></div></div><button class="btn btn-gold btn-block" data-act="openCatExam" data-cat="${nx.exam.id}">Fazer avaliação final</button>`;
-  else cont = `<div class="card"><h3>Você concluiu todo o conteúdo da versão 1.0!</h3><p class="muted" style="margin:6px 0 0">Continue revisando para dominar cada palavra. Novas categorias chegam nas próximas atualizações.</p></div><button class="btn btn-gold btn-block" data-act="startReview" data-mode="due">Revisar agora</button>`;
+  else cont = `<div class="card"><h3>Você concluiu toda a Academia!</h3><p class="muted" style="margin:6px 0 0">Continue revisando para dominar cada palavra e faça testes de conhecimento para manter tudo afiado.</p></div><button class="btn btn-gold btn-block" data-act="startReview" data-mode="due">Revisar agora</button>`;
   const missions = S.daily.missions.map(m => {
     const d = MISSION_POOL.find(x => x.id === m.id); if (!d) return '';
     const done = m.progress >= d.goal;
     return `<div class="mission"><div class="m-ic jp">任</div><div class="m-body"><span class="m-txt">${esc(d.txt)}</span><div class="bar light"><i style="width:${Math.round(m.progress / d.goal * 100)}%"></i></div><span class="m-sub">${m.progress}/${d.goal} · +${d.coins} moedas${d.xp ? ' · +' + d.xp + ' XP' : ''}</span></div>${m.claimed ? '<span class="done-chip">Resgatada</span>' : `<button class="btn btn-small ${done ? 'btn-gold' : 'btn-ghost'}" data-act="claim" data-id="${m.id}" ${done ? '' : 'disabled'}>Resgatar</button>`}</div>`;
   }).join('');
-  const cats = CATS.map(c => {
+  const stg = currentStage(), stInfo = STAGES.find(x => x.id === stg), stp = stageProgress(stg);
+  const due = dueItems().length;
+  const cats = CATS.filter(c => stageOf(c) === stg).map(c => {
     const p = catProgress(c), unlocked = catUnlocked(c), has = catHasContent(c);
     const status = !has ? 'Em breve' : !unlocked ? 'Bloqueada' : p.done + '/' + p.tot + ' concluídas';
     return `<button class="cat-tile ${unlocked && has ? '' : 'locked'}" data-act="gotoCat" data-cat="${c.id}"><span class="emb">${esc(c.emblem)}</span><span class="t">${c.num}. ${esc(c.title)}</span><span class="s">${status}</span></button>`;
@@ -557,63 +696,102 @@ function viewHome() {
     ${loadNotice ? `<div class="banner">${esc(loadNotice)}</div>` : ''}
     ${!storageOK ? '<div class="banner">O salvamento automático não está disponível neste navegador. Use Perfil → Exportar progresso.</div>' : ''}
     <section class="section">${cont}</section>
+    ${due ? `<section class="section"><div class="card mascot-tip" style="align-items:center"><span class="mod-ic big jp" style="font-weight:800">復</span><div class="grow" style="min-width:0"><b>${due} ${due === 1 ? 'item para revisar' : 'itens para revisar'}</b><p class="muted" style="margin:2px 0 0;font-size:.85rem">Revisar na hora certa fixa a memória.</p></div><button class="btn btn-small btn-primary" data-act="startReview" data-mode="due">Revisar</button></div></section>` : ''}
     ${homeListenCard()}
     <section class="section"><div class="mascot-tip">${mascot('neutral', 56)}<div class="bubble"><b>${MASCOT_NAME}:</b> ${esc(st.state === 'broken' || st.state === 'new' || st.state === 'pending' ? stLabel + ' ' : '')}${esc(pick(MSG.tips))}</div></div></section>
     <section class="section"><div class="section-h"><h2>Progresso geral</h2><span class="muted tabnum">${prog}%</span></div>
       <div class="bar light" style="height:12px"><i style="width:${prog}%"></i></div>
       <div class="stats-grid"><div class="kpi"><b>${countPassed(S)}<small class="muted" style="font-size:.9rem">/${TOTAL_LESSONS}</small></b><span>lições aprovadas</span></div><div class="kpi"><b>${seenItems().length}</b><span>palavras e frases estudadas</span></div></div></section>
     <section class="section"><div class="section-h"><h2>Missões de hoje</h2><span class="muted" style="font-size:.8rem">renovam à meia-noite</span></div><div class="card missions">${missions}</div></section>
-    <section class="section"><div class="section-h"><h2>Categorias</h2><button class="link-btn" data-act="nav" data-view="academia">Ver mapa</button></div><div class="cat-grid">${cats}</div></section>
+    <section class="section"><div class="section-h"><h2>Seu estágio: ${esc(stInfo.name)}</h2><button class="link-btn" data-act="nav" data-view="academia">Ver mapa</button></div><p class="muted" style="margin:0 0 10px;font-size:.88rem">${esc(stInfo.jlpt)} · ${stp.pct}% concluído</p><div class="cat-grid">${cats}</div></section>
     </div>`;
 }
 
+const acad = { stage: null, open: {} };
+function wingOpen(c, nx) {
+  if (acad.open[c.id] != null) return acad.open[c.id];
+  const p = catProgress(c);
+  return catUnlocked(c) && p.done < p.tot; // abertas: as alas em andamento; concluídas e bloqueadas ficam recolhidas
+}
 function viewAcademy() {
   const offs = [0, 46, 70, 46, 0, -46, -70, -46];
   const nx = nextStep();
-  const wings = CATS.map(c => {
-    const unlocked = catUnlocked(c), has = catHasContent(c), p = catProgress(c);
-    let sub = !has ? 'Em breve' : !unlocked ? 'Bloqueada' : p.done + ' de ' + p.tot + ' etapas';
-    const head = `<div class="wing-head ${unlocked && has ? '' : 'locked'}"><div class="emb">${esc(c.emblem)}</div><div class="meta"><span class="sub">Categoria ${c.num} · <span class="jp">${esc(c.jp)}</span></span><h2>${esc(c.title)}</h2><span class="sub">${sub}</span></div>${unlocked && has ? '' : IC.lock}</div>`;
+  const stage = acad.stage || currentStage();
+  const tabs = `<div class="stage-tabs" role="tablist">${STAGES.map(st => { const p = stageProgress(st.id); return `<button role="tab" aria-selected="${st.id === stage}" class="${st.id === stage ? 'on' : ''}" data-act="stage" data-st="${st.id}"><b>${esc(st.name)}</b><span>${esc(st.jlpt)}</span><span class="sbar"><i style="width:${p.pct}%"></i></span></button>`; }).join('')}</div>`;
+  const S0 = STAGES.find(x => x.id === stage), sp0 = stageProgress(stage);
+  const wings = CATS.filter(c => stageOf(c) === stage).map(c => {
+    const unlocked = catUnlocked(c), has = catHasContent(c), p = catProgress(c), open = wingOpen(c, nx), complete = p.done === p.tot;
+    let sub = !has ? 'Em breve' : !unlocked ? 'Bloqueada' : complete ? 'Concluída · ' + p.tot + ' etapas' : p.done + ' de ' + p.tot + ' etapas';
+    const chev = `<svg class="chev ${open ? 'open' : ''}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
+    const head = `<button class="wing-head wing-btn ${unlocked && has ? '' : 'locked'} ${complete ? 'done-wing' : ''}" data-act="wingToggle" data-cat="${c.id}" aria-expanded="${open}"><div class="emb">${esc(c.emblem)}</div><div class="meta"><span class="sub">Ala ${c.num} · <span class="jp">${esc(c.jp)}</span>${c.jlpt ? ' · ' + esc(c.jlpt) : ''}</span><h2>${esc(c.title)}</h2><span class="sub">${sub}</span></div>${unlocked && has ? '' : IC.lock}${chev}</button>`;
+    if (!open) return `<section class="wing" id="wing-${c.id}">${head}${has && !unlocked ? `<p class="muted" style="margin:8px 4px 0;font-size:.85rem">${esc(reqText(c))}</p>` : ''}</section>`;
     let nodes = [], k = 0;
     c.lessons.forEach(l => {
-      const done = lessonPassed(l.id), open = lessonUnlocked(l), cur = nx && nx.lesson === l;
+      const done = lessonPassed(l.id), lopen = lessonUnlocked(l), cur = nx && nx.lesson === l;
       const best = S.lessons[l.id] ? S.lessons[l.id].best : null;
-      nodes.push(`<button class="node ${done ? 'done' : open ? 'open' : ''} ${cur ? 'current' : ''}" style="transform:translateX(${offs[k++ % 8]}px)" data-act="openLesson" data-id="${l.id}" aria-label="${esc(l.title)}${done ? ' (aprovada)' : open ? '' : ' (bloqueada)'}"><span class="disc jp">${open || done ? esc(l.emblem) : IC.lock}</span>${done && best != null ? `<span class="badge">${best}%</span>` : ''}<span class="lbl">${esc(l.title)}</span></button>`);
+      nodes.push(`<button class="node ${done ? 'done' : lopen ? 'open' : ''} ${cur ? 'current' : ''}" style="transform:translateX(${offs[k++ % 8]}px)" data-act="openLesson" data-id="${l.id}" aria-label="${esc(l.title)}${done ? ' (aprovada)' : lopen ? '' : ' (bloqueada)'}"><span class="disc jp">${lopen || done ? esc(l.emblem) : IC.lock}</span>${done && best != null ? `<span class="badge">${best}%</span>` : ''}<span class="lbl">${esc(l.title)}</span></button>`);
     });
     if (has) {
-      const done = catPassed(c.id), open = examUnlocked(c);
-      nodes.push(`<button class="node exam ${done ? 'done' : open ? 'open' : ''} ${nx && nx.exam === c ? 'current' : ''}" style="transform:translateX(${offs[k++ % 8]}px)" data-act="openCatExam" data-cat="${c.id}"><span class="disc jp">${open || done ? '試' : IC.lock}</span><span class="lbl">Avaliação final</span></button>`);
+      const done = catPassed(c.id), eopen = examUnlocked(c);
+      nodes.push(`<button class="node exam ${done ? 'done' : eopen ? 'open' : ''} ${nx && nx.exam === c ? 'current' : ''}" style="transform:translateX(${offs[k++ % 8]}px)" data-act="openCatExam" data-cat="${c.id}"><span class="disc jp">${eopen || done ? '試' : IC.lock}</span><span class="lbl">Avaliação final</span></button>`);
     }
-    const soon = c.soon.length ? `<div class="soon-box"><span class="eyebrow">${has ? 'Próximas lições · em breve' : 'Conteúdo planejado · em breve'}</span><ul>${c.soon.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '';
-    const req = has && !unlocked ? `<p class="muted" style="margin:10px 4px 0;font-size:.88rem">${esc(reqText(c))}</p>` : '';
-    return `<section class="wing" id="wing-${c.id}">${head}${req}${nodes.length ? `<div class="path">${nodes.join('')}</div>` : ''}${soon}</section>`;
+    const desc = c.desc ? `<p class="muted" style="margin:10px 4px 0;font-size:.88rem">${esc(c.desc)}</p>` : '';
+    const req = has && !unlocked ? `<p class="muted" style="margin:6px 4px 0;font-size:.88rem"><b>${esc(reqText(c))}</b></p>` : '';
+    return `<section class="wing" id="wing-${c.id}">${head}${desc}${req}${nodes.length ? `<div class="path">${nodes.join('')}</div>` : ''}</section>`;
   }).join('');
   return `<div class="wrap"><div class="page-title"><div><span class="jp">がくえん</span><h1>Mapa da Academia</h1></div></div>
-  <p class="muted" style="margin:0">Cada categoria é uma ala da Academia. Passe nas avaliações (mínimo de ${PASS}%) para abrir o próximo caminho.</p>${wings}</div>`;
+  <p class="muted" style="margin:0">Cada ala tem lições e uma avaliação final. Passe nas avaliações (mínimo de ${PASS}%) para abrir os próximos caminhos. Uma ala só abre quando você já estudou o que ela exige.</p>
+  ${tabs}<p class="stage-info"><b>${esc(S0.name)}</b> <span class="jp muted">${esc(S0.jp)}</span> · ${esc(S0.desc)} <span class="muted tabnum">(${sp0.pct}% concluído)</span></p>${wings}</div>`;
 }
 
 function viewReview() {
   const seen = seenItems(), due = dueItems();
-  const mastered = seen.filter(id => itemStatus(id) === 'dominada'), need = seen.filter(id => itemStatus(id) === 'revisar');
-  const hard = seen.filter(id => S.items[id].w > 0).sort((a, b) => S.items[b].w - S.items[a].w).slice(0, 8);
-  const byLesson = ALL_LESSONS.filter(l => l.items.some(it => S.items[it.id] && S.items[it.id].seen)).map(l => {
-    const m = l.items.filter(it => itemStatus(it.id) === 'dominada').length;
-    return `<div class="row"><span class="jpw" style="width:44px;text-align:center">${esc(l.emblem)}</span><div class="grow"><b>${esc(l.title)}</b><div class="bar light" style="margin-top:6px"><i style="width:${Math.round(m / l.items.length * 100)}%"></i></div></div><span class="muted tabnum" style="font-size:.85rem">${m}/${l.items.length}</span></div>`;
-  }).join('');
+  const st = { vista: 0, aprendendo: 0, revisar: 0, dominada: 0 };
+  seen.forEach(id => { const k = itemStatus(id); if (st[k] != null) st[k]++; });
+  const hard = seen.filter(id => S.items[id].w > 0).sort((a, b) => (S.items[a].lastOk ? 1 : 0) - (S.items[b].lastOk ? 1 : 0) || S.items[b].w - S.items[a].w).slice(0, 8);
+  const wex = wrongExIds();
   if (!seen.length) return `<div class="wrap"><div class="page-title"><div><span class="jp">ふくしゅう</span><h1>Revisão</h1></div></div>
     <div class="card mascot-tip" style="box-shadow:none">${mascot('neutral', 70)}<div><b>Ainda não há nada para revisar.</b><p class="muted" style="margin:4px 0 0">Estude sua primeira lição e eu trago as palavras de volta aqui na hora certa.</p></div></div>
     <button class="btn btn-gold btn-block" style="margin-top:14px" data-act="continue">Ir para a próxima lição</button></div>`;
+  const weak = weakLessons(4);
+  const catsSeen = CATS.filter(c => c.lessons.some(l => l.items.some(it => S.items[it.id] && S.items[it.id].seen)));
+  const byCat = catsSeen.map(c => {
+    const ids = c.lessons.flatMap(l => l.items.map(it => it.id)).filter(id => S.items[id] && S.items[id].seen);
+    const m = ids.filter(id => itemStatus(id) === 'dominada').length;
+    let a = 0, cc = 0; c.lessons.forEach(l => { const x = lessonAcc(l); a += x.a; cc += x.c; });
+    return `<button class="row row-btn" data-act="startReview" data-mode="cat:${c.id}"><span class="jpw" style="width:40px;text-align:center">${esc(c.emblem)}</span><div class="grow" style="text-align:left"><b>${esc(c.title)}</b><div class="bar light" style="margin-top:6px"><i style="width:${ids.length ? Math.round(m / ids.length * 100) : 0}%"></i></div><span class="muted tabnum" style="font-size:.8rem">${m}/${ids.length} dominadas${a ? ' · ' + Math.round(cc / a * 100) + '% de acertos' : ''}</span></div><span class="chip nova">Revisar</span></button>`;
+  }).join('');
   return `<div class="wrap"><div class="page-title"><div><span class="jp">ふくしゅう</span><h1>Revisão</h1></div></div>
-    <div class="kpis"><div class="kpi"><b>${seen.length}</b><span>aprendidas</span></div><div class="kpi"><b>${mastered.length}</b><span>dominadas</span></div><div class="kpi"><b>${need.length}</b><span>precisam de revisão</span></div></div>
+    <div class="kpis kpis4"><div class="kpi"><b>${st.vista}</b><span>apresentadas</span></div><div class="kpi"><b>${st.aprendendo}</b><span>aprendendo</span></div><div class="kpi"><b>${st.revisar}</b><span>a revisar</span></div><div class="kpi"><b>${st.dominada}</b><span>dominadas</span></div></div>
+    <p class="muted" style="margin:6px 2px 0;font-size:.82rem">Concluir uma lição não marca a palavra como dominada: ela precisa ser acertada em pelo menos 3 dias diferentes, sem erro recente.</p>
     <section class="section"><div class="card stack">
       <div class="mascot-tip">${mascot(due.length ? 'neutral' : 'happy', 56)}<div><b>${due.length ? due.length + (due.length === 1 ? ' item espera' : ' itens esperam') + ' por você' : 'Tudo em dia!'}</b><p class="muted" style="margin:2px 0 0;font-size:.9rem">${due.length ? 'Revisar no momento certo é o segredo para não esquecer.' : 'Você pode treinar livremente para fixar ainda mais.'}</p></div></div>
       <button class="btn btn-gold btn-block" data-act="startReview" data-mode="due">${due.length ? 'Começar revisão do dia' : 'Revisão rápida'}</button>
-      <div class="row-btns"><button class="btn btn-ghost btn-small" data-act="startReview" data-mode="hard" ${hard.length ? '' : 'disabled'}>Treinar meus erros</button><button class="btn btn-ghost btn-small" data-act="startReview" data-mode="free">Treino livre</button></div>
+      <div class="row-btns"><button class="btn btn-ghost btn-small" data-act="startReview" data-mode="hard" ${hard.length || wex.length ? '' : 'disabled'}>Treinar meus erros</button><button class="btn btn-ghost btn-small" data-act="startReview" data-mode="free">Treino livre</button></div>
+      <div class="row-btns"><button class="btn btn-ghost btn-small" data-act="startReview" data-mode="weak" ${weak.length ? '' : 'disabled'}>Reforçar pontos fracos</button><button class="btn btn-ghost btn-small" data-act="startReview" data-mode="test" ${passedLessons().length ? '' : 'disabled'}>Teste de conhecimento</button></div>
     </div></section>
-    <section class="section"><h2 style="font-size:1.1rem">Palavras com mais erros</h2><div class="card list">${hard.length ? hard.map(id => { const it = ITEM[id]; return `<div class="row"><div class="grow"><div class="jpw">${esc(it.jp)}</div><div class="muted" style="font-size:.85rem">${esc(it.ro)} · ${esc(it.pt)}</div></div><span class="chip revisar tabnum">${S.items[id].w} erro${S.items[id].w > 1 ? 's' : ''}</span></div>`; }).join('') : '<p class="muted" style="margin:0">Nenhum erro registrado até agora. Excelente!</p>'}</div></section>
-    <section class="section"><h2 style="font-size:1.1rem">Domínio por lição</h2><div class="card list">${byLesson}</div></section></div>`;
+    ${weak.length ? `<section class="section"><h2 style="font-size:1.1rem">Assuntos que precisam de prática</h2><div class="card list">${weak.map(x => `<div class="row"><span class="jpw" style="width:40px;text-align:center">${esc(x.L.emblem)}</span><div class="grow"><b>${esc(x.L.title)}</b><div class="muted" style="font-size:.82rem">${esc(x.L.cat.title)} · ${x.acc.pct}% de acertos em ${x.acc.a} respostas</div></div><button class="btn btn-small btn-primary" data-act="startReview" data-mode="lesson:${x.L.id}">Praticar</button></div>`).join('')}</div></section>` : ''}
+    <section class="section"><h2 style="font-size:1.1rem">Erros recorrentes</h2><div class="card list">${hard.length ? hard.map(id => { const it = ITEM[id], r = S.items[id]; return `<div class="row"><div class="grow"><div class="jpw">${esc(it.jp)}</div><div class="muted" style="font-size:.85rem">${esc(it.ro)} · ${esc(it.pt)}</div></div><span class="chip ${r.lastOk ? 'aprendendo' : 'revisar'} tabnum">${r.w} erro${r.w > 1 ? 's' : ''}${r.lastOk ? ' · corrigido' : ''}</span></div>`; }).join('') : '<p class="muted" style="margin:0">Nenhum erro registrado até agora. Excelente!</p>'}
+      ${wex.length ? `<p class="muted" style="margin:8px 0 0;font-size:.85rem">E ${wex.length} exercício${wex.length > 1 ? 's' : ''} de frase errado${wex.length > 1 ? 's' : ''} na última tentativa (entram em “Treinar meus erros”).</p>` : ''}</div></section>
+    <section class="section"><h2 style="font-size:1.1rem">Revisar por ala</h2><div class="card list">${byCat}</div></section>
+    ${statsSection()}</div>`;
+}
+/* estatísticas de aprendizagem: habilidades, atividade dos últimos 14 dias e testes */
+function statsSection() {
+  const sk = SKILLS.map(([k, n]) => { const o = S.skills[k]; const p = o && o.a ? Math.round(o.c / o.a * 100) : null; return `<div class="row"><span class="grow"><b>${esc(n)}</b>${p != null ? `<div class="bar light" style="margin-top:6px"><i style="width:${p}%"></i></div>` : ''}</span><span class="muted tabnum" style="font-size:.85rem">${p != null ? o.c + '/' + o.a + ' · ' + p + '%' : 'sem dados'}</span></div>`; }).join('');
+  const days = []; for (let i = 13; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days.push(dayKey(d)); }
+  const max = Math.max(1, ...days.map(d => (S.log[d] || {}).a || 0));
+  const bars = days.map(d => { const o = S.log[d] || { a: 0, c: 0 }; const h = Math.round(o.a / max * 100); return `<div class="act-col" title="${d}: ${o.a} respostas"><i style="height:${Math.max(o.a ? 6 : 2, h)}%" class="${o.a ? '' : 'zero'}"></i><span>${+d.slice(8)}</span></div>`; }).join('');
+  const total14 = days.reduce((a, d) => a + ((S.log[d] || {}).a || 0), 0), active = days.filter(d => (S.log[d] || {}).a).length;
+  const last = S.tests[S.tests.length - 1];
+  return `<section class="section"><h2 style="font-size:1.1rem">Desempenho</h2>
+    <div class="card"><span class="eyebrow">Acertos por habilidade</span><div class="list">${sk}</div></div>
+    <div class="card"><span class="eyebrow">Atividade · últimos 14 dias</span><div class="act-chart">${bars}</div><p class="muted tabnum" style="margin:6px 0 0;font-size:.85rem">${total14} respostas em ${active} dia${active === 1 ? '' : 's'} de estudo</p></div>
+    ${last ? `<div class="card"><span class="eyebrow">Testes de conhecimento</span><p style="margin:4px 0 0">Último: <b>${last.pct}%</b> em ${new Date(last.t).toLocaleDateString('pt-BR')}${S.tests.length > 1 ? ' · anterior: ' + S.tests[S.tests.length - 2].pct + '%' : ''}</p><p class="muted" style="margin:4px 0 0;font-size:.85rem">${esc(weakestAdvice(last.by || {}))}</p></div>` : ''}
+  </section>`;
 }
 
+function autoBackupDay() { try { const d = localStorage.getItem(AUTO_KEY + ':day'); return d && localStorage.getItem(AUTO_KEY) ? d.split('-').reverse().join('/') : ''; } catch (e) { return ''; } }
 function viewProfile() {
   const li = levelInfo(S.xp), r = rankOf(li.level), acc = S.stats.answers ? Math.round(S.stats.correct / S.stats.answers * 100) : 0;
   const medals = CATS.filter(catHasContent).map(c => {
@@ -656,6 +834,7 @@ function viewProfile() {
     <section class="section"><h2 style="font-size:1.1rem">Seus dados</h2><div class="card stack">
       <p class="muted" style="margin:0;font-size:.88rem">O progresso é salvo automaticamente neste aparelho${storageOK ? '' : ' (indisponível neste navegador)'}. Exporte um arquivo JSON para guardar uma cópia ou levar para outro aparelho.</p>
       <div class="row-btns"><button class="btn btn-primary btn-small" data-act="export">Exportar progresso</button><button class="btn btn-ghost btn-small" data-act="import">Importar progresso</button></div>
+      <p class="muted" style="margin:0;font-size:.85rem">Cópia automática diária: ${autoBackupDay() ? 'feita em ' + esc(autoBackupDay()) + '.' : 'será feita no primeiro estudo de amanhã.'} ${autoBackupDay() ? '<button class="link-btn" data-act="restoreAuto">Restaurar esta cópia</button>' : ''}</p>
       <button class="link-btn" style="color:var(--bad);align-self:flex-start" data-act="resetAsk">Apagar todo o progresso</button></div></section>
     <p class="muted" style="text-align:center;font-size:.78rem">Nihongo Quest v${APP_VERSION} · dados v${S.schemaVersion}</p></div>`;
 }
@@ -683,12 +862,13 @@ function startCatExam(cid) {
 }
 function startReview(mode) {
   const qs = buildReview(mode);
-  if (!qs.length) { toast('復', 'Estude uma lição primeiro para ter o que revisar.'); return; }
+  if (!qs.length) { toast('復', mode === 'test' ? 'Seja aprovado em pelo menos uma lição para fazer o teste.' : mode === 'weak' ? 'Ainda não há assuntos fracos: continue estudando!' : 'Estude uma lição primeiro para ter o que revisar.'); return; }
+  closeModal();
   P = { kind: 'review', mode, phase: 'quiz', quiz: 'review' };
   sessionGain = { xp: 0, coins: 0 };
   setupQuiz(qs, 'review'); openPlayer(); renderPlayer();
 }
-function setupQuiz(qs, quiz) { Object.assign(P, { phase: 'quiz', quiz, qs, i: 0, total: qs.length, correct: 0, graded: 0, errors: [], answered: false, sel: null, built: [], match: null }); }
+function setupQuiz(qs, quiz) { Object.assign(P, { phase: 'quiz', quiz, qs, i: 0, total: qs.length, correct: 0, graded: 0, errors: [], answered: false, sel: null, built: [], match: null, bySkill: {} }); }
 
 function playerShell(progress, body, foot, footCls = '', countTxt = '') {
   return `<div class="p-top wrap"><button class="p-close" data-act="pClose" aria-label="Sair">${IC.close}</button><div class="bar"><i style="width:${Math.round(progress * 100)}%"></i></div><span class="p-count">${countTxt}</span></div>
@@ -718,7 +898,7 @@ function renderConfirmExit() {
 function exListen(e) { return AUDIO.supported && canSpeakEx(e) ? `<button class="link-btn" style="align-self:flex-start;padding:2px 0" data-act="speak" data-text="${esc(e.say || e.jp)}">Ouvir exemplo</button>` : ''; }
 function canSpeakEx(e) { return /[぀-ヿ一-鿿]/.test(e.say || e.jp); }
 function theoryCards(L) {
-  const cards = [{ t: 'intro' }]; L.items.forEach(it => cards.push({ t: 'item', it })); cards.push({ t: 'examples' }); return cards;
+  const cards = [{ t: 'intro' }]; if (L.text) cards.push({ t: 'text' }); L.items.forEach(it => cards.push({ t: 'item', it })); cards.push({ t: 'examples' }); return cards;
 }
 function renderTheory() {
   const L = P.L, cards = theoryCards(L), c = cards[P.card], last = P.card === cards.length - 1;
@@ -727,6 +907,12 @@ function renderTheory() {
     body = `<span class="mode-tag">Teoria · ${esc(L.cat.title)}</span><h1 style="font-size:1.5rem">${esc(L.title)}</h1>
       <div class="theory-card">${L.intro.map(p => `<p>${esc(p)}</p>`).join('')}</div>
       <div class="mascot-tip">${mascot('happy', 64)}<div class="bubble"><b>Dica da ${MASCOT_NAME}:</b> ${esc(L.tip)}</div></div>`;
+  } else if (c.t === 'text') {
+    const show = P.textPt;
+    body = `<span class="mode-tag">Leitura · ${esc(L.textTitle || 'Texto')}</span><h2>${esc(L.textTitle || 'Leia o texto')}</h2>
+      <p class="muted" style="margin:0;font-size:.9rem">Leia (ou ouça) tudo antes de ver a tradução. Tente entender pelo contexto.</p>
+      <div class="text-tools">${AUDIO.supported ? `<button class="btn btn-ghost btn-small" data-act="readText">${IC.sound.replace('<svg', '<svg width="18" height="18"')} Ouvir o texto</button>` : ''}<button class="btn btn-ghost btn-small" data-act="textPt">${show ? 'Esconder tradução' : 'Mostrar tradução'}</button></div>
+      <div class="theory-card reading-card">${L.text.map(e => `<div class="ex"><span class="ej">${esc(e.jp)}</span>${show ? `<span class="ro">${esc(e.ro)}</span><span class="ep">${esc(e.pt)}</span>` : ''}</div>`).join('')}</div>`;
   } else if (c.t === 'item') {
     const it = c.it; markSeen(it.id);
     const huge = L.kind === 'kana';
@@ -835,10 +1021,12 @@ function finishQuestion(ok) {
   P.answered = true; P.lastOk = ok; P.fbTitle = ok ? pick(MSG.correct) : pick(MSG.wrong);
   sfx(ok ? 'ok' : 'bad');
   const ctx = P.quiz + ':' + (P.L ? P.L.id : P.C ? P.C.id : 'rev');
-  if (q.type === 'match') q.items.forEach((id, i) => recordAnswer(id, !P.match.missed.has(i), ctx));
-  else recordAnswer(q.itemId, ok, ctx);
+  const sk = skillOfQ(q);
+  if (q.type === 'match') q.items.forEach((id, i) => recordAnswer(id, !P.match.missed.has(i), ctx, sk));
+  else recordAnswer(q.itemId, ok, ctx, sk);
+  if (q.exId) { recordEx(q.exId, ok); save(); }
   if (q.type === 'listen') recordListen(q, ok);
-  if (!q.retry) { P.graded++; if (ok) P.correct++; else P.errors.push(q); }
+  if (!q.retry) { P.graded++; if (ok) P.correct++; else P.errors.push(q); const b = P.bySkill[sk] || (P.bySkill[sk] = { a: 0, c: 0 }); b.a++; if (ok) b.c++; }
   let xp = ok ? (P.quiz === 'practice' ? 5 : P.quiz === 'review' || P.quiz === 'listen' ? 6 : P.quiz === 'dialog' || P.quiz === 'case' ? 8 : 10) : 1;
   if (ok && q.hinted) xp = Math.ceil(xp / 2);
   addXP(xp);
@@ -863,6 +1051,7 @@ function endQuiz() {
   touchStudy();
   if (P.quiz === 'review') {
     S.stats.reviews++; missionEvent('review_done'); addCoins(5);
+    if (P.mode === 'test') { S.tests.push({ t: Date.now(), pct, n: P.graded, by: P.bySkill }); if (S.tests.length > 30) S.tests.splice(0, S.tests.length - 30); }
   } else if (P.kind === 'lesson') {
     const id = P.L.id, r = S.lessons[id] || (S.lessons[id] = { passed: false, best: 0, attempts: 0 });
     const first = pass && !r.passed;
@@ -883,21 +1072,33 @@ function endQuiz() {
   if (pass || P.quiz === 'review') { sfx('level'); confetti(); }
   renderPlayer();
 }
+function skillBreakdown(by, title) {
+  const rows = SKILLS.filter(([k]) => by && by[k] && by[k].a);
+  if (!title || !rows.length) return '';
+  return `<section class="section"><h2 style="font-size:1.05rem">${esc(title)}</h2><div class="card list">${rows.map(([k, n]) => { const o = by[k], p = Math.round(o.c / o.a * 100); return `<div class="row"><span class="grow"><b>${esc(n)}</b><div class="bar light" style="margin-top:6px"><i style="width:${p}%"></i></div></span><span class="muted tabnum" style="font-size:.85rem">${o.c}/${o.a} · ${p}%</span></div>`; }).join('')}</div>
+    <p class="muted" style="margin:6px 2px 0;font-size:.85rem">${esc(weakestAdvice(by))}</p></section>`;
+}
+function weakestAdvice(by) {
+  const rows = SKILLS.filter(([k]) => by[k] && by[k].a >= 2).map(([k, n]) => ({ n, p: by[k].c / by[k].a }));
+  if (!rows.length) return '';
+  rows.sort((a, b) => a.p - b.p);
+  return rows[0].p >= .85 ? 'Equilibrado! Todas as habilidades acima de 85%.' : 'Ponto que mais precisa de prática agora: ' + rows[0].n + '.';
+}
 function renderResult() {
   if (P.kind === 'case') return renderCaseResult();
   const isReview = P.quiz === 'review' || P.quiz === 'listen' || P.quiz === 'dialog';
   const pass = P.pass, g = sessionGain || { xp: 0, coins: 0 };
   let title, msg, mood;
-  if (isReview) { const t = listenResultText(); title = t.title; msg = t.msg; mood = 'happy'; }
+  if (isReview) { const t = listenResultText(); title = t.title; msg = t.msg; mood = 'happy'; if (P.mode === 'test') { title = 'Teste concluído!'; msg = 'Este teste não muda nada no mapa: ele mostra o que você já domina e o que precisa de reforço.'; } }
   else if (pass) { title = P.kind === 'catexam' ? 'Ala concluída!' : 'Aprovado!'; mood = 'wow'; msg = P.pct === 100 ? 'Nota máxima! Você é uma estrela da Academia.' : P.kind === 'catexam' ? (P.firstPass ? 'Você ganhou uma medalha e abriu um novo caminho na Academia!' : 'Você melhorou ainda mais nesta ala!') : (P.firstPass ? 'A próxima lição foi liberada no mapa.' : 'Ótima revisão desta lição!'); }
   else { title = 'Quase lá!'; mood = 'neutral'; msg = 'Você precisa de ' + PASS + '% para passar. Revise os erros abaixo e tente de novo, eu acredito em você!'; }
   const errs = P.errors.length ? `<section class="section"><h2 style="font-size:1.05rem">Para revisar</h2><div class="card">${P.errors.map(q => `<div class="err-item"><b>${esc(q.prompt)}${q.type === 'listen' ? (q.mode === 'dialog' ? '' : ' Áudio: ' + esc(q.jp) + ' (' + esc(q.ro) + ')') : q.big && q.bigClass !== 'fill' ? ': ' + esc(q.big) : q.jp ? ': ' + esc(q.jp) : ''}</b>${q.answerText ? `<span>Resposta: ${esc(q.answerText)}</span>` : ''}<span class="muted">${esc(q.explain || '')}</span></div>`).join('')}</div></section>` : '';
   let medal = '';
   if (P.kind === 'catexam' && pass) { const m = P.pct === 100 ? 'ouro' : P.pct >= 90 ? 'prata' : 'bronze'; medal = `<div class="cmedal" style="justify-content:center"><span class="m ${m} jp">${esc(P.C.emblem)}</span><span class="t">Medalha de ${m} · ${esc(P.C.title)}</span></div>`; }
   const body = `<div class="result-hero">${mascot(mood, 130, 'hop')}<h2>${title}</h2>
-    ${isReview && P.quiz === 'review' ? '' : `<div class="score-big ${pass ? 'pass' : 'fail'}">${P.pct}%</div>`}
+    ${isReview && P.quiz === 'review' && P.mode !== 'test' ? '' : `<div class="score-big ${pass ? 'pass' : 'fail'}">${P.pct}%</div>`}
     <p class="muted tabnum" style="margin:0">${P.correct} de ${P.graded} respostas certas</p><p style="margin:0">${esc(msg)}</p>${medal}
-    <div class="reward-row"><div class="reward"><b>+${g.xp}</b><span>XP</span></div><div class="reward"><b>+${g.coins}</b><span>moedas</span></div><div class="reward"><b>${streakView().n}</b><span>sequência</span></div></div></div>${errs}`;
+    <div class="reward-row"><div class="reward"><b>+${g.xp}</b><span>XP</span></div><div class="reward"><b>+${g.coins}</b><span>moedas</span></div><div class="reward"><b>${streakView().n}</b><span>sequência</span></div></div></div>${skillBreakdown(P.bySkill, P.mode === 'test' ? 'Resultado por habilidade' : '')}${errs}`;
   let foot;
   if (isReview) foot = listenResultFoot();
   else if (pass) foot = `<button class="btn btn-gold btn-block" data-act="pExit">Continuar</button>${P.pct < 100 ? '<button class="btn btn-ghost btn-block" data-act="retryExam">Tentar 100%</button>' : ''}`;
@@ -917,7 +1118,17 @@ const ACT = {
     toast('光', MASCOT_NAME + ': Bem-vindo(a) à Academia, ' + S.profile.name + '!');
   },
   continue: () => { const nx = nextStep(); if (nx && nx.lesson) startLesson(nx.lesson.id); else if (nx && nx.exam) ACT.openCatExam({ dataset: { cat: nx.exam.id } }); else go('revisao'); },
-  gotoCat: el => { const c = CAT[el.dataset.cat]; go('academia'); setTimeout(() => { const w = document.getElementById('wing-' + c.id); if (w) w.scrollIntoView({ block: 'start' }); }, 30); },
+  gotoCat: el => { const c = CAT[el.dataset.cat]; if (!c) return; acad.stage = stageOf(c); acad.open[c.id] = true; S.settings.academyMode = 'trad'; go('academia'); setTimeout(() => { const w = document.getElementById('wing-' + c.id); if (w) w.scrollIntoView({ block: 'start' }); }, 30); },
+  stage: el => { acad.stage = el.dataset.st; render(); },
+  wingToggle: el => { const c = CAT[el.dataset.cat]; if (!c) return; acad.open[c.id] = !wingOpen(c); render(); const w = document.getElementById('wing-' + c.id); if (w && acad.open[c.id]) w.scrollIntoView({ block: 'nearest' }); },
+  restoreAuto: () => {
+    let raw = null; try { raw = localStorage.getItem(AUTO_KEY); } catch (e) {}
+    if (!raw) { toast('!', 'Ainda não há cópia automática neste aparelho.'); return; }
+    let parsed; try { parsed = normalize(JSON.parse(raw)); } catch (e) { toast('!', 'A cópia automática não pôde ser lida.'); return; }
+    window.__importCandidate = parsed;
+    openModal(`<h2>Restaurar a cópia automática?</h2><p style="margin:0">Cópia de ${esc(autoBackupDay())}: <b>${esc(parsed.profile.name || 'sem nome')}</b>, ${parsed.xp} XP, ${countPassed(parsed)} lições aprovadas.</p><p class="muted" style="margin:0">O progresso atual (${S.xp} XP) será guardado como cópia de segurança antes da troca.</p>
+      <button class="btn btn-gold btn-block" data-act="importConfirm">Sim, restaurar</button><button class="btn btn-ghost btn-block" data-act="closeModal">Cancelar</button>`);
+  },
   openLesson: el => {
     const L = LESSON[el.dataset.id]; if (!L) return;
     if (!lessonUnlocked(L)) { toast('鍵', catUnlocked(L.cat) ? 'Passe na lição anterior (' + PASS + '% ou mais) para liberar esta.' : reqText(L.cat)); return; }
@@ -1005,7 +1216,7 @@ const ACT = {
   },
   resetAsk: () => openModal(`<div class="stack" style="align-items:center">${mascot('sad', 90)}<h2>Apagar todo o progresso?</h2><p style="margin:0">XP, moedas, conquistas, lições e o caderno serão zerados. Dica: exporte seu progresso antes. Uma cópia de segurança ficará guardada neste aparelho.</p>
       <button class="btn btn-bad btn-block" data-act="resetConfirm">Apagar tudo</button><button class="btn btn-ghost btn-block" data-act="closeModal">Cancelar</button></div>`, 'center'),
-  resetConfirm: () => { try { localStorage.setItem(BACKUP_KEY, JSON.stringify(S)); } catch (e) {} S = defaultState(); saveNow(); applyTheme(); closeModal(); view = 'inicio'; render(); },
+  resetConfirm: () => { try { localStorage.setItem(BACKUP_KEY, JSON.stringify(S)); } catch (e) {} S = defaultState(); allowEmptySave = true; saveNow(); applyTheme(); closeModal(); view = 'inicio'; render(); },
   nbFilter: el => { nb.f = el.dataset.f; render(); },
   speak: el => speak(el.dataset.text),
   startReview: el => startReview(el.dataset.mode),
@@ -1013,7 +1224,9 @@ const ACT = {
   pClose: () => { if (P.phase === 'result') return closePlayer(); P.prev = P.phase; P.phase = 'confirmExit'; renderPlayer(); },
   pStay: () => { P.phase = P.prev; P.keepScroll = false; renderPlayer(); },
   pExit: () => closePlayer(),
-  tNext: () => { P.card++; renderPlayer(); },
+  tNext: () => { stopAudio(); P.card++; renderPlayer(); },
+  textPt: () => { P.textPt = !P.textPt; P.keepScroll = true; renderPlayer(); },
+  readText: () => speakSeq(P.L.text.map((e, i) => ({ jp: e.jp, say: e.say, key: 't' + i }))),
   tPrev: () => { P.card = Math.max(0, P.card - 1); renderPlayer(); },
   toPractice: () => { missionEvent('theory'); setupQuiz(buildPractice(P.L), 'practice'); renderPlayer(); },
   toExamIntro: () => { missionEvent('theory'); P.phase = 'examIntro'; renderPlayer(); },

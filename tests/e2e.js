@@ -49,7 +49,7 @@ async function doLesson(page, id, correctFn = () => true) {
 (async () => {
   const browser = await chromium.launch();
   const ctx = await browser.newContext({ ...devices['Pixel 5'] });
-  const page = await ctx.newPage();
+  const page = require('./reveal')(await ctx.newPage());
   const errors = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error' && !/fonts|ERR_FAILED/.test(m.text())) errors.push(m.text()); });
   await page.route(/fonts\.(googleapis|gstatic)/, r => r.abort());
   await page.goto(URL);
@@ -103,6 +103,7 @@ async function doLesson(page, id, correctFn = () => true) {
     await page.click('[data-act="pExit"]'); await page.waitForTimeout(300);
     while (await page.isVisible('#modal .sheet')) { await page.click('#modal [data-act="closeModal"]'); await page.waitForTimeout(150); }
   }
+  await page.reveal('[data-act="openLesson"][data-id="c2l1"]');
   ok(!(await page.evaluate(() => document.querySelector('[data-act="openLesson"][data-id="c2l1"] .disc').textContent.trim().length > 3)), 'Hiragana ainda bloqueada antes da avaliação final');
   // category exam
   await page.click('.tab[data-view="academia"]');
@@ -124,6 +125,7 @@ async function doLesson(page, id, correctFn = () => true) {
   await page.click('[data-act="openLesson"][data-id="c4l1"]');
   ok(await page.isVisible('#modal .sheet'), 'Vocabulário liberado depois de Primeiros Passos');
   await page.click('#modal [data-act="closeModal"]').catch(() => {}); await page.waitForTimeout(150);
+  await page.reveal('[data-act="openLesson"][data-id="c3l1"]');
   ok(!(await page.evaluate(() => document.querySelector('[data-act="openLesson"][data-id="c3l1"] .disc').textContent.trim().length > 3)), 'Katakana bloqueado antes da avaliação de Hiragana');
   for (const id of ['c2l2', 'c2l3', 'c2l4', 'c2l5', 'c2l6', 'c2l7', 'c2l8']) { r = await doLesson(page, id); ok(r.pass, id + ' aprovada (' + r.n + ' perguntas)'); await page.click('[data-act="pExit"]'); await page.waitForTimeout(300); while (await page.isVisible('#modal .sheet')) { await page.click('#modal [data-act="closeModal"]'); await page.waitForTimeout(150); } }
   await page.click('.tab[data-view="academia"]');
@@ -204,7 +206,7 @@ async function doLesson(page, id, correctFn = () => true) {
   await page.evaluate(() => { __NQ.suspendSave(); localStorage.setItem('nihongoQuest:save', JSON.stringify({ xp: '250', completed: { c1l1: true }, profile: { name: 'Antigo', onboarded: true } })); });
   await page.reload();
   const mig = await page.evaluate(() => ({ v: __NQ.S.schemaVersion, xp: __NQ.S.xp, l: __NQ.S.lessons.c1l1 && __NQ.S.lessons.c1l1.passed, streak: typeof __NQ.S.streak.freezes, backup: !!localStorage.getItem('nihongoQuest:backup') }));
-  ok(mig.v === 2 && mig.xp === 250 && mig.l && mig.streak === 'number' && mig.backup, 'save antigo migrado ' + JSON.stringify(mig));
+  ok(mig.v === 3 && mig.xp === 250 && mig.l && mig.streak === 'number' && mig.backup, 'save antigo migrado ' + JSON.stringify(mig));
   await page.evaluate(() => { __NQ.suspendSave(); localStorage.setItem('nihongoQuest:save', '{quebrado'); });
   await page.reload();
   ok(await page.isVisible('#nameInput') && await page.evaluate(() => Object.keys(localStorage).some(k => k.includes('corrompido'))), 'save corrompido guardado e app abre');
@@ -212,7 +214,7 @@ async function doLesson(page, id, correctFn = () => true) {
   const st = await page.evaluate(() => { const S = __NQ.S; return true; });
   ok(errors.length === 0, 'sem erros de JavaScript: ' + errors.join(' | '));
   // small phone
-  const p2 = await (await browser.newContext({ viewport: { width: 320, height: 640 }, deviceScaleFactor: 1 })).newPage();
+  const p2 = require('./reveal')(await (await browser.newContext({ viewport: { width: 320, height: 640 }, deviceScaleFactor: 1 })).newPage());
   await p2.route(/fonts\.(googleapis|gstatic)/, r => r.abort());
   await p2.goto(URL); await p2.evaluate(s => { __NQ.suspendSave(); localStorage.setItem('nihongoQuest:save', s); }, JSON.stringify(JSON.parse(exported).data)); await p2.reload();
   for (const v of ['inicio', 'academia', 'revisao', 'caderno', 'perfil']) { await p2.click(`.tab[data-view="${v}"]`); const sw = await p2.evaluate(() => document.documentElement.scrollWidth - innerWidth); ok(sw <= 0, `320px: ${v} sem rolagem horizontal (${sw})`); }
