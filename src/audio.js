@@ -521,7 +521,8 @@ const NB_TYPES = [['todas', 'Todas'], ['palavra', 'Palavras'], ['expressao', 'Ex
 const GROUP_LABEL = { palavra: 'Palavra', expressao: 'Expressão', anime: 'Anime', frase: 'Frase', resposta: 'Resposta', dialogo: 'Diálogo' };
 function originOf(it) {
   const l = it.lesson;
-  if (l.kind !== 'audio') return l.cat.title + ' · ' + l.title;
+  if (l.kind !== 'audio' && l.id !== 'chat') return l.cat.title + ' · ' + l.title;
+  if (l.id === 'chat') return 'Nihongo Chat · Expressões';
   return { 'aud-pal': 'Academia Auditiva · Palavras', 'aud-expr': 'Expressões do Cotidiano', 'aud-fra': 'Academia Auditiva · Frases', 'aud-ani': 'Detetive dos Animes', 'aud-resp': 'Academia Auditiva · Responder certo' }[l.id] || 'Academia Auditiva';
 }
 function viewNotebook() {
@@ -551,10 +552,10 @@ function viewNotebook() {
       <div class="nb-meta"><span class="chip nova">${GROUP_LABEL[g]}</span><span>${esc(originOf(it))}</span><span>· desde ${new Date(r.seen).toLocaleDateString('pt-BR')}</span>${r.c + r.w ? `<span class="tabnum">· ${r.c} acerto${r.c === 1 ? '' : 's'}, ${r.w} erro${r.w === 1 ? '' : 's'}</span>` : ''}${g === 'anime' ? `<button class="link-btn" style="padding:0" data-act="discOpen" data-id="${it.id}">Ver descoberta</button>` : ''}</div></div>`;
   };
   // agrupa pela origem, mantendo a ordem do conteúdo
-  const order = ALL_LESSONS.concat(AUDIO_PACKS);
+  const order = ALL_LESSONS.concat(AUDIO_PACKS, [CHAT_PACK]);
   let groups;
   if (nb.t === 'dificeis') groups = entries.length ? `<section class="section"><div class="card">${entries.map(entryHTML).join('')}</div></section>` : '';
-  else groups = order.map(l => { const list = entries.filter(it => it.lesson === l); return list.length ? `<section class="section"><div class="section-h"><h2 style="font-size:1rem">${esc(l.kind === 'audio' ? originOf(list[0]) : l.title)}</h2><span class="muted" style="font-size:.8rem">${esc(l.cat.title)}</span></div><div class="card">${list.map(entryHTML).join('')}</div></section>` : ''; }).join('');
+  else groups = order.map(l => { const list = entries.filter(it => it.lesson === l); return list.length ? `<section class="section"><div class="section-h"><h2 style="font-size:1rem">${esc(l.kind === 'audio' || l.id === 'chat' ? originOf(list[0]) : l.title)}</h2><span class="muted" style="font-size:.8rem">${esc(l.cat.title)}</span></div><div class="card">${list.map(entryHTML).join('')}</div></section>` : ''; }).join('');
   if (dlgs.length) groups += `<section class="section"><div class="section-h"><h2 style="font-size:1rem">Diálogos concluídos</h2><span class="muted" style="font-size:.8rem">Laboratório de Diálogos</span></div><div class="card">${dlgs.map(d => { const r = S.listening.dialogs[d.id]; return `<div class="nb-entry"><div class="nb-top"><span class="jpw" style="font-size:1.1rem;font-family:var(--f-body)">${esc(d.title)}</span><span class="chip dominada tabnum">${r.best}%</span><button class="icon-btn" data-act="dialog" data-id="${d.id}" aria-label="Abrir diálogo">${IC.play.replace('<svg', '<svg width="18" height="18"')}</button></div>${d.lines.map(l => `<div style="font-size:.9rem"><b>${esc((CHARS[l.sp] || {}).name)}:</b> <span class="jp">${esc(l.jp)}</span><br><span class="ro">${esc(l.ro)}</span> · ${esc(l.pt)}</div>`).join('')}<div class="nb-meta"><span class="chip nova">Diálogo</span><span>concluído em ${new Date(r.at).toLocaleDateString('pt-BR')}</span></div></div>`; }).join('')}</div></section>`;
   const total = entries.length + dlgs.length;
   const fl = [['todas', 'Qualquer status'], ['aprendendo', 'Aprendendo'], ['revisar', 'Revisar'], ['dominadas', 'Dominadas']];
@@ -611,19 +612,3 @@ async function runVoiceTest() {
 // marca expressões como estudadas quando o cartão é aberto
 document.addEventListener('toggle', e => { const d = e.target; if (d.classList && d.classList.contains('expr') && d.open) markSeen(d.dataset.id); }, true);
 
-/* ---------- início do app ---------- */
-(function init() {
-  initAudio();
-  applyTheme();
-  if (S.profile.onboarded && S.streak.last && dayDiff(S.streak.last, dayKey()) >= 4) pending.push({ type: 'comeback' });
-  const h = (location.hash || '').replace('#', '');
-  view = VIEWS.includes(h) ? h : 'inicio';
-  render();
-  checkAchievements();
-  saveNow(); // grava o esquema 2 logo após a migração (o backup do esquema 1 já foi guardado)
-  setTimeout(flushPending, 400);
-  window.addEventListener('hashchange', () => { const v = location.hash.replace('#', ''); if (VIEWS.includes(v) && v !== view && !P) { view = v; render(); } });
-})();
-
-/* gancho para testes automatizados */
-window.__NQ = { get S() { return S; }, get P() { return P; }, get AUDIO() { return AUDIO; }, CATS, LESSON, ITEM, DIALOGS, AUDIO_PACKS, numJp, levelInfo, dayDiff, normalize, setState(s) { S = s; saveNow(); render(); }, suspendSave() { saveSuspended = true; } };
