@@ -20,17 +20,18 @@ const stub = `(() => {
 (async () => {
   const browser = await chromium.launch();
   const errors = [];
-  const mk = async (vp) => { const ctx = await browser.newContext(vp || { ...devices['Pixel 5'] }); await ctx.addInitScript(stub); const p = await ctx.newPage(); p.on('pageerror', e => errors.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/fonts|ERR_FAILED/.test(m.text())) errors.push(m.text()); }); await p.route(/fonts\.(googleapis|gstatic)/, r => r.abort()); return p; };
+  const mk = async (vp) => { const ctx = await browser.newContext(vp || { ...devices['Pixel 5'] }); await ctx.addInitScript(stub); await ctx.addInitScript(() => { window.__NQ_FAST = true; }); const p = await ctx.newPage(); p.on('pageerror', e => errors.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/fonts|ERR_FAILED/.test(m.text())) errors.push(m.text()); }); await p.route(/fonts\.(googleapis|gstatic)/, r => r.abort()); return p; };
   const closeModals = async page => { await page.waitForTimeout(250); while (await page.isVisible('#modal .sheet')) { const b = await page.$('#modal [data-act="closeModal"]'); if (!b) break; await b.click(); await page.waitForTimeout(120); } };
   const loadSave = async (page, data) => { const raw = JSON.stringify(data); await page.goto(URL); await page.evaluate(r => { __NQ.suspendSave(); localStorage.clear(); localStorage.setItem('nihongoQuest:save', r); }, raw); await page.reload(); await closeModals(page); return raw; };
   const send = async (page, t) => { await page.fill('#chatIn', t); await page.press('#chatIn', 'Enter'); await page.waitForTimeout(80); };
+  const scene = (page, id) => page.evaluate(id => { chStartScene(__NQ.CHV.id, id); chRenderLog(); chRenderExtra(); }, id);
   const lastMe = page => page.evaluate(() => { const th = __NQ.CHAT.thread(__NQ.CHV.id); return [...th].reverse().find(m => m.from === 'me'); });
 
   /* ---------- 1. save real da 3.0 ---------- */
   const page = await mk();
   const raw = await loadSave(page, V30);
   let S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 4 && S.appVersion === '4.0.0', '3.0: migrado para o esquema 4');
+  ok(S.schemaVersion === 5 && S.appVersion === '5.0.0', '3.0: migrado para o esquema 5');
   same(S.lessons, V30.lessons, '3.0: lições preservadas');
   same(S.catExams, V30.catExams, '3.0: avaliações preservadas');
   same(Object.fromEntries(Object.keys(V30.items).map(k => [k, S.items[k]])), V30.items, '3.0: itens de revisão idênticos');
@@ -38,18 +39,17 @@ const stub = `(() => {
   same(S.skills, V30.skills, '3.0: estatísticas por habilidade preservadas');
   same(S.exStats, V30.exStats, '3.0: histórico de exercícios preservado');
   ok(S.history.length === V30.history.length, '3.0: histórico preservado');
-  ok(S.chat && S.chat.v === 1, '3.0: dados do chat adicionados');
+  ok(S.chat && S.chat.v === 2, '3.0: dados do chat adicionados');
   const st = await page.evaluate(() => ({ bk: localStorage.getItem('nihongoQuest:backup:schema3'), stored: JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion }));
   ok(st.bk === raw, '3.0: cópia do save antigo guardada antes da migração');
-  ok(st.stored === 4, '3.0: save regravado no esquema 4');
+  ok(st.stored === 5, '3.0: save regravado no esquema 5');
 
   /* ---------- 2. desbloqueio pelos dados reais ---------- */
   const un = await page.evaluate(() => __NQ.CHAT.chars.map(c => c.id + ':' + __NQ.CHAT.unlocked(c)));
   same(un, ['ren:true', 'aiko:true', 'yumi:false', 'takeshi:false'], 'desbloqueio: Ren e Aiko (Primeiros Passos aprovada); Yumi e Takeshi bloqueados');
   await page.click('.tab[data-view="chat"]'); await page.waitForTimeout(200);
   ok(await page.isVisible('#ch-yumi.locked') && await page.isVisible('#ch-takeshi.locked'), 'central: personagens bloqueados aparecem como bloqueados');
-  await page.click('[data-act="chatOpen"][data-id="yumi"]', { force: true }); await page.waitForTimeout(150);
-  ok(await page.evaluate(() => !__NQ.CHV) && await page.isHidden('.chat-pane'), 'bloqueado: não abre conversa');
+  ok(!(await page.$('[data-act="chatOpen"][data-id="yumi"]')) && await page.evaluate(() => { chatOpen('yumi'); return !__NQ.CHV; }) && await page.isHidden('.chat-pane'), 'bloqueado: não abre conversa');
   const yumiMsgs = await page.evaluate(() => __NQ.CHAT.thread('yumi').length + __NQ.CHAT.thread('takeshi').length);
   ok(yumiMsgs === 0, 'bloqueado: nenhuma mensagem/iniciativa de personagem bloqueado');
   const pend = await page.evaluate(() => ['ren', 'aiko'].map(id => __NQ.CHAT.state(id).pending).filter(Boolean).length);
@@ -57,9 +57,10 @@ const stub = `(() => {
   ok(await page.isVisible('.tab[data-view="chat"] .dot:not([hidden])'), 'iniciativa: indicador de mensagem nova na aba Chat');
 
   /* ---------- 3. iniciativa não se repete ---------- */
+  const n1 = await page.evaluate(() => ['ren', 'aiko'].map(id => __NQ.CHAT.thread(id).filter(m => m.init).length));
   await page.reload(); await closeModals(page);
   const pend2 = await page.evaluate(() => ['ren', 'aiko'].map(id => ({ p: __NQ.CHAT.state(id).pending, n: __NQ.CHAT.thread(id).filter(m => m.init).length })));
-  ok(pend2.every(x => x.n <= 2), 'iniciativa: recarregar no mesmo dia não cria mensagens novas');
+  ok(pend2.every((x, i) => x.n === n1[i]), 'iniciativa: recarregar no mesmo dia não cria mensagens novas');
   await page.evaluate(() => { const S = __NQ.S; ['ren', 'aiko'].forEach(id => { const st = __NQ.CHAT.state(id); st.lastInit = '2000-01-01'; }); S.chat.ini.day = '2000-01-01'; });
   const again = await page.evaluate(() => __NQ.CHAT.initiative());
   ok(again === 0, 'iniciativa: com mensagem pendente, o personagem não manda outra');
@@ -70,7 +71,8 @@ const stub = `(() => {
   await page.goto(URL + '#chat'); await closeModals(page);
   await page.click('[data-act="chatOpen"][data-id="aiko"]'); await page.waitForTimeout(150);
   ok(await page.isVisible('.chat-pane'), 'Aiko: conversa abre');
-  ok(await page.evaluate(() => __NQ.CHAT.state('aiko').active && __NQ.CHAT.state('aiko').active.scene === 'aiko-hajime'), 'Aiko: começa pela apresentação');
+  ok(await page.evaluate(() => __NQ.CHAT.state('aiko').active && __NQ.CHAT.state('aiko').active.free && __NQ.CHAT.state('aiko').active.topic === 'intro'), 'Aiko: começa pela apresentação (conversa livre)');
+  await scene(page, 'aiko-hajime');
   await send(page, 'yoroshiku');
   let me = await lastMe(page);
   ok(me.kind === 'social', 'Aiko: “yoroshiku” casual com a professora = inadequado socialmente (' + me.kind + ')');
@@ -81,7 +83,7 @@ const stub = `(() => {
   await send(page, 'はい、ブラジル人です。');
   me = await lastMe(page);
   ok(me.kind === 'ok', 'Aiko: resposta em japonês com kanji reconhecida (' + me.kind + ')');
-  ok(await page.evaluate(() => !__NQ.CHAT.state('aiko').active), 'Aiko: apresentação concluída');
+  ok(await page.evaluate(() => { const a = __NQ.CHAT.state('aiko').active; return !a || a.free; }), 'Aiko: apresentação concluída');
 
   // romaji e tradução
   const roBefore = await page.$$eval('.cm.char .ro', e => e.length);
@@ -103,7 +105,7 @@ const stub = `(() => {
   await page.fill('#chatIn', '');
   // ouvir primeiro
   await page.click('[data-act="chatOpt"][data-k="listen"]');
-  await page.click('[data-act="chatScene"][data-id="aiko-mouichido"]'); await page.waitForTimeout(150);
+  await scene(page, 'aiko-mouichido'); await page.waitForTimeout(100);
   ok(await page.isVisible('.cb-listen'), 'ouvir primeiro: texto escondido até ouvir/mostrar');
   await send(page, 'mou ichido onegaishimasu');
   ok(await page.evaluate(() => __NQ.CHAT.thread('aiko').some(m => m.slow)), 'pedir para repetir: a professora repete devagar');
@@ -116,7 +118,7 @@ const stub = `(() => {
   await page.click('[data-act="chatOpt"][data-k="listen"]');
 
   // dicas em níveis
-  await page.click('[data-act="chatScene"][data-id="aiko-itadakimasu"]'); await page.waitForTimeout(100);
+  await scene(page, 'aiko-itadakimasu'); await page.waitForTimeout(100);
   for (let i = 0; i < 5; i++) await page.click('[data-act="chatHint"]');
   const hints = await page.evaluate(() => __NQ.CHAT.thread('aiko').filter(m => m.kind === 'hint').slice(-5).map(m => m.lv));
   same(hints, [1, 2, 3, 4, 5], 'dicas: cinco níveis, um por vez');
@@ -132,7 +134,8 @@ const stub = `(() => {
   const nAiko = await page.evaluate(() => __NQ.CHAT.thread('aiko').length);
   await page.reload(); await closeModals(page);
   ok(await page.evaluate(() => __NQ.CHAT.thread('aiko').length) === nAiko && nAiko > 10, 'histórico permanece salvo depois de recarregar (' + nAiko + ')');
-  await page.click('[data-act="chatHistOpen"][data-id="aiko"]'); await page.waitForTimeout(100);
+  await page.click('[data-act="chatOpen"][data-id="aiko"]'); await page.waitForTimeout(100);
+  await page.click('[data-act="chatHistFromPane"]'); await page.waitForTimeout(100);
   await page.click('[data-act="chatHistTab"][data-t="corr"]');
   ok(await page.$$eval('.row', e => e.length) >= 3, 'histórico: correções recebidas listadas');
   ok(await page.evaluate(() => __NQ.S.chat.corrections.some(c => c.kind === 'social') && __NQ.S.chat.corrections.some(c => c.kind === 'grammar')), 'correções separadas por tipo');
@@ -168,10 +171,10 @@ const stub = `(() => {
   same(kj, [], 'toda resposta-modelo escrita com kanji/kana é reconhecida pelos padrões de romaji');
   await fresh.click('.tab[data-view="chat"]'); await fresh.waitForTimeout(150);
   await fresh.click('[data-act="chatOpen"][data-id="ren"]'); await fresh.waitForTimeout(150);
-  ok(await fresh.isVisible('.cm-card.teach .chip.k-new'), 'aluno novo: Ren apresenta a expressão como “Novo” antes de pedir a resposta');
-  await send(fresh, 'yoroshiku'); await send(fresh, 'Ana desu'); await send(fresh, 'geemu ga suki');
+  await send(fresh, 'yoroshiku!'); await send(fresh, 'un, suki!'); await send(fresh, 'un');
   ok(await fresh.evaluate(() => __NQ.CHAT.state('ren').met), 'Ren: apresentação concluída');
-  await fresh.click('[data-act="chatScene"][data-id="ren-genki"]'); await fresh.waitForTimeout(100);
+  await scene(fresh, 'ren-genki'); await fresh.waitForTimeout(100);
+  ok(await fresh.isVisible('.cm-card .chip.k-new'), 'aluno novo: Ren apresenta a expressão como “Novo” antes de pedir a resposta');
   ok(await fresh.evaluate(() => __NQ.CHAT.thread('ren').some(m => m.kind === 'new' && (m.fresh || []).includes('chat:genki'))), 'palavra nova げんき marcada como Novo');
   ok(await fresh.evaluate(() => __NQ.S.items['chat:genki'] && __NQ.S.items['chat:genki'].seen > 0), 'palavra nova registrada como apresentada (vai para a revisão)');
   ok(await fresh.evaluate(() => !Object.keys(__NQ.S.items).some(k => !k.startsWith('chat:'))), 'o chat não mexe nos registros da Academia de quem não estudou');
@@ -184,12 +187,11 @@ const stub = `(() => {
   ok(await fresh.evaluate(() => !__NQ.CHAT.scenesFor('ren').some(s => s.id === 'ren-ima')), 'assunto com gramática não estudada (forma て) fica bloqueado');
   // anti-farm: repetir a mesma cena no mesmo dia não dá XP de novo
   const xp0 = await fresh.evaluate(() => __NQ.S.xp);
-  await fresh.click('[data-act="chatScene"][data-id="ren-genki"]'); await send(fresh, 'genki'); await send(fresh, 'donmai');
+  await scene(fresh, 'ren-genki'); await send(fresh, 'genki'); await send(fresh, 'donmai');
   const xp1 = await fresh.evaluate(() => __NQ.S.xp);
   ok(xp1 === xp0, JSON.stringify(await fresh.evaluate(() => __NQ.CHAT.thread('ren').slice(-9).map(m => [m.from, m.kind, m.xp, m.text || m.jp]))) + ' ' + 'XP: repetir a mesma conversa no mesmo dia não rende XP de novo (' + xp0 + '→' + xp1 + ')');
-  // conversa livre + desafio
-  await send(fresh, 'konnichiwa'); await send(fresh, 'genki?'); await send(fresh, 'genki da yo');
-  ok(await fresh.evaluate(() => !!__NQ.S.chat.challenges['ren-oi-genki']), 'desafio: cumprimentar, perguntar e responder naturalmente');
+  // desafio cumprido pela cena
+  ok(await fresh.evaluate(() => !!__NQ.S.chat.challenges['ren-oi-genki']), 'desafio: responder naturalmente a “げんき？”');
   await fresh.screenshot({ path: path.resolve(__dirname, '../shots/chat.png') }).catch(() => {});
   await fresh.click('[data-act="chatClose"]'); await fresh.waitForTimeout(150);
   // revisão das expressões do chat

@@ -60,7 +60,7 @@ const V20 = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'v2.0-save.json')
   same(S.discoveries, V20.discoveries, 'descobertas do Detetive preservadas');
   ok(S.xp === V20.xp && S.streak.best === V20.streak.best, 'XP e sequência preservados');
   ok(Object.keys(V20.achievements).every(k => S.achievements[k] === V20.achievements[k]), 'conquistas da 2.0 preservadas');
-  ok(S.schemaVersion === 4 && S.appVersion === '4.0.0', 'save da 2.0 migrado para a 4.0.0 (esquema ' + S.schemaVersion + ')');
+  ok(S.schemaVersion === 5 && S.appVersion === '5.0.0', 'save da 2.0 migrado para a 5.0.0 (esquema ' + S.schemaVersion + ')');
   ok(await page.evaluate(() => localStorage.getItem('nihongoQuest:backup') === null || true), 'nenhuma migração necessária');
 
   /* ---------- 2. mapa da Academia ---------- */

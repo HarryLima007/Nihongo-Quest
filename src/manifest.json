@@ -34,7 +34,10 @@
     "app.js",
     "audio.js",
     "chat-data.js",
+    "chat-talk-data.js",
     "chat-core.js",
+    "chat-stickers.js",
+    "chat-talk.js",
     "chat-ui.js",
     "boot.js"
   ]

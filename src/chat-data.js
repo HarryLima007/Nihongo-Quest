@@ -766,7 +766,7 @@ const {
 
   /* ---------- desafios opcionais ---------- */
   const CHAT_CHALLENGES = [
-    { id: 'ren-oi-genki', char: 'ren', title: 'Cumprimentar o Ren, perguntar como ele está e responder naturalmente', desc: 'Na conversa livre: cumprimente, pergunte 「げんき？」 e responda quando ele perguntar de volta.', xp: 25, tags: ['greet', 'howareyou', 'imgood'], natural: true },
+    { id: 'ren-oi-genki', char: 'ren', title: 'Responder ao “tudo bem?” do Ren com naturalidade', desc: 'No desafio “Tudo bem?”, responda de forma casual e natural, sem usar dicas.', xp: 25, scene: 'ren-genki', tags: ['respondeu'], natural: true },
     { id: 'ren-convite', char: 'ren', title: 'Responder a um convite do Ren', desc: 'Complete o assunto “O que você está fazendo?”.', xp: 20, scene: 'ren-ima', tags: [] },
     { id: 'ren-consolo', char: 'ren', title: 'Consolar o Ren depois da derrota', desc: 'No assunto “Tudo bem?”, reaja com uma palavra de consolo.', xp: 15, scene: 'ren-genki', tags: ['consolou'] },
     { id: 'aiko-apresentacao', char: 'aiko', title: 'Apresentar-se formalmente à professora', desc: 'Apresente-se com はじめまして…です。よろしく おねがいします, sem erros de formalidade.', xp: 20, scene: 'aiko-hajime', tags: ['apresentou'], natural: true },

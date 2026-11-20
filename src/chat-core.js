@@ -1,5 +1,5 @@
 /* ==========================================================
-   NIHONGO CHAT 4.0 — motor de conversa
+   NIHONGO CHAT 4.0/5.0 — motor de conversa (desafios guiados)
    - Normaliza o que o aluno escreve (romaji, hiragana, katakana
      e kanji conhecidos) para comparar por intenção, não por frase exata.
    - Classifica a resposta: natural, pouco natural socialmente,
@@ -225,8 +225,9 @@ function chRegVerdict(want, got) {
 /* ---------- estado salvo ---------- */
 function defaultChat() {
   return {
-    v: 1,
-    settings: { ro: true, pt: true, listen: false, sugg: false },
+    v: 2,
+    settings: { ro: true, pt: true, listen: false, sugg: false, instant: false },
+    stk: { fav: [], recent: [] },
     chars: {}, threads: {}, facts: {}, scenes: {}, challenges: {},
     corrections: [], ini: { day: null, count: 0 },
     xp: { day: null, n: 0, got: {} },
@@ -535,7 +536,7 @@ function chLocalReply(req) {
   const cid = req.char, st = chState(cid), act = st.active;
   const c = chChar(cid);
   if (!act) return { kind: 'none' };
-  if (act.free) return chFreeReply(cid, act, req.text);
+  if (act.free) return chTalkReply(cid, req.text, req.stk);
   const nd = chNode(act); if (!nd || !nd.ask) return { kind: 'none' };
   const want = chWant(cid, act), ctx = chCtx(act);
   const res = chEvaluate(nd, req.text, want, ctx);
@@ -577,8 +578,9 @@ function chLocalReply(req) {
     if (b.chain && !chState(cid).active) chStartScene(cid, b.chain);
     return res;
   }
-  // erro: a conversa não avança; mostra a correção (curta) e deixa tentar de novo
-  act.tries++;
+  // erro: a conversa não avança; mostra a correção (curta) e deixa tentar de novo.
+  // Resposta não reconhecida não é erro: não conta tentativa nem tira XP.
+  if (res.kind !== 'unknown') act.tries++;
   if (res.kind === 'unknown') S.chat.stats.unknown++;
   else S.chat.stats[res.kind === 'grammar' ? 'gram' : res.kind === 'social' ? 'social' : 'vocab']++;
   if (nd.ask.dynWrong && CHAT_DYN_ANSWER[nd.ask.dynWrong]) { me.kind = res.kind === 'unknown' ? 'vocab' : res.kind; if (CHAT_DYN_ANSWER[nd.ask.dynWrong](cid, act, res, false)) return res; }
@@ -592,8 +594,9 @@ function chLocalReply(req) {
     [].concat((fixF && fixF.uses) || []).filter(u => u.startsWith('chat:') && ITEM[u]).forEach(u => recordAnswer(u, false, 'chat'));
     return res;
   }
-  chPushLines(cid, chLinesOf([pick(c.confused)], {}));
-  if (act.tries >= 2) chPush(cid, { from: 'sys', kind: 'hint', lv: 4, txt: 'Não reconheci essa resposta. Veja um modelo (ou toque em Dica para ajuda passo a passo):', model: chModel(nd, want, ctx) });
+  act.unk = (act.unk || 0) + 1;
+  chTalkSay(cid, act, chTalkPick(cid, TALK[cid].unknown, 'u'));
+  chPush(cid, { from: 'sys', kind: 'unk', txt: act.unk >= 2 ? 'O sistema não conseguiu interpretar essa resposta (não conta como erro). Veja um modelo abaixo ou toque na lâmpada para dicas passo a passo.' : 'O sistema não conseguiu interpretar essa resposta. Isso não conta como erro: tente escrever de outro jeito.', model: act.unk >= 2 ? chModel(nd, want, ctx) : null });
   return res;
 }
 function chModel(nd, want, ctx) { const b = chBestForm(nd, want); return b ? chFillF(b.f, ctx) : null; }
@@ -706,7 +709,7 @@ function RO_WORD() {
 }
 function chHint(cid) {
   const st = chState(cid), act = st.active; if (!act) return;
-  if (act.free) { chPush(cid, { from: 'sys', kind: 'hint', lv: 0, txt: 'Ideias para puxar assunto:', ideas: chFreeIdeas(cid).slice(0, 5) }); return; }
+  if (act.free) { const ex = chExGet(cid, act.ex); chPush(cid, { from: 'sys', kind: 'hint', lv: 0, txt: ex ? 'Algumas ideias de resposta (você pode responder do seu jeito):' : 'Ideias para puxar assunto (ou escreva o que quiser):', ideas: chTalkSugg(cid).map(x => ({ idea: x.idea || x.pt, jp: x.jp, ro: x.ro, pt: x.pt })) }); return; }
   const nd = chNode(act); if (!nd || !nd.ask) return;
   act.hint = Math.min(5, act.hint + 1);
   S.chat.stats.hints++;
@@ -719,7 +722,7 @@ function chHint(cid) {
 /* sugestões opcionais: formas já estudadas, priorizando as mais dominadas */
 function chSuggestions(cid) {
   const st = chState(cid), act = st.active; if (!act) return [];
-  if (act.free) return chFreeIdeas(cid).slice(0, 3).map(x => ({ jp: x.jp, ro: x.ro, pt: x.pt }));
+  if (act.free) return chTalkSugg(cid).slice(0, 3);
   const nd = chNode(act); if (!nd || !nd.ask) return [];
   const want = chWant(cid, act), out = [];
   (nd.ask.b || []).filter(b => !b.meta).forEach(b => {
@@ -761,18 +764,8 @@ function chInitiative() {
     if (!chUnlocked(c)) continue;
     if (CHV && CHV.id === c.id) continue;
     const st = chState(c.id);
-    if (st.pending || st.active || st.lastInit === today) continue;
-    let sc = null;
-    if (!st.met) sc = CH_SCENE[c.intro];
-    else {
-      const cands = CHAT_SCENES.filter(x => x.char === c.id && x.init && !x.intro && chSceneOpen(x) && !st.recent.includes(x.id));
-      cands.sort((a, b) => ((S.chat.scenes[a.id] || {}).n || 0) - ((S.chat.scenes[b.id] || {}).n || 0) || (hashStr(a.id + today) % 13) - (hashStr(b.id + today) % 13));
-      sc = cands[0];
-    }
-    if (!sc) continue;
-    if (!chStartScene(c.id, sc.id, { initiative: true })) continue;
-    st.pending = sc.id; st.unread = 1; st.lastInit = today;
-    st.recent.push(sc.id); if (st.recent.length > 4) st.recent.shift();
+    if (st.pending || st.lastInit === today) continue;
+    if (!chTalkInitiative(c, st, today)) continue;
     ini.count++; made++;
   }
   if (made) save();
@@ -782,7 +775,8 @@ function chUnreadTotal() { return CHAT_CHARS.reduce((a, c) => a + (chUnlocked(c)
 function chDismiss(cid) {
   const st = chState(cid);
   if (!st.pending) return;
-  st.pending = null; st.active = null; st.unread = 0;
+  st.pending = null; st.unread = 0;
+  if (st.active && st.active.free) { st.active.ex = null; st.active.topic = null; } else st.active = null;
   chPush(cid, { from: 'sys', kind: 'note', txt: 'Conversa deixada para depois. Sem problema!' });
   save();
 }
