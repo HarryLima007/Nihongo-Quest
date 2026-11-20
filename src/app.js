@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '3.0.0';
-const SCHEMA_VERSION = 3;
+const APP_VERSION = '4.0.0';
+const SCHEMA_VERSION = 4;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -54,7 +54,8 @@ function defaultState() {
     settings: { romaji: true, sound: true, theme: 'system', rate: 'normal', academyMode: 'trad' },
     listening: defaultListening(),
     discoveries: {},
-    exStats: {}, skills: {}, log: {}, tests: []
+    exStats: {}, skills: {}, log: {}, tests: [],
+    chat: defaultChat()
   };
 }
 function defaultListening() {
@@ -99,6 +100,11 @@ const MIGRATIONS = {
     hist.forEach(h => { if (!h || !h.t) return; const d = dayKey(new Date(h.t)); const o = s.log[d] || (s.log[d] = { a: 0, c: 0 }); o.a++; if (h.ok) o.c++; });
     s.migratedFrom3 = { schema: 2, at: Date.now() };
     return s;
+  },
+  3: s => { // 3.0 -> 4.0: só ACRESCENTA o Nihongo Chat; nada da Academia, revisão ou estatísticas muda
+    if (!isPlainObj(s.chat)) s.chat = defaultChat();
+    s.migratedFrom4 = { schema: 3, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -121,6 +127,10 @@ function normalize(data) {
   if (!Array.isArray(s.tests)) s.tests = [];
   if (!Array.isArray(s.shop.owned)) s.shop.owned = [];
   if (!Array.isArray(s.daily.missions)) s.daily.missions = [];
+  if (!isPlainObj(s.chat)) s.chat = defaultChat();
+  ['chars', 'threads', 'facts', 'scenes', 'challenges'].forEach(k => { if (!isPlainObj(s.chat[k])) s.chat[k] = {}; });
+  if (!Array.isArray(s.chat.corrections)) s.chat.corrections = [];
+  Object.keys(s.chat.threads).forEach(k => { if (!Array.isArray(s.chat.threads[k])) s.chat.threads[k] = []; });
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;
@@ -177,7 +187,7 @@ function saveNow() {
 function save() { clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 250); }
 window.addEventListener('pagehide', saveNow);
 // outra aba salvou progresso: recarrega para não sobrescrever com dados antigos
-window.addEventListener('storage', e => { if (e.key === SAVE_KEY && e.newValue && !P) { try { S = normalize(JSON.parse(e.newValue)); applyTheme(); render(); } catch (_) {} } });
+window.addEventListener('storage', e => { if (e.key === SAVE_KEY && e.newValue && !P && !CHV) { try { S = normalize(JSON.parse(e.newValue)); applyTheme(); render(); } catch (_) {} } });
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveNow(); });
 
 /* ---------- níveis, XP, moedas ---------- */
@@ -514,6 +524,10 @@ function buildReview(mode) {
     const ls = c.lessons.filter(l => lessonPassed(l.id) || l.items.some(it => S.items[it.id] && S.items[it.id].seen));
     const ids = ls.flatMap(l => l.items.map(it => it.id)).filter(id => S.items[id] && S.items[id].seen);
     qs = itemQs(shuffle(ids).sort((a, b) => S.items[b].w - S.items[a].w), 9).concat(shuffle(ls.flatMap(lessonExIds)).slice(0, 3).map(exQ));
+  } else if (mode === 'chat') {
+    // expressões apresentadas no Nihongo Chat
+    const ids = seen.filter(id => id.startsWith('chat:')).sort((a, b) => (S.items[a].due || 0) - (S.items[b].due || 0));
+    qs = itemQs(ids.slice(0, 10), 10);
   } else if (mode === 'weak') {
     const ls = weakLessons(3).map(x => x.L); if (!ls.length) return [];
     ls.forEach(L => { qs.push(...shuffle(L.items).slice(0, 3).map(it => genItemQ(it))); qs.push(...shuffle(lessonExIds(L)).slice(0, 2).map(exQ)); });
@@ -557,6 +571,7 @@ const IC = {
   academy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18"/><path d="M2 4c3 1 17 1 20 0"/><path d="M6 7v14M18 7v14"/><path d="M5 12h14"/></svg>',
   review: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 8v4l3 2"/></svg>',
   book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M9 8h6M9 12h4"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>',
   user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
   fire: '<svg viewBox="0 0 24 24" fill="#ff9d3b" stroke="#ffd877" stroke-width="1.2"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z"/></svg>',
   coin: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#f2b632" stroke="#ffe08a" stroke-width="2"/><rect x="9" y="8" width="6" height="8" rx="1" fill="none" stroke="#8a5a00" stroke-width="1.6"/></svg>',
@@ -633,7 +648,7 @@ function flushPending() {
    TELAS PRINCIPAIS
    ========================================================== */
 let view = 'inicio';
-const VIEWS = ['inicio', 'academia', 'revisao', 'caderno', 'perfil'];
+const VIEWS = ['inicio', 'academia', 'chat', 'revisao', 'caderno', 'perfil'];
 const nb = { q: '', f: 'todas' };
 
 function render() {
@@ -641,7 +656,7 @@ function render() {
   if (!S.profile.onboarded) { root.innerHTML = viewWelcome(); $('#tabbar').hidden = true; return; }
   $('#tabbar').hidden = false;
   ensureDaily();
-  root.innerHTML = ({ inicio: viewHome, academia: viewAcademyRoot, revisao: viewReview, caderno: viewNotebook, perfil: viewProfile }[view] || viewHome)();
+  root.innerHTML = ({ inicio: viewHome, academia: viewAcademyRoot, chat: viewChat, revisao: viewReview, caderno: viewNotebook, perfil: viewProfile }[view] || viewHome)();
   document.querySelectorAll('.tab').forEach(t => { t.classList.toggle('active', t.dataset.view === view); t.setAttribute('aria-current', t.dataset.view === view ? 'page' : 'false'); });
   updateTabDots();
 }
@@ -649,7 +664,8 @@ function updateTabDots() {
   const tabs = document.querySelectorAll('.tab'); if (!tabs.length) return;
   const claim = S.daily.missions.some(m => { const d = MISSION_POOL.find(x => x.id === m.id); return d && !m.claimed && m.progress >= d.goal; });
   const due = dueItems().length > 0;
-  tabs.forEach(t => { const dot = t.querySelector('.dot'); const on = (t.dataset.view === 'inicio' && claim) || (t.dataset.view === 'revisao' && due); if (dot) dot.hidden = !on; });
+  const chatNew = chUnreadTotal() > 0;
+  tabs.forEach(t => { const dot = t.querySelector('.dot'); const on = (t.dataset.view === 'inicio' && claim) || (t.dataset.view === 'revisao' && due) || (t.dataset.view === 'chat' && chatNew); if (dot) dot.hidden = !on; });
 }
 function go(v) { if (!VIEWS.includes(v)) v = 'inicio'; view = v; if (location.hash !== '#' + v) { try { history.replaceState(null, '', '#' + v); } catch (e) { location.hash = v; } } render(); window.scrollTo(0, 0); }
 
@@ -697,6 +713,7 @@ function viewHome() {
     ${!storageOK ? '<div class="banner">O salvamento automático não está disponível neste navegador. Use Perfil → Exportar progresso.</div>' : ''}
     <section class="section">${cont}</section>
     ${due ? `<section class="section"><div class="card mascot-tip" style="align-items:center"><span class="mod-ic big jp" style="font-weight:800">復</span><div class="grow" style="min-width:0"><b>${due} ${due === 1 ? 'item para revisar' : 'itens para revisar'}</b><p class="muted" style="margin:2px 0 0;font-size:.85rem">Revisar na hora certa fixa a memória.</p></div><button class="btn btn-small btn-primary" data-act="startReview" data-mode="due">Revisar</button></div></section>` : ''}
+    ${homeChatCard()}
     ${homeListenCard()}
     <section class="section"><div class="mascot-tip">${mascot('neutral', 56)}<div class="bubble"><b>${MASCOT_NAME}:</b> ${esc(st.state === 'broken' || st.state === 'new' || st.state === 'pending' ? stLabel + ' ' : '')}${esc(pick(MSG.tips))}</div></div></section>
     <section class="section"><div class="section-h"><h2>Progresso geral</h2><span class="muted tabnum">${prog}%</span></div>
@@ -1110,7 +1127,7 @@ function renderResult() {
    AÇÕES
    ========================================================== */
 const ACT = {
-  nav: el => go(el.dataset.view),
+  nav: el => { if (el.dataset.view === 'chat') chUI.sub = 'hub'; go(el.dataset.view); },
   onboard: () => {
     const v = ($('#nameInput').value || '').trim();
     if (!v) { $('#nameInput').focus(); toast('名', 'Digite um nome para começar.'); return; }

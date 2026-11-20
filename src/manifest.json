@@ -32,6 +32,10 @@
   ],
   "app": [
     "app.js",
-    "audio.js"
+    "audio.js",
+    "chat-data.js",
+    "chat-core.js",
+    "chat-ui.js",
+    "boot.js"
   ]
 }
