@@ -2,7 +2,7 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '2.0.0';
+const APP_VERSION = '2.1.0';
 const SCHEMA_VERSION = 2;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
@@ -314,7 +314,7 @@ function genItemQ(it, forceType) {
   if (kind === 'audio') return genListenQ(it, it.group === 'frase' ? 'phrase' : 'word', S.listening.level);
   const types = { number: ['num_type', 'num_pick', 'jp2pt'], vocab: ['jp2pt', 'pt2jp'], grammar: ['jp2pt', 'pt2jp'], kana: ['kana_read', 'kana_find'], kanaword: ['word_read', 'jp2pt', 'pt2jp'] }[kind];
   const type = forceType || pick(types);
-  const base = { itemId: it.id, explain: explainItem(it) };
+  const base = { itemId: it.id, explain: explainItem(it), say: it.say };
   if (type === 'num_type') return { ...base, type: 'num_type', prompt: 'Escreva este número em algarismos', jp: it.jp, ro: it.ro, answer: it.val, answerText: String(it.val) };
   if (type === 'num_pick') { const d = poolFor(it, 3, 'jp'); return { ...base, type: 'mc', prompt: 'Como se diz este número em japonês?', big: String(it.val), bigClass: 'pt', options: shuffle([it, ...d]).map(x => ({ label: x.jp, sub: x.ro, correct: x === it })), answerText: it.jp + ' (' + it.ro + ')' }; }
   if (type === 'kana_read' || type === 'word_read') { const d = poolFor(it, 3, 'ro'); return { ...base, type: 'mc', grid: true, prompt: type === 'kana_read' ? 'Qual é o som deste caractere?' : 'Como se lê esta palavra?', big: it.jp, bigClass: type === 'kana_read' ? 'huge' : '', noRomaji: true, options: shuffle([it, ...d]).map(x => ({ label: x.ro, correct: x === it, plain: true })), answerText: it.ro }; }
@@ -354,12 +354,20 @@ function reviewPool(excludeLesson) {
   return seenItems().map(id => ITEM[id]).filter(it => it.lesson !== excludeLesson)
     .sort((a, b) => ((S.items[b.id].w - S.items[b.id].c * .3) - (S.items[a.id].w - S.items[a.id].c * .3)) + (Math.random() - .5));
 }
+/* 2.1: perguntas de áudio dentro das lições da Academia (não em kana nem kanji) */
+function lessonCanListen(L) { return !L.noListen && ['vocab', 'grammar', 'kanaword'].includes(L.kind) && L.cat && L.cat.id !== 'c7'; }
+function lessonListenQs(L, n) {
+  if (!lessonCanListen(L)) return [];
+  const items = shuffle(L.items.filter(it => !it.noListen)).slice(0, n);
+  return items.map(it => { const g = groupOf(it); return genListenQ(it, g === 'frase' ? 'phrase' : 'word', S.listening.level, L.items.concat(listenPool(g, S.listening.level))); });
+}
 function buildPractice(L) {
   const items = shuffle(L.items), qs = [];
   items.slice(0, 5).forEach(it => qs.push(genItemQ(it)));
   if (items.length >= 4) qs.splice(1, 0, genMatch(items.slice(0, 4)));
   shuffle(L.exercises || []).slice(0, 2).forEach(ex => { const q = authoredQ(ex, L); if (q) qs.push(q); });
   if (L.dyn) qs.push(genNumQ());
+  lessonListenQs(L, 2).forEach((q, i) => qs.splice(2 + i * 3, 0, q));
   return qs;
 }
 function buildExam(L) {
@@ -370,7 +378,7 @@ function buildExam(L) {
   if (items.length >= 8) qs.push(genMatch(items.slice(nGen, nGen + 4).length === 4 ? items.slice(nGen, nGen + 4) : items.slice(0, 4)));
   if (L.dyn) { qs.push(genNumQ()); qs.push(genNumQ()); }
   const rv = reviewPool(L).slice(0, 2).map(it => ({ ...genItemQ(it), review: true }));
-  let out = shuffle(qs.concat(rv));
+  let out = shuffle(qs.concat(rv, lessonListenQs(L, 1)));
   if (out[0] && out[0].type === 'match') out.push(out.shift());
   return out.slice(0, 12);
 }
@@ -706,6 +714,9 @@ function renderConfirmExit() {
 }
 
 /* --- teoria --- */
+/* botão “Ouvir exemplo” (2.1): lê a versão em kana quando existe, sem as reticências do diálogo */
+function exListen(e) { return AUDIO.supported && canSpeakEx(e) ? `<button class="link-btn" style="align-self:flex-start;padding:2px 0" data-act="speak" data-text="${esc(e.say || e.jp)}">Ouvir exemplo</button>` : ''; }
+function canSpeakEx(e) { return /[぀-ヿ一-鿿]/.test(e.say || e.jp); }
 function theoryCards(L) {
   const cards = [{ t: 'intro' }]; L.items.forEach(it => cards.push({ t: 'item', it })); cards.push({ t: 'examples' }); return cards;
 }
@@ -720,13 +731,13 @@ function renderTheory() {
     const it = c.it; markSeen(it.id);
     const huge = L.kind === 'kana';
     body = `<span class="mode-tag">Teoria · ${P.card} de ${L.items.length}</span>
-      <div class="theory-card"><div class="t-word"><span class="big ${huge ? 'huge' : ''}">${esc(it.jp)}</span><span class="rr">${esc(it.ro)}</span><span class="pt">${esc(it.pt)}</span>${speakBtn(it.jp)}</div>
-      <dl class="kv"><dt>Japonês</dt><dd class="jp">${esc(it.jp)}</dd><dt>Romaji</dt><dd>${esc(it.ro)}</dd><dt>Tradução</dt><dd>${esc(it.pt)}</dd>${it.alt ? `<dt>Outra leitura</dt><dd>${esc(it.alt)}</dd>` : ''}${it.kanji ? `<dt>Em kanji</dt><dd class="jp">${esc(it.kanji)} <span class="muted" style="font-family:var(--f-body);font-size:.85rem">(você verá na categoria Kanji)</span></dd>` : ''}</dl>
+      <div class="theory-card"><div class="t-word"><span class="big ${huge ? 'huge' : ''}">${esc(it.jp)}</span><span class="rr">${esc(it.ro)}</span><span class="pt">${esc(it.pt)}</span>${speakBtn(it.say || it.jp)}</div>
+      <dl class="kv"><dt>Japonês</dt><dd class="jp">${esc(it.jp)}</dd><dt>Romaji</dt><dd>${esc(it.ro)}</dd><dt>Tradução</dt><dd>${esc(it.pt)}</dd>${it.alt ? `<dt>Outra leitura</dt><dd>${esc(it.alt)}</dd>` : ''}${it.kanji ? `<dt>Em kanji</dt><dd class="jp">${esc(it.kanji)} <span class="muted" style="font-family:var(--f-body);font-size:.85rem">(escrita com kanji; veja a ala Kanji)</span></dd>` : ''}</dl>
       ${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}
-      ${it.ex ? `<div><span class="eyebrow">Exemplo</span><div class="ex"><span class="ej">${esc(it.ex.jp)}</span><span class="ro">${esc(it.ex.ro)}</span><span class="ep">${esc(it.ex.pt)}</span></div></div>` : ''}</div>`;
+      ${it.ex ? `<div><span class="eyebrow">Exemplo</span><div class="ex"><span class="ej">${esc(it.ex.jp)}</span><span class="ro">${esc(it.ex.ro)}</span><span class="ep">${esc(it.ex.pt)}</span>${exListen(it.ex)}</div></div>` : ''}</div>`;
   } else {
     body = `<span class="mode-tag">Teoria · Na prática</span><h2>Exemplos práticos</h2>
-      <div class="theory-card">${L.examples.map(e => `<div class="ex"><span class="ej">${esc(e.jp)}</span><span class="ro">${esc(e.ro)}</span><span class="ep">${esc(e.pt)}</span></div>`).join('')}</div>
+      <div class="theory-card">${L.examples.map(e => `<div class="ex"><span class="ej">${esc(e.jp)}</span><span class="ro">${esc(e.ro)}</span><span class="ep">${esc(e.pt)}</span>${exListen(e)}</div>`).join('')}</div>
       <div class="mascot-tip">${mascot('wow', 64)}<div class="bubble"><b>${MASCOT_NAME}:</b> ${P.mode === 'theory' ? 'Revisão da teoria concluída! Quer testar seus conhecimentos?' : 'Agora vamos praticar! Na prática você vê a explicação depois de cada resposta, sem pressão. Depois vem a avaliação.'}</div></div>`;
   }
   body += `<div class="dots">${cards.map((_, i) => `<i class="${i === P.card ? 'on' : ''}"></i>`).join('')}</div>`;
@@ -768,7 +779,7 @@ function renderQuiz() {
   if (q.type === 'mc') {
     if (q.big || q.ctx) {
       const bigCls = q.bigClass === 'fill' ? 'fill-sentence' : 'big ' + (q.bigClass || '');
-      body += `<div class="q-hero"><div class="q-card">${q.big ? `<span class="${bigCls} ${q.bigClass === 'fill' ? 'jp' : ''}">${esc(q.big)}</span>` : ''}${q.ro && showRo(q) ? `<span class="ro">${esc(q.ro)}</span>` : ''}${q.ctx ? `<span class="ctx">${esc(q.ctx)}</span>` : ''}${q.big && q.bigClass !== 'pt' && q.bigClass !== 'fill' && !q.noRomaji ? speakBtn(q.big) : ''}</div></div>`;
+      body += `<div class="q-hero"><div class="q-card">${q.big ? `<span class="${bigCls} ${q.bigClass === 'fill' ? 'jp' : ''}">${esc(q.big)}</span>` : ''}${q.ro && showRo(q) ? `<span class="ro">${esc(q.ro)}</span>` : ''}${q.ctx ? `<span class="ctx">${esc(q.ctx)}</span>` : ''}${q.big && q.bigClass !== 'pt' && q.bigClass !== 'fill' && !q.noRomaji ? speakBtn(q.say || q.big) : ''}</div></div>`;
     }
     body += `<div class="opts ${q.grid ? 'grid' : ''}">${q.options.map((o, i) => optHTML(o, i, q)).join('')}</div>`;
     canCheck = P.sel !== null;

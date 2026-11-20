@@ -903,7 +903,7 @@ const MISSION_POOL = [
 const ACHIEVEMENTS = [
   { id: 'first_lesson', icon: '初', name: 'Primeiro passo', desc: 'Seja aprovado na sua primeira lição.', test: s => s.stats.lessonsPassed >= 1 },
   { id: 'lessons5', icon: '五', name: 'Estudante dedicado', desc: 'Seja aprovado em 5 lições diferentes.', test: s => countPassed(s) >= 5 },
-  { id: 'lessons_all', icon: '全', name: 'Pioneiro da Academia', desc: 'Conclua todas as lições da versão 1.0.', test: s => countPassed(s) >= TOTAL_LESSONS },
+  { id: 'lessons_all', icon: '全', name: 'Pioneiro da Academia', desc: 'Conclua todas as lições da versão 1.0.', test: s => V1_LESSON_IDS.every(id => s.lessons[id] && s.lessons[id].passed) },
   { id: 'cat1', icon: '歩', name: 'Ala dos Primeiros Passos', desc: 'Passe na avaliação final de Primeiros Passos.', test: s => !!(s.catExams.c1 && s.catExams.c1.passed) },
   { id: 'perfect', icon: '満', name: 'Nota máxima', desc: 'Tire 100% em uma avaliação.', test: s => s.stats.perfect >= 1 },
   { id: 'streak3', icon: '火', name: 'Chama acesa', desc: 'Estude 3 dias seguidos.', test: s => s.streak.best >= 3 },
@@ -1219,11 +1219,1878 @@ const DIALOGS = [
     ] }
 ];
 
+/* ==========================================================
+   CONTEÚDO 2.1 — Trilha da Escrita: Hiragana completo, Katakana e Kanji
+   Lições novas usam ids novos (c2l2…, c3l1…, c7l1…). Nunca renomeie ids
+   publicados: eles guardam o progresso do aluno.
+   ========================================================== */
+/* lições existentes na 1.0 (usado pela conquista “Pioneiro da Academia”) */
+const V1_LESSON_IDS = CATS.flatMap(c => c.lessons.map(l => l.id));
+
+(function () {
+  const cat = id => CATS.find(c => c.id === id);
+  /* caractere de kana: [chave, caractere, romaji, nota, exemplo jp, exemplo romaji, exemplo pt] */
+  const K = a => ({ k: a[0], jp: a[1], ro: a[2], pt: 'som “' + a[2] + '”', note: a[3], ex: a[4] ? { jp: a[4], ro: a[5], pt: a[6] } : undefined });
+
+  /* ---------------- HIRAGANA (c2) ---------------- */
+  const c2 = cat('c2');
+  c2.desc = 'O alfabeto básico do japonês: os 46 caracteres, os sons modificados, as combinações e as primeiras palavras.';
+  c2.soon = [];
+  c2.lessons.push(
+  {
+    id: 'c2l2', title: 'Linhas K e S', emblem: 'か', kind: 'kana',
+    intro: [
+      'O hiragana é organizado em linhas. Cada linha junta uma consoante às cinco vogais, sempre na ordem a, i, u, e, o.',
+      'Linha K: か き く け こ (ka, ki, ku, ke, ko). Linha S: さ し す せ そ (sa, shi, su, se, so).',
+      'Atenção a し: não é “si”, é “shi”, como o “xi” de “xícara”. O “s” de さ す せ そ é sempre o “s” de “sapo”, nunca o som de “z”.',
+      'O “u” de く e す costuma ficar bem fraquinho na fala: です soa quase como “dess”.'
+    ],
+    tip: 'Leia a linha inteira em voz alta, como uma música: ka-ki-ku-ke-ko, sa-shi-su-se-so.',
+    items: [
+      K(['ka', 'か', 'ka', 'Som de “ca” de “casa”.', 'かさ', 'kasa', 'guarda-chuva']),
+      K(['ki', 'き', 'ki', 'Som de “qui” de “quilo”.', 'き', 'ki', 'árvore']),
+      K(['ku', 'く', 'ku', 'Som de “cu” curto, com os lábios relaxados. Parece um bico de pássaro aberto.', 'くち', 'kuchi', 'boca']),
+      K(['ke', 'け', 'ke', 'Som de “quê”.', 'いけ', 'ike', 'lagoa']),
+      K(['ko', 'こ', 'ko', 'Som de “cô”. Dois tracinhos paralelos.', 'ここ', 'koko', 'aqui']),
+      K(['sa', 'さ', 'sa', 'Som de “sa” de “sapo”. Parecido com き, mas com um traço horizontal só.', 'さけ', 'sake', 'salmão; também saquê']),
+      K(['shi', 'し', 'shi', 'Som de “xi”. Um anzol: um único traço que desce e curva.', 'しお', 'shio', 'sal']),
+      K(['su', 'す', 'su', 'Som de “su” curto. Tem um laço no meio.', 'すし', 'sushi', 'sushi']),
+      K(['se', 'せ', 'se', 'Som de “sê”.', 'せかい', 'sekai', 'mundo']),
+      K(['so', 'そ', 'so', 'Som de “sô”. Um zigue-zague com rabinho.', 'そこ', 'soko', 'aí, esse lugar'])
+    ],
+    examples: [
+      { jp: 'あかい', ro: 'akai', pt: 'vermelho' },
+      { jp: 'すき', ro: 'suki', pt: 'gostar, gosto de' },
+      { jp: 'おかし', ro: 'okashi', pt: 'doce, guloseima' }
+    ],
+    exercises: [
+      { t: 'order', prompt: 'Coloque a linha K na ordem', pt: 'ka, ki, ku, ke, ko', tiles: ['か', 'き', 'く', 'け', 'こ'], extra: ['さ'], noRomaji: true, explain: 'A ordem é sempre a, i, u, e, o: か き く け こ.' },
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'sushi', jp: 'す＿', opts: ['し', 'さ', 'そ'], ans: 0, noRomaji: true, explain: 'すし = su + shi. し é “shi”.' },
+      { t: 'error', ctx: 'Quero escrever “sake” (salmão):', tokens: ['さ', 'き'], wrong: 1, noRomaji: true, explain: 'き é “ki”. O certo é さけ, com け (ke).' },
+      { t: 'situation', prompt: 'Qual caractere tem o som “shi”?', opts: ['し', 'す', 'さ'], ans: 0, noRomaji: true, explain: 'し = shi. A linha S tem esse som especial no “i”.' }
+    ]
+  },
+  {
+    id: 'c2l3', title: 'Linhas T e N', emblem: 'た', kind: 'kana',
+    intro: [
+      'Linha T: た ち つ て と (ta, chi, tsu, te, to). Linha N: な に ぬ ね の (na, ni, nu, ne, no).',
+      'Dois sons especiais na linha T: ち é “chi” (como “tchi” de “tchau”) e つ é “tsu”, um “t” e um “s” juntos, como em “tsunami”.',
+      'O “t” de て e と é sempre seco, como em “teto”. Nunca vira “tchi” como em algumas regiões do Brasil.',
+      'の é uma das partículas mais usadas da língua: indica posse, como “de” em português.'
+    ],
+    tip: 'Para つ, diga “tsu” como o começo de “tsunami”, que aliás é uma palavra japonesa: つなみ.',
+    items: [
+      K(['ta', 'た', 'ta', 'Som de “ta”.', 'たこ', 'tako', 'polvo']),
+      K(['chi', 'ち', 'chi', 'Som de “tchi”. Parece um “5” espelhado.', 'ちず', 'chizu', 'mapa']),
+      K(['tsu', 'つ', 'tsu', 'Som de “tsu”. Uma onda só.', 'つくえ', 'tsukue', 'mesa, escrivaninha']),
+      K(['te', 'て', 'te', 'Som de “tê”, seco.', 'て', 'te', 'mão']),
+      K(['to', 'と', 'to', 'Som de “tô”.', 'とけい', 'tokei', 'relógio']),
+      K(['na', 'な', 'na', 'Som de “na”.', 'なつ', 'natsu', 'verão']),
+      K(['ni', 'に', 'ni', 'Som de “ni”.', 'にく', 'niku', 'carne']),
+      K(['nu', 'ぬ', 'nu', 'Som de “nu”. Parecido com め, mas com um laço no final.', 'いぬ', 'inu', 'cachorro']),
+      K(['ne', 'ね', 'ne', 'Som de “nê”. Termina com um laço.', 'ねこ', 'neko', 'gato']),
+      K(['no', 'の', 'no', 'Som de “nô”. Um redemoinho.', 'のみもの', 'nomimono', 'bebida'])
+    ],
+    examples: [
+      { jp: 'わたしの ねこ', ro: 'watashi no neko', pt: 'o meu gato (の indica posse)' },
+      { jp: 'くつ', ro: 'kutsu', pt: 'sapato' },
+      { jp: 'なに', ro: 'nani', pt: 'o quê' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual caractere tem o som “tsu”?', opts: ['つ', 'ち', 'し'], ans: 0, noRomaji: true, explain: 'つ = tsu. ち = chi e し = shi.' },
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'neko (gato)', jp: '＿こ', opts: ['ね', 'ぬ', 'の'], ans: 0, noRomaji: true, explain: 'ねこ = ne + ko. ぬ é “nu” e の é “no”.' },
+      { t: 'error', ctx: 'Quero escrever “inu” (cachorro):', tokens: ['い', 'め'], wrong: 1, noRomaji: true, explain: 'め é “me”. O certo é いぬ: ぬ tem um laço no final.' },
+      { t: 'order', prompt: 'Coloque a linha T na ordem', pt: 'ta, chi, tsu, te, to', tiles: ['た', 'ち', 'つ', 'て', 'と'], extra: ['な'], noRomaji: true, explain: 'た ち つ て と.' }
+    ]
+  },
+  {
+    id: 'c2l4', title: 'Linhas H e M', emblem: 'は', kind: 'kana',
+    intro: [
+      'Linha H: は ひ ふ へ ほ (ha, hi, fu, he, ho). Linha M: ま み む め も (ma, mi, mu, me, mo).',
+      'O “h” japonês é um sopro, como o “h” do inglês “hello”. Nunca é mudo e nunca é o “r” de “rato”.',
+      'ふ fica entre “fu” e “hu”: sopre suavemente com os lábios quase fechados, sem encostar os dentes no lábio.',
+      'Duas exceções importantes: quando は é partícula, lê-se “wa” (こんにちは). Quando へ é partícula, lê-se “e”.'
+    ],
+    tip: 'Você já viu は lido como “wa” em こんにちは. Agora sabe o motivo: ali ele é uma partícula!',
+    items: [
+      K(['ha', 'は', 'ha', 'Som de “rá” suave, só um sopro. Como partícula, lê-se “wa”.', 'はな', 'hana', 'flor; também nariz']),
+      K(['hi', 'ひ', 'hi', 'Som de “hi”, um sopro com “i”. Parece um sorriso.', 'ひと', 'hito', 'pessoa']),
+      K(['fu', 'ふ', 'fu', 'Entre “fu” e “hu”: sopre com os lábios quase fechados.', 'ふね', 'fune', 'barco']),
+      K(['he', 'へ', 'he', 'Som de “rê” suave. Parece um morrinho. Como partícula, lê-se “e”.', 'へや', 'heya', 'quarto, cômodo']),
+      K(['ho', 'ほ', 'ho', 'Som de “rô” suave.', 'ほし', 'hoshi', 'estrela']),
+      K(['ma', 'ま', 'ma', 'Som de “ma”.', 'まど', 'mado', 'janela']),
+      K(['mi', 'み', 'mi', 'Som de “mi”.', 'みみ', 'mimi', 'orelha']),
+      K(['mu', 'む', 'mu', 'Som de “mu” curto.', 'むし', 'mushi', 'inseto']),
+      K(['me', 'め', 'me', 'Som de “mê”. Parecido com ぬ, mas sem o laço.', 'め', 'me', 'olho']),
+      K(['mo', 'も', 'mo', 'Som de “mô”. É a partícula “também” que você viu na Gramática.', 'もも', 'momo', 'pêssego'])
+    ],
+    examples: [
+      { jp: 'ふゆ', ro: 'fuyu', pt: 'inverno' },
+      { jp: 'ひま', ro: 'hima', pt: 'tempo livre, estar à toa' },
+      { jp: 'まめ', ro: 'mame', pt: 'feijão, grão' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Em こんにちは, como se lê o último caractere?', opts: ['wa', 'ha', 'ho'], ans: 0, explain: 'は é partícula ali, então se lê “wa”.' },
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'hana (flor)', jp: '＿な', opts: ['は', 'ほ', 'ま'], ans: 0, noRomaji: true, explain: 'はな = ha + na.' },
+      { t: 'error', ctx: 'Quero escrever “mame” (feijão):', tokens: ['ま', 'ぬ'], wrong: 1, noRomaji: true, explain: 'ぬ é “nu”, que tem um laço no final. “me” é め, sem laço: まめ.' },
+      { t: 'order', prompt: 'Coloque a linha M na ordem', pt: 'ma, mi, mu, me, mo', tiles: ['ま', 'み', 'む', 'め', 'も'], extra: ['は'], noRomaji: true, explain: 'ま み む め も.' }
+    ]
+  },
+  {
+    id: 'c2l5', title: 'Linhas Y, R, W e ん', emblem: 'ん', kind: 'kana',
+    intro: [
+      'Linha Y: só três sons, や ゆ よ (ya, yu, yo). Linha R: ら り る れ ろ (ra, ri, ru, re, ro).',
+      'O “r” japonês é um toque leve da língua, como o “r” de “caro”. Às vezes soa quase como um “l”.',
+      'Linha W: わ (wa) e を (wo). を quase só aparece como partícula de objeto e é pronunciado “o”.',
+      'Por fim, ん (n) é o único caractere que é só uma consoante. Antes de “b”, “p” e “m”, ele soa como “m”: しんぶん (jornal) soa “shimbun”.'
+    ],
+    tip: 'Parabéns: com esta lição você conhece os 46 caracteres básicos do hiragana!',
+    items: [
+      K(['ya', 'や', 'ya', 'Som de “iá”.', 'やま', 'yama', 'montanha']),
+      K(['yu', 'ゆ', 'yu', 'Som de “iú”.', 'ゆめ', 'yume', 'sonho']),
+      K(['yo', 'よ', 'yo', 'Som de “iô”.', 'よる', 'yoru', 'noite']),
+      K(['ra', 'ら', 'ra', '“r” leve, como em “caro”.', 'さくら', 'sakura', 'cerejeira']),
+      K(['ri', 'り', 'ri', '“ri” leve. Dois tracinhos verticais.', 'りんご', 'ringo', 'maçã']),
+      K(['ru', 'る', 'ru', '“ru” leve. Termina com um laço (diferente de ろ).', 'くるま', 'kuruma', 'carro']),
+      K(['re', 'れ', 're', '“rê” leve.', 'れきし', 'rekishi', 'história (matéria)']),
+      K(['ro', 'ろ', 'ro', '“rô” leve. Igual a る, mas sem o laço.', 'いろ', 'iro', 'cor']),
+      K(['wa', 'わ', 'wa', 'Som de “uá”.', 'わたし', 'watashi', 'eu']),
+      K(['wo', 'を', 'wo', 'Pronuncia-se “o”. Usado quase só como partícula de objeto.', 'みずを のむ', 'mizu o nomu', 'beber água']),
+      K(['n', 'ん', 'n', 'Som de “n” sozinho, sem vogal. Antes de b, p e m soa como “m”.', 'ほん', 'hon', 'livro'])
+    ],
+    examples: [
+      { jp: 'しんぶん', ro: 'shinbun', pt: 'jornal (soa “shimbun”)' },
+      { jp: 'ありがとう', ro: 'arigatou', pt: 'obrigado: agora você consegue ler quase tudo!' },
+      { jp: 'よろしく', ro: 'yoroshiku', pt: 'conto com você (informal)' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual caractere é só uma consoante, sem vogal?', opts: ['ん', 'る', 'わ'], ans: 0, noRomaji: true, explain: 'ん é o “n” sozinho.' },
+      { t: 'error', ctx: 'Quero escrever “iro” (cor):', tokens: ['い', 'る'], wrong: 1, noRomaji: true, explain: 'る (ru) tem um laço no final. “ro” é ろ, sem laço: いろ.' },
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'sakura (cerejeira)', jp: 'さく＿', opts: ['ら', 'ろ', 'わ'], ans: 0, noRomaji: true, explain: 'さくら = sa + ku + ra.' },
+      { t: 'situation', prompt: 'Como se pronuncia a partícula を?', opts: ['o', 'wa', 'n'], ans: 0, explain: 'A partícula を soa “o”, igual a お.' }
+    ]
+  },
+  {
+    id: 'c2l6', title: 'Sons com ゛: が ざ だ', emblem: 'が', kind: 'kana',
+    intro: [
+      'Dois tracinhos no canto (゛, chamados dakuten) deixam o som “vozeado”: か (ka) vira が (ga), さ (sa) vira ざ (za), た (ta) vira だ (da).',
+      'Você não precisa decorar caracteres novos: são os mesmos de antes, com os tracinhos.',
+      'Atenção: じ é “ji” (como “dji”) e ず é “zu”. Na linha D, ぢ e づ existem, mas soam igual a じ e ず e aparecem pouco (はなぢ, sangramento nasal; つづく, continuar).',
+      'O “g” de が é sempre o “g” de “gato”, mesmo antes de “i” e “e”: ぎ é “gui”, げ é “guê”.'
+    ],
+    tip: 'Em finais de episódio você vê つづく: “continua”. Repare no づ!',
+    items: [
+      K(['ga', 'が', 'ga', 'か + ゛. Som de “ga”.', 'がっこう', 'gakkou', 'escola']),
+      K(['gi', 'ぎ', 'gi', 'き + ゛. Som de “gui”.', 'ぎんこう', 'ginkou', 'banco']),
+      K(['gu', 'ぐ', 'gu', 'く + ゛. Som de “gu”.', 'ぐあい', 'guai', 'condição (de saúde)']),
+      K(['ge', 'げ', 'ge', 'け + ゛. Som de “guê”.', 'げんき', 'genki', 'disposição, saúde']),
+      K(['go', 'ご', 'go', 'こ + ゛. Som de “gô”.', 'ごはん', 'gohan', 'arroz, refeição']),
+      K(['za', 'ざ', 'za', 'さ + ゛. Som de “za”.', 'ざっし', 'zasshi', 'revista']),
+      K(['ji', 'じ', 'ji', 'し + ゛. Som de “dji”.', 'じかん', 'jikan', 'tempo, horas']),
+      K(['zu', 'ず', 'zu', 'す + ゛. Som de “zu”.', 'みず', 'mizu', 'água']),
+      K(['ze', 'ぜ', 'ze', 'せ + ゛. Som de “zê”.', 'かぜ', 'kaze', 'vento; também resfriado']),
+      K(['zo', 'ぞ', 'zo', 'そ + ゛. Som de “zô”.', 'かぞく', 'kazoku', 'família']),
+      K(['da', 'だ', 'da', 'た + ゛. Som de “da”.', 'ともだち', 'tomodachi', 'amigo']),
+      K(['de', 'で', 'de', 'て + ゛. Som de “dê”, seco (nunca “dji”).', 'でんわ', 'denwa', 'telefone']),
+      K(['do', 'ど', 'do', 'と + ゛. Som de “dô”.', 'どこ', 'doko', 'onde'])
+    ],
+    examples: [
+      { jp: 'だいじょうぶ', ro: 'daijoubu', pt: 'tudo bem: três sons com ゛ numa palavra só!' },
+      { jp: 'つづく', ro: 'tsuzuku', pt: 'continua (fim de episódio)' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'O que os tracinhos ゛ fazem com か?', opts: ['が|ga', 'ぱ|pa', 'き|ki'], ans: 0, explain: 'か + ゛ = が (ga).' },
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'mizu (água)', jp: 'み＿', opts: ['ず', 'す', 'じ'], ans: 0, noRomaji: true, explain: 'みず = mi + zu. す sem tracinhos seria “su”.' },
+      { t: 'error', ctx: 'Quero escrever “denwa” (telefone):', tokens: ['て', 'ん', 'わ'], wrong: 0, noRomaji: true, explain: 'て é “te”. Para “de” precisamos de で, com os tracinhos.' }
+    ]
+  },
+  {
+    id: 'c2l7', title: 'Sons com ゛ e ゜: ば ぱ', emblem: 'ぱ', kind: 'kana',
+    intro: [
+      'A linha H tem duas versões modificadas. Com ゛ (dakuten), は vira ば (ba). Com uma bolinha ゜ (handakuten), は vira ぱ (pa).',
+      'A bolinha só aparece na linha H. Ela é muito comum em onomatopeias: ぴかぴか (brilhando), ぺこぺこ (morrendo de fome).',
+      'Repare: ふ com ゛ vira ぶ (bu), e com ゜ vira ぷ (pu).'
+    ],
+    tip: 'Bolinha = “p”. Dois tracinhos = “b”. Só isso!',
+    items: [
+      K(['ba', 'ば', 'ba', 'は + ゛.', 'ばんごはん', 'bangohan', 'jantar']),
+      K(['bi', 'び', 'bi', 'ひ + ゛.', 'びょういん', 'byouin', 'hospital']),
+      K(['bu', 'ぶ', 'bu', 'ふ + ゛.', 'ぶどう', 'budou', 'uva']),
+      K(['be', 'べ', 'be', 'へ + ゛.', 'たべる', 'taberu', 'comer']),
+      K(['bo', 'ぼ', 'bo', 'ほ + ゛.', 'ぼく', 'boku', 'eu (masculino)']),
+      K(['pa', 'ぱ', 'pa', 'は + ゜.', 'かんぱい', 'kanpai', 'saúde! (num brinde)']),
+      K(['pi', 'ぴ', 'pi', 'ひ + ゜.', 'ぴかぴか', 'pikapika', 'brilhando, reluzente']),
+      K(['pu', 'ぷ', 'pu', 'ふ + ゜.', 'てんぷら', 'tenpura', 'tempurá']),
+      K(['pe', 'ぺ', 'pe', 'へ + ゜.', 'ぺこぺこ', 'pekopeko', 'morrendo de fome']),
+      K(['po', 'ぽ', 'po', 'ほ + ゜.', 'さんぽ', 'sanpo', 'passeio, caminhada'])
+    ],
+    examples: [
+      { jp: 'おなかが ぺこぺこ', ro: 'onaka ga pekopeko', pt: 'Estou morrendo de fome.' },
+      { jp: 'かんぱい！', ro: 'kanpai!', pt: 'Saúde! (no brinde)' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual destes tem o som “pa”?', opts: ['ぱ', 'ば', 'は'], ans: 0, noRomaji: true, explain: 'A bolinha ゜ dá o som de “p”: ぱ.' },
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'kanpai (saúde!)', jp: 'かん＿い', opts: ['ぱ', 'ば', 'は'], ans: 0, noRomaji: true, explain: 'かんぱい = kan + pa + i.' },
+      { t: 'error', ctx: 'Quero escrever “boku” (eu):', tokens: ['ほ', 'く'], wrong: 0, noRomaji: true, explain: 'ほ é “ho”. O certo é ぼく, com ゛.' }
+    ]
+  },
+  {
+    id: 'c2l8', title: 'Combinações, pausas e sons longos', emblem: 'ゃ', kind: 'kanaword',
+    intro: [
+      'Três detalhes completam o hiragana. 1) ゃ ゅ ょ pequenos depois de um caractere com “i” formam uma sílaba só: き + ゃ = きゃ (kya), し + ゅ = しゅ (shu), ち + ょ = ちょ (cho).',
+      '2) Um っ pequeno não tem som próprio: ele é uma pequena pausa antes da consoante seguinte. きって (kitte) tem um “tempo” a mais no meio.',
+      '3) Vogais longas: おう e おお soam como um “ô” comprido; うう como “u” comprido; えい costuma soar como “ê” comprido. Uma vogal longa pode mudar totalmente a palavra.',
+      'No Treino de sons da Academia Auditiva você treina exatamente essas diferenças pelo ouvido.'
+    ],
+    tip: 'Compare grande e pequeno: びよういん (bi-yo-u-in, salão de beleza) e びょういん (byou-in, hospital).',
+    items: [
+      { k: 'shashin', jp: 'しゃしん', ro: 'shashin', pt: 'foto', note: 'しゃ = sha, uma sílaba só.', ex: { jp: 'しゃしんを とって。', ro: 'shashin o totte.', pt: 'Tira uma foto.' } },
+      { k: 'ryokou', jp: 'りょこう', ro: 'ryokou', pt: 'viagem', note: 'りょ (ryo) + こう (kou, com “o” longo).' },
+      { k: 'jugyou', jp: 'じゅぎょう', ro: 'jugyou', pt: 'aula', note: 'じゅ (ju) + ぎょう (gyou, longo).' },
+      { k: 'byouki', jp: 'びょうき', ro: 'byouki', pt: 'doença', note: 'びょう (byou) + き. Mesmo começo de びょういん (hospital).' },
+      { k: 'gyuunyuu', jp: 'ぎゅうにゅう', ro: 'gyuunyuu', pt: 'leite', note: 'Duas sílabas combinadas e longas: gyuu-nyuu.' },
+      { k: 'kippu', jp: 'きっぷ', ro: 'kippu', pt: 'bilhete (de trem)', note: 'O っ pequeno faz uma pausa antes do “pu”: kip-pu.' },
+      { k: 'zasshi', jp: 'ざっし', ro: 'zasshi', pt: 'revista', note: 'Pausa antes do “shi”: zas-shi.' },
+      { k: 'tooi', jp: 'とおい', ro: 'tooi', pt: 'longe, distante', note: 'とお = “o” longo. Exceção: aqui o “o” longo é escrito com お, e não com う.' }
+    ],
+    examples: [
+      { jp: 'きって と きて', ro: 'kitte to kite', pt: 'selo e “venha”: a pausa っ muda a palavra.' },
+      { jp: 'ちょっと まって', ro: 'chotto matte', pt: 'espera um pouco: ちょ combinado e duas pausas っ.' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Como se lê きゃ?', opts: ['kya', 'kiya', 'ka'], ans: 0, explain: 'き + ゃ pequeno formam uma sílaba só: kya.' },
+      { t: 'error', ctx: 'Quero escrever “kippu” (bilhete):', tokens: ['き', 'つ', 'ぷ'], wrong: 1, noRomaji: true, explain: 'Precisa do っ PEQUENO, que faz a pausa: きっぷ. O つ grande seria “tsu”.' },
+      { t: 'situation', prompt: 'Qual palavra significa “hospital”?', opts: ['びょういん|byouin', 'びよういん|biyouin', 'びょうき|byouki'], ans: 0, explain: 'びょういん (byouin) = hospital. びよういん = salão de beleza; びょうき = doença.' },
+      { t: 'fill', prompt: 'Complete com o som longo', pt: 'ryokou (viagem)', jp: 'りょこ＿', opts: ['う', 'お', 'ん'], ans: 0, noRomaji: true, explain: 'O “o” longo depois de “ko” normalmente é escrito com う: りょこう.' }
+    ]
+  });
+
+  /* ---------------- KATAKANA (c3) ---------------- */
+  const c3 = cat('c3');
+  c3.desc = 'O alfabeto das palavras estrangeiras, nomes e efeitos sonoros. Os sons são os mesmos do hiragana.';
+  c3.soon = [];
+  c3.examExtra = [];
+  c3.lessons.push(
+  {
+    id: 'c3l1', title: 'Katakana: ア até ソ', emblem: 'ア', kind: 'kana',
+    intro: [
+      'O katakana tem os mesmos sons do hiragana, mas com traços mais retos. Ele é usado em palavras estrangeiras (コーヒー, café), nomes estrangeiros, marcas e muitos efeitos sonoros de mangá.',
+      'Nesta lição: vogais ア イ ウ エ オ, linha K カ キ ク ケ コ e linha S サ シ ス セ ソ.',
+      'Cuidado com o par mais traiçoeiro: シ (shi) e ツ (tsu, na próxima lição). Em シ os tracinhos ficam mais na horizontal e o traço longo sobe de baixo para cima.',
+      'Outro par: ソ (so) e ン (n, que você verá depois). Em ソ o traço longo desce de cima para baixo.'
+    ],
+    tip: 'Seu nome em katakana fica bem divertido. Harry, por exemplo, é ハリー!',
+    items: [
+      K(['a', 'ア', 'a', 'Mesmo som de あ.', 'アイス', 'aisu', 'sorvete']),
+      K(['i', 'イ', 'i', 'Mesmo som de い.', 'イタリア', 'itaria', 'Itália']),
+      K(['u', 'ウ', 'u', 'Mesmo som de う.', 'ウイルス', 'uirusu', 'vírus']),
+      K(['e', 'エ', 'e', 'Mesmo som de え. Parece um “I” maiúsculo.', 'エアコン', 'eakon', 'ar-condicionado']),
+      K(['o', 'オ', 'o', 'Mesmo som de お.', 'オレンジ', 'orenji', 'laranja']),
+      K(['ka', 'カ', 'ka', 'Parece com か, sem o tracinho extra.', 'カメラ', 'kamera', 'câmera']),
+      K(['ki', 'キ', 'ki', 'Parece com き, sem a curva de baixo.', 'キス', 'kisu', 'beijo']),
+      K(['ku', 'ク', 'ku', 'Ângulo com um telhadinho.', 'クラス', 'kurasu', 'turma, classe']),
+      K(['ke', 'ケ', 'ke', 'Parece um “K” torto.', 'ケーキ', 'keeki', 'bolo']),
+      K(['ko', 'コ', 'ko', 'Um quadrado aberto do lado esquerdo.', 'ココア', 'kokoa', 'chocolate quente']),
+      K(['sa', 'サ', 'sa', 'Parecido com さ, mais reto.', 'サッカー', 'sakkaa', 'futebol']),
+      K(['shi', 'シ', 'shi', 'Tracinhos mais deitados; o traço longo sobe. Não confunda com ツ.', 'シャツ', 'shatsu', 'camisa']),
+      K(['su', 'ス', 'su', 'Parece um boneco correndo.', 'スポーツ', 'supootsu', 'esporte']),
+      K(['se', 'セ', 'se', 'Parecido com せ.', 'セーター', 'seetaa', 'suéter, blusa de lã']),
+      K(['so', 'ソ', 'so', 'O traço longo desce de cima. Não confunda com ン.', 'ソファー', 'sofaa', 'sofá'])
+    ],
+    examples: [
+      { jp: 'アイス', ro: 'aisu', pt: 'sorvete (do inglês “ice”)' },
+      { jp: 'ケーキ', ro: 'keeki', pt: 'bolo: o traço ー alonga a vogal' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual caractere é “shi” em katakana?', opts: ['シ', 'ツ', 'ソ'], ans: 0, noRomaji: true, explain: 'シ = shi (tracinhos deitados). ツ = tsu e ソ = so.' },
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'kamera (câmera)', jp: '＿メラ', opts: ['カ', 'ケ', 'コ'], ans: 0, noRomaji: true, explain: 'カメラ = ka + me + ra.' },
+      { t: 'order', prompt: 'Coloque as vogais em katakana na ordem', pt: 'a, i, u, e, o', tiles: ['ア', 'イ', 'ウ', 'エ', 'オ'], extra: ['コ'], noRomaji: true, explain: 'ア イ ウ エ オ.' }
+    ]
+  },
+  {
+    id: 'c3l2', title: 'Katakana: タ até ホ', emblem: 'タ', kind: 'kana',
+    intro: [
+      'Linhas T, N e H: タ チ ツ テ ト, ナ ニ ヌ ネ ノ, ハ ヒ フ ヘ ホ.',
+      'ツ (tsu) tem os tracinhos mais em pé e o traço longo desce de cima. Compare com シ (shi) da lição anterior.',
+      'ヘ (he) é praticamente igual ao hiragana へ. ニ (ni) parece o kanji do número dois (二).',
+      'Lembre: no katakana, palavras estrangeiras com “f” usam フ: フランス (França).'
+    ],
+    tip: 'Truque: シ e ツ são como rostos. Em シ os “olhos” olham para a esquerda; em ツ, para baixo.',
+    items: [
+      K(['ta', 'タ', 'ta', 'Parece um ク com um tracinho dentro.', 'タクシー', 'takushii', 'táxi']),
+      K(['chi', 'チ', 'chi', 'Som de “tchi”.', 'チーズ', 'chiizu', 'queijo']),
+      K(['tsu', 'ツ', 'tsu', 'Tracinhos em pé; o traço longo desce. Não confunda com シ.', 'ツアー', 'tsuaa', 'excursão']),
+      K(['te', 'テ', 'te', 'Som de “tê”, seco.', 'テスト', 'tesuto', 'prova, teste']),
+      K(['to', 'ト', 'to', 'Um traço com um galhinho.', 'トマト', 'tomato', 'tomate']),
+      K(['na', 'ナ', 'na', 'Uma cruz inclinada.', 'バナナ', 'banana', 'banana']),
+      K(['ni', 'ニ', 'ni', 'Dois traços, como o kanji 二.', 'テニス', 'tenisu', 'tênis (esporte)']),
+      K(['nu', 'ヌ', 'nu', 'Parece um ス com um tracinho.', 'カヌー', 'kanuu', 'canoa']),
+      K(['ne', 'ネ', 'ne', 'Som de “nê”.', 'ネクタイ', 'nekutai', 'gravata']),
+      K(['no', 'ノ', 'no', 'Um único traço inclinado.', 'ノート', 'nooto', 'caderno']),
+      K(['ha', 'ハ', 'ha', 'Dois traços abertos, como um telhado.', 'ハンバーガー', 'hanbaagaa', 'hambúrguer']),
+      K(['hi', 'ヒ', 'hi', 'Som de “hi”.', 'コーヒー', 'koohii', 'café']),
+      K(['fu', 'フ', 'fu', 'Usado também para o “f” estrangeiro.', 'フランス', 'furansu', 'França']),
+      K(['he', 'ヘ', 'he', 'Quase igual ao hiragana へ.', 'ヘリコプター', 'herikoputaa', 'helicóptero']),
+      K(['ho', 'ホ', 'ho', 'Uma cruz com dois tracinhos.', 'ホテル', 'hoteru', 'hotel'])
+    ],
+    examples: [
+      { jp: 'トマト', ro: 'tomato', pt: 'tomate' },
+      { jp: 'ネコ', ro: 'neko', pt: 'gato: às vezes palavras japonesas são escritas em katakana para dar destaque.' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual caractere é “tsu” em katakana?', opts: ['ツ', 'シ', 'ン'], ans: 0, noRomaji: true, explain: 'ツ = tsu: tracinhos em pé e o traço longo desce de cima.' },
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'hoteru (hotel)', jp: '＿テル', opts: ['ホ', 'ハ', 'ヘ'], ans: 0, noRomaji: true, explain: 'ホテル = ho + te + ru.' },
+      { t: 'error', ctx: 'Quero escrever “tesuto” (prova):', tokens: ['テ', 'ス', 'ナ'], wrong: 2, noRomaji: true, explain: 'ナ é “na”. O certo é テスト, terminando com ト (to).' }
+    ]
+  },
+  {
+    id: 'c3l3', title: 'Katakana: マ até ン', emblem: 'ン', kind: 'kana',
+    intro: [
+      'Últimas linhas: マ ミ ム メ モ, ヤ ユ ヨ, ラ リ ル レ ロ, ワ e ン.',
+      'ヲ (wo) também existe, mas quase nunca é usado. Por isso não entra nos exercícios.',
+      'ン (n) tem o traço longo subindo de baixo para cima, enquanto em ソ (so) ele desce. É a mesma diferença entre シ e ツ.',
+      'Com esta lição você conhece todo o katakana básico!'
+    ],
+    tip: 'ミ (mi) tem três tracinhos, como se fosse “mi-mi-mi”.',
+    items: [
+      K(['ma', 'マ', 'ma', 'Parece um triângulo de ponta-cabeça com um gancho.', 'マンガ', 'manga', 'mangá, quadrinhos']),
+      K(['mi', 'ミ', 'mi', 'Três tracinhos inclinados.', 'ミルク', 'miruku', 'leite (em produtos)']),
+      K(['mu', 'ム', 'mu', 'Um triângulo com uma perninha.', 'ゲーム', 'geemu', 'jogo, videogame']),
+      K(['me', 'メ', 'me', 'Um “X” torto.', 'メール', 'meeru', 'e-mail, mensagem']),
+      K(['mo', 'モ', 'mo', 'Parecido com も.', 'メモ', 'memo', 'anotação, lembrete']),
+      K(['ya', 'ヤ', 'ya', 'Parecido com や.', 'タイヤ', 'taiya', 'pneu']),
+      K(['yu', 'ユ', 'yu', 'Um “U” de lado com um traço.', 'ユニフォーム', 'yunifoomu', 'uniforme']),
+      K(['yo', 'ヨ', 'yo', 'Um “E” espelhado.', 'ヨーグルト', 'yooguruto', 'iogurte']),
+      K(['ra', 'ラ', 'ra', 'Um tracinho em cima de um gancho.', 'ラジオ', 'rajio', 'rádio']),
+      K(['ri', 'リ', 'ri', 'Dois traços, como り.', 'リモコン', 'rimokon', 'controle remoto']),
+      K(['ru', 'ル', 'ru', 'Duas pernas, a da direita com um gancho.', 'ルール', 'ruuru', 'regra']),
+      K(['re', 'レ', 're', 'Um único traço que dobra para cima.', 'レモン', 'remon', 'limão-siciliano']),
+      K(['ro', 'ロ', 'ro', 'Um quadrado fechado.', 'ロボット', 'robotto', 'robô']),
+      K(['wa', 'ワ', 'wa', 'Parece um ク mais largo.', 'ワイン', 'wain', 'vinho']),
+      K(['n', 'ン', 'n', 'O traço longo sobe de baixo. Não confunda com ソ.', 'パン', 'pan', 'pão'])
+    ],
+    examples: [
+      { jp: 'アニメ', ro: 'anime', pt: 'anime' },
+      { jp: 'ラーメン', ro: 'raamen', pt: 'lámen' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual caractere é “n” em katakana?', opts: ['ン', 'ソ', 'ツ'], ans: 0, noRomaji: true, explain: 'ン = n: o traço longo sobe de baixo. ソ = so.' },
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'manga (mangá)', jp: 'マ＿ガ', opts: ['ン', 'ソ', 'ル'], ans: 0, noRomaji: true, explain: 'マンガ = ma + n + ga.' },
+      { t: 'error', ctx: 'Quero escrever “remon” (limão):', tokens: ['レ', 'モ', 'ソ'], wrong: 2, noRomaji: true, explain: 'ソ é “so”. O final de レモン é ン (n).' }
+    ]
+  },
+  {
+    id: 'c3l4', title: 'Katakana com ゛ e ゜', emblem: 'ガ', kind: 'kana',
+    intro: [
+      'As mesmas regras do hiragana: dois tracinhos ゛ deixam o som vozeado (カ → ガ, サ → ザ, タ → ダ, ハ → バ) e a bolinha ゜ dá o som de “p” (ハ → パ).',
+      'ヂ e ヅ quase não aparecem e ficam de fora dos exercícios.',
+      'Esses sons são muito comuns em palavras estrangeiras: ゲーム (jogo), ピザ (pizza), パン (pão).'
+    ],
+    tip: 'Se você já sabe が ざ だ ば ぱ, aqui só muda o desenho da base.',
+    items: [
+      K(['ga', 'ガ', 'ga', 'カ + ゛.', 'ガム', 'gamu', 'chiclete']),
+      K(['gi', 'ギ', 'gi', 'キ + ゛. Som de “gui”.', 'ギター', 'gitaa', 'violão, guitarra']),
+      K(['gu', 'グ', 'gu', 'ク + ゛.', 'グループ', 'guruupu', 'grupo']),
+      K(['ge', 'ゲ', 'ge', 'ケ + ゛. Som de “guê”.', 'ゲーム', 'geemu', 'jogo']),
+      K(['go', 'ゴ', 'go', 'コ + ゛.', 'ゴール', 'gooru', 'gol; meta']),
+      K(['za', 'ザ', 'za', 'サ + ゛.', 'ピザ', 'piza', 'pizza']),
+      K(['ji', 'ジ', 'ji', 'シ + ゛. Som de “dji”.', 'ジュース', 'juusu', 'suco']),
+      K(['zu', 'ズ', 'zu', 'ス + ゛.', 'チーズ', 'chiizu', 'queijo']),
+      K(['ze', 'ゼ', 'ze', 'セ + ゛.', 'ゼロ', 'zero', 'zero']),
+      K(['zo', 'ゾ', 'zo', 'ソ + ゛.', 'ゾンビ', 'zonbi', 'zumbi']),
+      K(['da', 'ダ', 'da', 'タ + ゛.', 'ダンス', 'dansu', 'dança']),
+      K(['de', 'デ', 'de', 'テ + ゛. “dê” seco.', 'デザート', 'dezaato', 'sobremesa']),
+      K(['do', 'ド', 'do', 'ト + ゛.', 'ドア', 'doa', 'porta']),
+      K(['ba', 'バ', 'ba', 'ハ + ゛.', 'バス', 'basu', 'ônibus']),
+      K(['bi', 'ビ', 'bi', 'ヒ + ゛.', 'ビデオ', 'bideo', 'vídeo']),
+      K(['bu', 'ブ', 'bu', 'フ + ゛.', 'ブラジル', 'burajiru', 'Brasil']),
+      K(['be', 'ベ', 'be', 'ヘ + ゛.', 'ベッド', 'beddo', 'cama']),
+      K(['bo', 'ボ', 'bo', 'ホ + ゛.', 'ボール', 'booru', 'bola']),
+      K(['pa', 'パ', 'pa', 'ハ + ゜.', 'パーティー', 'paatii', 'festa']),
+      K(['pi', 'ピ', 'pi', 'ヒ + ゜.', 'ピアノ', 'piano', 'piano']),
+      K(['pu', 'プ', 'pu', 'フ + ゜.', 'プール', 'puuru', 'piscina']),
+      K(['pe', 'ペ', 'pe', 'ヘ + ゜.', 'ペン', 'pen', 'caneta']),
+      K(['po', 'ポ', 'po', 'ホ + ゜.', 'ポテト', 'poteto', 'batata frita'])
+    ],
+    examples: [
+      { jp: 'ブラジル', ro: 'burajiru', pt: 'Brasil' },
+      { jp: 'ゲーム', ro: 'geemu', pt: 'jogo, videogame' }
+    ],
+    exercises: [
+      { t: 'fill', prompt: 'Complete a palavra', pt: 'basu (ônibus)', jp: '＿ス', opts: ['バ', 'パ', 'ハ'], ans: 0, noRomaji: true, explain: 'バス: ハ + ゛ = バ (ba).' },
+      { t: 'situation', prompt: 'Qual caractere tem o som “pi”?', opts: ['ピ', 'ビ', 'ヒ'], ans: 0, noRomaji: true, explain: 'A bolinha ゜ dá o “p”: ピ.' },
+      { t: 'error', ctx: 'Quero escrever “pen” (caneta):', tokens: ['ベ', 'ン'], wrong: 0, noRomaji: true, explain: 'ベ é “be”. Caneta é ペン, com a bolinha.' }
+    ]
+  },
+  {
+    id: 'c3l5', title: 'Palavras estrangeiras', emblem: 'ー', kind: 'kanaword',
+    intro: [
+      'Palavras vindas de outras línguas são adaptadas ao som japonês: toda consoante ganha uma vogal (exceto o “n”). “Hotel” vira ホテル (hoteru).',
+      'O traço ー alonga a vogal anterior: コーヒー (koohii, café). O ッ pequeno faz a pausa: チケット (chiketto). ャ ュ ョ pequenos formam combinações: ジュース (juusu).',
+      'Ouça bem: muitas palavras ficam diferentes do original. Escutar e reconhecer essas palavras ajuda muito a entender conversas e animes.'
+    ],
+    tip: 'Tente adivinhar a palavra original falando em voz alta, devagar: “pa-so-kon”… personal computer!',
+    items: [
+      { k: 'koohii', jp: 'コーヒー', ro: 'koohii', pt: 'café', note: 'Do holandês “koffie”. Dois sons longos com ー.' },
+      { k: 'terebi', jp: 'テレビ', ro: 'terebi', pt: 'televisão', note: 'Abreviação de “television”.' },
+      { k: 'sumaho', jp: 'スマホ', ro: 'sumaho', pt: 'celular, smartphone', note: 'Abreviação de スマートフォン (smartphone).' },
+      { k: 'pasokon', jp: 'パソコン', ro: 'pasokon', pt: 'computador', note: 'Abreviação de “personal computer”.' },
+      { k: 'chiketto', jp: 'チケット', ro: 'chiketto', pt: 'ingresso, bilhete', note: 'Do inglês “ticket”. O ッ faz a pausa: chi-ket-to.' },
+      { k: 'resutoran', jp: 'レストラン', ro: 'resutoran', pt: 'restaurante', note: 'Repare como o “s” e o “t” ganham vogais: re-su-to-ran.' },
+      { k: 'konbini', jp: 'コンビニ', ro: 'konbini', pt: 'loja de conveniência', note: 'Abreviação de コンビニエンスストア. Lojas 24 horas, parte do dia a dia no Japão.' },
+      { k: 'arubaito', jp: 'アルバイト', ro: 'arubaito', pt: 'trabalho de meio período, bico', note: 'Vem do alemão “Arbeit” (trabalho). Na fala: バイト (baito).' },
+      { k: 'depaato', jp: 'デパート', ro: 'depaato', pt: 'loja de departamentos', note: 'Do inglês “department store”.' },
+      { k: 'eakon', jp: 'エアコン', ro: 'eakon', pt: 'ar-condicionado', note: 'Abreviação de “air conditioner”.' }
+    ],
+    examples: [
+      { jp: 'コンビニで コーヒーを かいます。', ro: 'konbini de koohii o kaimasu.', pt: 'Compro café na loja de conveniência.' },
+      { jp: 'バイト、がんばって！', ro: 'baito, ganbatte!', pt: 'Bom trabalho no seu bico! (força!)' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'O que significa パソコン?', opts: ['computador', 'passaporte', 'pastel'], ans: 0, explain: 'パソコン vem de “personal computer”.' },
+      { t: 'error', ctx: 'Quero escrever “koohii” (café):', tokens: ['コ', 'ー', 'ヒ', 'イ'], wrong: 3, noRomaji: true, explain: 'O som longo em katakana usa o traço ー: コーヒー.' },
+      { t: 'fill', prompt: 'Complete com a pausa', pt: 'chiketto (ingresso)', jp: 'チケ＿ト', opts: ['ッ', 'ツ', 'ー'], ans: 0, noRomaji: true, explain: 'O ッ pequeno faz a pausa: チケット.' }
+    ]
+  });
+
+  /* ---------------- KANJI (c7) ---------------- */
+  const c7 = cat('c7');
+  c7.desc = 'Os primeiros kanji: números, dias da semana, tempo, pessoas, natureza e ações. Significado, leituras e palavras reais.';
+  c7.requires = 'c3';
+  c7.soon = [];
+  /* kanji: [chave, kanji/palavra, leitura em kana, romaji, outra leitura, significado, nota, exemplo jp, ex. romaji, ex. pt] */
+  const J = a => ({ k: a[0], jp: a[1], say: a[2], ro: a[3], alt: a[4] || undefined, pt: a[5], note: a[6], ex: a[7] ? { jp: a[7], ro: a[8], pt: a[9] } : undefined });
+  c7.lessons.push(
+  {
+    id: 'c7l1', title: 'Kanji dos números', emblem: '一', kind: 'kanaword',
+    intro: [
+      'Kanji são caracteres de origem chinesa. Cada um tem um significado e pode ter mais de uma leitura: a leitura japonesa (kun) e a leitura de origem chinesa (on).',
+      'Os números são os kanji mais fáceis para começar: você já sabe falar todos eles. Aqui você aprende a reconhecê-los escritos.',
+      'Nesta lição a pergunta é “como se lê?”, sem romaji. Tente ler sozinho!'
+    ],
+    tip: '一, 二 e 三 são literalmente um, dois e três traços.',
+    items: [
+      J(['ichi', '一', 'いち', 'ichi', 'hito(tsu): ひとつ, um objeto', '1 (um)', 'Um traço só.', '一つ', 'hitotsu', 'um (objeto)']),
+      J(['ni', '二', 'に', 'ni', 'futa(tsu): ふたつ', '2 (dois)', 'Dois traços.', '二つ', 'futatsu', 'dois (objetos)']),
+      J(['san', '三', 'さん', 'san', 'mit(tsu): みっつ', '3 (três)', 'Três traços.', '三人', 'sannin', 'três pessoas']),
+      J(['yon', '四', 'よん', 'yon', 'shi', '4 (quatro)', 'Uma janela com cortinas.', '四月', 'shigatsu', 'abril (aqui se lê “shi”)']),
+      J(['go', '五', 'ご', 'go', 'itsu(tsu): いつつ', '5 (cinco)', '', '五分', 'gofun', 'cinco minutos']),
+      J(['roku', '六', 'ろく', 'roku', 'mut(tsu): むっつ', '6 (seis)', 'Parece uma pessoa de chapéu.', '六時', 'rokuji', 'seis horas']),
+      J(['nana', '七', 'なな', 'nana', 'shichi', '7 (sete)', 'Parece um 7 de cabeça para baixo.', '七時', 'shichiji', 'sete horas (aqui se lê “shichi”)']),
+      J(['hachi', '八', 'はち', 'hachi', 'yat(tsu): やっつ', '8 (oito)', 'Dois traços que se abrem.', '八月', 'hachigatsu', 'agosto']),
+      J(['kyuu', '九', 'きゅう', 'kyuu', 'ku', '9 (nove)', '', '九時', 'kuji', 'nove horas (aqui se lê “ku”)']),
+      J(['juu', '十', 'じゅう', 'juu', 'too: とお, dez objetos', '10 (dez)', 'Uma cruz.', '十月', 'juugatsu', 'outubro'])
+    ],
+    examples: [
+      { jp: '三十五', ro: 'sanjuugo', pt: '35: 3 × 10 + 5, igual ao que você aprendeu nos números!' },
+      { jp: '一月', ro: 'ichigatsu', pt: 'janeiro (“mês um”)' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual kanji é o número 8?', opts: ['八|hachi', '六|roku', '人|hito'], ans: 0, explain: '八 = 8. Cuidado: 人 (pessoa) parece, mas é outro kanji.' },
+      { t: 'fill', prompt: 'Complete: 23 em kanji', pt: '23', jp: '二＿三', opts: ['十', '一', '千'], ans: 0, noRomaji: true, explain: '23 = 二 (2) × 十 (10) + 三 (3): 二十三.' },
+      { t: 'error', ctx: 'Escrevendo 40:', tokens: ['四|yon', '七|nana'], wrong: 1, explain: '40 = 四十. O segundo kanji deveria ser 十 (dez), não 七 (sete).' }
+    ]
+  },
+  {
+    id: 'c7l2', title: 'Kanji dos dias da semana', emblem: '曜', kind: 'kanaword',
+    intro: [
+      'Os dias da semana em japonês usam os elementos da natureza: sol, lua, fogo, água, madeira, metal e terra.',
+      'Cada dia é “kanji + 曜日 (youbi)”. Por exemplo, 月 (lua) + 曜日 = 月曜日, segunda-feira.',
+      'Você vê esses kanji em calendários, horários e placas de lojas, quase sempre abreviados: (月) (火) (水)…'
+    ],
+    tip: 'Ordem da semana japonesa, começando no domingo: 日 月 火 水 木 金 土.',
+    items: [
+      J(['nichi', '日', 'ひ', 'hi', 'nichi (em 日曜日, nichiyoubi)', 'sol; dia', 'Um sol dentro de um quadro. Também lido “ka” nas datas e “bi” em 曜日.', '日曜日', 'nichiyoubi', 'domingo']),
+      J(['getsu', '月', 'つき', 'tsuki', 'getsu (em 月曜日), gatsu (nos meses)', 'lua; mês', 'Também usado nos meses: 一月 (janeiro).', '月曜日', 'getsuyoubi', 'segunda-feira']),
+      J(['ka', '火', 'ひ', 'hi', 'ka (em 火曜日, kayoubi)', 'fogo', 'Parece uma fogueira com faíscas.', '火曜日', 'kayoubi', 'terça-feira']),
+      J(['sui', '水', 'みず', 'mizu', 'sui (em 水曜日, suiyoubi)', 'água', 'Parece um rio com respingos.', '水曜日', 'suiyoubi', 'quarta-feira']),
+      J(['moku', '木', 'き', 'ki', 'moku (em 木曜日, mokuyoubi)', 'árvore, madeira', 'Uma árvore com galhos e raízes.', '木曜日', 'mokuyoubi', 'quinta-feira']),
+      J(['kin', '金', 'かね', 'kane', 'kin (em 金曜日, kin\'youbi)', 'dinheiro; ouro, metal', 'Na fala, dinheiro é お金 (okane).', '金曜日', 'kin\'youbi', 'sexta-feira']),
+      J(['do', '土', 'つち', 'tsuchi', 'do (em 土曜日, doyoubi)', 'terra, solo', 'Um broto saindo da terra.', '土曜日', 'doyoubi', 'sábado']),
+      J(['you', '曜', 'よう', 'you', '', 'dia da semana (só aparece em 曜日)', 'Kanji complexo: basta reconhecê-lo dentro de 曜日.', '何曜日？', 'nan\'youbi?', 'Que dia da semana?']),
+      J(['shuu', '週', 'しゅう', 'shuu', '', 'semana', 'Aparece em 今週 (esta semana), 来週 (semana que vem) e 先週 (semana passada).', '来週', 'raishuu', 'semana que vem'])
+    ],
+    examples: [
+      { jp: '月・水・金', ro: 'getsu, sui, kin', pt: 'segunda, quarta e sexta (abreviado, como num horário)' },
+      { jp: '土日', ro: 'donichi', pt: 'sábado e domingo, o fim de semana' }
+    ],
+    exercises: [
+      { t: 'fill', prompt: 'Complete: sexta-feira', pt: 'kin\'youbi (sexta-feira)', jp: '＿曜日', opts: ['金', '木', '土'], ans: 0, noRomaji: true, explain: 'Sexta-feira = 金曜日 (dia do metal/ouro).' },
+      { t: 'situation', prompt: 'Num horário de loja está escrito “(日) 休み”. Em que dia a loja fecha?', opts: ['Domingo', 'Segunda-feira', 'Sábado'], ans: 0, explain: '日 = 日曜日, domingo. 休み (yasumi) = folga, fechado.' },
+      { t: 'error', ctx: 'Quarta-feira:', tokens: ['火|ka', '曜|you', '日|bi'], wrong: 0, explain: '火 é terça-feira (fogo). Quarta-feira é 水曜日 (água).' }
+    ]
+  },
+  {
+    id: 'c7l3', title: 'Kanji de tempo e dinheiro', emblem: '円', kind: 'kanaword',
+    intro: [
+      'Estes kanji aparecem o tempo todo em relógios, preços e calendários.',
+      '百 (cem), 千 (mil) e 万 (dez mil) são a base dos preços. Atenção: os japoneses contam em blocos de 10.000 (万). 30.000 ienes = 三万円.',
+      '時 marca as horas e 分 os minutos: 三時十分 = três e dez.'
+    ],
+    tip: 'Em preços, 円 (en) é o iene. Você vai ver 円 em todo cardápio e etiqueta!',
+    items: [
+      J(['hyaku', '百', 'ひゃく', 'hyaku', '', '100 (cem)', 'Um 一 em cima de um 白 (branco).', '三百円', 'sanbyakuen', '300 ienes (aqui vira “byaku”)']),
+      J(['sen', '千', 'せん', 'sen', '', '1.000 (mil)', 'Parece o 十 com um chapéu inclinado.', '千円', 'sen\'en', 'mil ienes']),
+      J(['man', '万', 'まん', 'man', '', '10.000 (dez mil)', 'O japonês agrupa números de quatro em quatro casas: 1万 = 10.000.', '一万円', 'ichiman\'en', '10.000 ienes']),
+      J(['en', '円', 'えん', 'en', '', 'iene; círculo', 'A moeda japonesa.', '百円', 'hyakuen', '100 ienes']),
+      J(['ji', '時', 'じ', 'ji', 'toki: とき, momento, quando', 'hora (no relógio)', '時 tem o sol (日) do lado esquerdo.', '何時？', 'nanji?', 'Que horas são?']),
+      J(['fun', '分', 'ふん', 'fun', 'bun; wa(karu): 分かる, entender', 'minuto; dividir', 'Também aparece em 分かる (entender): você já ouviu 分かった!', '十分', 'juppun', 'dez minutos']),
+      J(['han', '半', 'はん', 'han', '', 'metade, meia', '三時半 = três e meia.', '三時半', 'sanjihan', 'três e meia']),
+      J(['nen', '年', 'ねん', 'nen', 'toshi: とし, ano, idade', 'ano', '', '今年', 'kotoshi', 'este ano']),
+      J(['ima', '今', 'いま', 'ima', 'kon (em 今週, konshuu); kyou (今日)', 'agora', '今日 (kyou, hoje) é uma leitura especial.', '今日', 'kyou', 'hoje']),
+      J(['nani', '何', 'なに', 'nani', 'nan (antes de です, 時 e outros)', 'o quê; quanto', '何時 = nanji, que horas.', '何ですか？', 'nan desu ka?', 'O que é?'])
+    ],
+    examples: [
+      { jp: '千五百円', ro: 'sengohyakuen', pt: '1.500 ienes' },
+      { jp: '七時半', ro: 'shichijihan', pt: 'sete e meia' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Uma etiqueta diz 二千円. Quanto custa?', opts: ['2.000 ienes', '200 ienes', '20.000 ienes'], ans: 0, explain: '二 (2) × 千 (1.000) = 2.000 ienes.' },
+      { t: 'situation', prompt: 'Como se escreve 10.000 ienes?', opts: ['一万円|ichiman\'en', '十千円', '百百円'], ans: 0, explain: 'Em japonês 10.000 tem kanji próprio: 万. Então é 一万円.' },
+      { t: 'fill', prompt: 'Complete: três e meia', pt: 'sanjihan', jp: '三時＿', opts: ['半', '分', '年'], ans: 0, noRomaji: true, explain: '半 (han) = meia: 三時半.' }
+    ]
+  },
+  {
+    id: 'c7l4', title: 'Kanji de pessoas e do corpo', emblem: '人', kind: 'kanaword',
+    intro: [
+      'Muitos kanji básicos começaram como desenhos: 人 é uma pessoa andando, 口 é uma boca aberta, 目 é um olho em pé.',
+      'Esses kanji aparecem dentro de outras palavras. 人 em 日本人 (japonês) e ブラジル人 (brasileiro) se lê “jin”.',
+      'Repare como a leitura muda dentro de palavras compostas. Não tente decorar todas agora: reconhecer o significado já ajuda muito.'
+    ],
+    tip: '人 (pessoa) e 入 (entrar) parecem gêmeos. Em 人 o traço da esquerda é o mais longo.',
+    items: [
+      J(['hito', '人', 'ひと', 'hito', 'jin (nacionalidade), nin (contagem)', 'pessoa', 'Uma pessoa andando.', '日本人', 'nihonjin', 'japonês (pessoa)']),
+      J(['otoko', '男', 'おとこ', 'otoko', 'dan', 'homem', 'Campo (田) + força (力): quem trabalhava no campo.', '男の子', 'otoko no ko', 'menino']),
+      J(['onna', '女', 'おんな', 'onna', 'jo', 'mulher', '', '女の子', 'onna no ko', 'menina']),
+      J(['ko', '子', 'こ', 'ko', 'shi', 'criança, filho', 'Um bebê de braços abertos.', '子ども', 'kodomo', 'criança']),
+      J(['kuchi', '口', 'くち', 'kuchi', 'kou; guchi em compostos', 'boca; entrada', 'Também significa abertura: 出口 (deguchi) = saída.', '出口', 'deguchi', 'saída']),
+      J(['me', '目', 'め', 'me', 'moku', 'olho', 'Um olho desenhado em pé.', '目が いい', 'me ga ii', 'ter boa visão']),
+      J(['mimi', '耳', 'みみ', 'mimi', '', 'orelha, ouvido', 'O kanji do seu treino auditivo!', '耳が いい', 'mimi ga ii', 'ter bom ouvido']),
+      J(['te', '手', 'て', 'te', 'shu', 'mão', 'Uma mão com dedos.', '上手', 'jouzu', 'habilidoso, bom em algo']),
+      J(['ashi', '足', 'あし', 'ashi', 'soku', 'pé, perna', '', '足が いたい', 'ashi ga itai', 'meu pé dói']),
+      J(['na', '名', 'な', 'na', 'mei', 'nome; famoso', 'Você viu em 君の名は。 e 名探偵コナン.', '名前', 'namae', 'nome'])
+    ],
+    examples: [
+      { jp: '日本語が 上手ですね。', ro: 'nihongo ga jouzu desu ne.', pt: 'Seu japonês é muito bom, hein. (elogio comum)' },
+      { jp: '入口と 出口', ro: 'iriguchi to deguchi', pt: 'entrada e saída (placas)' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Você procura a saída de uma estação. Qual placa segue?', opts: ['出口|deguchi', '入口|iriguchi', '人口|jinkou'], ans: 0, explain: '出口 = saída. 入口 = entrada. 人口 = população.' },
+      { t: 'situation', prompt: 'Qual kanji significa “orelha”?', opts: ['耳|mimi', '目|me', '口|kuchi'], ans: 0, explain: '耳 = orelha. 目 = olho. 口 = boca.' },
+      { t: 'fill', prompt: 'Complete: menina', pt: 'onna no ko', jp: '＿の子', opts: ['女', '男', '人'], ans: 0, noRomaji: true, explain: '女の子 = menina; 男の子 = menino.' }
+    ]
+  },
+  {
+    id: 'c7l5', title: 'Kanji da natureza e da escola', emblem: '山', kind: 'kanaword',
+    intro: [
+      'Mais kanji que nasceram de desenhos: 山 parece uma montanha, 川 parece um rio correndo, 雨 tem gotas caindo de uma nuvem.',
+      'Dois kanji desta lição formam uma palavra que você já conhece: 学 + 校 = 学校 (gakkou, escola).',
+      'E 先 + 生 = 先生 (sensei, professor): literalmente “quem nasceu antes”.'
+    ],
+    tip: '富士山 (Fujisan): aqui 山 é lido “san”. Não é o “-san” de tratamento!',
+    items: [
+      J(['yama', '山', 'やま', 'yama', 'san (em 富士山)', 'montanha', 'Três picos.', '富士山', 'fujisan', 'Monte Fuji']),
+      J(['kawa', '川', 'かわ', 'kawa', 'gawa em compostos', 'rio', 'Água correndo.', '川で あそぶ', 'kawa de asobu', 'brincar no rio']),
+      J(['ta', '田', 'た', 'ta', 'da; den', 'arrozal, campo de arroz', 'Um campo dividido. Comum em sobrenomes: 田中 (Tanaka).', '田中さん', 'Tanaka-san', 'Sr(a). Tanaka']),
+      J(['ten', '天', 'てん', 'ten', '', 'céu; paraíso', 'Aparece em 天気 (tempo, clima).', '天気', 'tenki', 'tempo (clima)']),
+      J(['ki', '気', 'き', 'ki', '', 'espírito, energia, ânimo', 'Está em 元気 (genki), 天気 (tenki) e 気をつけて (ki o tsukete).', '元気', 'genki', 'disposição, saúde']),
+      J(['ame', '雨', 'あめ', 'ame', 'u', 'chuva', 'Gotas caindo dentro de uma nuvem.', '雨の日', 'ame no hi', 'dia de chuva']),
+      J(['hana', '花', 'はな', 'hana', 'ka (em 花瓶, kabin: vaso); bana em compostos (生け花, ikebana)', 'flor', '', '花見', 'hanami', 'contemplar as cerejeiras']),
+      J(['gaku', '学', 'がく', 'gaku', 'mana(bu): まなぶ, aprender', 'estudo, aprender', 'Está em 学生 (gakusei) e 学校 (gakkou).', '大学', 'daigaku', 'universidade']),
+      J(['kou', '校', 'こう', 'kou', '', 'escola', 'Quase sempre em palavras como 学校 e 高校.', '学校', 'gakkou', 'escola']),
+      J(['sei', '生', 'せい', 'sei', 'i(kiru): いきる, viver; u(mareru), nascer', 'vida, nascer', 'Tem muitas leituras. Comece por 先生 e 学生.', '先生', 'sensei', 'professor(a)'])
+    ],
+    examples: [
+      { jp: '今日は 雨です。', ro: 'kyou wa ame desu.', pt: 'Hoje está chovendo.' },
+      { jp: '高校生', ro: 'koukousei', pt: 'aluno do ensino médio (muito comum em animes)' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual kanji significa “chuva”?', opts: ['雨|ame', '天|ten', '山|yama'], ans: 0, explain: '雨 = chuva: gotas dentro de uma nuvem.' },
+      { t: 'fill', prompt: 'Complete: escola', pt: 'gakkou', jp: '学＿', opts: ['校', '生', '気'], ans: 0, noRomaji: true, explain: '学校 = gakkou, escola.' },
+      { t: 'situation', prompt: 'O que significa 先生?', opts: ['professor(a)', 'aluno', 'escola'], ans: 0, explain: '先生 = sensei, professor(a). Aluno é 学生 (gakusei).' }
+    ]
+  },
+  {
+    id: 'c7l6', title: 'Kanji de ações e qualidades', emblem: '行', kind: 'kanaword',
+    intro: [
+      'Verbos e adjetivos usam kanji para a raiz e hiragana para a terminação, que muda. Em 食べる (taberu), 食 é “comer” e べる é a terminação.',
+      'Esse hiragana depois do kanji se chama okurigana. Ele ajuda a ler: 行く (iku), 行きます (ikimasu), 行った (itta).',
+      'Os kanji desta lição aparecem em praticamente toda frase do dia a dia.'
+    ],
+    tip: '大 (grande) é uma pessoa de braços abertos: “deste tamanho!”',
+    items: [
+      J(['iku', '行く', 'いく', 'iku', 'kou (em 旅行, ryokou: viagem)', 'ir', '', '学校に 行く', 'gakkou ni iku', 'ir à escola']),
+      J(['kuru', '来る', 'くる', 'kuru', 'rai (em 来週, raishuu)', 'vir', 'Irregular: 来ます (kimasu), 来て (kite).', '友だちが 来る', 'tomodachi ga kuru', 'um amigo vem']),
+      J(['miru', '見る', 'みる', 'miru', 'ken', 'ver, assistir', 'Um olho (目) sobre pernas.', 'アニメを 見る', 'anime o miru', 'assistir anime']),
+      J(['taberu', '食べる', 'たべる', 'taberu', 'shoku (em 食事, shokuji: refeição)', 'comer', '', 'パンを 食べる', 'pan o taberu', 'comer pão']),
+      J(['nomu', '飲む', 'のむ', 'nomu', 'in (em 飲み物, nomimono: bebida)', 'beber', 'Tem 食 (comer) do lado esquerdo.', '水を 飲む', 'mizu o nomu', 'beber água']),
+      J(['iu', '言う', 'いう', 'iu', 'gen', 'dizer', 'Pronuncia-se “yuu”.', 'もう一度 言って', 'mou ichido itte', 'diga de novo']),
+      J(['ookii', '大きい', 'おおきい', 'ookii', 'dai (em 大好き, daisuki)', 'grande', '', '大きい 犬', 'ookii inu', 'cachorro grande']),
+      J(['chiisai', '小さい', 'ちいさい', 'chiisai', 'shou (em 小学校, shougakkou)', 'pequeno', '', '小さい ねこ', 'chiisai neko', 'gato pequeno']),
+      J(['ue', '上', 'うえ', 'ue', 'jou (em 上手, jouzu)', 'em cima, acima', '', 'つくえの 上', 'tsukue no ue', 'em cima da mesa']),
+      J(['shita', '下', 'した', 'shita', 'ka; heta (下手, ruim em algo)', 'embaixo, abaixo', '', 'いすの 下', 'isu no shita', 'embaixo da cadeira'])
+    ],
+    examples: [
+      { jp: 'すしが 食べたい！', ro: 'sushi ga tabetai!', pt: 'Quero comer sushi!' },
+      { jp: '上手 と 下手', ro: 'jouzu to heta', pt: 'bom em algo e ruim em algo' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual verbo significa “beber”?', opts: ['飲む|nomu', '食べる|taberu', '見る|miru'], ans: 0, explain: '飲む = beber; 食べる = comer; 見る = ver.' },
+      { t: 'fill', prompt: 'Complete: assistir anime', pt: 'anime o miru', jp: 'アニメを ＿る', opts: ['見', '言', '来'], ans: 0, noRomaji: true, explain: '見る (miru) = ver, assistir.' },
+      { t: 'situation', prompt: 'O oposto de 大きい é…', opts: ['小さい|chiisai', '上|ue', '下|shita'], ans: 0, explain: '大きい (grande) × 小さい (pequeno).' }
+    ]
+  });
+})();
+
+/* ==========================================================
+   CONTEÚDO 2.1 — Trilha da Fala (parte 1): Vocabulário, Gramática
+   e Construção de Frases. Ids novos: c4l4…, c5l4…, c6l1…
+   Escrita em hiragana com espaços entre as palavras (como na 1.0);
+   o kanji aparece no campo “kanji” como apoio.
+   ========================================================== */
+(function () {
+  const cat = id => CATS.find(c => c.id === id);
+
+  /* ---------------- VOCABULÁRIO ESSENCIAL (c4) ---------------- */
+  const c4 = cat('c4');
+  c4.desc = 'Palavras do dia a dia: pessoas, família, comida, lugares, verbos, adjetivos, perguntas, dias e horas.';
+  c4.requires = 'c1';
+  c4.reqNote = 'Liberada ao concluir Primeiros Passos. Você pode estudar a escrita (Hiragana) em paralelo.';
+  c4.soon = [];
+  /* aprofundamento: as lições c4l1 e c4l3 da 1.0 ganham mais um exercício cada */
+  c4.lessons.find(l => l.id === 'c4l1').exercises.push({ t: 'situation', prompt: 'Alguém pergunta de onde você é. Como diz “Sou brasileiro(a)”?', opts: ['ブラジルじんです|burajirujin desu', 'ブラジルです|burajiru desu', 'にほんじんです|nihonjin desu'], ans: 0, explain: 'País + じん = pessoa daquele país. ブラジルです seria “é o Brasil”.' });
+  c4.lessons.find(l => l.id === 'c4l3').exercises.push({ t: 'situation', prompt: 'Você está doente e precisa de um médico. Para onde vai?', opts: ['びょういん|byouin', 'えき|eki', 'みせ|mise'], ans: 0, explain: 'びょういん = hospital. えき = estação; みせ = loja.' });
+  c4.lessons.push(
+  {
+    id: 'c4l4', title: 'Família', emblem: '家', kind: 'vocab',
+    intro: [
+      'Em japonês existem duas palavras para cada membro da família: uma humilde, para falar da SUA família com outras pessoas, e uma respeitosa, para a família dos outros.',
+      'Exemplo: “meu pai” é ちち (chichi). “O pai de alguém” é おとうさん (otousan).',
+      'Dentro de casa, para CHAMAR o próprio pai ou a própria mãe, usa-se a forma respeitosa: おかあさん！ (Mãe!). É o que você mais ouve em animes.',
+      'Irmãos mais velhos e mais novos têm palavras diferentes. A idade importa muito nas relações japonesas.'
+    ],
+    tip: 'Falando da sua família para outras pessoas, use a forma curta: ちち, はは, あに, あね.',
+    items: [
+      { k: 'chichi', jp: 'ちち', ro: 'chichi', pt: 'meu pai', kanji: '父', note: 'Forma humilde: usada para falar do seu próprio pai com outras pessoas.', ex: { jp: 'ちちは かいしゃいんです。', ro: 'chichi wa kaishain desu.', pt: 'Meu pai é funcionário de empresa.' } },
+      { k: 'otousan', jp: 'おとうさん', ro: 'otousan', pt: 'pai (respeitoso)', kanji: 'お父さん', note: 'Para o pai de outra pessoa, ou para chamar o próprio pai em casa.', ex: { jp: 'おとうさん、おかえり！', ro: 'otousan, okaeri!', pt: 'Pai, bem-vindo de volta!' } },
+      { k: 'haha', jp: 'はは', ro: 'haha', pt: 'minha mãe', kanji: '母', note: 'Forma humilde, para falar da sua mãe com outras pessoas.' },
+      { k: 'okaasan', jp: 'おかあさん', ro: 'okaasan', pt: 'mãe (respeitoso)', kanji: 'お母さん', note: 'Para a mãe de outra pessoa, ou para chamar a própria mãe. Note o “aa” longo.', ex: { jp: 'おかあさん、おなか すいた！', ro: 'okaasan, onaka suita!', pt: 'Mãe, estou com fome!' } },
+      { k: 'ani', jp: 'あに', ro: 'ani', pt: 'meu irmão mais velho', kanji: '兄', note: 'Forma humilde.' },
+      { k: 'oniisan', jp: 'おにいさん', ro: 'oniisan', pt: 'irmão mais velho (respeitoso)', kanji: 'お兄さん', note: 'Em animes você ouve muito as versões carinhosas おにいちゃん (oniichan) e おにいさま (oniisama, bem formal).' },
+      { k: 'ane', jp: 'あね', ro: 'ane', pt: 'minha irmã mais velha', kanji: '姉', note: 'Forma humilde.' },
+      { k: 'oneesan', jp: 'おねえさん', ro: 'oneesan', pt: 'irmã mais velha (respeitoso)', kanji: 'お姉さん', note: 'Também usado para chamar uma moça jovem que você não conhece, como “moça”.' },
+      { k: 'otouto', jp: 'おとうと', ro: 'otouto', pt: 'irmão mais novo', kanji: '弟', note: 'Para irmãos mais novos não se usa a forma respeitosa ao chamar: chama-se pelo nome.' },
+      { k: 'imouto', jp: 'いもうと', ro: 'imouto', pt: 'irmã mais nova', kanji: '妹', note: 'Para a irmã mais nova de outra pessoa: いもうとさん (imouto-san).' }
+    ],
+    examples: [
+      { jp: 'あにと いもうとが います。', ro: 'ani to imouto ga imasu.', pt: 'Tenho um irmão mais velho e uma irmã mais nova.' },
+      { jp: 'おにいさんは なんさいですか。', ro: 'oniisan wa nansai desu ka.', pt: 'Quantos anos tem seu irmão mais velho?' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Você conta a um colega sobre o SEU pai. Qual palavra usa?', opts: ['ちち|chichi', 'おとうさん|otousan', 'おにいさん|oniisan'], ans: 0, explain: 'Para a própria família, diante de outras pessoas, usa-se a forma humilde: ちち.' },
+      { t: 'situation', prompt: 'Você pergunta sobre a mãe de um amigo. Qual palavra usa?', opts: ['おかあさん|okaasan', 'はは|haha', 'あね|ane'], ans: 0, explain: 'Para a família dos outros, use a forma respeitosa: おかあさん.' },
+      { t: 'fill', prompt: 'Complete: irmã mais nova', pt: 'imouto', jp: 'いもう＿', opts: ['と|to', 'さん|san', 'ね|ne'], ans: 0, explain: 'いもうと = irmã mais nova. おとうと = irmão mais novo.' },
+      { t: 'error', ctx: 'Falando com seu chefe: “Minha mãe é professora.”', tokens: ['おかあさん|okaasan', 'は|wa', 'せんせいです|sensei desu'], wrong: 0, explain: 'Falando da própria mãe com outras pessoas, o certo é はは (haha).' }
+    ]
+  },
+  {
+    id: 'c4l5', title: 'Verbos do dia a dia', emblem: '動', kind: 'vocab',
+    intro: [
+      'Verbos japoneses não mudam conforme a pessoa: たべます serve para “eu como”, “você come”, “ele come”.',
+      'A terminação ます (masu) é a forma educada. É a primeira que se aprende, porque serve para quase todas as situações.',
+      'ます indica presente habitual ou futuro: たべます = como / vou comer. O passado e a negação você aprende na Gramática.',
+      'Na fala, o “u” de ます quase some: “tabemass”.'
+    ],
+    tip: 'O verbo vem sempre no final: “Eu pão como.” Parece estranho no começo, mas logo vira natural!',
+    items: [
+      { k: 'tabemasu', jp: 'たべます', ro: 'tabemasu', pt: 'comer (como / vou comer)', kanji: '食べます', note: 'Forma de dicionário: たべる (taberu).', ex: { jp: 'すしを たべます。', ro: 'sushi o tabemasu.', pt: 'Vou comer sushi.' } },
+      { k: 'nomimasu', jp: 'のみます', ro: 'nomimasu', pt: 'beber', kanji: '飲みます', note: 'Também usado para tomar remédio: くすりを のみます.' },
+      { k: 'mimasu', jp: 'みます', ro: 'mimasu', pt: 'ver, assistir', kanji: '見ます', note: 'Serve para filmes, TV e anime.', ex: { jp: 'アニメを みます。', ro: 'anime o mimasu.', pt: 'Assisto anime.' } },
+      { k: 'ikimasu', jp: 'いきます', ro: 'ikimasu', pt: 'ir', kanji: '行きます', note: 'Forma de dicionário: いく (iku). Você já ouviu いこう! (vamos!).' },
+      { k: 'kimasu', jp: 'きます', ro: 'kimasu', pt: 'vir', kanji: '来ます', note: 'Forma de dicionário: くる (kuru). Verbo irregular.' },
+      { k: 'kaerimasu', jp: 'かえります', ro: 'kaerimasu', pt: 'voltar (para casa)', kanji: '帰ります', note: 'Voltar para casa ou para o próprio país. Está em おかえり (bem-vindo de volta).' },
+      { k: 'shimasu', jp: 'します', ro: 'shimasu', pt: 'fazer', note: 'Forma de dicionário: する (suru). Junta-se a muitas palavras: べんきょうします (estudar), サッカーを します (jogar futebol).' },
+      { k: 'nemasu', jp: 'ねます', ro: 'nemasu', pt: 'dormir, deitar-se', kanji: '寝ます', note: 'Forma de dicionário: ねる (neru).' },
+      { k: 'okimasu', jp: 'おきます', ro: 'okimasu', pt: 'acordar, levantar-se', kanji: '起きます', note: 'Forma de dicionário: おきる (okiru). おきて！ = Acorda!' },
+      { k: 'kaimasu', jp: 'かいます', ro: 'kaimasu', pt: 'comprar', kanji: '買います', note: 'Forma de dicionário: かう (kau).' }
+    ],
+    examples: [
+      { jp: 'まいにち アニメを みます。', ro: 'mainichi anime o mimasu.', pt: 'Assisto anime todos os dias.' },
+      { jp: 'あした がっこうに いきます。', ro: 'ashita gakkou ni ikimasu.', pt: 'Amanhã vou à escola.' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Como se diz “Vou dormir”?', opts: ['ねます|nemasu', 'おきます|okimasu', 'のみます|nomimasu'], ans: 0, explain: 'ねます = dormir. おきます = acordar.' },
+      { t: 'order', prompt: 'Monte a frase', pt: 'Vou comer sushi.', tiles: ['すし|sushi', 'を|o', 'たべます|tabemasu'], extra: ['みます|mimasu'], explain: 'Objeto + を + verbo no final: すしを たべます。' },
+      { t: 'fill', prompt: 'Complete a frase', pt: 'Volto para casa às 6.', jp: 'ろくじに ＿＿＿', opts: ['かえります|kaerimasu', 'かいます|kaimasu', 'きます|kimasu'], ans: 0, explain: 'かえります = voltar para casa. かいます = comprar.' }
+    ]
+  },
+  {
+    id: 'c4l6', title: 'Adjetivos い e な', emblem: '形', kind: 'vocab',
+    intro: [
+      'O japonês tem dois tipos de adjetivo. Os adjetivos い terminam em い: たかい (caro), さむい (frio).',
+      'Os adjetivos な ganham な antes de um substantivo: しずかな へや (um quarto silencioso). Sozinhos, terminam com です: しずかです.',
+      'Pegadinha famosa: きれい e きらい terminam com “i”, mas são adjetivos な.',
+      'Você vai aprender a conjugar (não é caro, era divertido) na Gramática.'
+    ],
+    tip: 'すき (gostar) e きらい (não gostar) são adjetivos em japonês, e não verbos!',
+    items: [
+      { k: 'takai', jp: 'たかい', ro: 'takai', pt: 'caro; alto', kanji: '高い', note: 'Serve para preço e altura.', ex: { jp: 'この ふく、たかい！', ro: 'kono fuku, takai!', pt: 'Esta roupa é cara!' } },
+      { k: 'yasui', jp: 'やすい', ro: 'yasui', pt: 'barato', kanji: '安い', note: 'O oposto de たかい (no sentido de preço).' },
+      { k: 'atsui', jp: 'あつい', ro: 'atsui', pt: 'quente (clima, coisas)', kanji: '暑い / 熱い', note: 'Comentário clássico do verão: あついですね (Que calor, né?).' },
+      { k: 'samui', jp: 'さむい', ro: 'samui', pt: 'frio (clima)', kanji: '寒い', note: 'Para o clima. Algo frio ao toque é つめたい (tsumetai).' },
+      { k: 'tanoshii', jp: 'たのしい', ro: 'tanoshii', pt: 'divertido, agradável', kanji: '楽しい', note: 'Para experiências: a festa, a viagem.', ex: { jp: 'たのしいですね！', ro: 'tanoshii desu ne!', pt: 'Que divertido, né!' } },
+      { k: 'muzukashii', jp: 'むずかしい', ro: 'muzukashii', pt: 'difícil', kanji: '難しい', note: 'Também é um jeito educado de dizer “não dá”: それは ちょっと むずかしいです.' },
+      { k: 'isogashii', jp: 'いそがしい', ro: 'isogashii', pt: 'ocupado, atarefado', kanji: '忙しい', note: 'Para pessoas e períodos: きょうは いそがしい (hoje estou ocupado).' },
+      { k: 'suki', jp: 'すき', ro: 'suki', pt: 'gostar, gosto de', kanji: '好き', note: 'Adjetivo な. O que você gosta vem com が: ねこが すきです. Também é a palavra da declaração de amor: すきです。', ex: { jp: 'ねこが すきです。', ro: 'neko ga suki desu.', pt: 'Gosto de gatos.' } },
+      { k: 'kirai', jp: 'きらい', ro: 'kirai', pt: 'não gostar, detestar', kanji: '嫌い', note: 'Adjetivo な, apesar do “i” final. Soa forte: para recusar com educação, prefira あまり すきじゃない (não gosto muito).' },
+      { k: 'kirei', jp: 'きれい', ro: 'kirei', pt: 'bonito; limpo', kanji: '綺麗', note: 'Adjetivo な, apesar do “i” final. きれいな へや = quarto limpo/bonito.' },
+      { k: 'shizuka', jp: 'しずか', ro: 'shizuka', pt: 'silencioso, tranquilo', kanji: '静か', note: 'Adjetivo な. しずかに！ = Silêncio!' }
+    ],
+    examples: [
+      { jp: 'きれいな はな', ro: 'kirei na hana', pt: 'uma flor bonita (adjetivo な + な + substantivo)' },
+      { jp: 'たかい ビル', ro: 'takai biru', pt: 'um prédio alto (adjetivo い direto no substantivo)' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual destes é um adjetivo な, apesar de terminar em “i”?', opts: ['きれい|kirei', 'たかい|takai', 'さむい|samui'], ans: 0, explain: 'きれい é adjetivo な: きれいな はな.' },
+      { t: 'fill', prompt: 'Complete', pt: 'um quarto silencioso', jp: 'しずか＿ へや', opts: ['な|na', 'い|i', 'の|no'], ans: 0, explain: 'Adjetivos な usam な antes do substantivo: しずかな へや.' },
+      { t: 'situation', prompt: 'No inverno japonês, o que você comenta?', opts: ['さむいですね|samui desu ne', 'あついですね|atsui desu ne', 'やすいですね|yasui desu ne'], ans: 0, explain: 'さむい = frio. あつい = quente.' }
+    ]
+  },
+  {
+    id: 'c4l7', title: 'Palavras interrogativas', emblem: '何', kind: 'vocab',
+    intro: [
+      'Com as palavras interrogativas você consegue fazer perguntas e, principalmente, reconhecer quando alguém está perguntando algo a você.',
+      'Você já conhece なに (o quê). Antes de です e de alguns sons ele vira なん: なんですか？',
+      'Em japonês a palavra interrogativa fica no lugar da resposta: “Isto é o quê?”, これは なんですか.',
+      'Na fala educada, a pergunta termina em か. Na fala casual, a entonação subindo basta.'
+    ],
+    tip: 'Para responder, troque a palavra interrogativa pela resposta e mantenha o resto da frase.',
+    items: [
+      { k: 'dare', jp: 'だれ', ro: 'dare', pt: 'quem', kanji: '誰', note: 'Mais educado: どなた (donata).', ex: { jp: 'あの ひとは だれ？', ro: 'ano hito wa dare?', pt: 'Quem é aquela pessoa?' } },
+      { k: 'doko', jp: 'どこ', ro: 'doko', pt: 'onde', note: 'Já apareceu em えきは どこですか (onde fica a estação?).' },
+      { k: 'itsu', jp: 'いつ', ro: 'itsu', pt: 'quando', note: 'Não leva に: いつ いきますか (quando você vai?).', ex: { jp: 'たんじょうびは いつ？', ro: 'tanjoubi wa itsu?', pt: 'Quando é seu aniversário?' } },
+      { k: 'doushite', jp: 'どうして', ro: 'doushite', pt: 'por quê', note: 'Neutro. A resposta costuma terminar com から ou んです.' },
+      { k: 'nande', jp: 'なんで', ro: 'nande', pt: 'por quê (casual)', note: 'Muito comum na fala e em animes. Dito com força, soa como protesto: なんで！？ (Por quê?!).' },
+      { k: 'dou', jp: 'どう', ro: 'dou', pt: 'como; que tal', note: 'どうですか = Que tal? / Como está? Muito usado para oferecer algo.', ex: { jp: 'コーヒーは どうですか。', ro: 'koohii wa dou desu ka.', pt: 'Que tal um café?' } },
+      { k: 'dore', jp: 'どれ', ro: 'dore', pt: 'qual (entre vários)', note: 'Para escolher entre três ou mais coisas.' },
+      { k: 'ikutsu', jp: 'いくつ', ro: 'ikutsu', pt: 'quantos (objetos); quantos anos', note: 'Para contar objetos. Também é um jeito educado de perguntar a idade: おいくつですか.' },
+      { k: 'donokurai', jp: 'どのくらい', ro: 'dono kurai', pt: 'quanto (tempo, distância)', note: 'Também se diz どのぐらい.', ex: { jp: 'えきまで どのくらい？', ro: 'eki made dono kurai?', pt: 'Quanto tempo até a estação?' } }
+    ],
+    examples: [
+      { jp: 'トイレは どこですか。 … あそこです。', ro: 'toire wa doko desu ka. … asoko desu.', pt: 'Onde fica o banheiro? … Fica ali.' },
+      { jp: 'なんで？', ro: 'nande?', pt: 'Por quê? (casual)' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Num anime, alguém grita なんで！？ O que quer dizer?', opts: ['Por quê?!', 'Quando?!', 'Onde?!'], ans: 0, explain: 'なんで = por quê (casual).' },
+      { t: 'fill', prompt: 'Complete a pergunta', pt: 'Quando é seu aniversário?', jp: 'たんじょうびは ＿＿ ですか。', opts: ['いつ|itsu', 'どこ|doko', 'だれ|dare'], ans: 0, explain: 'いつ = quando.' },
+      { t: 'situation', prompt: 'Você quer oferecer um chá a uma visita. O que diz?', opts: ['おちゃは どうですか|ocha wa dou desu ka', 'おちゃは だれですか|ocha wa dare desu ka', 'おちゃは いつですか|ocha wa itsu desu ka'], ans: 0, explain: '〜は どうですか = Que tal ~?' }
+    ]
+  },
+  {
+    id: 'c4l8', title: 'Dias da semana', emblem: '曜', kind: 'vocab',
+    intro: [
+      'Os dias da semana terminam todos em ようび (youbi), “dia da semana”.',
+      'Cada um vem de um elemento: にち (sol), げつ (lua), か (fogo), すい (água), もく (madeira), きん (metal) e ど (terra).',
+      'Na fala rápida, o final ようび às vezes encurta: きんよう (sexta).'
+    ],
+    tip: 'Comece pelo fim de semana: どようび (sábado) e にちようび (domingo).',
+    items: [
+      { k: 'nichiyoubi', jp: 'にちようび', ro: 'nichiyoubi', pt: 'domingo', kanji: '日曜日', note: 'Dia do sol.' },
+      { k: 'getsuyoubi', jp: 'げつようび', ro: 'getsuyoubi', pt: 'segunda-feira', kanji: '月曜日', note: 'Dia da lua.' },
+      { k: 'kayoubi', jp: 'かようび', ro: 'kayoubi', pt: 'terça-feira', kanji: '火曜日', note: 'Dia do fogo.' },
+      { k: 'suiyoubi', jp: 'すいようび', ro: 'suiyoubi', pt: 'quarta-feira', kanji: '水曜日', note: 'Dia da água.' },
+      { k: 'mokuyoubi', jp: 'もくようび', ro: 'mokuyoubi', pt: 'quinta-feira', kanji: '木曜日', note: 'Dia da madeira (árvore).' },
+      { k: 'kinyoubi', jp: 'きんようび', ro: 'kin\'youbi', pt: 'sexta-feira', kanji: '金曜日', note: 'Dia do metal (ouro).' },
+      { k: 'doyoubi', jp: 'どようび', ro: 'doyoubi', pt: 'sábado', kanji: '土曜日', note: 'Dia da terra.' },
+      { k: 'nanyoubi', jp: 'なんようび', ro: 'nan\'youbi', pt: 'que dia da semana', kanji: '何曜日', note: 'Pergunta: きょうは なんようびですか (Que dia da semana é hoje?).' },
+      { k: 'shuumatsu', jp: 'しゅうまつ', ro: 'shuumatsu', pt: 'fim de semana', kanji: '週末', note: 'しゅうまつは なにを しますか = O que você faz no fim de semana?' }
+    ],
+    examples: [
+      { jp: 'きょうは きんようびです。', ro: 'kyou wa kin\'youbi desu.', pt: 'Hoje é sexta-feira.' },
+      { jp: 'げつようびから きんようびまで', ro: 'getsuyoubi kara kin\'youbi made', pt: 'de segunda a sexta' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Que dia vem depois de すいようび?', opts: ['もくようび|mokuyoubi', 'かようび|kayoubi', 'どようび|doyoubi'], ans: 0, explain: 'すいようび (quarta) → もくようび (quinta).' },
+      { t: 'fill', prompt: 'Complete', pt: 'Hoje é domingo.', jp: 'きょうは ＿＿＿＿ です。', opts: ['にちようび|nichiyoubi', 'げつようび|getsuyoubi', 'しゅうまつ|shuumatsu'], ans: 0, explain: 'にちようび = domingo.' },
+      { t: 'order', prompt: 'Monte a expressão', pt: 'de segunda a sexta', tiles: ['げつようび|getsuyoubi', 'から|kara', 'きんようび|kin\'youbi', 'まで|made'], extra: ['に|ni'], explain: 'A から B まで = de A até B.' }
+    ]
+  },
+  {
+    id: 'c4l9', title: 'Horas e minutos', emblem: '時', kind: 'vocab',
+    intro: [
+      'Para dizer a hora: número + じ (ji). 3 horas = さんじ. A maioria segue a regra, mas três horas têm leitura especial: 4 é よじ, 7 é しちじ e 9 é くじ.',
+      'Minutos: número + ふん/ぷん. A leitura muda conforme o número: ごふん (5 min), じゅっぷん (10 min). Por enquanto, guarde os mais usados.',
+      'はん (han) é “meia”: さんじはん = três e meia. ごぜん = da manhã (a.m.) e ごご = da tarde (p.m.).'
+    ],
+    tip: 'Ouça bem: よじ (4h) e しちじ (7h) são pegadinhas. Ninguém diz “yonji” para as horas.',
+    items: [
+      { k: 'nanji', jp: 'なんじ', ro: 'nanji', pt: 'que horas', kanji: '何時', note: 'いま なんじですか = Que horas são agora?' },
+      { k: 'ichiji', jp: 'いちじ', ro: 'ichiji', pt: '1 hora', kanji: '一時', note: 'Não confunda com しちじ (7h) na fala rápida.' },
+      { k: 'yoji', jp: 'よじ', ro: 'yoji', pt: '4 horas', kanji: '四時', note: 'Leitura especial: よじ, e não “yonji”.' },
+      { k: 'shichiji', jp: 'しちじ', ro: 'shichiji', pt: '7 horas', kanji: '七時', note: 'Leitura padrão: しちじ. Às vezes se ouve ななじ, para evitar confusão com いちじ.' },
+      { k: 'kuji', jp: 'くじ', ro: 'kuji', pt: '9 horas', kanji: '九時', note: 'Leitura especial: くじ, e não “kyuuji”.' },
+      { k: 'han', jp: 'はん', ro: 'han', pt: 'meia (30 minutos)', kanji: '半', note: 'さんじはん = três e meia.' },
+      { k: 'gozen', jp: 'ごぜん', ro: 'gozen', pt: 'da manhã (a.m.)', kanji: '午前', note: 'ごぜん じゅうじ = 10h da manhã.' },
+      { k: 'gogo', jp: 'ごご', ro: 'gogo', pt: 'da tarde/noite (p.m.)', kanji: '午後', note: 'ごご さんじ = 3h da tarde (15h).' },
+      { k: 'gofun', jp: 'ごふん', ro: 'gofun', pt: '5 minutos', kanji: '五分', note: 'ごふん まって = espera 5 minutos.' },
+      { k: 'juppun', jp: 'じゅっぷん', ro: 'juppun', pt: '10 minutos', kanji: '十分', note: 'Também se diz じっぷん. Cuidado: じゅうぶん (juubun), com o mesmo kanji, significa “suficiente”.' }
+    ],
+    examples: [
+      { jp: 'いま、しちじ はんです。', ro: 'ima, shichiji han desu.', pt: 'Agora são sete e meia.' },
+      { jp: 'ごご よじに あいましょう。', ro: 'gogo yoji ni aimashou.', pt: 'Vamos nos encontrar às 4 da tarde.' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Como se diz “4 horas”?', opts: ['よじ|yoji', 'よんじ|yonji', 'しじ|shiji'], ans: 0, explain: '4 horas tem leitura especial: よじ.' },
+      { t: 'situation', prompt: 'Alguém diz くじ です. Que horas são?', opts: ['9 horas', '7 horas', '4 horas'], ans: 0, explain: 'くじ = 9 horas. しちじ = 7, よじ = 4.' },
+      { t: 'order', prompt: 'Monte a hora', pt: '3 e meia da tarde', tiles: ['ごご|gogo', 'さんじ|sanji', 'はん|han'], extra: ['ごぜん|gozen'], explain: 'ごご (p.m.) + さんじ + はん.' },
+      { t: 'error', ctx: 'São 9h da manhã:', tokens: ['ごぜん|gozen', 'きゅうじ|kyuuji'], wrong: 1, explain: '9 horas é くじ (kuji), não きゅうじ.' }
+    ]
+  });
+
+  /* ---------------- GRAMÁTICA (c5) ---------------- */
+  const c5 = cat('c5');
+  c5.desc = 'Como as frases funcionam: です, verbos, partículas, perguntas e a forma て.';
+  c5.soon = [];
+  c5.lessons.push(
+  {
+    id: 'c5l4', title: 'Negativo e passado de です', emblem: '否', kind: 'grammar',
+    intro: [
+      'Para negar com substantivos e adjetivos な: じゃないです (falado) ou じゃありません (mais formal). がくせいじゃないです = Não sou estudante.',
+      'Passado: でした. やすみでした = Foi folga.',
+      'Adjetivos い mudam o final: たかい → たかくない (não é caro) → たかかった (era caro). Depois é só pôr です.',
+      'Exceção importante: いい (bom) vira よくない (não é bom) e よかった (foi bom, que bom).'
+    ],
+    tip: 'よかった é uma das palavras mais ouvidas em animes: “Que alívio! Que bom!”',
+    items: [
+      { k: 's1', jp: 'がくせいじゃないです。', ro: 'gakusei ja nai desu.', pt: 'Não sou estudante.', note: 'Substantivo + じゃないです. É a forma mais comum na conversa educada.' },
+      { k: 's2', jp: 'にほんじんじゃありません。', ro: 'nihonjin ja arimasen.', pt: 'Não sou japonês(a).', note: 'じゃありません é um pouco mais formal que じゃないです.' },
+      { k: 's3', jp: 'きのうは やすみでした。', ro: 'kinou wa yasumi deshita.', pt: 'Ontem foi folga.', note: 'でした = passado de です. やすみ = folga, descanso, feriado.' },
+      { k: 's4', jp: 'たかくないです。', ro: 'takaku nai desu.', pt: 'Não é caro.', note: 'Adjetivo い: troque o い final por くない.' },
+      { k: 's5', jp: 'たのしかったです。', ro: 'tanoshikatta desu.', pt: 'Foi divertido.', note: 'Adjetivo い no passado: troque o い por かった.' },
+      { k: 's6', jp: 'よかったです。', ro: 'yokatta desu.', pt: 'Foi bom. / Que bom.', note: 'Passado de いい é よかった, e não “ikatta”. Entre amigos: よかった！' },
+      { k: 's7', jp: 'しずかじゃなかったです。', ro: 'shizuka ja nakatta desu.', pt: 'Não estava silencioso.', note: 'Negativo no passado: じゃなかったです.' }
+    ],
+    examples: [
+      { jp: 'えいがは どうでしたか。 … とても たのしかったです！', ro: 'eiga wa dou deshita ka. … totemo tanoshikatta desu!', pt: 'Como foi o filme? … Foi muito divertido!' },
+      { jp: 'さむくないですか。 … だいじょうぶです。', ro: 'samuku nai desu ka. … daijoubu desu.', pt: 'Não está com frio? … Estou bem.' }
+    ],
+    exercises: [
+      { t: 'fill', prompt: 'Complete', pt: 'Não é caro.', jp: 'たか＿＿ないです。', opts: ['く|ku', 'い|i', 'じゃ|ja'], ans: 0, explain: 'Adjetivo い: たかい → たかくない.' },
+      { t: 'situation', prompt: 'Seu amigo diz que achou a carteira perdida. O que você fala?', opts: ['よかった！|yokatta!', 'いかった！|ikatta!', 'いいでした！|ii deshita!'], ans: 0, explain: 'O passado de いい é よかった: “Que bom!”.' },
+      { t: 'error', ctx: 'Quero dizer: “Não sou estudante.”', tokens: ['がくせい|gakusei', 'でした|deshita'], wrong: 1, explain: 'でした é passado (“era”). Para negar: がくせいじゃないです.' },
+      { t: 'translate', jp: 'たのしかったです。', ro: 'tanoshikatta desu.', tiles: ['Foi', 'divertido'], extra: ['Não', 'é'], explain: 'かった indica o passado do adjetivo い.' }
+    ]
+  },
+  {
+    id: 'c5l5', title: 'Verbos e a partícula を', emblem: 'を', kind: 'grammar',
+    intro: [
+      'A partícula を (pronuncia-se “o”) marca o objeto direto: aquilo que sofre a ação. パンを たべます = Como pão.',
+      'O verbo educado tem quatro formas básicas: ます (faço / vou fazer), ません (não faço), ました (fiz), ませんでした (não fiz).',
+      'Ordem da frase: [tempo] [objeto]を [verbo]. きのう えいがを みました = Ontem assisti a um filme.'
+    ],
+    tip: 'Ouça o final do verbo! É ele que diz se a frase é afirmativa, negativa ou passada.',
+    items: [
+      { k: 's1', jp: 'パンを たべます。', ro: 'pan o tabemasu.', pt: 'Como pão.', note: 'パン (pão) + を + たべます.' },
+      { k: 's2', jp: 'コーヒーを のみません。', ro: 'koohii o nomimasen.', pt: 'Não tomo café.', note: 'ません = negativo educado.' },
+      { k: 's3', jp: 'きのう えいがを みました。', ro: 'kinou eiga o mimashita.', pt: 'Ontem assisti a um filme.', note: 'ました = passado. えいが = filme.' },
+      { k: 's4', jp: 'しゅくだいを しませんでした。', ro: 'shukudai o shimasen deshita.', pt: 'Não fiz a lição de casa.', note: 'ませんでした = passado negativo.' },
+      { k: 's5', jp: 'なにを しますか。', ro: 'nani o shimasu ka.', pt: 'O que você vai fazer?', note: 'なに + を: “fazer o quê?”.' },
+      { k: 's6', jp: 'まいあさ シャワーを あびます。', ro: 'maiasa shawaa o abimasu.', pt: 'Tomo banho toda manhã.', note: 'シャワーを あびる = tomar banho de chuveiro. まいあさ = toda manhã.' }
+    ],
+    examples: [
+      { jp: 'あさごはんを たべましたか。 … いいえ、たべませんでした。', ro: 'asagohan o tabemashita ka. … iie, tabemasen deshita.', pt: 'Você tomou café da manhã? … Não, não tomei.' }
+    ],
+    exercises: [
+      { t: 'order', prompt: 'Monte a frase', pt: 'Ontem assisti anime.', tiles: ['きのう|kinou', 'アニメ|anime', 'を|o', 'みました|mimashita'], extra: ['は|wa'], explain: 'tempo + objeto + を + verbo: きのう アニメを みました。' },
+      { t: 'fill', prompt: 'Complete', pt: 'Não bebo café.', jp: 'コーヒーを のみ＿＿。', opts: ['ません|masen', 'ました|mashita', 'ます|masu'], ans: 0, explain: 'ません = negativo.' },
+      { t: 'situation', prompt: 'Alguém diz たべませんでした. Quando foi e o que aconteceu?', opts: ['No passado: não comeu', 'No futuro: vai comer', 'Agora: está comendo'], ans: 0, explain: 'ませんでした = passado negativo.' },
+      { t: 'error', ctx: 'Quero dizer: “Como pão.”', tokens: ['パン|pan', 'に|ni', 'たべます|tabemasu'], wrong: 1, explain: 'O objeto direto leva を: パンを たべます.' }
+    ]
+  },
+  {
+    id: 'c5l6', title: 'Partículas に, で e へ', emblem: 'に', kind: 'grammar',
+    intro: [
+      'に marca o destino (vou PARA a escola) e o horário exato (acordo ÀS 7). がっこうに いきます / しちじに おきます.',
+      'へ (lê-se “e”) também marca direção. Soa um pouco mais escrito; na fala, に é mais comum.',
+      'で marca ONDE uma ação acontece (como EM casa) e COM QUE meio ela é feita (vou DE trem, como COM hashi).',
+      'Regra prática: lugar + に = para onde vai ou onde algo está. Lugar + で = onde a ação acontece.'
+    ],
+    tip: 'Na dúvida entre に e で com um lugar, pergunte: estou indo para lá (に) ou fazendo algo lá (で)?',
+    items: [
+      { k: 's1', jp: 'がっこうに いきます。', ro: 'gakkou ni ikimasu.', pt: 'Vou à escola.', note: 'に = destino.' },
+      { k: 's2', jp: 'にほんへ いきます。', ro: 'nihon e ikimasu.', pt: 'Vou para o Japão.', note: 'へ como partícula se lê “e”. Indica direção.' },
+      { k: 's3', jp: 'しちじに おきます。', ro: 'shichiji ni okimasu.', pt: 'Acordo às 7.', note: 'に = horário exato. Palavras como あした e まいにち NÃO levam に.' },
+      { k: 's4', jp: 'うちで ごはんを たべます。', ro: 'uchi de gohan o tabemasu.', pt: 'Como em casa.', note: 'で = lugar onde a ação acontece. うち = casa, lar.' },
+      { k: 's5', jp: 'でんしゃで いきます。', ro: 'densha de ikimasu.', pt: 'Vou de trem.', note: 'で = meio de transporte. でんしゃ = trem.' },
+      { k: 's6', jp: 'はしで たべます。', ro: 'hashi de tabemasu.', pt: 'Como com hashi.', note: 'で = instrumento. はし = hashi, os palitinhos.' }
+    ],
+    examples: [
+      { jp: 'としょかんで べんきょうします。', ro: 'toshokan de benkyou shimasu.', pt: 'Estudo na biblioteca.' },
+      { jp: 'バスで うちに かえります。', ro: 'basu de uchi ni kaerimasu.', pt: 'Volto para casa de ônibus.' }
+    ],
+    exercises: [
+      { t: 'fill', prompt: 'Complete', pt: 'Vou de trem.', jp: 'でんしゃ＿ いきます。', opts: ['で|de', 'に|ni', 'を|o'], ans: 0, explain: 'Meio de transporte usa で.' },
+      { t: 'fill', prompt: 'Complete', pt: 'Acordo às 7.', jp: 'しちじ＿ おきます。', opts: ['に|ni', 'で|de', 'は|wa'], ans: 0, explain: 'Horário exato usa に.' },
+      { t: 'error', ctx: 'Quero dizer: “Como em casa.”', tokens: ['うち|uchi', 'に|ni', 'たべます|tabemasu'], wrong: 1, explain: 'A ação acontece em casa, então é で: うちで たべます.' },
+      { t: 'order', prompt: 'Monte a frase', pt: 'Volto para casa de ônibus.', tiles: ['バス|basu', 'で|de', 'うち|uchi', 'に|ni', 'かえります|kaerimasu'], extra: ['を|o'], explain: 'バスで (meio) + うちに (destino) + かえります.' }
+    ]
+  },
+  {
+    id: 'c5l7', title: 'が, あります e います', emblem: 'が', kind: 'grammar',
+    intro: [
+      'Para dizer que algo “existe” ou que você “tem” algo, o japonês usa dois verbos: あります para coisas e plantas, います para pessoas e animais.',
+      'A partícula が marca o que existe: ねこが います = Tem um gato.',
+      'が também aparece com すき, きらい e わかる: ラーメンが すきです (gosto de lámen), にほんごが わかります (entendo japonês).',
+      'Para dizer onde: [lugar]に [coisa]が あります. Negativo: ありません / いません.'
+    ],
+    tip: 'Está vivo e se move sozinho? います. Não? あります.',
+    items: [
+      { k: 's1', jp: 'ねこが います。', ro: 'neko ga imasu.', pt: 'Tem um gato. / Tenho um gato.', note: 'Animal: います.' },
+      { k: 's2', jp: 'コンビニが あります。', ro: 'konbini ga arimasu.', pt: 'Tem uma loja de conveniência.', note: 'Coisa ou lugar: あります.' },
+      { k: 's3', jp: 'つくえの うえに ほんが あります。', ro: 'tsukue no ue ni hon ga arimasu.', pt: 'Tem um livro em cima da mesa.', note: 'つくえの うえ = em cima da mesa. Lugar + に.' },
+      { k: 's4', jp: 'きょうだいが いますか。', ro: 'kyoudai ga imasu ka.', pt: 'Você tem irmãos?', note: 'Para pessoas da família também se usa います. きょうだい = irmãos.' },
+      { k: 's5', jp: 'じかんが ありません。', ro: 'jikan ga arimasen.', pt: 'Não tenho tempo.', note: 'ありません = não tem / não há.' },
+      { k: 's6', jp: 'ラーメンが すきです。', ro: 'raamen ga suki desu.', pt: 'Gosto de lámen.', note: 'O que você gosta vem com が.' },
+      { k: 's7', jp: 'にほんごが すこし わかります。', ro: 'nihongo ga sukoshi wakarimasu.', pt: 'Entendo um pouco de japonês.', note: 'わかる usa が. すこし = um pouco.' }
+    ],
+    examples: [
+      { jp: 'へやに だれが いますか。 … だれも いません。', ro: 'heya ni dare ga imasu ka. … daremo imasen.', pt: 'Quem está no quarto? … Não tem ninguém.' }
+    ],
+    exercises: [
+      { t: 'fill', prompt: 'Complete', pt: 'Tem um cachorro.', jp: 'いぬが ＿＿＿。', opts: ['います|imasu', 'あります|arimasu', 'です|desu'], ans: 0, explain: 'Animais usam います.' },
+      { t: 'fill', prompt: 'Complete', pt: 'Tem uma estação.', jp: 'えきが ＿＿＿＿。', opts: ['あります|arimasu', 'います|imasu', 'いきます|ikimasu'], ans: 0, explain: 'Lugares e coisas usam あります.' },
+      { t: 'error', ctx: 'Quero dizer: “Não tenho tempo.”', tokens: ['じかん|jikan', 'が|ga', 'いません|imasen'], wrong: 2, explain: 'Tempo não é ser vivo: じかんが ありません.' },
+      { t: 'translate', jp: 'ねこが すきです。', ro: 'neko ga suki desu.', tiles: ['Gosto', 'de', 'gatos'], extra: ['Tenho', 'cachorros'], explain: 'が + すき = gostar de.' }
+    ]
+  },
+  {
+    id: 'c5l8', title: 'の e これ, それ, あれ', emblem: 'の', kind: 'grammar',
+    intro: [
+      'の liga dois substantivos, como “de” em português, mas na ordem inversa: わたしの ほん = o livro de mim (meu livro).',
+      'これ (isto, perto de mim), それ (isso, perto de você), あれ (aquilo, longe dos dois). どれ = qual.',
+      'Antes de um substantivo, viram この, その, あの, どの: この ケーキ (este bolo).',
+      'Com lugares: ここ (aqui), そこ (aí), あそこ (ali), どこ (onde).'
+    ],
+    tip: 'こ = perto de quem fala, そ = perto de quem ouve, あ = longe dos dois, ど = pergunta.',
+    items: [
+      { k: 's1', jp: 'これは わたしの ほんです。', ro: 'kore wa watashi no hon desu.', pt: 'Isto é o meu livro.', note: 'わたしの = meu. ほん = livro.' },
+      { k: 's2', jp: 'それは なんですか。', ro: 'sore wa nan desu ka.', pt: 'O que é isso?', note: 'それ = isso, perto de quem ouve.' },
+      { k: 's3', jp: 'あれは がっこうです。', ro: 'are wa gakkou desu.', pt: 'Aquilo é a escola.', note: 'あれ = aquilo, longe dos dois.' },
+      { k: 's4', jp: 'この ケーキは おいしいです。', ro: 'kono keeki wa oishii desu.', pt: 'Este bolo é gostoso.', note: 'この + substantivo = este ~.' },
+      { k: 's5', jp: 'その かばんは だれのですか。', ro: 'sono kaban wa dare no desu ka.', pt: 'De quem é essa bolsa?', note: 'だれの = de quem. かばん = bolsa, mochila.' },
+      { k: 's6', jp: 'にほんごの せんせいです。', ro: 'nihongo no sensei desu.', pt: 'É professor(a) de japonês.', note: 'の também indica “sobre o quê”: professor DE japonês.' }
+    ],
+    examples: [
+      { jp: 'すみません、この でんしゃは とうきょうに いきますか。', ro: 'sumimasen, kono densha wa toukyou ni ikimasu ka.', pt: 'Com licença, este trem vai para Tóquio?' }
+    ],
+    exercises: [
+      { t: 'order', prompt: 'Monte a frase', pt: 'Isto é o meu livro.', tiles: ['これ|kore', 'は|wa', 'わたし|watashi', 'の|no', 'ほん|hon', 'です|desu'], extra: ['が|ga'], explain: 'これは + わたしの ほん + です.' },
+      { t: 'fill', prompt: 'Complete', pt: 'Este bolo é gostoso.', jp: '＿＿ ケーキは おいしいです。', opts: ['この|kono', 'これ|kore', 'ここ|koko'], ans: 0, explain: 'Antes de substantivo: この. これ fica sozinho.' },
+      { t: 'situation', prompt: 'O objeto está longe de você e de quem ouve. Que palavra usa?', opts: ['あれ|are', 'それ|sore', 'これ|kore'], ans: 0, explain: 'あれ = aquilo, longe dos dois.' }
+    ]
+  },
+  {
+    id: 'c5l9', title: 'Finais か, ね e よ', emblem: 'ね', kind: 'grammar',
+    intro: [
+      'O final da frase muda o tom. か transforma em pergunta. ね pede concordância (“né?”). よ informa algo que o outro talvez não saiba (“viu?”, “sabia?”).',
+      'よね junta os dois: “é isso mesmo, né?”. Muito comum para confirmar algo.',
+      'Esses finais aparecem o tempo todo na fala. Prestar atenção neles ajuda a entender a intenção de quem fala.'
+    ],
+    tip: 'ね = vamos concordar. よ = estou te contando. か = estou perguntando.',
+    items: [
+      { k: 's1', jp: 'いい てんきですね。', ro: 'ii tenki desu ne.', pt: 'Que tempo bom, né?', note: 'ね busca concordância. Ótimo para puxar conversa. てんき = tempo (clima).' },
+      { k: 's2', jp: 'あしたは テストですよ。', ro: 'ashita wa tesuto desu yo.', pt: 'Amanhã tem prova, viu?', note: 'よ avisa algo que o outro pode não saber.' },
+      { k: 's3', jp: 'これ、おいしいですよ。', ro: 'kore, oishii desu yo.', pt: 'Isto é gostoso, viu! (experimenta)', note: 'よ para recomendar.' },
+      { k: 's4', jp: 'にほんごが じょうずですね。', ro: 'nihongo ga jouzu desu ne.', pt: 'Seu japonês é bom, hein.', note: 'Elogio muito comum para estrangeiros. A resposta modesta é いいえ、まだまだです (não, ainda tenho muito a aprender).' },
+      { k: 's5', jp: 'あの ひとは だれですか。', ro: 'ano hito wa dare desu ka.', pt: 'Quem é aquela pessoa?', note: 'か = pergunta.' },
+      { k: 's6', jp: 'そうですか。', ro: 'sou desu ka.', pt: 'Ah, é? / Entendi.', note: 'Com entonação descendo, não é pergunta: mostra que você recebeu a informação.' },
+      { k: 's7', jp: 'あしたですよね。', ro: 'ashita desu yo ne.', pt: 'É amanhã, né? (só confirmando)', note: 'よね = confirmar algo que você acha que sabe.' }
+    ],
+    examples: [
+      { jp: 'さむいですね。 … そうですね。', ro: 'samui desu ne. … sou desu ne.', pt: 'Que frio, né? … É mesmo.' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Você quer AVISAR seu amigo que o trem já vai sair. Qual final usa?', opts: ['よ|yo', 'ね|ne', 'か|ka'], ans: 0, explain: 'よ informa algo que o outro não sabe.' },
+      { t: 'situation', prompt: 'Você comenta o calor esperando que a pessoa concorde. Qual frase?', opts: ['あついですね|atsui desu ne', 'あついですか|atsui desu ka', 'あついですよ|atsui desu yo'], ans: 0, explain: 'ね busca concordância.' },
+      { t: 'fill', prompt: 'Complete', pt: 'É amanhã, né? (confirmando)', jp: 'あしたです＿＿。', opts: ['よね|yo ne', 'か|ka', 'の|no'], ans: 0, explain: 'よね = confirmar.' }
+    ]
+  },
+  {
+    id: 'c5l10', title: 'A forma て', emblem: 'て', kind: 'grammar',
+    intro: [
+      'A forma て é uma das mais importantes do japonês. Com ela você pede coisas (〜てください), descreve o que está acontecendo (〜ています) e liga ações (acordo E lavo o rosto).',
+      'Como formar a partir do verbo de dicionário: verbos do grupo る, como たべる e みる, trocam る por て (たべて, みて). Nos demais verbos, o final decide: う, つ, る → って (かう → かって, まつ → まって, とる → とって); む, ぶ, ぬ → んで (のむ → のんで); く → いて (かく → かいて); ぐ → いで (およぐ → およいで); す → して (はなす → はなして).',
+      'Irregulares: する → して, くる → きて, いく → いって.',
+      '〜ています também indica estado: すんでいます = moro (estou morando).'
+    ],
+    tip: 'Você já conhece várias formas て: まって (espera), がんばって (força!), きて (venha).',
+    items: [
+      { k: 's1', jp: 'ちょっと まって ください。', ro: 'chotto matte kudasai.', pt: 'Espere um pouco, por favor.', note: 'まつ (esperar) → まって + ください.' },
+      { k: 's2', jp: 'もう いちど いって ください。', ro: 'mou ichido itte kudasai.', pt: 'Diga mais uma vez, por favor.', note: 'いう (dizer) → いって. Mesmo som de いって (indo), de いく.' },
+      { k: 's3', jp: 'ここに なまえを かいて ください。', ro: 'koko ni namae o kaite kudasai.', pt: 'Escreva seu nome aqui, por favor.', note: 'かく (escrever) → かいて.' },
+      { k: 's4', jp: 'いま ごはんを たべて います。', ro: 'ima gohan o tabete imasu.', pt: 'Estou comendo agora.', note: '〜ています = ação em andamento.' },
+      { k: 's5', jp: 'なにを して いますか。', ro: 'nani o shite imasu ka.', pt: 'O que você está fazendo?', note: 'Versão educada de なにしてるの？ (casual).' },
+      { k: 's6', jp: 'とうきょうに すんで います。', ro: 'toukyou ni sunde imasu.', pt: 'Moro em Tóquio.', note: 'すむ (morar) → すんで. Aqui ています indica um estado.' },
+      { k: 's7', jp: 'あさ おきて、かおを あらいます。', ro: 'asa okite, kao o araimasu.', pt: 'De manhã acordo e lavo o rosto.', note: 'A forma て liga ações em sequência.' }
+    ],
+    examples: [
+      { jp: 'すみません、しゃしんを とって ください。', ro: 'sumimasen, shashin o totte kudasai.', pt: 'Com licença, tire uma foto (de nós), por favor.' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Qual é a forma て de のむ (beber)?', opts: ['のんで|nonde', 'のって|notte', 'のみて|nomite'], ans: 0, explain: 'Verbos em む → んで: のむ → のんで.' },
+      { t: 'fill', prompt: 'Complete o pedido', pt: 'Espere um pouco, por favor.', jp: 'ちょっと まって ＿＿＿。', opts: ['ください|kudasai', 'います|imasu', 'です|desu'], ans: 0, explain: '〜てください = por favor, faça ~.' },
+      { t: 'order', prompt: 'Monte a frase', pt: 'Estou comendo agora.', tiles: ['いま|ima', 'たべて|tabete', 'います|imasu'], extra: ['ください|kudasai'], explain: 'たべて + います = está comendo.' },
+      { t: 'error', ctx: 'Quero dizer: “Moro em Tóquio.”', tokens: ['とうきょうに|toukyou ni', 'すみて|sumite', 'います|imasu'], wrong: 1, explain: 'すむ → すんで (verbos em む → んで): すんでいます.' }
+    ]
+  });
+
+  /* ---------------- CONSTRUÇÃO DE FRASES (c6) ---------------- */
+  const c6 = cat('c6');
+  c6.desc = 'Juntando tudo: apresentar-se, convidar, pedir, comprar, pedir permissão e explicar razões.';
+  c6.soon = [];
+  c6.lessons.push(
+  {
+    id: 'c6l1', title: 'Apresentação pessoal', emblem: '紹', kind: 'grammar',
+    intro: [
+      'Uma apresentação japonesa costuma seguir esta ordem: はじめまして → nome → de onde você é → algo sobre você → よろしくおねがいします.',
+      'Para dizer de onde vem: [lugar]から きました (vim de ~). Onde mora: [lugar]に すんでいます.',
+      'Idade: número + さい. Atenção: 20 anos tem palavra própria, はたち.'
+    ],
+    tip: 'Use a frase de origem: ブラジルから きました。 Ela abre muitas conversas!',
+    items: [
+      { k: 's1', jp: 'ブラジルから きました。', ro: 'burajiru kara kimashita.', pt: 'Vim do Brasil.', note: 'から = de (origem). きました = vim.' },
+      { k: 's2', jp: 'サンパウロに すんで います。', ro: 'sanpauro ni sunde imasu.', pt: 'Moro em São Paulo.', note: 'Nomes de cidades estrangeiras são escritos em katakana.' },
+      { k: 's3', jp: 'にじゅうごさいです。', ro: 'nijuugo sai desu.', pt: 'Tenho 25 anos.', note: 'Número + さい. 20 anos = はたち. 1, 8 e 10 mudam: いっさい, はっさい, じゅっさい.' },
+      { k: 's4', jp: 'なんさいですか。', ro: 'nansai desu ka.', pt: 'Quantos anos você tem?', note: 'Mais educado: おいくつですか.' },
+      { k: 's5', jp: 'かいしゃいんです。', ro: 'kaishain desu.', pt: 'Sou funcionário(a) de empresa.', note: 'かいしゃいん = funcionário de empresa. がくせい = estudante.' },
+      { k: 's6', jp: 'しゅみは アニメを みる ことです。', ro: 'shumi wa anime o miru koto desu.', pt: 'Meu hobby é assistir anime.', note: 'しゅみ = hobby. verbo + こと = o ato de ~.' },
+      { k: 's7', jp: 'にほんごを べんきょうして います。', ro: 'nihongo o benkyou shite imasu.', pt: 'Estou estudando japonês.', note: 'べんきょうする = estudar.' }
+    ],
+    examples: [
+      { jp: 'はじめまして。ルカスです。ブラジルから きました。よろしく おねがいします。', ro: 'hajimemashite. Rukasu desu. burajiru kara kimashita. yoroshiku onegaishimasu.', pt: 'Muito prazer. Sou o Lucas. Vim do Brasil. Conto com você.' }
+    ],
+    exercises: [
+      { t: 'order', prompt: 'Monte a frase', pt: 'Vim do Brasil.', tiles: ['ブラジル|burajiru', 'から|kara', 'きました|kimashita'], extra: ['に|ni'], explain: '[lugar] から きました.' },
+      { t: 'situation', prompt: 'Como se diz “Tenho 20 anos”?', opts: ['はたちです|hatachi desu', 'にじゅっさいです|nijussai desu', 'にじゅうです|nijuu desu'], ans: 0, explain: '20 anos tem palavra própria: はたち.' },
+      { t: 'fill', prompt: 'Complete', pt: 'Moro em São Paulo.', jp: 'サンパウロ＿ すんで います。', opts: ['に|ni', 'で|de', 'を|o'], ans: 0, explain: 'すむ usa に: サンパウロに すんでいます.' }
+    ]
+  },
+  {
+    id: 'c6l2', title: 'Convites e combinados', emblem: '誘', kind: 'grammar',
+    intro: [
+      'Para convidar com educação, use a pergunta negativa 〜ませんか: いっしょに いきませんか (Não quer ir junto?). Soa gentil, porque deixa a pessoa livre para recusar.',
+      'Para aceitar e propor: 〜ましょう (vamos ~). いきましょう！',
+      'Recusar diretamente é raro. O mais natural é começar a frase e deixar no ar: あしたは ちょっと… (Amanhã é meio…). Todo mundo entende que é um “não”.'
+    ],
+    tip: 'ちょっと… com voz hesitante é uma das recusas mais educadas do japonês.',
+    items: [
+      { k: 's1', jp: 'いっしょに えいがを みませんか。', ro: 'issho ni eiga o mimasen ka.', pt: 'Não quer ver um filme comigo?', note: '〜ませんか = convite educado.' },
+      { k: 's2', jp: 'いいですね。みましょう。', ro: 'ii desu ne. mimashou.', pt: 'Boa ideia. Vamos assistir.', note: '〜ましょう = vamos ~.' },
+      { k: 's3', jp: 'あした ひまですか。', ro: 'ashita hima desu ka.', pt: 'Você está livre amanhã?', note: 'ひま = tempo livre, desocupado.' },
+      { k: 's4', jp: 'すみません、あしたは ちょっと…。', ro: 'sumimasen, ashita wa chotto….', pt: 'Desculpe, amanhã é meio complicado…', note: 'Recusa educada: não é preciso explicar o motivo.' },
+      { k: 's5', jp: 'じゃあ、また こんど。', ro: 'jaa, mata kondo.', pt: 'Então fica para a próxima.', note: 'こんど = da próxima vez.' },
+      { k: 's6', jp: 'なんじに あいましょうか。', ro: 'nanji ni aimashou ka.', pt: 'A que horas nos encontramos?', note: 'あう = encontrar-se.' },
+      { k: 's7', jp: 'えきの まえで あいましょう。', ro: 'eki no mae de aimashou.', pt: 'Vamos nos encontrar em frente à estação.', note: 'まえ = frente.' }
+    ],
+    examples: [
+      { jp: 'しゅうまつ、カラオケに いきませんか。 … いいですね！', ro: 'shuumatsu, karaoke ni ikimasen ka. … ii desu ne!', pt: 'Não quer ir ao karaokê no fim de semana? … Boa!' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'Você quer convidar um colega com educação para almoçar. O que diz?', opts: ['いっしょに たべませんか|issho ni tabemasen ka', 'いっしょに たべません|issho ni tabemasen', 'たべて ください|tabete kudasai'], ans: 0, explain: '〜ませんか (com か!) é o convite. Sem か, é só “não como”.' },
+      { t: 'situation', prompt: 'Alguém responde あしたは ちょっと…. O que quer dizer?', opts: ['Não pode amanhã', 'Pode um pouco amanhã', 'Pede para esperar'], ans: 0, explain: 'ちょっと… deixado no ar é uma recusa educada.' },
+      { t: 'fill', prompt: 'Complete', pt: 'Vamos nos encontrar em frente à estação.', jp: 'えきの まえで あい＿＿＿。', opts: ['ましょう|mashou', 'ません|masen', 'ました|mashita'], ans: 0, explain: '〜ましょう = vamos ~.' }
+    ]
+  },
+  {
+    id: 'c6l3', title: 'Querer: 〜たい e ほしい', emblem: '欲', kind: 'grammar',
+    intro: [
+      'Querer FAZER algo: troque ます por たい. たべます → たべたい (quero comer). Com です fica educado: たべたいです.',
+      'Querer TER algo: ほしい. あたらしい スマホが ほしいです (quero um celular novo).',
+      'Negativo: たくない (não quero) e ほしくない. São adjetivos い, então seguem as mesmas regras.',
+      'Atenção: em japonês, dizer diretamente o que OUTRA pessoa quer soa estranho. Para os outros, pergunte: なにが たべたいですか.'
+    ],
+    tip: '〜たい é o “quero!” de todo protagonista de anime: つよく なりたい！ (Quero ficar mais forte!)',
+    items: [
+      { k: 's1', jp: 'にほんに いきたいです。', ro: 'nihon ni ikitai desu.', pt: 'Quero ir ao Japão.', note: 'いきます → いきたい.' },
+      { k: 's2', jp: 'みずが のみたいです。', ro: 'mizu ga nomitai desu.', pt: 'Quero beber água.', note: 'Com たい, o objeto pode levar が ou を.' },
+      { k: 's3', jp: 'なにが たべたいですか。', ro: 'nani ga tabetai desu ka.', pt: 'O que você quer comer?', note: 'Para outras pessoas, use pergunta.' },
+      { k: 's4', jp: 'あたらしい スマホが ほしいです。', ro: 'atarashii sumaho ga hoshii desu.', pt: 'Quero um celular novo.', note: 'ほしい = querer ter. あたらしい = novo.' },
+      { k: 's5', jp: 'きょうは どこにも いきたくないです。', ro: 'kyou wa doko ni mo ikitaku nai desu.', pt: 'Hoje não quero ir a lugar nenhum.', note: 'たくない = não quero. どこにも + negativo = a lugar nenhum.' },
+      { k: 's6', jp: 'つよく なりたい！', ro: 'tsuyoku naritai!', pt: 'Quero ficar mais forte!', note: 'つよい (forte) → つよく なる (tornar-se forte) → なりたい. Clássico de anime.' }
+    ],
+    examples: [
+      { jp: 'のどが かわいた。なにか のみたい。', ro: 'nodo ga kawaita. nanika nomitai.', pt: 'Estou com sede. Quero beber alguma coisa.' }
+    ],
+    exercises: [
+      { t: 'fill', prompt: 'Complete', pt: 'Quero ir ao Japão.', jp: 'にほんに いき＿＿です。', opts: ['たい|tai', 'ます|masu', 'ほしい|hoshii'], ans: 0, explain: 'Querer fazer: verbo + たい.' },
+      { t: 'situation', prompt: 'Você quer TER um gato. Qual frase?', opts: ['ねこが ほしいです|neko ga hoshii desu', 'ねこが たべたいです|neko ga tabetai desu', 'ねこが いきたいです|neko ga ikitai desu'], ans: 0, explain: 'Querer ter algo: ほしい.' },
+      { t: 'translate', jp: 'つよく なりたい！', ro: 'tsuyoku naritai!', tiles: ['Quero', 'ficar', 'mais', 'forte!'], extra: ['Não', 'comer'], explain: 'なりたい = quero me tornar.' }
+    ]
+  },
+  {
+    id: 'c6l4', title: 'Compras e restaurante', emblem: '店', kind: 'grammar',
+    intro: [
+      'Para contar objetos usa-se uma contagem japonesa própria: ひとつ, ふたつ, みっつ, よっつ, いつつ (1 a 5).',
+      'Para pessoas: ひとり (1), ふたり (2), e a partir de 3, número + にん: さんにん.',
+      'No restaurante, o atendente pergunta なんめいさまですか (quantas pessoas?) com linguagem respeitosa. Você responde de forma simples: ふたりです.',
+      'Para pedir, basta apontar e dizer これを ください ou これを おねがいします.'
+    ],
+    tip: 'Quase tudo em loja se resolve com: これ + ください / おねがいします.',
+    items: [
+      { k: 's1', jp: 'これを ください。', ro: 'kore o kudasai.', pt: 'Quero este, por favor.', note: 'ください = me dê, por favor.' },
+      { k: 's2', jp: 'ひとつ ください。', ro: 'hitotsu kudasai.', pt: 'Um, por favor.', note: 'A quantidade vem antes de ください, sem partícula.' },
+      { k: 's3', jp: 'みっつで いくらですか。', ro: 'mittsu de ikura desu ka.', pt: 'Quanto ficam os três?', note: 'で = no total. いくら = quanto (preço).' },
+      { k: 's4', jp: 'なんめいさまですか。', ro: 'nanmei-sama desu ka.', pt: 'Quantas pessoas? (atendente)', note: 'Linguagem respeitosa de restaurante. Você não usa さま para si mesmo.' },
+      { k: 's5', jp: 'ふたりです。', ro: 'futari desu.', pt: 'Somos dois.', note: 'ひとり (1 pessoa), ふたり (2), さんにん (3).' },
+      { k: 's6', jp: 'メニューを おねがいします。', ro: 'menyuu o onegaishimasu.', pt: 'O cardápio, por favor.', note: 'おねがいします serve para pedir quase tudo.' },
+      { k: 's7', jp: 'おかいけい おねがいします。', ro: 'okaikei onegaishimasu.', pt: 'A conta, por favor.', note: 'おかいけい = a conta.' },
+      { k: 's8', jp: 'カードで いいですか。', ro: 'kaado de ii desu ka.', pt: 'Pode ser no cartão?', note: 'で = meio (de pagamento). いいですか = tudo bem?' }
+    ],
+    examples: [
+      { jp: 'いらっしゃいませ。なんめいさまですか。 … ひとりです。', ro: 'irasshaimase. nanmei-sama desu ka. … hitori desu.', pt: 'Bem-vindo. Quantas pessoas? … Só eu.' }
+    ],
+    exercises: [
+      { t: 'situation', prompt: 'O atendente pergunta なんめいさまですか. Você está com um amigo. O que responde?', opts: ['ふたりです|futari desu', 'ふたつです|futatsu desu', 'にです|ni desu'], ans: 0, explain: 'Para pessoas: ひとり, ふたり, さんにん.' },
+      { t: 'situation', prompt: 'Você terminou de comer e quer pagar. O que diz?', opts: ['おかいけい おねがいします|okaikei onegaishimasu', 'メニューを おねがいします|menyuu o onegaishimasu', 'いただきます|itadakimasu'], ans: 0, explain: 'おかいけい = a conta.' },
+      { t: 'order', prompt: 'Monte o pedido', pt: 'Dois destes, por favor.', tiles: ['これ|kore', 'を|o', 'ふたつ|futatsu', 'ください|kudasai'], extra: ['ふたり|futari'], explain: 'これを + quantidade + ください. Objetos usam ふたつ.' }
+    ]
+  },
+  {
+    id: 'c6l5', title: 'Pedir e dar permissão', emblem: '許', kind: 'grammar',
+    intro: [
+      'Pedir permissão: forma て + もいいですか. しゃしんを とっても いいですか (Posso tirar uma foto?).',
+      'Responder: はい、いいですよ (sim, pode) ou すみません、ちょっと… (desculpe, não dá).',
+      'Proibir: forma て + はいけません (não é permitido). Em placas e regras. Na fala casual: 〜ちゃだめ.',
+      'Dizer que não precisa: ない → なくてもいいです. いかなくても いいです (não precisa ir).'
+    ],
+    tip: 'Na fala casual, とっても いい？ (posso tirar?) é suficiente entre amigos.',
+    items: [
+      { k: 's1', jp: 'しゃしんを とっても いいですか。', ro: 'shashin o totte mo ii desu ka.', pt: 'Posso tirar uma foto?', note: 'とる → とって + もいいですか.' },
+      { k: 's2', jp: 'はい、いいですよ。', ro: 'hai, ii desu yo.', pt: 'Sim, pode.', note: 'Resposta positiva.' },
+      { k: 's3', jp: 'ここに すわっても いいですか。', ro: 'koko ni suwatte mo ii desu ka.', pt: 'Posso sentar aqui?', note: 'すわる = sentar.' },
+      { k: 's4', jp: 'ここで たばこを すっては いけません。', ro: 'koko de tabako o sutte wa ikemasen.', pt: 'Não é permitido fumar aqui.', note: '〜てはいけません = proibição.' },
+      { k: 's5', jp: 'はいっちゃ だめだよ。', ro: 'haitcha dame da yo.', pt: 'Não pode entrar, viu.', note: 'Casual: はいっては (haitte wa) → はいっちゃ (haitcha). Comum com crianças e entre amigos.' },
+      { k: 's6', jp: 'いそがなくても いいですよ。', ro: 'isoganakute mo ii desu yo.', pt: 'Não precisa ter pressa.', note: 'なくてもいい = não precisa.' },
+      { k: 's7', jp: 'ちょっと トイレに いっても いい？', ro: 'chotto toire ni itte mo ii?', pt: 'Posso ir rapidinho ao banheiro?', note: 'Versão casual, sem です.' }
+    ],
+    examples: [
+      { jp: 'まどを あけても いいですか。 … ええ、どうぞ。', ro: 'mado o akete mo ii desu ka. … ee, douzo.', pt: 'Posso abrir a janela? … Claro, à vontade.' }
+    ],
+    exercises: [
+      { t: 'fill', prompt: 'Complete', pt: 'Posso tirar uma foto?', jp: 'しゃしんを とって＿ いいですか。', opts: ['も|mo', 'は|wa', 'を|o'], ans: 0, explain: '〜ても いいですか = posso ~?' },
+      { t: 'situation', prompt: 'Você vê a placa “ここで しゃしんを とっては いけません”. O que significa?', opts: ['É proibido tirar fotos aqui', 'Tire fotos aqui', 'Pode tirar fotos aqui'], ans: 0, explain: '〜てはいけません = proibido.' },
+      { t: 'situation', prompt: 'O que quer dizer いそがなくても いいですよ?', opts: ['Não precisa ter pressa', 'É proibido correr', 'Vamos correr'], ans: 0, explain: 'なくてもいい = não precisa.' }
+    ]
+  },
+  {
+    id: 'c6l6', title: 'Razões e explicações', emblem: '因', kind: 'grammar',
+    intro: [
+      'から (porque, então) vem DEPOIS da razão: あついから、まどを あけます (Como está quente, vou abrir a janela).',
+      'ので é parecido, mas soa mais suave e educado. Muito usado para se desculpar ou explicar.',
+      '〜んです (na fala educada) e 〜んだ / 〜の (na casual) dão o tom de explicação: “é que…”. どうしたんですか = O que aconteceu? (o que houve com você?).',
+      'Em animes você ouve muito なんで？ e a resposta com 〜んだ: だって、こわいんだ！ (É que estou com medo!).'
+    ],
+    tip: 'Ouça a ordem: primeiro vem a razão, depois から, e por último o resultado.',
+    items: [
+      { k: 's1', jp: 'あついから、まどを あけて ください。', ro: 'atsui kara, mado o akete kudasai.', pt: 'Está quente, então abra a janela, por favor.', note: 'razão + から + pedido.' },
+      { k: 's2', jp: 'どうして おくれたんですか。', ro: 'doushite okureta n desu ka.', pt: 'Por que você se atrasou?', note: 'おくれる = atrasar-se. 〜んですか pede uma explicação.' },
+      { k: 's3', jp: 'でんしゃが おくれたんです。', ro: 'densha ga okureta n desu.', pt: 'É que o trem atrasou.', note: '〜んです = é que…' },
+      { k: 's4', jp: 'あたまが いたいので、きょうは やすみます。', ro: 'atama ga itai node, kyou wa yasumimasu.', pt: 'Como estou com dor de cabeça, vou faltar hoje.', note: 'ので = como, porque (mais suave). いたい = dói.' },
+      { k: 's5', jp: 'どうしたんですか。', ro: 'dou shita n desu ka.', pt: 'O que aconteceu? / O que houve?', note: 'Pergunta com preocupação. Casual: どうしたの？' },
+      { k: 's6', jp: 'ちょっと きぶんが わるいんです。', ro: 'chotto kibun ga warui n desu.', pt: 'É que não estou me sentindo bem.', note: 'きぶんが わるい = sentir-se mal.' }
+    ],
+    examples: [
+      { jp: 'なんで こないの？ … いそがしいんだ。', ro: 'nande konai no? … isogashii n da.', pt: 'Por que você não vem? … É que estou ocupado. (casual)' }
+    ],
+    exercises: [
+      { t: 'order', prompt: 'Monte a frase', pt: 'Está quente, então abra a janela, por favor.', tiles: ['あつい|atsui', 'から|kara', 'まどを|mado o', 'あけて|akete', 'ください|kudasai'], extra: ['ので|node'], explain: 'razão + から + pedido.' },
+      { t: 'situation', prompt: 'Seu amigo parece triste. O que você pergunta?', opts: ['どうしたの？|dou shita no?', 'どうぞ|douzo', 'どういたしまして|dou itashimashite'], ans: 0, explain: 'どうしたの？ = O que houve?' },
+      { t: 'situation', prompt: 'Qual é mais suave para explicar uma falta ao chefe?', opts: ['ので|node', 'から|kara', 'だって|datte'], ans: 0, explain: 'ので soa mais suave e educado que から.' }
+    ]
+  });
+})();
+
+/* ==========================================================
+   CONTEÚDO 2.1 — Trilha da Fala (parte 2): Japonês Falado,
+   Formalidade e Respeito, Japonês dos Animes; e a expansão da
+   Academia Auditiva (palavras, pares de som, expressões, frases,
+   diálogos). Escrita natural (com kanji) + “say” em kana para a voz.
+   ========================================================== */
+(function () {
+  /* ---------------- novas alas ---------------- */
+  CATS.push(
+  {
+    id: 'c8', num: 8, emblem: '話', title: 'Japonês Falado', jp: 'はなしことば',
+    desc: 'A fala casual de verdade: formas curtas dos verbos, contrações, partículas finais e reações.',
+    requires: 'c6', soon: [],
+    lessons: [
+    {
+      id: 'c8l1', title: 'Forma de dicionário', emblem: '辞', kind: 'grammar',
+      intro: [
+        'Entre amigos e família ninguém fala com ます. Usa-se a forma de dicionário: 行きます vira 行く, 食べます vira 食べる.',
+        'Como converter: verbos em る como 食べる tiram ます e põem る (食べます → 食べる). Os outros mudam a última sílaba de “i” para “u”: 行きます (iki) → 行く (iku), 飲みます (nomi) → 飲む (nomu). Irregulares: します → する, 来ます → 来る.',
+        'Na fala casual as partículas は, を e へ costumam sumir: 学校行く？ em vez de 学校に行きますか.',
+        'A pergunta casual não usa か: basta subir a entonação no final.'
+      ],
+      tip: 'Use a forma casual só com amigos, família e pessoas mais novas. Com desconhecidos, continue com ます.',
+      items: [
+        { k: 's1', jp: '明日、学校行く？', say: 'あした、がっこういく？', ro: 'ashita, gakkou iku?', pt: 'Amanhã você vai à escola?', note: 'Sem に e sem か: só a entonação subindo.' },
+        { k: 's2', jp: 'うん、行く。', say: 'うん、いく。', ro: 'un, iku.', pt: 'Sim, vou.', note: 'うん = sim (casual).' },
+        { k: 's3', jp: '何食べる？', say: 'なにたべる？', ro: 'nani taberu?', pt: 'O que a gente vai comer?', note: 'Sem を: 何を食べる → 何食べる.' },
+        { k: 's4', jp: 'もう寝る。', say: 'もうねる。', ro: 'mou neru.', pt: 'Já vou dormir.', note: 'もう = já.' },
+        { k: 's5', jp: '一緒にやる？', say: 'いっしょにやる？', ro: 'issho ni yaru?', pt: 'Quer fazer junto?', note: 'やる = fazer (mais casual que する).' },
+        { k: 's6', jp: '俺がやる。', say: 'おれがやる。', ro: 'ore ga yaru.', pt: 'Eu faço. / Deixa que eu faço.', note: '俺 (ore) = eu, masculino e casual. Veja mais na ala Formalidade e Respeito.' }
+      ],
+      examples: [
+        { jp: '今日、何する？ … ゲームする！', say: 'きょう、なにする？ … ゲームする！', ro: 'kyou, nani suru? … geemu suru!', pt: 'O que vamos fazer hoje? … Jogar videogame!' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Qual é a forma de dicionário de 飲みます?', opts: ['飲む|nomu', '飲みる|nomiru', '飲る|noru'], ans: 0, explain: 'nomi-masu → nomu: o “i” vira “u”.' },
+        { t: 'situation', prompt: 'Qual é a forma de dicionário de します?', opts: ['する|suru', 'しる|shiru', 'す|su'], ans: 0, explain: 'します é irregular: する.' },
+        { t: 'error', ctx: 'Pergunta casual a um amigo: “Vai comer?”', tokens: ['食べ|tabe', 'ますか|masu ka'], wrong: 1, explain: 'Entre amigos, a forma natural é só 食べる？ com a entonação subindo.' }
+      ]
+    },
+    {
+      id: 'c8l2', title: 'Negativo casual: 〜ない', emblem: '無', kind: 'grammar',
+      intro: [
+        'O negativo casual termina em ない. Verbos em る: 食べる → 食べない. Os outros trocam o “u” final por “a” + ない: 行く → 行かない, 飲む → 飲まない. Se termina em う, vira わない: 買う → 買わない.',
+        'Irregulares: する → しない, 来る → こない. E atenção: ある (ter, existir) vira só ない.',
+        'Com entonação de pergunta, 〜ない？ vira convite: 行かない？ = Vamos?'
+      ],
+      tip: 'わかんない (de わからない) é o “sei lá / não entendo” mais ouvido em animes.',
+      items: [
+        { k: 's1', jp: '今日は行かない。', say: 'きょうはいかない。', ro: 'kyou wa ikanai.', pt: 'Hoje não vou.', note: '行く → 行かない.' },
+        { k: 's2', jp: 'わからない。', say: 'わからない。', ro: 'wakaranai.', pt: 'Não sei. / Não entendo.', note: 'Casual de わかりません. Na fala rápida: わかんない.' },
+        { k: 's3', jp: 'お金がない。', say: 'おかねがない。', ro: 'okane ga nai.', pt: 'Não tenho dinheiro.', note: 'ある (ter) → ない.' },
+        { k: 's4', jp: '誰も来ない。', say: 'だれもこない。', ro: 'daremo konai.', pt: 'Ninguém vem.', note: '来る → こない. 誰も + negativo = ninguém.' },
+        { k: 's5', jp: '食べないの？', say: 'たべないの？', ro: 'tabenai no?', pt: 'Você não vai comer?', note: 'の no final deixa a pergunta mais suave.' },
+        { k: 's6', jp: 'カラオケ行かない？', say: 'カラオケいかない？', ro: 'karaoke ikanai?', pt: 'Vamos ao karaokê?', note: 'Negativo + pergunta = convite casual.' }
+      ],
+      examples: [
+        { jp: '雨だから、出かけない。', say: 'あめだから、でかけない。', ro: 'ame dakara, dekakenai.', pt: 'Está chovendo, então não vou sair.' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Qual é o negativo casual de 行く?', opts: ['行かない|ikanai', '行きない|ikinai', '行くない|ikunai'], ans: 0, explain: 'iku → ika + nai.' },
+        { t: 'situation', prompt: 'Qual é o negativo casual de ある (ter)?', opts: ['ない|nai', 'あらない|aranai', 'ありない|arinai'], ans: 0, explain: 'ある é especial: o negativo é só ない.' },
+        { t: 'situation', prompt: 'Um amigo diz 映画見ない？ O que ele quer?', opts: ['Convidar para ver um filme', 'Dizer que não gosta de filmes', 'Perguntar se o filme acabou'], ans: 0, explain: 'Negativo com entonação de pergunta = convite.' }
+      ]
+    },
+    {
+      id: 'c8l3', title: 'Passado casual: 〜た', emblem: '過', kind: 'grammar',
+      intro: [
+        'O passado casual é a forma て com た no lugar de て: 食べて → 食べた, 行って → 行った, 飲んで → 飲んだ, して → した, 来て → 来た.',
+        'Negativo no passado: ない → なかった. 行かない → 行かなかった.',
+        '“Ainda não fiz” usa a forma ている no negativo: まだ食べてない (ainda não comi), e não 食べなかった.'
+      ],
+      tip: 'Se você sabe a forma て, já sabe o passado casual!',
+      items: [
+        { k: 's1', jp: '昨日、何した？', say: 'きのう、なにした？', ro: 'kinou, nani shita?', pt: 'O que você fez ontem?', note: 'する → した.' },
+        { k: 's2', jp: '映画見た。', say: 'えいがみた。', ro: 'eiga mita.', pt: 'Vi um filme.', note: '見る → 見た.' },
+        { k: 's3', jp: 'もう食べた？', say: 'もうたべた？', ro: 'mou tabeta?', pt: 'Já comeu?', note: 'もう + passado = já.' },
+        { k: 's4', jp: 'まだ食べてない。', say: 'まだたべてない。', ro: 'mada tabete nai.', pt: 'Ainda não comi.', note: 'まだ + 〜てない = ainda não.' },
+        { k: 's5', jp: '全然寝なかった。', say: 'ぜんぜんねなかった。', ro: 'zenzen nenakatta.', pt: 'Não dormi nada.', note: '全然 + negativo = nada, de jeito nenhum.' },
+        { k: 's6', jp: '疲れた…', say: 'つかれた…', ro: 'tsukareta…', pt: 'Cansei… / Estou cansado(a)…', note: 'Em japonês, “cansado” é dito no passado: “cansei”.' }
+      ],
+      examples: [
+        { jp: '宿題やった？ … まだやってない！', say: 'しゅくだいやった？ … まだやってない！', ro: 'shukudai yatta? … mada yatte nai!', pt: 'Fez a lição? … Ainda não!' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Qual é o passado casual de 飲む?', opts: ['飲んだ|nonda', '飲った|notta', '飲みた|nomita'], ans: 0, explain: 'Igual à forma て: 飲んで → 飲んだ.' },
+        { t: 'situation', prompt: 'Como dizer “Ainda não comi”?', opts: ['まだ食べてない|mada tabete nai', 'まだ食べなかった|mada tabenakatta', 'もう食べた|mou tabeta'], ans: 0, explain: '“Ainda não” usa まだ + 〜てない.' },
+        { t: 'fill', prompt: 'Complete', pt: 'O que você fez ontem?', jp: '昨日、何＿＿？', opts: ['した|shita', 'する|suru', 'しない|shinai'], ans: 0, explain: 'Passado de する: した.' }
+      ]
+    },
+    {
+      id: 'c8l4', title: 'Contrações da fala rápida', emblem: '縮', kind: 'grammar',
+      intro: [
+        'Na conversa, várias formas encolhem. 〜ている vira 〜てる: 見ている → 見てる.',
+        '〜てしまう (fazer algo sem querer, ou por completo) vira 〜ちゃう / 〜じゃう: 忘れてしまった → 忘れちゃった.',
+        '“Tenho que”: 〜なければ → 〜なきゃ, e 〜なくては → 〜なくちゃ. 〜ておく (deixar feito) vira 〜とく.',
+        'Reconhecer essas formas é o que separa entender o livro de entender anime e conversa real.'
+      ],
+      tip: '〜ちゃった costuma vir com um tom de “ops!” ou de lamento.',
+      items: [
+        { k: 's1', jp: '今、テレビ見てる。', say: 'いま、テレビみてる。', ro: 'ima, terebi miteru.', pt: 'Estou vendo TV agora.', note: '見ている → 見てる.' },
+        { k: 's2', jp: '忘れちゃった！', say: 'わすれちゃった！', ro: 'wasurechatta!', pt: 'Esqueci! (ops)', note: '忘れてしまった → 忘れちゃった.' },
+        { k: 's3', jp: '全部食べちゃった。', say: 'ぜんぶたべちゃった。', ro: 'zenbu tabechatta.', pt: 'Comi tudo. (acabei comendo tudo)', note: '〜ちゃう também indica fazer algo por completo.' },
+        { k: 's4', jp: 'もう行かなきゃ。', say: 'もういかなきゃ。', ro: 'mou ikanakya.', pt: 'Já tenho que ir.', note: '行かなければ (ならない) → 行かなきゃ.' },
+        { k: 's5', jp: '宿題しなくちゃ。', say: 'しゅくだいしなくちゃ。', ro: 'shukudai shinakucha.', pt: 'Tenho que fazer a lição.', note: 'しなくては → しなくちゃ.' },
+        { k: 's6', jp: '飲み物、買っとく。', say: 'のみもの、かっとく。', ro: 'nomimono, kattoku.', pt: 'Eu compro as bebidas (e deixo pronto).', note: '買っておく → 買っとく: fazer algo antes, de preparação.' },
+        { k: 's7', jp: 'わかんない。', say: 'わかんない。', ro: 'wakannai.', pt: 'Sei lá. / Não entendo.', note: 'わからない → わかんない. Bem casual.' }
+      ],
+      examples: [
+        { jp: 'やばい、寝ちゃった！遅れちゃう！', say: 'やばい、ねちゃった！おくれちゃう！', ro: 'yabai, nechatta! okurechau!', pt: 'Droga, peguei no sono! Vou me atrasar!' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: '忘れちゃった é a forma falada de…', opts: ['忘れてしまった|wasurete shimatta', '忘れていた|wasurete ita', '忘れなかった|wasurenakatta'], ans: 0, explain: '〜てしまった → 〜ちゃった.' },
+        { t: 'situation', prompt: 'Alguém diz もう行かなきゃ. O que quer dizer?', opts: ['Já tenho que ir', 'Não vou mais', 'Já fui'], ans: 0, explain: '〜なきゃ = tenho que.' },
+        { t: 'fill', prompt: 'Complete (forma falada)', pt: 'Estou vendo TV agora.', jp: '今、テレビ見＿＿。', opts: ['てる|teru', 'ちゃう|chau', 'なきゃ|nakya'], ans: 0, explain: '見ている → 見てる.' }
+      ]
+    },
+    {
+      id: 'c8l5', title: 'Partículas finais da conversa', emblem: '終', kind: 'grammar',
+      intro: [
+        'No fim das frases casuais aparecem partículas que dão emoção e intenção. Você já conhece ね, よ e よね.',
+        'かな = “será que?” (pensando alto). の = pergunta suave ou explicação. じゃん = “não é que…!”, “eu não disse?”. っけ = “era… mesmo?” (tentando lembrar). な = comentário para si mesmo.',
+        'Estas partículas não têm tradução exata: preste atenção no tom de quem fala.'
+      ],
+      tip: 'っけ é ótimo para você: 名前、何だっけ？ (Qual era o nome mesmo?).',
+      items: [
+        { k: 's1', jp: 'これ、おいしいよね。', say: 'これ、おいしいよね。', ro: 'kore, oishii yo ne.', pt: 'Isto é gostoso, né?', note: 'よね = buscar confirmação de algo que você acha.' },
+        { k: 's2', jp: '明日、晴れるかな。', say: 'あした、はれるかな。', ro: 'ashita, hareru kana.', pt: 'Será que amanhã vai fazer sol?', note: 'かな = pensar alto, “será que…”.' },
+        { k: 's3', jp: 'どこ行くの？', say: 'どこいくの？', ro: 'doko iku no?', pt: 'Aonde você vai?', note: 'の = pergunta suave e curiosa.' },
+        { k: 's4', jp: '言ったじゃん！', say: 'いったじゃん！', ro: 'itta jan!', pt: 'Eu falei, não falei?!', note: 'じゃん = “não é que…”, “viu só?”. Bem casual.' },
+        { k: 's5', jp: '名前、何だっけ？', say: 'なまえ、なんだっけ？', ro: 'namae, nan da kke?', pt: 'Qual era o nome mesmo?', note: 'っけ = tentar lembrar algo.' },
+        { k: 's6', jp: 'いい天気だな。', say: 'いいてんきだな。', ro: 'ii tenki da na.', pt: 'Que tempo bom…', note: 'な = comentário, muitas vezes para si mesmo.' }
+      ],
+      examples: [
+        { jp: 'あれ？鍵、どこに置いたっけ？', say: 'あれ？かぎ、どこにおいたっけ？', ro: 'are? kagi, doko ni oita kke?', pt: 'Ué? Onde foi que eu deixei a chave?' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Você tenta lembrar a hora da reunião. Qual final usa?', opts: ['何時だっけ？|nanji da kke?', '何時じゃん！|nanji jan!', '何時だな。|nanji da na.'], ans: 0, explain: 'っけ = tentar lembrar.' },
+        { t: 'situation', prompt: 'O que significa 晴れるかな?', opts: ['Será que vai fazer sol?', 'Vai fazer sol, com certeza!', 'Não vai fazer sol.'], ans: 0, explain: 'かな = “será que”.' },
+        { t: 'situation', prompt: 'Seu amigo esqueceu algo que você avisou. O que você diz?', opts: ['言ったじゃん！|itta jan!', '言ったかな。|itta kana.', '言ったっけ？|itta kke?'], ans: 0, explain: 'じゃん = “eu não disse?!”.' }
+      ]
+    },
+    {
+      id: 'c8l6', title: 'Reações e hesitações', emblem: '相', kind: 'vocab',
+      intro: [
+        'Japoneses reagem o tempo todo enquanto o outro fala: são os あいづち (aizuchi). Ficar em silêncio pode parecer que você não está ouvindo.',
+        'Também existem palavras para ganhar tempo, como “hmm”, “é…”, “tipo”.',
+        'Ouvir essas palavras ajuda a acompanhar o ritmo de uma conversa real e de cenas de anime.'
+      ],
+      tip: 'Experimente responder com へえ！ e そうなんだ！ quando alguém te contar algo.',
+      items: [
+        { k: 'etto', jp: 'えっと', ro: 'etto', pt: 'hmm, deixa eu ver…', note: 'Para ganhar tempo pensando. Muito comum.' },
+        { k: 'anou', jp: 'あのう', ro: 'anou', pt: 'é… / com licença… (hesitante)', note: 'Para começar a falar com timidez ou chamar a atenção com educação.' },
+        { k: 'hee', jp: 'へえ', ro: 'hee', pt: 'nossa! / é mesmo?', note: 'Interesse ou surpresa leve. Quanto mais longo, mais impressionado.' },
+        { k: 'sounanda', jp: 'そうなんだ', ro: 'sou nan da', pt: 'ah, é mesmo? / entendi', note: 'Casual. Educado: そうなんですか.' },
+        { k: 'sousou', jp: 'そうそう', ro: 'sou sou', pt: 'isso, isso!', note: 'Concordar com entusiasmo.' },
+        { k: 'tashikani', jp: 'たしかに', ro: 'tashika ni', pt: 'verdade / faz sentido', note: 'Concordar com um argumento.' },
+        { k: 'fuun', jp: 'ふーん', ro: 'fuun', pt: 'hum… (sem muito interesse)', note: 'Pode soar desinteressado. Em animes, muitas vezes é provocação.' },
+        { k: 'dayone', jp: 'だよね', ro: 'da yo ne', pt: 'né! / pois é!', note: 'Concordar fortemente, casual.' },
+        { k: 'teiuka', jp: 'ていうか', ro: 'te iu ka', pt: 'aliás / quer dizer / tipo', note: 'Para corrigir ou mudar o rumo da conversa. Também っていうか.' },
+        { k: 'maa', jp: 'まあ', ro: 'maa', pt: 'bem… / enfim…', note: 'Suaviza: まあ、いいか (ah, enfim, tanto faz).' }
+      ],
+      examples: [
+        { jp: '日本に行ったよ。 … へえ！そうなんだ！', say: 'にほんにいったよ。 … へえ！そうなんだ！', ro: 'nihon ni itta yo. … hee! sou nan da!', pt: 'Fui ao Japão. … Nossa! Sério?' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Você precisa de um segundo para pensar na resposta. O que diz?', opts: ['えっと…|etto…', 'そうそう！|sou sou!', 'だよね|da yo ne'], ans: 0, explain: 'えっと = hmm, deixa eu ver.' },
+        { t: 'situation', prompt: 'Seu amigo conta uma novidade que você não sabia. Como reage?', opts: ['へえ、そうなんだ！|hee, sou nan da!', 'ふーん。|fuun.', 'ていうか…|te iu ka…'], ans: 0, explain: 'へえ + そうなんだ mostra interesse.' },
+        { t: 'situation', prompt: 'Qual reação pode soar desinteressada?', opts: ['ふーん|fuun', 'へえ！|hee!', 'たしかに|tashika ni'], ans: 0, explain: 'ふーん curto e seco soa como “tanto faz”.' }
+      ]
+    }
+    ]
+  },
+  {
+    id: 'c9', num: 9, emblem: '敬', title: 'Formalidade e Respeito', jp: 'けいご',
+    desc: 'Quem fala com quem: pronomes, sufixos, casual × polido × respeitoso, keigo de loja e linguagem rude.',
+    requires: 'c8', soon: [],
+    lessons: [
+    {
+      id: 'c9l1', title: 'Pronomes e o que revelam', emblem: '俺', kind: 'vocab',
+      intro: [
+        'Em japonês, a palavra que alguém usa para “eu” e “você” diz muito sobre a pessoa e sobre a relação. Você já conhece わたし (neutro) e あなた (você, pouco usado).',
+        'Pronomes de “você” podem soar íntimos, superiores ou agressivos. Na dúvida, chame pelo nome + さん.',
+        'Esta lição é para RECONHECER. Use わたし e o nome das pessoas até ter segurança.'
+      ],
+      tip: 'Em animes, o pronome que um personagem usa é parte da personalidade dele.',
+      items: [
+        { k: 'boku', jp: '僕', say: 'ぼく', ro: 'boku', pt: 'eu (masculino, gentil)', note: 'Usado por meninos e homens em situações casuais ou neutras. Soa educado e um pouco jovem.' },
+        { k: 'ore', jp: '俺', say: 'おれ', ro: 'ore', pt: 'eu (masculino, casual e forte)', note: 'Entre amigos. Soa confiante; com superiores, é falta de educação.' },
+        { k: 'atashi', jp: 'あたし', ro: 'atashi', pt: 'eu (feminino, casual)', note: 'Versão casual e mais feminina de わたし.' },
+        { k: 'watakushi', jp: 'わたくし', ro: 'watakushi', pt: 'eu (muito formal)', note: 'Discursos, negócios, atendimento. Mesmo kanji de わたし: 私.' },
+        { k: 'kimi', jp: '君', say: 'きみ', ro: 'kimi', pt: 'você (íntimo ou de cima para baixo)', note: 'De um superior para alguém mais novo, ou entre namorados. Muito usado em músicas.' },
+        { k: 'omae', jp: 'お前', say: 'おまえ', ro: 'omae', pt: 'você (masculino, rude ou muito íntimo)', note: 'Entre amigos homens bem próximos. Para estranhos, é agressivo.' },
+        { k: 'anta', jp: 'あんた', ro: 'anta', pt: 'você (casual, pode soar ríspido)', note: 'Forma contraída de あなた. Muitas vezes soa irritado.' },
+        { k: 'temee', jp: 'てめえ', ro: 'temee', pt: 'você (muito rude, briga)', note: 'Insulto em brigas. Só para reconhecer em animes, nunca para usar.' }
+      ],
+      examples: [
+        { jp: '俺は行く。お前は？', say: 'おれはいく。おまえは？', ro: 'ore wa iku. omae wa?', pt: 'Eu vou. E você? (entre amigos homens)' },
+        { jp: 'わたくし、田中と申します。', say: 'わたくし、たなかともうします。', ro: 'watakushi, Tanaka to moushimasu.', pt: 'Eu me chamo Tanaka. (muito formal)' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Numa entrevista de emprego, qual “eu” é mais adequado?', opts: ['わたくし|watakushi', '俺|ore', 'あたし|atashi'], ans: 0, explain: 'わたくし (ou わたし) para situações formais. 俺 seria rude.' },
+        { t: 'situation', prompt: 'Num anime, um vilão grita てめえ！ Que tom é esse?', opts: ['Muito rude, agressivo', 'Carinhoso', 'Formal e respeitoso'], ans: 0, explain: 'てめえ é um “você” de briga.' },
+        { t: 'situation', prompt: 'Qual “eu” é masculino, mas gentil e neutro?', opts: ['僕|boku', '俺|ore', 'わたくし|watakushi'], ans: 0, explain: '僕 soa educado e gentil.' }
+      ]
+    },
+    {
+      id: 'c9l2', title: 'Sufixos de tratamento', emblem: '様', kind: 'vocab', noListen: true,
+      intro: [
+        'Depois do nome vem um sufixo que mostra a relação. さん é o mais seguro e serve para quase todos.',
+        'Nunca use sufixo depois do seu próprio nome.',
+        'Chamar alguém sem sufixo (呼び捨て, yobisute) mostra muita intimidade, ou falta de respeito.'
+      ],
+      tip: 'Você já viu 先輩 (senpai) e 先生 (sensei) funcionando como sufixo: 田中先輩, 田中先生.',
+      items: [
+        { k: 'san', jp: '〜さん', say: 'たなかさん', ro: '~san', pt: 'sufixo neutro e educado (Sr., Sra.)', note: 'Serve para colegas, desconhecidos, vizinhos. Na dúvida, use さん.' },
+        { k: 'kun', jp: '〜くん', say: 'たなかくん', ro: '~kun', pt: 'sufixo para garotos e homens mais novos', note: 'Professores e chefes também usam com subordinados.' },
+        { k: 'chan', jp: '〜ちゃん', say: 'あおいちゃん', ro: '~chan', pt: 'sufixo carinhoso (crianças, amigas, animais)', note: 'Para crianças, amigas próximas e pets. Para um adulto que você não conhece, soa estranho.' },
+        { k: 'sama', jp: '〜様', say: 'たなかさま', ro: '~sama', pt: 'sufixo muito respeitoso', note: 'Clientes, cartas formais e deuses. Em animes, servos para mestres.' },
+        { k: 'dono', jp: '〜殿', say: 'たなかどの', ro: '~dono', pt: 'sufixo antigo e cerimonioso', note: 'Hoje quase só em documentos ou em falas de samurais.' },
+        { k: 'okyakusama', jp: 'お客様', say: 'おきゃくさま', ro: 'okyakusama', pt: 'cliente, freguês (respeitoso)', note: 'Como funcionários se referem aos clientes.' },
+        { k: 'yobisute', jp: '呼び捨て', say: 'よびすて', ro: 'yobisute', pt: 'chamar alguém sem sufixo', note: 'Entre amigos íntimos e família. Com outras pessoas, soa grosseiro.' }
+      ],
+      examples: [
+        { jp: 'アオイちゃん、レンくん、おはよう！', say: 'あおいちゃん、れんくん、おはよう！', ro: 'Aoi-chan, Ren-kun, ohayou!', pt: 'Bom dia, Aoi e Ren! (tom carinhoso)' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Você vai falar com um vizinho que acabou de conhecer. Qual sufixo usa?', opts: ['〜さん|~san', '〜ちゃん|~chan', 'sem sufixo'], ans: 0, explain: 'さん é o mais seguro.' },
+        { t: 'situation', prompt: 'Uma loja escreve “お客様へ”. Para quem é o aviso?', opts: ['Para os clientes', 'Para os funcionários', 'Para as crianças'], ans: 0, explain: 'お客様 = clientes (respeitoso).' },
+        { t: 'error', ctx: 'Você se apresenta: “Sou o Lucas.”', tokens: ['ルカスさん|Rukasu-san', 'です|desu'], wrong: 0, explain: 'Nunca use さん no próprio nome: ルカスです.' }
+      ]
+    },
+    {
+      id: 'c9l3', title: 'Casual, polido e respeitoso', emblem: '段', kind: 'grammar',
+      intro: [
+        'A mesma ideia muda conforme quem ouve. Casual: amigos e família. Polido (です/ます): desconhecidos, colegas, professores. Respeitoso (尊敬語, sonkeigo): clientes e superiores, elevando a ação da OUTRA pessoa.',
+        'O respeitoso troca o verbo: 行く/来る/いる → いらっしゃる, 食べる → 召し上がる, 言う → おっしゃる.',
+        'Nesta lição, cada frase aparece nos três níveis. Ouça a diferença de tamanho e de tom.'
+      ],
+      tip: 'Você só precisa FALAR casual e polido por enquanto. O respeitoso é para reconhecer em lojas, trabalho e animes.',
+      items: [
+        { k: 's1', jp: '行く？', say: 'いく？', ro: 'iku?', pt: 'Você vai? (casual)', note: 'Entre amigos.' },
+        { k: 's2', jp: '行きますか。', say: 'いきますか。', ro: 'ikimasu ka.', pt: 'Você vai? (polido)', note: 'Padrão educado.' },
+        { k: 's3', jp: 'いらっしゃいますか。', say: 'いらっしゃいますか。', ro: 'irasshaimasu ka.', pt: 'O(a) senhor(a) vai? (respeitoso)', note: 'いらっしゃる = ir/vir/estar, respeitoso. Mesmo verbo de いらっしゃいませ.' },
+        { k: 's4', jp: '食べる？', say: 'たべる？', ro: 'taberu?', pt: 'Vai comer? (casual)', note: '' },
+        { k: 's5', jp: '食べますか。', say: 'たべますか。', ro: 'tabemasu ka.', pt: 'Vai comer? (polido)', note: '' },
+        { k: 's6', jp: '召し上がりますか。', say: 'めしあがりますか。', ro: 'meshiagarimasu ka.', pt: 'O(a) senhor(a) vai comer? (respeitoso)', note: '召し上がる = comer/beber, respeitoso.' },
+        { k: 's7', jp: '何て言った？', say: 'なんていった？', ro: 'nante itta?', pt: 'O que você disse? (casual)', note: '何て = 何と (o quê), falado.' },
+        { k: 's8', jp: '何と言いましたか。', say: 'なんといいましたか。', ro: 'nan to iimashita ka.', pt: 'O que você disse? (polido)', note: '' },
+        { k: 's9', jp: '何とおっしゃいましたか。', say: 'なんとおっしゃいましたか。', ro: 'nan to osshaimashita ka.', pt: 'O que o(a) senhor(a) disse? (respeitoso)', note: 'おっしゃる = dizer, respeitoso.' }
+      ],
+      examples: [
+        { jp: '先生も いらっしゃいますか。', say: 'せんせいも いらっしゃいますか。', ro: 'sensei mo irasshaimasu ka.', pt: 'O(a) professor(a) também vem?' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Você oferece comida ao chefe numa festa da empresa. Qual frase?', opts: ['召し上がりますか|meshiagarimasu ka', '食べる？|taberu?', '食べろ|tabero'], ans: 0, explain: 'Para um superior, o respeitoso 召し上がる.' },
+        { t: 'situation', prompt: 'Qual é a versão casual de 行きますか?', opts: ['行く？|iku?', 'いらっしゃいますか|irasshaimasu ka', '行け|ike'], ans: 0, explain: 'Casual = forma de dicionário com entonação de pergunta.' },
+        { t: 'situation', prompt: 'おっしゃる é a forma respeitosa de qual verbo?', opts: ['言う (dizer)|iu', '行く (ir)|iku', '見る (ver)|miru'], ans: 0, explain: 'おっしゃる = dizer (respeitoso).' }
+      ]
+    },
+    {
+      id: 'c9l4', title: 'Keigo de loja e trabalho', emblem: '店', kind: 'vocab',
+      intro: [
+        'Em lojas, restaurantes e no trabalho você ouve frases fixas em linguagem respeitosa e humilde. Elas soam longas e rápidas, mas são sempre as mesmas.',
+        'O funcionário eleva o cliente e rebaixa a si mesmo. Você, como cliente, pode responder de forma simples e educada.',
+        'Reconhecer estas frases pelo ouvido torna qualquer compra no Japão muito mais tranquila.'
+      ],
+      tip: 'Se ouvir かしこまりました, deu certo: o pedido foi entendido.',
+      items: [
+        { k: 'irasshaimase', jp: 'いらっしゃいませ', ro: 'irasshaimase', pt: 'Seja bem-vindo(a)! (em lojas)', note: 'Os funcionários dizem ao cliente entrar. Não é preciso responder.' },
+        { k: 'kashikomarimashita', jp: 'かしこまりました', ro: 'kashikomarimashita', pt: 'Entendido, perfeitamente.', note: 'Versão humilde de わかりました, dita ao cliente ou ao chefe.' },
+        { k: 'shoushou', jp: '少々お待ちください', say: 'しょうしょうおまちください', ro: 'shoushou omachi kudasai', pt: 'Aguarde um momento, por favor.', note: 'Versão formal de ちょっと待って.' },
+        { k: 'moushiwake', jp: '申し訳ございません', say: 'もうしわけございません', ro: 'moushiwake gozaimasen', pt: 'Peço sinceras desculpas.', note: 'Desculpa muito formal, de empresa para cliente.' },
+        { k: 'osoreirimasu', jp: '恐れ入ります', say: 'おそれいります', ro: 'osoreirimasu', pt: 'Com sua licença / Agradeço muito.', note: 'Muito educado: para pedir algo com delicadeza ou agradecer.' },
+        { k: 'shitsurei', jp: '失礼します', say: 'しつれいします', ro: 'shitsurei shimasu', pt: 'Com licença (ao entrar ou sair).', note: 'Ao entrar na sala de um professor, ao desligar o telefone, ao sair do trabalho.' },
+        { k: 'moushimasu', noListen: true, jp: '〜と申します', say: 'たなかともうします', ro: '~to moushimasu', pt: 'meu nome é ~ (humilde)', note: 'Versão humilde de 〜です para se apresentar.' },
+        { k: 'degozaimasu', noListen: true, jp: '〜でございます', say: 'こちらでございます', ro: '~de gozaimasu', pt: 'é ~ (muito formal)', note: 'Versão muito formal de です. こちらでございます = Aqui está / É por aqui.' },
+        { k: 'yoroshii', jp: 'よろしいでしょうか', ro: 'yoroshii deshou ka', pt: 'Está tudo bem? / Posso?', note: 'Versão formal de いいですか.' }
+      ],
+      examples: [
+        { jp: 'ご注文は以上でよろしいでしょうか。', say: 'ごちゅうもんはいじょうでよろしいでしょうか。', ro: 'gochuumon wa ijou de yoroshii deshou ka.', pt: 'Seu pedido é só isso?' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'O atendente diz かしこまりました depois do seu pedido. O que significa?', opts: ['Entendido', 'Acabou', 'Desculpe'], ans: 0, explain: 'かしこまりました = entendido (humilde).' },
+        { t: 'situation', prompt: 'Você sai da sala do professor. O que diz?', opts: ['失礼します|shitsurei shimasu', 'いらっしゃいませ|irasshaimase', 'かしこまりました|kashikomarimashita'], ans: 0, explain: '失礼します ao entrar e ao sair.' },
+        { t: 'situation', prompt: '少々お待ちください é a versão formal de…', opts: ['ちょっと待って|chotto matte', 'もう一度|mou ichido', 'ありがとう|arigatou'], ans: 0, explain: 'Aguarde um momento = ちょっと待って.' }
+      ]
+    },
+    {
+      id: 'c9l5', title: 'Japonês rude (só para reconhecer)', emblem: '怒', kind: 'vocab',
+      intro: [
+        'Animes de ação estão cheios de fala agressiva. Esta lição é para ENTENDER o que está sendo dito, não para usar: com pessoas reais, estas palavras ofendem.',
+        'Duas marcas da fala rude: o imperativo seco (黙れ, どけ, 消えろ) e a troca do som “ai” por “ee”: うるさい → うるせえ, すごい → すげえ.',
+        '〜やがる é colocado depois do verbo para mostrar desprezo pela ação de alguém.'
+      ],
+      tip: 'Se ouvir um “ee” arrastado no fim de um adjetivo, provavelmente é um personagem durão falando.',
+      items: [
+        { k: 'urusee', jp: 'うるせえ', ro: 'urusee', pt: 'Cala a boca! / Que saco!', note: 'Versão rude de うるさい (ai → ee).' },
+        { k: 'fuzakeruna', jp: 'ふざけるな', ro: 'fuzakeru na', pt: 'Não brinca comigo! / Pare com isso!', note: 'Verbo + な = proibição seca. Mais rude ainda: ざけんな.' },
+        { k: 'damare', jp: '黙れ', say: 'だまれ', ro: 'damare', pt: 'Cale-se!', note: 'Imperativo de 黙る (calar-se).' },
+        { k: 'doke', jp: 'どけ', ro: 'doke', pt: 'Sai da frente!', note: 'Imperativo de どく (sair do caminho).' },
+        { k: 'kiero', jp: '消えろ', say: 'きえろ', ro: 'kiero', pt: 'Some daqui! / Desapareça!', note: 'Imperativo de 消える (desaparecer).' },
+        { k: 'kuso', jp: 'くそ', ro: 'kuso', pt: 'Droga! / Merda!', note: 'Palavrão de frustração. Muito comum em lutas.' },
+        { k: 'chikushou', jp: 'ちくしょう', ro: 'chikushou', pt: 'Maldição! / Droga!', note: 'Frustração forte. Na fala: ちきしょう.' },
+        { k: 'namenna', jp: 'なめるな', ro: 'nameru na', pt: 'Não me subestime!', note: 'なめる = lamber, e também menosprezar alguém. Falado: なめんな.' },
+        { k: 'yagaru', noListen: true, jp: '〜やがる', say: 'わらいやがって', ro: '~yagaru', pt: 'sufixo de desprezo pela ação de alguém', note: '笑いやがって = “rindo de mim, desgraçado”.' }
+      ],
+      examples: [
+        { jp: 'すげえ！', say: 'すげえ！', ro: 'sugee!', pt: 'Que demais! (versão rude e empolgada de すごい)' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'うるせえ é a versão rude de…', opts: ['うるさい|urusai', 'うれしい|ureshii', 'うそ|uso'], ans: 0, explain: 'ai → ee: うるさい → うるせえ.' },
+        { t: 'situation', prompt: 'Num anime, alguém empurra o outro gritando どけ！ O que significa?', opts: ['Sai da frente!', 'Fique aí!', 'Obrigado!'], ans: 0, explain: 'どけ = sai do caminho!' },
+        { t: 'situation', prompt: 'Com um colega de trabalho irritante, o que é adequado?', opts: ['ちょっと静かにしてもらえますか|chotto shizuka ni shite moraemasu ka', '黙れ！|damare!', 'うるせえ！|urusee!'], ans: 0, explain: 'Na vida real, peça com educação. As formas rudes são só para reconhecer.' }
+      ]
+    }
+    ]
+  },
+  {
+    id: 'c10', num: 10, emblem: '劇', title: 'Japonês dos Animes', jp: 'アニメのにほんご',
+    desc: 'Frases de batalha, jeitos de falar dos personagens, emoções fortes, onomatopeias e vida escolar.',
+    requires: 'c9', soon: [],
+    lessons: [
+    {
+      id: 'c10l1', title: 'Determinação e batalha', emblem: '戦', kind: 'grammar',
+      intro: [
+        'Cenas de luta usam frases curtas e fortes, quase sempre na forma casual.',
+        'ぞ e ぜ no final dão força e confiança (fala masculina). O imperativo (逃げろ, 走れ) dá ordens urgentes.',
+        'Várias frases usam formas que você já aprendeu: 負けない (negativo casual), 信じてる (〜ている encurtado).'
+      ],
+      tip: 'Repare em quantas falas de luta são negativas: 負けない, 諦めない, 許さない.',
+      items: [
+        { k: 's1', jp: '行くぞ！', say: 'いくぞ！', ro: 'iku zo!', pt: 'Lá vou eu! / Vamos lá!', note: 'ぞ = ênfase forte, aviso.' },
+        { k: 's2', jp: '負けない！', say: 'まけない！', ro: 'makenai!', pt: 'Não vou perder!', note: '負ける (perder) → 負けない.' },
+        { k: 's3', jp: '絶対に勝つ！', say: 'ぜったいにかつ！', ro: 'zettai ni katsu!', pt: 'Vou vencer, com certeza!', note: '勝つ = vencer. 絶対に = com certeza absoluta.' },
+        { k: 's4', jp: '逃げろ！', say: 'にげろ！', ro: 'nigero!', pt: 'Fuja! / Corram!', note: 'Imperativo de 逃げる.' },
+        { k: 's5', jp: '助けて！', say: 'たすけて！', ro: 'tasukete!', pt: 'Socorro! / Me ajuda!', note: 'Forma て de 助ける (ajudar, salvar).' },
+        { k: 's6', jp: 'まだだ！', say: 'まだだ！', ro: 'mada da!', pt: 'Ainda não acabou!', note: 'Fala clássica de quem se levanta depois de cair.' },
+        { k: 's7', jp: '信じてる。', say: 'しんじてる。', ro: 'shinjiteru.', pt: 'Eu acredito em você.', note: '信じている → 信じてる.' },
+        { k: 's8', jp: '許さない！', say: 'ゆるさない！', ro: 'yurusanai!', pt: 'Não vou te perdoar!', note: '許す (perdoar) → 許さない.' }
+      ],
+      examples: [
+        { jp: 'みんな、逃げろ！ここは俺に任せろ！', say: 'みんな、にげろ！ここはおれにまかせろ！', ro: 'minna, nigero! koko wa ore ni makasero!', pt: 'Pessoal, fujam! Deixem isto comigo!' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'O herói, caído, se levanta e diz まだだ！ O que quer dizer?', opts: ['Ainda não acabou!', 'Já era!', 'Me ajuda!'], ans: 0, explain: 'まだ = ainda. まだだ = ainda não (acabou).' },
+        { t: 'situation', prompt: 'Qual frase pede socorro?', opts: ['助けて！|tasukete!', '逃げろ！|nigero!', '行くぞ！|iku zo!'], ans: 0, explain: '助けて = me ajuda!' },
+        { t: 'translate', jp: '負けない！', ro: 'makenai!', tiles: ['Não', 'vou', 'perder!'], extra: ['Vou', 'fugir!'], explain: '負ける (perder) no negativo.' }
+      ]
+    },
+    {
+      id: 'c10l2', title: 'Jeitos de falar dos personagens', emblem: '役', kind: 'grammar',
+      intro: [
+        'Animes usam “jeitos de falar” prontos para mostrar quem é o personagem: o samurai antigo, o velho sábio, a moça rica, o colega mais novo. Em japonês isso se chama 役割語 (yakuwarigo).',
+        'Muitas dessas formas quase não existem na vida real, ou são de outras regiões (como o dialeto de Kansai).',
+        'Entender esses finais ajuda a perceber a personalidade e a relação entre os personagens.'
+      ],
+      tip: 'Ouviu でござる? Samurai. のじゃ? Velho sábio. ですわ? Moça de família rica.',
+      items: [
+        { k: 's1', jp: '行こうぜ！', say: 'いこうぜ！', ro: 'ikou ze!', pt: 'Bora! (masculino, confiante)', note: 'ぜ = convite ou afirmação masculina e animada.' },
+        { k: 's2', jp: '素敵だわ。', say: 'すてきだわ。', ro: 'suteki da wa.', pt: 'Que lindo. (feminino tradicional)', note: 'わ no final, com entonação subindo, é fala feminina mais clássica.' },
+        { k: 's3', jp: '大丈夫かしら。', say: 'だいじょうぶかしら。', ro: 'daijoubu kashira.', pt: 'Será que está tudo bem? (feminino)', note: 'かしら = versão feminina de かな.' },
+        { k: 's4', jp: '拙者は侍でござる。', say: 'せっしゃはさむらいでござる。', ro: 'sessha wa samurai de gozaru.', pt: 'Eu sou um samurai. (fala de samurai)', note: '拙者 = eu (humilde, antigo). でござる = です antigo.' },
+        { k: 's5', jp: 'わしは知らんのじゃ。', say: 'わしはしらんのじゃ。', ro: 'washi wa shiran no ja.', pt: 'Eu não sei. (fala de velho)', note: 'わし = eu (homem idoso). 知らん = 知らない. じゃ = だ.' },
+        { k: 's6', jp: '了解っす！', say: 'りょうかいっす！', ro: 'ryoukai ssu!', pt: 'Entendido! (colega mais novo)', note: 'っす = です encurtado: respeito descontraído, típico de kouhai.' },
+        { k: 's7', jp: 'ごきげんよう。', say: 'ごきげんよう。', ro: 'gokigen you.', pt: 'Saudações. (moça refinada)', note: 'Cumprimento elegante, típico de escolas de elite em animes.' },
+        { k: 's8', jp: 'なんでやねん！', say: 'なんでやねん！', ro: 'nande ya nen!', pt: 'Por que isso?! / Que absurdo! (Kansai)', note: 'Dialeto de Kansai (Osaka). A “bronca” clássica da comédia japonesa.' },
+        { k: 's9', jp: 'ほんまに？', say: 'ほんまに？', ro: 'honma ni?', pt: 'Sério? (Kansai)', note: 'ほんま = 本当 no dialeto de Kansai.' }
+      ],
+      examples: [
+        { jp: 'そうでござるか。', say: 'そうでござるか。', ro: 'sou de gozaru ka.', pt: 'É mesmo? (fala de samurai)' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Um personagem termina as frases com でござる. Quem ele provavelmente é?', opts: ['Um samurai à moda antiga', 'Uma estudante moderna', 'Um robô'], ans: 0, explain: 'でござる é o jeito de falar clássico de samurais.' },
+        { t: 'situation', prompt: '了解っす！ soa como…', opts: ['Um colega mais novo, descontraído', 'Um rei', 'Uma senhora idosa'], ans: 0, explain: 'っす = です encurtado, típico de kouhai.' },
+        { t: 'situation', prompt: 'なんでやねん！ é de qual região?', opts: ['Kansai (Osaka)', 'Tóquio', 'Hokkaido'], ans: 0, explain: 'やねん é marca do dialeto de Kansai.' }
+      ]
+    },
+    {
+      id: 'c10l3', title: 'Emoções e reações fortes', emblem: '感', kind: 'vocab',
+      intro: [
+        'Estas palavras aparecem em quase todo episódio. Muitas mudam de sentido conforme o tom de voz.',
+        'やばい é o exemplo perfeito: pode ser “perigo!”, “droga!” ou “incrível!”. Só o contexto diz.',
+        'Ouça o tom: alegria, frustração, vergonha e surpresa soam bem diferentes.'
+      ],
+      tip: 'くやしい não tem tradução exata: é a raiva de ter perdido ou falhado, misturada com vontade de melhorar.',
+      items: [
+        { k: 'yabai', jp: 'やばい', ro: 'yabai', pt: 'perigo! / droga! / incrível!', note: 'Gíria muito versátil. Casual.' },
+        { k: 'shimatta', jp: 'しまった', ro: 'shimatta', pt: 'Droga! Errei! / Ops!', note: 'Quando você percebe um erro.' },
+        { k: 'hidoi', jp: 'ひどい', ro: 'hidoi', pt: 'Que cruel! / Que horrível!', note: 'Para algo injusto ou maldoso.' },
+        { k: 'zurui', jp: 'ずるい', ro: 'zurui', pt: 'Que injusto! / Trapaceiro!', note: 'Quando alguém leva vantagem: ずるい！ (não vale!).' },
+        { k: 'mou', jp: 'もう！', ro: 'mou!', pt: 'Ai, que coisa! / Poxa!', note: 'Irritação leve, muitas vezes fofa.' },
+        { k: 'masaka', jp: 'まさか', ro: 'masaka', pt: 'Não pode ser! / Será possível?', note: 'Surpresa diante de algo inacreditável.' },
+        { k: 'ureshii', jp: 'うれしい', ro: 'ureshii', pt: 'que alegria, estou feliz', note: 'Felicidade por algo que aconteceu.' },
+        { k: 'kuyashii', jp: '悔しい', say: 'くやしい', ro: 'kuyashii', pt: 'que raiva (de ter perdido)', note: 'Frustração de perder, com vontade de revanche.' },
+        { k: 'hazukashii', jp: '恥ずかしい', say: 'はずかしい', ro: 'hazukashii', pt: 'que vergonha, estou envergonhado(a)', note: 'Constrangimento ou timidez.' },
+        { k: 'sasuga', jp: 'さすが', ro: 'sasuga', pt: 'como esperado de você! / mandou bem!', note: 'Elogio a alguém que fez jus à fama: さすが先輩！' }
+      ],
+      examples: [
+        { jp: 'やばい、遅刻する！', say: 'やばい、ちこくする！', ro: 'yabai, chikoku suru!', pt: 'Droga, vou chegar atrasado!' },
+        { jp: 'このケーキ、やばい！', say: 'このケーキ、やばい！', ro: 'kono keeki, yabai!', pt: 'Este bolo é incrível!' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Você percebe que esqueceu a carteira em casa. O que diz?', opts: ['しまった！|shimatta!', 'さすが！|sasuga!', 'うれしい！|ureshii!'], ans: 0, explain: 'しまった = ops, errei!' },
+        { t: 'situation', prompt: 'O colega resolve o problema difícil, como sempre. Você diz…', opts: ['さすが！|sasuga!', 'ずるい！|zurui!', 'まさか！|masaka!'], ans: 0, explain: 'さすが = como esperado de você.' },
+        { t: 'situation', prompt: 'Seu time perdeu por um ponto. Que palavra expressa o sentimento?', opts: ['悔しい|kuyashii', '恥ずかしい|hazukashii', 'うれしい|ureshii'], ans: 0, explain: '悔しい = raiva de ter perdido.' }
+      ]
+    },
+    {
+      id: 'c10l4', title: 'Onomatopeias', emblem: '音', kind: 'vocab',
+      intro: [
+        'O japonês tem milhares de onomatopeias. Elas descrevem não só sons, mas também sentimentos e estados: o coração batendo, a empolgação, a irritação.',
+        'Muitas são uma sílaba dupla repetida: ドキドキ, ワクワク. São escritas em katakana ou em hiragana.',
+        'Nos mangás elas aparecem desenhadas no fundo da cena. Nos animes, faladas pelos personagens.'
+      ],
+      tip: 'Use com する: ドキドキする (fico com o coração acelerado), イライラする (fico irritado).',
+      items: [
+        { k: 'dokidoki', jp: 'ドキドキ', ro: 'dokidoki', pt: 'coração acelerado (nervoso ou apaixonado)', note: 'Antes de uma prova ou perto de quem você gosta.' },
+        { k: 'wakuwaku', jp: 'ワクワク', ro: 'wakuwaku', pt: 'empolgação, ansiedade boa', note: 'Antes de uma viagem, de um episódio novo…' },
+        { k: 'iraira', jp: 'イライラ', ro: 'iraira', pt: 'irritação', note: 'イライラする = ficar irritado.' },
+        { k: 'nikoniko', jp: 'ニコニコ', ro: 'nikoniko', pt: 'sorrindo, sorridente', note: 'Sorriso alegre e simpático.' },
+        { k: 'niyaniya', jp: 'ニヤニヤ', ro: 'niyaniya', pt: 'sorrisinho malicioso', note: 'Sorriso de quem está tramando algo ou provocando.' },
+        { k: 'kirakira', jp: 'キラキラ', ro: 'kirakira', pt: 'brilhando, cintilante', note: 'Estrelas, olhos brilhando de emoção.' },
+        { k: 'gorogoro', jp: 'ゴロゴロ', ro: 'gorogoro', pt: 'à toa, rolando (também trovão)', note: '家でゴロゴロする = ficar largado em casa.' },
+        { k: 'shiin', jp: 'シーン', ro: 'shiin', pt: 'silêncio total', note: 'O “som” do silêncio constrangedor depois de uma piada ruim.' },
+        { k: 'batabata', jp: 'バタバタ', ro: 'batabata', pt: 'correria, agitação', note: 'Passos apressados, dia corrido.' },
+        { k: 'gussuri', jp: 'ぐっすり', ro: 'gussuri', pt: 'dormir profundamente', note: 'ぐっすり寝た = dormi como uma pedra.' }
+      ],
+      examples: [
+        { jp: '明日から旅行！ワクワクする！', say: 'あしたからりょこう！ワクワクする！', ro: 'ashita kara ryokou! wakuwaku suru!', pt: 'Amanhã começa a viagem! Que empolgação!' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Você está nervoso antes de se declarar. Que onomatopeia descreve?', opts: ['ドキドキ|dokidoki', 'ゴロゴロ|gorogoro', 'シーン|shiin'], ans: 0, explain: 'ドキドキ = coração acelerado.' },
+        { t: 'situation', prompt: 'Alguém conta uma piada e ninguém ri. Qual onomatopeia?', opts: ['シーン|shiin', 'キラキラ|kirakira', 'ワクワク|wakuwaku'], ans: 0, explain: 'シーン = silêncio total.' },
+        { t: 'situation', prompt: 'Passar o domingo deitado no sofá é…', opts: ['ゴロゴロする|gorogoro suru', 'バタバタする|batabata suru', 'イライラする|iraira suru'], ans: 0, explain: 'ゴロゴロ = ficar à toa, rolando.' }
+      ]
+    },
+    {
+      id: 'c10l5', title: 'Vida escolar', emblem: '校', kind: 'vocab',
+      intro: [
+        'Muitos animes se passam em escolas japonesas. Algumas palavras e eventos não existem no Brasil do mesmo jeito.',
+        'Clubes (部活) são parte enorme da vida do aluno. Festivais culturais e esportivos acontecem todo ano.',
+        'A hierarquia entre veteranos (先輩) e calouros (後輩) é levada a sério.'
+      ],
+      tip: 'O terraço da escola (屋上) é o lugar clássico de conversas importantes nos animes.',
+      items: [
+        { k: 'bukatsu', jp: '部活', say: 'ぶかつ', ro: 'bukatsu', pt: 'atividade de clube', note: 'Clubes de esporte, música, arte… depois das aulas.' },
+        { k: 'houkago', jp: '放課後', say: 'ほうかご', ro: 'houkago', pt: 'depois da aula', note: 'O período livre depois das aulas.' },
+        { k: 'bunkasai', jp: '文化祭', say: 'ぶんかさい', ro: 'bunkasai', pt: 'festival cultural da escola', note: 'Cada turma monta uma atração: café, casa mal-assombrada, peça.' },
+        { k: 'kouhai', jp: '後輩', say: 'こうはい', ro: 'kouhai', pt: 'calouro, colega mais novo', note: 'O oposto de 先輩 (senpai).' },
+        { k: 'kokuhaku', jp: '告白', say: 'こくはく', ro: 'kokuhaku', pt: 'declaração (de amor)', note: 'Cena clássica: 告白する = declarar-se.' },
+        { k: 'okujou', jp: '屋上', say: 'おくじょう', ro: 'okujou', pt: 'terraço, telhado', note: 'Onde personagens almoçam ou se declaram.' },
+        { k: 'tenkousei', jp: '転校生', say: 'てんこうせい', ro: 'tenkousei', pt: 'aluno transferido', note: 'O aluno novo que chega no meio do ano.' },
+        { k: 'kyoushitsu', jp: '教室', say: 'きょうしつ', ro: 'kyoushitsu', pt: 'sala de aula', note: '教 (ensinar) + 室 (sala).' },
+        { k: 'seitokai', jp: '生徒会', say: 'せいとかい', ro: 'seitokai', pt: 'conselho estudantil', note: 'Em animes, costuma ter muito poder na escola.' },
+        { k: 'natsuyasumi', jp: '夏休み', say: 'なつやすみ', ro: 'natsuyasumi', pt: 'férias de verão', note: 'No Japão, de fim de julho até o fim de agosto.' }
+      ],
+      examples: [
+        { jp: '放課後、屋上に来て。', say: 'ほうかご、おくじょうにきて。', ro: 'houkago, okujou ni kite.', pt: 'Depois da aula, venha ao terraço.' }
+      ],
+      exercises: [
+        { t: 'situation', prompt: 'Alguém diz 放課後、屋上に来て. Quando e onde?', opts: ['Depois da aula, no terraço', 'Antes da aula, na sala', 'Nas férias, na praia'], ans: 0, explain: '放課後 = depois da aula; 屋上 = terraço.' },
+        { t: 'situation', prompt: 'Como um aluno do 1º ano chama alguém do 3º ano do mesmo clube?', opts: ['先輩|senpai', '後輩|kouhai', '転校生|tenkousei'], ans: 0, explain: 'O mais velho é 先輩; o mais novo, 後輩.' },
+        { t: 'situation', prompt: 'O que é 告白?', opts: ['Declaração de amor', 'Prova final', 'Festival esportivo'], ans: 0, explain: '告白 = declarar-se para alguém.' }
+      ]
+    }
+    ]
+  });
+
+  /* ---------------- ordem do mapa: as trilhas se intercalam ---------------- */
+  const ORDER = ['c1', 'c4', 'c2', 'c5', 'c3', 'c6', 'c8', 'c7', 'c9', 'c10'];
+  CATS.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+  CATS.forEach((c, i) => { c.num = i + 1; });
+
+  /* ---------------- Academia Auditiva: palavras e pares de som ---------------- */
+  const pack = id => AUDIO_PACKS.find(p => p.id === id);
+  pack('aud-pal').items.push(
+    { k: 'kiite', jp: '聞いて', say: 'きいて', ro: 'kiite', pt: 'escute! / pergunte!', lv: 1, note: '“i” longo: kii-te. Compare com 来て (kite, venha).' },
+    { k: 'chizu', jp: '地図', say: 'ちず', ro: 'chizu', pt: 'mapa', lv: 1, note: '“i” curto: chi-zu.' },
+    { k: 'chiizu', jp: 'チーズ', say: 'チーズ', ro: 'chiizu', pt: 'queijo', lv: 1, note: '“i” longo: chii-zu. Do inglês “cheese”.' },
+    { k: 'biru', jp: 'ビル', say: 'ビル', ro: 'biru', pt: 'prédio', lv: 1, note: '“i” curto: bi-ru. Do inglês “building”.' },
+    { k: 'biiru', jp: 'ビール', say: 'ビール', ro: 'biiru', pt: 'cerveja', lv: 1, note: '“i” longo: bii-ru. Uma vogal a mais e muda tudo!' },
+    { k: 'heya', jp: '部屋', say: 'へや', ro: 'heya', pt: 'quarto, cômodo', lv: 2, note: '“e” curto: he-ya.' },
+    { k: 'heiya', jp: '平野', say: 'へいや', ro: 'heiya', pt: 'planície', lv: 2, note: 'O “ei” soa como um “e” longo: hee-ya.' },
+    { k: 'kita', jp: '来た', say: 'きた', ro: 'kita', pt: 'veio, chegou', lv: 2, note: 'Sem pausa: ki-ta.' },
+    { k: 'kitta', jp: '切った', say: 'きった', ro: 'kitta', pt: 'cortou', lv: 2, note: 'Com pausa: kit-ta.' },
+    { k: 'saki', jp: '先', say: 'さき', ro: 'saki', pt: 'antes; à frente', lv: 2, note: 'Sem pausa: sa-ki. 先に行って = vai na frente.' },
+    { k: 'sakki', jp: 'さっき', say: 'さっき', ro: 'sakki', pt: 'agora há pouco', lv: 2, note: 'Com pausa: sak-ki.' },
+    { k: 'jiyuu', jp: '自由', say: 'じゆう', ro: 'jiyuu', pt: 'liberdade', lv: 3, note: 'Três sons: ji-yu-u. Compare com じゅう (juu, dez), que é um som só.' },
+    { k: 'mate', jp: '待て', say: 'まて', ro: 'mate', pt: 'Espera! (ordem seca)', lv: 3, note: 'Sem pausa: ma-te. Imperativo, comum em perseguições de anime.' },
+    { k: 'matte', jp: '待って', say: 'まって', ro: 'matte', pt: 'espera (pedido)', lv: 3, note: 'Com pausa: mat-te. Pedido, mais suave que 待て.' }
+  );
+  PRON_SETS.push(
+    { id: 'kiite', lv: 1, ids: ['aud-pal:kite', 'aud-pal:kiite'] },
+    { id: 'chizu', lv: 1, ids: ['aud-pal:chizu', 'aud-pal:chiizu'] },
+    { id: 'biru', lv: 1, ids: ['aud-pal:biru', 'aud-pal:biiru'] },
+    { id: 'heya', lv: 2, ids: ['aud-pal:heya', 'aud-pal:heiya'] },
+    { id: 'kitta', lv: 2, ids: ['aud-pal:kita', 'aud-pal:kitta'] },
+    { id: 'sakki', lv: 2, ids: ['aud-pal:saki', 'aud-pal:sakki'] },
+    { id: 'jiyuu', lv: 3, ids: ['aud-pal:jiyuu', 'c1l1:10'] },
+    { id: 'mate', lv: 3, ids: ['aud-pal:mate', 'aud-pal:matte'] }
+  );
+
+  /* ---------------- Expressões do Cotidiano ---------------- */
+  pack('aud-expr').items.push(
+    { k: 'hisashiburi', jp: '久しぶり', say: 'ひさしぶり', ro: 'hisashiburi', pt: 'Quanto tempo! (sem se ver)', lv: 1, when: 'Ao reencontrar alguém depois de muito tempo.', formal: 'Informal. Mais educado: お久しぶりです (ohisashiburi desu).', ex: { jp: '久しぶり！元気だった？', ro: 'hisashiburi! genki datta?', pt: 'Quanto tempo! Você estava bem?' } },
+    { k: 'ojamashimasu', jp: 'お邪魔します', say: 'おじゃまします', ro: 'ojama shimasu', pt: 'Com licença (ao entrar na casa de alguém)', lv: 2, when: 'Ao entrar na casa de outra pessoa. Literalmente “vou atrapalhar”.', formal: 'Serve para todas as situações. Ao sair: お邪魔しました.', ex: { jp: 'どうぞ、上がって。 … お邪魔します。', ro: 'douzo, agatte. … ojama shimasu.', pt: 'Entre, por favor. … Com licença.' } },
+    { k: 'odaijini', jp: 'お大事に', say: 'おだいじに', ro: 'odaiji ni', pt: 'Melhoras! / Se cuida!', lv: 2, when: 'Para alguém doente ou machucado.', formal: 'Neutro. Mais educado: お大事にしてください.', ex: { jp: '風邪？お大事に。', ro: 'kaze? odaiji ni.', pt: 'Resfriado? Melhoras.' } },
+    { k: 'kiotsukete', jp: '気をつけて', say: 'きをつけて', ro: 'ki o tsukete', pt: 'Cuidado! / Vai com cuidado.', lv: 1, when: 'Na despedida ou para avisar de um perigo.', formal: 'Informal. Mais educado: お気をつけて.', ex: { jp: '気をつけて帰ってね。', ro: 'ki o tsukete kaette ne.', pt: 'Volte para casa com cuidado, tá?' } },
+    { k: 'mochiron', jp: 'もちろん', say: 'もちろん', ro: 'mochiron', pt: 'Claro! / Com certeza!', lv: 1, when: 'Para concordar ou aceitar com entusiasmo.', formal: 'Serve para todas as situações.', ex: { jp: '来る？ … もちろん！', ro: 'kuru? … mochiron!', pt: 'Você vem? … Claro!' } },
+    { k: 'maamaa', jp: 'まあまあ', say: 'まあまあ', ro: 'maamaa', pt: 'Mais ou menos.', lv: 2, when: 'Quando algo é razoável, nem bom nem ruim. Também acalma alguém: まあまあ… (calma, calma…).', formal: 'Neutro.', ex: { jp: 'テスト、どうだった？ … まあまあ。', ro: 'tesuto, dou datta? … maamaa.', pt: 'Como foi a prova? … Mais ou menos.' } },
+    { k: 'douzo', jp: 'どうぞ', say: 'どうぞ', ro: 'douzo', pt: 'Por favor, fique à vontade / Pode pegar.', lv: 1, when: 'Para oferecer algo ou dar passagem.', formal: 'Serve para todas as situações.', ex: { jp: 'お先にどうぞ。', ro: 'osaki ni douzo.', pt: 'Pode ir primeiro.' } },
+    { k: 'douitashimashite', jp: 'どういたしまして', say: 'どういたしまして', ro: 'dou itashimashite', pt: 'De nada.', lv: 2, when: 'Resposta a um agradecimento.', formal: 'Educado, e às vezes soa formal demais. Entre amigos é comum só いいよ ou うん.', ex: { jp: 'ありがとう。 … どういたしまして。', ro: 'arigatou. … dou itashimashite.', pt: 'Obrigado. … De nada.' } },
+    { k: 'iidesu', jp: 'いいです', say: 'いいです', ro: 'ii desu', pt: 'Não, obrigado. / Está bom assim.', lv: 3, when: 'Pegadinha! Ao recusar uma oferta (sacola, mais comida), いいです quer dizer “não precisa”. O contexto e o gesto mostram se é “sim” ou “não”.', formal: 'Educado. Mais claro: 大丈夫です (não precisa, obrigado).', ex: { jp: '袋はいりますか？ … いいです。', ro: 'fukuro wa irimasu ka? … ii desu.', pt: 'Precisa de sacola? … Não, obrigado.' } },
+    { k: 'betsuni', jp: '別に', say: 'べつに', ro: 'betsu ni', pt: 'Nada não. / Tanto faz.', lv: 2, when: 'Resposta seca para mostrar que algo não importa. Muito usada por personagens tsundere.', formal: 'Informal, pode soar frio ou mal-educado.', ex: { jp: 'どうしたの？ … 別に。', ro: 'dou shita no? … betsu ni.', pt: 'O que foi? … Nada não.' } }
+  );
+
+  /* ---------------- Frases faladas ---------------- */
+  pack('aud-fra').items.push(
+    { k: 'tsugiwa', jp: '次は新宿です。', say: 'つぎはしんじゅくです。', ro: 'tsugi wa shinjuku desu.', pt: 'A próxima (estação) é Shinjuku.', lv: 2, note: 'Aviso de trem. 次 (tsugi) = próximo.' },
+    { k: 'docchidemo', jp: 'どっちでもいいよ。', say: 'どっちでもいいよ。', ro: 'docchi demo ii yo.', pt: 'Tanto faz, qualquer um serve.', lv: 2, note: 'どっち = qual dos dois. でもいい = qualquer um serve.' },
+    { k: 'kinishinaide', jp: '気にしないで。', say: 'きにしないで。', ro: 'ki ni shinaide.', pt: 'Não se preocupe. / Deixa pra lá.', lv: 2, note: 'Resposta comum a um pedido de desculpas.' },
+    { k: 'mouikkai', jp: 'もう一回言ってもらえますか？', say: 'もういっかいいってもらえますか？', ro: 'mou ikkai itte moraemasu ka?', pt: 'Pode repetir, por favor?', lv: 2, note: 'Muito útil! 〜てもらえますか = poderia ~ para mim?' },
+    { k: 'tsukareta', jp: '今日は本当に疲れた。', say: 'きょうはほんとうにつかれた。', ro: 'kyou wa hontou ni tsukareta.', pt: 'Hoje eu cansei de verdade.', lv: 2, note: '本当に = de verdade.' },
+    { k: 'nemui', jp: '眠い…', say: 'ねむい…', ro: 'nemui…', pt: 'Que sono…', lv: 2, note: 'Adjetivo い: estou com sono.' },
+    { k: 'matane', jp: 'またね！', say: 'またね！', ro: 'mata ne!', pt: 'Até mais! / Até a próxima!', lv: 2, note: 'Despedida casual muito comum, como じゃあね.' },
+    { k: 'atatame', jp: 'お弁当、温めますか？', say: 'おべんとう、あたためますか？', ro: 'obentou, atatamemasu ka?', pt: 'Quer que eu esquente o bentô?', lv: 3, note: 'Pergunta de toda loja de conveniência. 温める = esquentar.' },
+    { k: 'fukuro', jp: '袋はご利用ですか？', say: 'ふくろはごりようですか？', ro: 'fukuro wa goriyou desu ka?', pt: 'Vai precisar de sacola?', lv: 3, note: 'Linguagem respeitosa de loja. 袋 = sacola.' },
+    { k: 'doa', jp: 'ドアが閉まります。ご注意ください。', say: 'ドアがしまります。ごちゅういください。', ro: 'doa ga shimarimasu. gochuui kudasai.', pt: 'As portas vão se fechar. Cuidado.', lv: 3, note: 'Aviso de trem e elevador.' },
+    { k: 'muri', jp: '今日はちょっと無理かも。', say: 'きょうはちょっとむりかも。', ro: 'kyou wa chotto muri kamo.', pt: 'Hoje acho que não vai dar.', lv: 3, note: '無理 = impossível. かも = talvez. Recusa suave.' },
+    { k: 'kangaesasete', jp: 'ちょっと考えさせて。', say: 'ちょっとかんがえさせて。', ro: 'chotto kangaesasete.', pt: 'Deixa eu pensar um pouco.', lv: 3, note: '考えさせて = deixe-me pensar.' },
+    { k: 'sakiniitte', jp: '先に行ってて。', say: 'さきにいってて。', ro: 'saki ni ittete.', pt: 'Vai indo na frente.', lv: 3, note: '行っていて → 行ってて (contração).' },
+    { k: 'machiawase', jp: '何時に待ち合わせする？', say: 'なんじにまちあわせする？', ro: 'nanji ni machiawase suru?', pt: 'A que horas a gente se encontra?', lv: 3, note: '待ち合わせ = encontro combinado.' },
+    { k: 'arukude', jp: '駅まで歩いて十分ぐらいです。', say: 'えきまであるいてじゅっぷんぐらいです。', ro: 'eki made aruite juppun gurai desu.', pt: 'Até a estação são uns dez minutos a pé.', lv: 3, note: '歩いて = a pé. ぐらい = mais ou menos.' }
+  );
+
+  /* ---------------- treinos auditivos usam também as lições novas ---------------- */
+  LISTEN_V1[1].push('c4l4', 'c4l5');
+  LISTEN_V1[2].push('c4l6', 'c4l7', 'c4l8', 'c4l9', 'c8l6', 'c2l8', 'c3l5');
+  LISTEN_V1[3].push('c9l1', 'c9l4', 'c9l5', 'c10l3', 'c10l4', 'c10l5');
+  LISTEN_V1_FRASES[2].push('c5l4', 'c5l5', 'c5l6', 'c5l7', 'c5l8', 'c5l9', 'c5l10', 'c6l1', 'c6l2', 'c6l3', 'c6l4', 'c6l5', 'c6l6');
+  LISTEN_V1_FRASES[3].push('c8l1', 'c8l2', 'c8l3', 'c8l4', 'c8l5', 'c9l3', 'c10l1', 'c10l2');
+
+  /* ---------------- Laboratório de Diálogos ---------------- */
+  Object.assign(CHARS, {
+    haha: { name: 'Mãe do Ren', jp: 'おかあさん', pitch: 1.1, color: 'var(--gold-ink)' },
+    ekiin: { name: 'Funcionário da estação', jp: 'えきいん', pitch: 0.95, color: 'var(--ok)' },
+    yakuzaishi: { name: 'Farmacêutica', jp: 'やくざいし', pitch: 1.15, color: 'var(--ok)' },
+    kaito: { name: 'Kaito', jp: 'かいと', pitch: 0.7, color: 'var(--bad)' }
+  });
+  DIALOGS.push(
+  { id: 'dlg-casa', lv: 1, title: 'Chegando em casa', situ: 'Ren volta da escola.',
+    lines: [
+      { sp: 'ren', jp: 'ただいま！', ro: 'tadaima!', pt: 'Cheguei!' },
+      { sp: 'haha', jp: 'おかえり。学校、どうだった？', say: 'おかえり。がっこう、どうだった？', ro: 'okaeri. gakkou, dou datta?', pt: 'Bem-vindo. Como foi a escola?' },
+      { sp: 'ren', jp: '楽しかった！おなかすいた！', say: 'たのしかった！おなかすいた！', ro: 'tanoshikatta! onaka suita!', pt: 'Foi divertido! Estou com fome!' },
+      { sp: 'haha', jp: 'もうすぐごはんよ。', say: 'もうすぐごはんよ。', ro: 'mou sugu gohan yo.', pt: 'O jantar já vai ficar pronto.' },
+      { sp: 'ren', jp: 'やった！', ro: 'yatta!', pt: 'Eba!' }
+    ],
+    words: [['ただいま', 'tadaima', 'cheguei (em casa)'], ['どうだった？', 'dou datta?', 'como foi?'], ['もうすぐ', 'mou sugu', 'daqui a pouco']],
+    qs: [
+      { q: 'Como foi a escola para o Ren?', opts: ['Divertida', 'Cansativa', 'Difícil', 'Chata'], ans: 0, explain: '楽しかった = foi divertido.' },
+      { q: 'O que vai ficar pronto logo?', opts: ['A comida', 'O banho', 'A lição de casa'], ans: 0, explain: 'もうすぐごはん = a refeição já vem.' }
+    ] },
+  { id: 'dlg-restaurante', lv: 2, title: 'No restaurante', situ: 'Ren e Aoi entram numa casa de lámen.',
+    lines: [
+      { sp: 'tenin', jp: 'いらっしゃいませ！何名様ですか。', say: 'いらっしゃいませ！なんめいさまですか。', ro: 'irasshaimase! nanmei-sama desu ka.', pt: 'Bem-vindos! Quantas pessoas?' },
+      { sp: 'ren', jp: '二人です。', say: 'ふたりです。', ro: 'futari desu.', pt: 'Somos dois.' },
+      { sp: 'tenin', jp: 'こちらへどうぞ。ご注文はお決まりですか。', say: 'こちらへどうぞ。ごちゅうもんはおきまりですか。', ro: 'kochira e douzo. gochuumon wa okimari desu ka.', pt: 'Por aqui, por favor. Já decidiram o pedido?' },
+      { sp: 'aoi', jp: 'ラーメンを二つお願いします。', say: 'ラーメンをふたつおねがいします。', ro: 'raamen o futatsu onegaishimasu.', pt: 'Dois lámens, por favor.' },
+      { sp: 'tenin', jp: 'かしこまりました。少々お待ちください。', say: 'かしこまりました。しょうしょうおまちください。', ro: 'kashikomarimashita. shoushou omachi kudasai.', pt: 'Perfeitamente. Aguardem um momento.' }
+    ],
+    words: [['何名様', 'nanmei-sama', 'quantas pessoas (respeitoso)'], ['ご注文', 'gochuumon', 'o pedido'], ['かしこまりました', 'kashikomarimashita', 'entendido (humilde)']],
+    qs: [
+      { q: 'Quantas pessoas são?', opts: ['Duas', 'Uma', 'Três', 'Quatro'], ans: 0, explain: '二人 (futari) = duas pessoas.' },
+      { q: 'O que elas pedem?', opts: ['Dois lámens', 'Um lámen', 'Dois cafés', 'O cardápio'], ans: 0, explain: 'ラーメンを二つ = dois lámens.' },
+      { q: 'O que o atendente pede no final?', opts: ['Que aguardem um momento', 'Que paguem antes', 'Que escolham a mesa'], ans: 0, explain: '少々お待ちください = aguardem um momento.' }
+    ] },
+  { id: 'dlg-eki', lv: 2, title: 'Na estação', situ: 'Ren quer ir para Shinjuku e pede informação.',
+    lines: [
+      { sp: 'ren', jp: 'すみません、新宿に行きたいんですが…。', say: 'すみません、しんじゅくにいきたいんですが…。', ro: 'sumimasen, shinjuku ni ikitai n desu ga….', pt: 'Com licença, eu queria ir para Shinjuku…' },
+      { sp: 'ekiin', jp: '新宿ですか。三番線の電車に乗ってください。', say: 'しんじゅくですか。さんばんせんのでんしゃにのってください。', ro: 'shinjuku desu ka. sanbansen no densha ni notte kudasai.', pt: 'Shinjuku? Pegue o trem da plataforma 3.' },
+      { sp: 'ren', jp: '何分ぐらいかかりますか。', say: 'なんぷんぐらいかかりますか。', ro: 'nanpun gurai kakarimasu ka.', pt: 'Quantos minutos leva, mais ou menos?' },
+      { sp: 'ekiin', jp: '十五分ぐらいです。', say: 'じゅうごふんぐらいです。', ro: 'juugofun gurai desu.', pt: 'Uns quinze minutos.' },
+      { sp: 'ren', jp: 'ありがとうございます。', ro: 'arigatou gozaimasu.', pt: 'Muito obrigado.' }
+    ],
+    words: [['〜番線', '~bansen', 'plataforma número ~'], ['乗る', 'noru', 'embarcar, pegar (transporte)'], ['かかる', 'kakaru', 'levar (tempo)']],
+    qs: [
+      { q: 'Para onde o Ren quer ir?', opts: ['Shinjuku', 'Shibuya', 'Osaka', 'Para casa'], ans: 0, explain: '新宿に行きたい = quero ir para Shinjuku.' },
+      { q: 'Qual plataforma ele deve usar?', opts: ['3', '5', '1', '15'], ans: 0, explain: '三番線 = plataforma 3.' },
+      { q: 'Quanto tempo leva?', opts: ['Uns 15 minutos', 'Uns 5 minutos', 'Uma hora'], ans: 0, explain: '十五分ぐらい = uns 15 minutos.' }
+    ] },
+  { id: 'dlg-convite', lv: 2, title: 'Convite para o cinema', situ: 'Aoi manda uma mensagem de voz para o Ren.',
+    lines: [
+      { sp: 'aoi', jp: 'ねえ、土曜日ひま？', say: 'ねえ、どようびひま？', ro: 'nee, doyoubi hima?', pt: 'Ei, você está livre no sábado?' },
+      { sp: 'ren', jp: 'うん、ひまだよ。どうして？', ro: 'un, hima da yo. doushite?', pt: 'Estou, sim. Por quê?' },
+      { sp: 'aoi', jp: '映画見に行かない？', say: 'えいがみにいかない？', ro: 'eiga mi ni ikanai?', pt: 'Vamos ver um filme?' },
+      { sp: 'ren', jp: 'いいね！何時にする？', say: 'いいね！なんじにする？', ro: 'ii ne! nanji ni suru?', pt: 'Boa! A que horas?' },
+      { sp: 'aoi', jp: '二時に駅の前はどう？', say: 'にじにえきのまえはどう？', ro: 'niji ni eki no mae wa dou?', pt: 'Que tal às duas, em frente à estação?' },
+      { sp: 'ren', jp: 'オッケー！', ro: 'okkee!', pt: 'Fechado!' }
+    ],
+    words: [['ひま', 'hima', 'livre, desocupado'], ['見に行く', 'mi ni iku', 'ir ver'], ['〜はどう？', '~wa dou?', 'que tal ~?']],
+    qs: [
+      { q: 'Em que dia é o encontro?', opts: ['Sábado', 'Domingo', 'Sexta-feira', 'Hoje'], ans: 0, explain: '土曜日 = sábado.' },
+      { q: 'A que horas eles vão se encontrar?', opts: ['Às 2', 'Às 10', 'Às 7'], ans: 0, explain: '二時 = duas horas.' },
+      { q: 'Onde?', opts: ['Em frente à estação', 'No cinema', 'Na casa da Aoi'], ans: 0, explain: '駅の前 = em frente à estação.' }
+    ] },
+  { id: 'dlg-farmacia', lv: 3, title: 'Na farmácia', situ: 'Ren não está se sentindo bem.',
+    lines: [
+      { sp: 'yakuzaishi', jp: 'どうしましたか。', ro: 'dou shimashita ka.', pt: 'O que houve?' },
+      { sp: 'ren', jp: '昨日から頭が痛くて、熱もあるんです。', say: 'きのうからあたまがいたくて、ねつもあるんです。', ro: 'kinou kara atama ga itakute, netsu mo aru n desu.', pt: 'Desde ontem estou com dor de cabeça, e também tenho febre.' },
+      { sp: 'yakuzaishi', jp: 'そうですか。じゃあ、この薬を一日三回、食後に飲んでください。', say: 'そうですか。じゃあ、このくすりをいちにちさんかい、しょくごにのんでください。', ro: 'sou desu ka. jaa, kono kusuri o ichinichi sankai, shokugo ni nonde kudasai.', pt: 'Entendo. Então tome este remédio três vezes ao dia, depois das refeições.' },
+      { sp: 'ren', jp: 'わかりました。', ro: 'wakarimashita.', pt: 'Entendi.' },
+      { sp: 'yakuzaishi', jp: 'お大事に。', say: 'おだいじに。', ro: 'odaiji ni.', pt: 'Melhoras.' }
+    ],
+    words: [['頭が痛い', 'atama ga itai', 'estar com dor de cabeça'], ['熱', 'netsu', 'febre'], ['一日三回', 'ichinichi sankai', 'três vezes por dia'], ['食後', 'shokugo', 'depois das refeições']],
+    qs: [
+      { q: 'O que o Ren sente?', opts: ['Dor de cabeça e febre', 'Dor de barriga', 'Dor no pé', 'Só cansaço'], ans: 0, explain: '頭が痛くて、熱もある = dor de cabeça e febre também.' },
+      { q: 'Desde quando?', opts: ['Desde ontem', 'Desde hoje de manhã', 'Há uma semana'], ans: 0, explain: '昨日から = desde ontem.' },
+      { q: 'Como deve tomar o remédio?', opts: ['3 vezes ao dia, depois de comer', '1 vez ao dia, antes de dormir', '2 vezes ao dia, em jejum'], ans: 0, explain: '一日三回、食後に = três vezes ao dia, depois das refeições.' }
+    ] },
+  { id: 'dlg-telefone', lv: 3, title: 'Atrasada no telefone', situ: 'Ren liga para a Aoi, que não chegou ao encontro.',
+    lines: [
+      { sp: 'ren', jp: 'もしもし、アオイ？今どこ？', say: 'もしもし、あおい？いまどこ？', ro: 'moshi moshi, Aoi? ima doko?', pt: 'Alô, Aoi? Onde você está?' },
+      { sp: 'aoi', jp: 'ごめん、電車が遅れてて、あと十分ぐらいかかる。', say: 'ごめん、でんしゃがおくれてて、あとじゅっぷんぐらいかかる。', ro: 'gomen, densha ga okurete te, ato juppun gurai kakaru.', pt: 'Desculpa, o trem está atrasado, ainda vou levar uns dez minutos.' },
+      { sp: 'ren', jp: 'わかった。じゃあ、先にカフェに入ってるね。', say: 'わかった。じゃあ、さきにカフェにはいってるね。', ro: 'wakatta. jaa, saki ni kafe ni haitteru ne.', pt: 'Tá bom. Então vou entrando no café, tá?' },
+      { sp: 'aoi', jp: 'うん、ありがとう！すぐ行く！', say: 'うん、ありがとう！すぐいく！', ro: 'un, arigatou! sugu iku!', pt: 'Tá, obrigada! Já estou indo!' }
+    ],
+    words: [['もしもし', 'moshi moshi', 'alô (ao telefone)'], ['遅れてて', 'okurete te', 'está atrasado (de 遅れている)'], ['あと', 'ato', 'ainda falta, daqui a'], ['先に', 'saki ni', 'antes, na frente']],
+    qs: [
+      { q: 'Por que a Aoi está atrasada?', opts: ['O trem atrasou', 'Ela acordou tarde', 'Ela se perdeu', 'Ela esqueceu'], ans: 0, explain: '電車が遅れてて = o trem está atrasado.' },
+      { q: 'Quanto tempo ela ainda vai levar?', opts: ['Uns 10 minutos', 'Uns 30 minutos', 'Uma hora'], ans: 0, explain: 'あと十分ぐらい = ainda uns dez minutos.' },
+      { q: 'O que o Ren vai fazer?', opts: ['Entrar no café antes', 'Ir para casa', 'Buscar a Aoi na estação'], ans: 0, explain: '先にカフェに入ってる = vou entrando no café.' }
+    ] },
+  { id: 'dlg-registros', lv: 3, title: 'O mesmo pedido, dois tons', situ: 'Ren precisa de uma caneta. Primeiro pede para a Aoi, depois para a professora.',
+    lines: [
+      { sp: 'ren', jp: 'アオイ、そのペン貸して。', say: 'あおい、そのペンかして。', ro: 'Aoi, sono pen kashite.', pt: 'Aoi, me empresta essa caneta.' },
+      { sp: 'aoi', jp: 'いいよ、はい。', ro: 'ii yo, hai.', pt: 'Claro, toma.' },
+      { sp: 'ren', jp: '先生、すみません。ペンを貸していただけませんか。', say: 'せんせい、すみません。ペンをかしていただけませんか。', ro: 'sensei, sumimasen. pen o kashite itadakemasen ka.', pt: 'Professora, com licença. Poderia me emprestar uma caneta?' },
+      { sp: 'sensei', jp: 'ええ、どうぞ。', ro: 'ee, douzo.', pt: 'Sim, pode pegar.' }
+    ],
+    words: [['貸して', 'kashite', 'me empresta (casual)'], ['〜ていただけませんか', '~te itadakemasen ka', 'poderia ~ para mim? (muito educado)'], ['ええ', 'ee', 'sim (mais suave que はい)']],
+    qs: [
+      { q: 'O que o Ren pede?', opts: ['Uma caneta emprestada', 'Um caderno', 'Ajuda na lição'], ans: 0, explain: 'ペン = caneta; 貸して = me empresta.' },
+      { q: 'Por que o segundo pedido é mais longo?', opts: ['Porque é para a professora, então é mais educado', 'Porque a professora não ouviu', 'Porque ele pediu duas canetas'], ans: 0, explain: 'Com superiores usa-se 〜ていただけませんか, bem mais educado que 貸して.' }
+    ] },
+  { id: 'dlg-rival', lv: 3, title: 'O desafio do rival', situ: 'Cena de anime: Kaito desafia o Ren. Fala rude, só para reconhecer!',
+    lines: [
+      { sp: 'kaito', jp: 'おい、レン！逃げるのか？', say: 'おい、れん！にげるのか？', ro: 'oi, Ren! nigeru no ka?', pt: 'Ei, Ren! Vai fugir?' },
+      { sp: 'ren', jp: '逃げねえよ。', say: 'にげねえよ。', ro: 'nigenee yo.', pt: 'Não vou fugir, não.' },
+      { sp: 'kaito', jp: 'ふん、お前なんかに負けるわけがない。', say: 'ふん、おまえなんかにまけるわけがない。', ro: 'fun, omae nanka ni makeru wake ga nai.', pt: 'Hunf, não tem como eu perder para alguém como você.' },
+      { sp: 'ren', jp: '言ってろ。行くぞ！', say: 'いってろ。いくぞ！', ro: 'itte ro. iku zo!', pt: 'Fala o que quiser. Lá vou eu!' },
+      { sp: 'kaito', jp: 'かかってこい！', ro: 'kakatte koi!', pt: 'Vem pra cima!' }
+    ],
+    words: [['おい', 'oi', 'ei! (chamado brusco)'], ['逃げねえ', 'nigenee', 'não fujo (rude, de 逃げない)'], ['なんか', 'nanka', 'alguém como (desprezo)'], ['わけがない', 'wake ga nai', 'não tem como'], ['かかってこい', 'kakatte koi', 'vem pra cima! (desafio)']],
+    qs: [
+      { q: 'O que o Kaito acusa o Ren de fazer?', opts: ['Fugir', 'Mentir', 'Trapacear', 'Chegar atrasado'], ans: 0, explain: '逃げるのか？ = Vai fugir?' },
+      { q: '逃げねえ é a forma rude de…', opts: ['逃げない (não fugir)', '逃げた (fugiu)', '逃げろ (fuja!)'], ans: 0, explain: 'ない → ねえ na fala rude.' },
+      { q: 'Como termina a cena?', opts: ['Os dois vão lutar', 'Eles fazem as pazes', 'O Ren vai embora'], ans: 0, explain: '行くぞ！ e かかってこい！ = começa a luta.' }
+    ] }
+  );
+
+  /* ---------------- conquistas da 2.1 ---------------- */
+  const passed = (s, id) => !!(s.catExams[id] && s.catExams[id].passed);
+  ACHIEVEMENTS.push(
+    { id: 'kana_h', icon: 'あ', name: 'Mestre do hiragana', desc: 'Passe na avaliação final de Hiragana.', test: s => passed(s, 'c2') },
+    { id: 'kana_k', icon: 'ア', name: 'Mestre do katakana', desc: 'Passe na avaliação final de Katakana.', test: s => passed(s, 'c3') },
+    { id: 'kanji1', icon: '字', name: 'Primeiros kanji', desc: 'Passe na avaliação final de Kanji.', test: s => passed(s, 'c7') },
+    { id: 'falado', icon: '話', name: 'Ouvido de rua', desc: 'Passe na avaliação final de Japonês Falado.', test: s => passed(s, 'c8') },
+    { id: 'keigo', icon: '敬', name: 'Etiqueta japonesa', desc: 'Passe na avaliação final de Formalidade e Respeito.', test: s => passed(s, 'c9') },
+    { id: 'anime', icon: '劇', name: 'Fluente em anime', desc: 'Passe na avaliação final de Japonês dos Animes.', test: s => passed(s, 'c10') },
+    { id: 'lessons_all21', icon: '極', name: 'Academia completa', desc: 'Seja aprovado em todas as lições da Academia (versão 2.1).', test: s => countPassed(s) >= TOTAL_LESSONS },
+    { id: 'dialog_all', icon: '談', name: 'Conversador', desc: 'Conclua todos os diálogos do Laboratório.', test: s => DIALOGS.every(d => s.listening.dialogs[d.id]) }
+  );
+})();
+
 'use strict';
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '2.0.0';
+const APP_VERSION = '2.1.0';
 const SCHEMA_VERSION = 2;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
@@ -1535,7 +3402,7 @@ function genItemQ(it, forceType) {
   if (kind === 'audio') return genListenQ(it, it.group === 'frase' ? 'phrase' : 'word', S.listening.level);
   const types = { number: ['num_type', 'num_pick', 'jp2pt'], vocab: ['jp2pt', 'pt2jp'], grammar: ['jp2pt', 'pt2jp'], kana: ['kana_read', 'kana_find'], kanaword: ['word_read', 'jp2pt', 'pt2jp'] }[kind];
   const type = forceType || pick(types);
-  const base = { itemId: it.id, explain: explainItem(it) };
+  const base = { itemId: it.id, explain: explainItem(it), say: it.say };
   if (type === 'num_type') return { ...base, type: 'num_type', prompt: 'Escreva este número em algarismos', jp: it.jp, ro: it.ro, answer: it.val, answerText: String(it.val) };
   if (type === 'num_pick') { const d = poolFor(it, 3, 'jp'); return { ...base, type: 'mc', prompt: 'Como se diz este número em japonês?', big: String(it.val), bigClass: 'pt', options: shuffle([it, ...d]).map(x => ({ label: x.jp, sub: x.ro, correct: x === it })), answerText: it.jp + ' (' + it.ro + ')' }; }
   if (type === 'kana_read' || type === 'word_read') { const d = poolFor(it, 3, 'ro'); return { ...base, type: 'mc', grid: true, prompt: type === 'kana_read' ? 'Qual é o som deste caractere?' : 'Como se lê esta palavra?', big: it.jp, bigClass: type === 'kana_read' ? 'huge' : '', noRomaji: true, options: shuffle([it, ...d]).map(x => ({ label: x.ro, correct: x === it, plain: true })), answerText: it.ro }; }
@@ -1575,12 +3442,20 @@ function reviewPool(excludeLesson) {
   return seenItems().map(id => ITEM[id]).filter(it => it.lesson !== excludeLesson)
     .sort((a, b) => ((S.items[b.id].w - S.items[b.id].c * .3) - (S.items[a.id].w - S.items[a.id].c * .3)) + (Math.random() - .5));
 }
+/* 2.1: perguntas de áudio dentro das lições da Academia (não em kana nem kanji) */
+function lessonCanListen(L) { return !L.noListen && ['vocab', 'grammar', 'kanaword'].includes(L.kind) && L.cat && L.cat.id !== 'c7'; }
+function lessonListenQs(L, n) {
+  if (!lessonCanListen(L)) return [];
+  const items = shuffle(L.items.filter(it => !it.noListen)).slice(0, n);
+  return items.map(it => { const g = groupOf(it); return genListenQ(it, g === 'frase' ? 'phrase' : 'word', S.listening.level, L.items.concat(listenPool(g, S.listening.level))); });
+}
 function buildPractice(L) {
   const items = shuffle(L.items), qs = [];
   items.slice(0, 5).forEach(it => qs.push(genItemQ(it)));
   if (items.length >= 4) qs.splice(1, 0, genMatch(items.slice(0, 4)));
   shuffle(L.exercises || []).slice(0, 2).forEach(ex => { const q = authoredQ(ex, L); if (q) qs.push(q); });
   if (L.dyn) qs.push(genNumQ());
+  lessonListenQs(L, 2).forEach((q, i) => qs.splice(2 + i * 3, 0, q));
   return qs;
 }
 function buildExam(L) {
@@ -1591,7 +3466,7 @@ function buildExam(L) {
   if (items.length >= 8) qs.push(genMatch(items.slice(nGen, nGen + 4).length === 4 ? items.slice(nGen, nGen + 4) : items.slice(0, 4)));
   if (L.dyn) { qs.push(genNumQ()); qs.push(genNumQ()); }
   const rv = reviewPool(L).slice(0, 2).map(it => ({ ...genItemQ(it), review: true }));
-  let out = shuffle(qs.concat(rv));
+  let out = shuffle(qs.concat(rv, lessonListenQs(L, 1)));
   if (out[0] && out[0].type === 'match') out.push(out.shift());
   return out.slice(0, 12);
 }
@@ -1927,6 +3802,9 @@ function renderConfirmExit() {
 }
 
 /* --- teoria --- */
+/* botão “Ouvir exemplo” (2.1): lê a versão em kana quando existe, sem as reticências do diálogo */
+function exListen(e) { return AUDIO.supported && canSpeakEx(e) ? `<button class="link-btn" style="align-self:flex-start;padding:2px 0" data-act="speak" data-text="${esc(e.say || e.jp)}">Ouvir exemplo</button>` : ''; }
+function canSpeakEx(e) { return /[぀-ヿ一-鿿]/.test(e.say || e.jp); }
 function theoryCards(L) {
   const cards = [{ t: 'intro' }]; L.items.forEach(it => cards.push({ t: 'item', it })); cards.push({ t: 'examples' }); return cards;
 }
@@ -1941,13 +3819,13 @@ function renderTheory() {
     const it = c.it; markSeen(it.id);
     const huge = L.kind === 'kana';
     body = `<span class="mode-tag">Teoria · ${P.card} de ${L.items.length}</span>
-      <div class="theory-card"><div class="t-word"><span class="big ${huge ? 'huge' : ''}">${esc(it.jp)}</span><span class="rr">${esc(it.ro)}</span><span class="pt">${esc(it.pt)}</span>${speakBtn(it.jp)}</div>
-      <dl class="kv"><dt>Japonês</dt><dd class="jp">${esc(it.jp)}</dd><dt>Romaji</dt><dd>${esc(it.ro)}</dd><dt>Tradução</dt><dd>${esc(it.pt)}</dd>${it.alt ? `<dt>Outra leitura</dt><dd>${esc(it.alt)}</dd>` : ''}${it.kanji ? `<dt>Em kanji</dt><dd class="jp">${esc(it.kanji)} <span class="muted" style="font-family:var(--f-body);font-size:.85rem">(você verá na categoria Kanji)</span></dd>` : ''}</dl>
+      <div class="theory-card"><div class="t-word"><span class="big ${huge ? 'huge' : ''}">${esc(it.jp)}</span><span class="rr">${esc(it.ro)}</span><span class="pt">${esc(it.pt)}</span>${speakBtn(it.say || it.jp)}</div>
+      <dl class="kv"><dt>Japonês</dt><dd class="jp">${esc(it.jp)}</dd><dt>Romaji</dt><dd>${esc(it.ro)}</dd><dt>Tradução</dt><dd>${esc(it.pt)}</dd>${it.alt ? `<dt>Outra leitura</dt><dd>${esc(it.alt)}</dd>` : ''}${it.kanji ? `<dt>Em kanji</dt><dd class="jp">${esc(it.kanji)} <span class="muted" style="font-family:var(--f-body);font-size:.85rem">(escrita com kanji; veja a ala Kanji)</span></dd>` : ''}</dl>
       ${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}
-      ${it.ex ? `<div><span class="eyebrow">Exemplo</span><div class="ex"><span class="ej">${esc(it.ex.jp)}</span><span class="ro">${esc(it.ex.ro)}</span><span class="ep">${esc(it.ex.pt)}</span></div></div>` : ''}</div>`;
+      ${it.ex ? `<div><span class="eyebrow">Exemplo</span><div class="ex"><span class="ej">${esc(it.ex.jp)}</span><span class="ro">${esc(it.ex.ro)}</span><span class="ep">${esc(it.ex.pt)}</span>${exListen(it.ex)}</div></div>` : ''}</div>`;
   } else {
     body = `<span class="mode-tag">Teoria · Na prática</span><h2>Exemplos práticos</h2>
-      <div class="theory-card">${L.examples.map(e => `<div class="ex"><span class="ej">${esc(e.jp)}</span><span class="ro">${esc(e.ro)}</span><span class="ep">${esc(e.pt)}</span></div>`).join('')}</div>
+      <div class="theory-card">${L.examples.map(e => `<div class="ex"><span class="ej">${esc(e.jp)}</span><span class="ro">${esc(e.ro)}</span><span class="ep">${esc(e.pt)}</span>${exListen(e)}</div>`).join('')}</div>
       <div class="mascot-tip">${mascot('wow', 64)}<div class="bubble"><b>${MASCOT_NAME}:</b> ${P.mode === 'theory' ? 'Revisão da teoria concluída! Quer testar seus conhecimentos?' : 'Agora vamos praticar! Na prática você vê a explicação depois de cada resposta, sem pressão. Depois vem a avaliação.'}</div></div>`;
   }
   body += `<div class="dots">${cards.map((_, i) => `<i class="${i === P.card ? 'on' : ''}"></i>`).join('')}</div>`;
@@ -1989,7 +3867,7 @@ function renderQuiz() {
   if (q.type === 'mc') {
     if (q.big || q.ctx) {
       const bigCls = q.bigClass === 'fill' ? 'fill-sentence' : 'big ' + (q.bigClass || '');
-      body += `<div class="q-hero"><div class="q-card">${q.big ? `<span class="${bigCls} ${q.bigClass === 'fill' ? 'jp' : ''}">${esc(q.big)}</span>` : ''}${q.ro && showRo(q) ? `<span class="ro">${esc(q.ro)}</span>` : ''}${q.ctx ? `<span class="ctx">${esc(q.ctx)}</span>` : ''}${q.big && q.bigClass !== 'pt' && q.bigClass !== 'fill' && !q.noRomaji ? speakBtn(q.big) : ''}</div></div>`;
+      body += `<div class="q-hero"><div class="q-card">${q.big ? `<span class="${bigCls} ${q.bigClass === 'fill' ? 'jp' : ''}">${esc(q.big)}</span>` : ''}${q.ro && showRo(q) ? `<span class="ro">${esc(q.ro)}</span>` : ''}${q.ctx ? `<span class="ctx">${esc(q.ctx)}</span>` : ''}${q.big && q.bigClass !== 'pt' && q.bigClass !== 'fill' && !q.noRomaji ? speakBtn(q.say || q.big) : ''}</div></div>`;
     }
     body += `<div class="opts ${q.grid ? 'grid' : ''}">${q.options.map((o, i) => optHTML(o, i, q)).join('')}</div>`;
     canCheck = P.sel !== null;
@@ -2421,7 +4299,7 @@ const levelNum = l => LV[l] || 1;
 function packItems(id) { const p = AUDIO_PACKS.find(x => x.id === id); return p ? p.items : []; }
 function listenPool(type, level) {
   const L = levelNum(level);
-  const v1 = lids => lids.flatMap(id => LESSON[id] ? LESSON[id].items : []);
+  const v1 = lids => lids.flatMap(id => LESSON[id] ? LESSON[id].items.filter(it => !it.noListen && !LESSON[id].noListen) : []);
   const v1Words = Object.keys(LISTEN_V1).filter(k => +k <= L).flatMap(k => v1(LISTEN_V1[k]));
   const pal = packItems('aud-pal').filter(it => it.lv <= L);
   const expr = packItems('aud-expr').filter(it => it.lv <= L).concat((AUDIO_PACKS.find(p => p.id === 'aud-expr').refs || []).map(id => ITEM[id]).filter(Boolean));

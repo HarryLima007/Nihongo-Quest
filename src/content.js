@@ -442,7 +442,7 @@ const MISSION_POOL = [
 const ACHIEVEMENTS = [
   { id: 'first_lesson', icon: '初', name: 'Primeiro passo', desc: 'Seja aprovado na sua primeira lição.', test: s => s.stats.lessonsPassed >= 1 },
   { id: 'lessons5', icon: '五', name: 'Estudante dedicado', desc: 'Seja aprovado em 5 lições diferentes.', test: s => countPassed(s) >= 5 },
-  { id: 'lessons_all', icon: '全', name: 'Pioneiro da Academia', desc: 'Conclua todas as lições da versão 1.0.', test: s => countPassed(s) >= TOTAL_LESSONS },
+  { id: 'lessons_all', icon: '全', name: 'Pioneiro da Academia', desc: 'Conclua todas as lições da versão 1.0.', test: s => V1_LESSON_IDS.every(id => s.lessons[id] && s.lessons[id].passed) },
   { id: 'cat1', icon: '歩', name: 'Ala dos Primeiros Passos', desc: 'Passe na avaliação final de Primeiros Passos.', test: s => !!(s.catExams.c1 && s.catExams.c1.passed) },
   { id: 'perfect', icon: '満', name: 'Nota máxima', desc: 'Tire 100% em uma avaliação.', test: s => s.stats.perfect >= 1 },
   { id: 'streak3', icon: '火', name: 'Chama acesa', desc: 'Estude 3 dias seguidos.', test: s => s.streak.best >= 3 },

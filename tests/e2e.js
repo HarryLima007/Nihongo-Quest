@@ -6,7 +6,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
 
 async function answer(page, correct) {
   const q = await page.evaluate(() => { const P = __NQ.P; const q = P.qs[P.i]; return JSON.parse(JSON.stringify(q)); });
-  if (q.type === 'mc') {
+  if (q.type === 'mc' || q.type === 'listen') {
     let i = q.options.findIndex(o => o.correct); if (!correct) i = q.options.findIndex(o => !o.correct);
     await page.click(`[data-act="opt"][data-i="${i}"]`); await page.click('[data-act="check"]');
   } else if (q.type === 'num_type') {
@@ -119,15 +119,19 @@ async function doLesson(page, id, correctFn = () => true) {
   ok(unl.c2, 'Hiragana desbloqueada');
   r = await doLesson(page, 'c2l1'); ok(r.pass, 'c2l1 aprovada'); await page.click('[data-act="pExit"]'); await page.waitForTimeout(300);
   while (await page.isVisible('#modal .sheet')) { await page.click('#modal [data-act="closeModal"]'); await page.waitForTimeout(150); }
-  // c4 locked until c2 exam
+  // 2.1: Vocabulário já abre depois de Primeiros Passos (trilha da fala em paralelo à escrita)
   await page.click('.tab[data-view="academia"]');
   await page.click('[data-act="openLesson"][data-id="c4l1"]');
-  ok(!(await page.isVisible('#modal .sheet')), 'Vocabulário bloqueado antes da avaliação de Hiragana');
+  ok(await page.isVisible('#modal .sheet'), 'Vocabulário liberado depois de Primeiros Passos');
+  await page.click('#modal [data-act="closeModal"]').catch(() => {}); await page.waitForTimeout(150);
+  ok(!(await page.evaluate(() => document.querySelector('[data-act="openLesson"][data-id="c3l1"] .disc').textContent.trim().length > 3)), 'Katakana bloqueado antes da avaliação de Hiragana');
+  for (const id of ['c2l2', 'c2l3', 'c2l4', 'c2l5', 'c2l6', 'c2l7', 'c2l8']) { r = await doLesson(page, id); ok(r.pass, id + ' aprovada (' + r.n + ' perguntas)'); await page.click('[data-act="pExit"]'); await page.waitForTimeout(300); while (await page.isVisible('#modal .sheet')) { await page.click('#modal [data-act="closeModal"]'); await page.waitForTimeout(150); } }
+  await page.click('.tab[data-view="academia"]');
   await page.click('[data-act="openCatExam"][data-cat="c2"]'); await page.click('#modal [data-act="startCatExam"]'); await page.click('[data-act="startExam"]');
   await runQuiz(page, () => true); ok(await page.evaluate(() => __NQ.P.pass), 'avaliação final Hiragana aprovada');
   await page.click('[data-act="pExit"]'); await page.waitForTimeout(300);
   while (await page.isVisible('#modal .sheet')) { await page.click('#modal [data-act="closeModal"]'); await page.waitForTimeout(150); }
-  for (const id of ['c4l1', 'c4l2', 'c4l3']) { r = await doLesson(page, id); ok(r.pass, id + ' aprovada (' + r.n + ' perguntas)'); await page.click('[data-act="pExit"]'); await page.waitForTimeout(300); while (await page.isVisible('#modal .sheet')) { await page.click('#modal [data-act="closeModal"]'); await page.waitForTimeout(150); } }
+  for (const id of ['c4l1', 'c4l2', 'c4l3', 'c4l4', 'c4l5', 'c4l6', 'c4l7', 'c4l8', 'c4l9']) { r = await doLesson(page, id); ok(r.pass, id + ' aprovada (' + r.n + ' perguntas)'); await page.click('[data-act="pExit"]'); await page.waitForTimeout(300); while (await page.isVisible('#modal .sheet')) { await page.click('#modal [data-act="closeModal"]'); await page.waitForTimeout(150); } }
   await page.click('.tab[data-view="academia"]'); await page.click('[data-act="openCatExam"][data-cat="c4"]'); await page.click('#modal [data-act="startCatExam"]'); await page.click('[data-act="startExam"]');
   await runQuiz(page, () => true); await page.click('[data-act="pExit"]'); await page.waitForTimeout(300);
   while (await page.isVisible('#modal .sheet')) { await page.click('#modal [data-act="closeModal"]'); await page.waitForTimeout(150); }
@@ -186,7 +190,8 @@ async function doLesson(page, id, correctFn = () => true) {
   await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="import"]');
   await page.fill('#importText', '{"bad": true}'); await page.click('[data-act="importCheck"]');
   ok(await page.isVisible('[data-act="importCheck"]'), 'JSON inválido é recusado');
-  await page.fill('#importText', exported); await page.click('[data-act="importCheck"]'); await page.click('[data-act="importConfirm"]');
+  // texto grande com muitas linhas: preencher direto (page.fill fica lento demais com ~80 KB formatados)
+  await page.$eval('#importText', (el, v) => { el.value = v; }, exported); await page.click('[data-act="importCheck"]'); await page.click('[data-act="importConfirm"]');
   const snap3 = await page.evaluate(() => ({ xp: __NQ.S.xp, coins: __NQ.S.coins, passed: Object.keys(__NQ.S.lessons).length, ach: Object.keys(__NQ.S.achievements).length }));
   ok(JSON.stringify(snap3) === JSON.stringify(snap2), 'importação restaura ' + JSON.stringify(snap3));
   // file import
