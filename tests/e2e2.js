@@ -48,15 +48,17 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
   const after = await snap(page);
   const before = V1.data;
   const same = (a, b, m) => ok(JSON.stringify(a) === JSON.stringify(b), m);
-  same(after.xp, before.xp, 'XP preservado (' + after.xp + ')'); same(after.coins, before.coins, 'moedas preservadas (' + after.coins + ')');
+  same(after.xp, before.xp, 'XP preservado (' + after.xp + ')'); /* 2.1: conquistas novas (ex.: Mestre do hiragana) podem ser liberadas na hora para quem já cumpriu o requisito, e dão moedas */
+  const newAch = Object.keys(after.ach).filter(k => !before.achievements[k]);
+  ok(after.coins >= before.coins && after.coins === before.coins + 20 * newAch.length, 'moedas preservadas (' + before.coins + ' → ' + after.coins + ', conquistas novas: ' + newAch.join(', ') + ')');
   same(after.level, (await page.evaluate(x => __NQ.levelInfo(x).level, before.xp)), 'nível preservado (' + after.level + ')');
   same(after.streak, before.streak, 'sequência preservada'); same(after.lessons, before.lessons, 'lições aprovadas preservadas (' + Object.keys(after.lessons).length + ')');
-  same(after.catExams, before.catExams, 'avaliações finais preservadas'); same(after.ach, before.achievements, 'conquistas preservadas (' + Object.keys(after.ach).length + ')');
+  same(after.catExams, before.catExams, 'avaliações finais preservadas'); ok(Object.keys(before.achievements).every(k => JSON.stringify(after.ach[k]) === JSON.stringify(before.achievements[k])), 'conquistas preservadas (' + Object.keys(before.achievements).length + ' da v1, ' + Object.keys(after.ach).length + ' agora)');
   same(after.items, before.items, 'caderno/revisão preservados (' + Object.keys(after.items).length + ' itens)'); same(after.stats, before.stats, 'estatísticas preservadas');
   same(after.shop, before.shop, 'loja preservada'); same(after.settings, { romaji: before.settings.romaji, sound: before.settings.sound, theme: before.settings.theme }, 'configurações preservadas');
   same(after.history, before.history.length, 'histórico preservado'); same(after.name, before.profile.name, 'perfil preservado');
   const mig = await page.evaluate(raw => ({ v: __NQ.S.schemaVersion, app: __NQ.S.appVersion, lst: !!__NQ.S.listening && __NQ.S.listening.level, disc: typeof __NQ.S.discoveries, bk: localStorage.getItem('nihongoQuest:backup') === raw, bk1: localStorage.getItem('nihongoQuest:backup:schema1') === raw, stored: JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion }), v1raw);
-  ok(mig.v === 2 && mig.app === '2.0.0' && mig.lst === 'iniciante' && mig.disc === 'object' && mig.stored === 2, 'migração para esquema 2 ' + JSON.stringify(mig));
+  ok(mig.v === 2 && mig.app === '2.1.0' && mig.lst === 'iniciante' && mig.disc === 'object' && mig.stored === 2, 'migração para esquema 2 ' + JSON.stringify(mig));
   ok(mig.bk && mig.bk1, 'cópia de segurança do save v1 criada antes da migração');
   await closeModals(page);
   await page.screenshot({ path: shots + '/01-home-v2.png', fullPage: true });
@@ -103,7 +105,7 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
   await page.screenshot({ path: shots + '/05-listen-result.png' });
   await page.click('[data-act="pExit"]'); await closeModals(page);
   const st1 = await page.evaluate(() => __NQ.S.listening.stats);
-  ok(st1.answers === st0.answers + nl && st1.correct === st0.correct + nl - 1 && st1.byLevel.iniciante.a === nl && st1.byType.palavra.a + st1.byType.expressao.a >= 1 && st1.ms > 0 && st1.sessions === 1, 'estatísticas auditivas registradas ' + JSON.stringify({ a: st1.answers, c: st1.correct, ms: st1.ms }));
+  ok(st1.answers === st0.answers + nl && st1.correct === st0.correct + nl - 1 && st1.byLevel.iniciante.a === st0.byLevel.iniciante.a + nl && st1.byType.palavra.a + st1.byType.expressao.a >= 1 && st1.ms > 0 && st1.sessions === 1, 'estatísticas auditivas registradas ' + JSON.stringify({ a: st1.answers, c: st1.correct, ms: st1.ms }));
   ok((await page.evaluate(() => __NQ.S.xp)) > xp0, 'XP auditivo integrado');
   // sons
   await page.click('[data-act="listen"][data-type="som"]'); await page.waitForTimeout(400);
@@ -113,7 +115,7 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
   await page.click('[data-act="setLevel"][data-lv="intermediario"]'); ok(await page.evaluate(() => __NQ.S.listening.level === 'intermediario'), 'escolher nível');
   await page.click('[data-act="listen"][data-type="frase"]'); await page.waitForTimeout(300);
   const fq = await page.evaluate(() => __NQ.P.qs.map(q => q.itemId));
-  ok(fq.every(id => /aud-fra|c5l/.test(id)), 'frases do nível intermediário');
+  ok(fq.every(id => /aud-fra|c5l|c6l/.test(id)), 'frases do nível intermediário');
   ok(await page.isVisible('[data-act="hintRo"]'), 'dica de romaji disponível no intermediário');
   await runQuiz(page); await page.click('[data-act="pExit"]'); await closeModals(page);
   await page.click('[data-act="setLevel"][data-lv="avancado"]');
@@ -153,7 +155,7 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
 
   /* ---------- 6. Diálogos ---------- */
   await page.click('[data-act="audSub"][data-sub="hub"]'); await page.click('[data-act="audSub"][data-sub="dlg"]');
-  ok((await page.$$eval('.dlg-card', e => e.length)) === 8, '8 diálogos');
+  ok((await page.$$eval('.dlg-card', e => e.length)) === (await page.evaluate(() => __NQ.DIALOGS.length)), 'todos os diálogos listados');
   await page.click('[data-act="dialog"][data-id="dlg-hobby"]');
   const before6 = await page.evaluate(() => __spoken.length);
   await page.click('[data-act="dlgAll"]'); await page.waitForTimeout(2200);
@@ -194,7 +196,7 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
   await page.reload(); await closeModals(page);
   ok((await page.evaluate(() => JSON.stringify({ d: __NQ.S.discoveries, l: __NQ.S.listening, xp: __NQ.S.xp }))) === s1, 'descobertas e progresso auditivo persistem após recarregar');
   await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="export"]'); const exp = await page.inputValue('#exportText'); await page.click('#modal [data-act="closeModal"]');
-  ok(JSON.parse(exp).schemaVersion === 2 && JSON.parse(exp).appVersion === '2.0.0', 'exportação v2');
+  ok(JSON.parse(exp).schemaVersion === 2 && JSON.parse(exp).appVersion === '2.1.0', 'exportação v2');
   await page.click('[data-act="resetAsk"]'); await page.click('[data-act="resetConfirm"]'); await page.fill('#nameInput', 'X'); await page.click('[data-act="onboard"]');
   await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="import"]'); await page.fill('#importText', exp); await page.click('[data-act="importCheck"]'); await page.click('[data-act="importConfirm"]');
   ok((await page.evaluate(() => JSON.stringify({ d: __NQ.S.discoveries, l: __NQ.S.listening, xp: __NQ.S.xp }))) === s1, 'importação v2 restaura tudo');

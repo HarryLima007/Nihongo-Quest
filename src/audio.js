@@ -137,7 +137,7 @@ const levelNum = l => LV[l] || 1;
 function packItems(id) { const p = AUDIO_PACKS.find(x => x.id === id); return p ? p.items : []; }
 function listenPool(type, level) {
   const L = levelNum(level);
-  const v1 = lids => lids.flatMap(id => LESSON[id] ? LESSON[id].items : []);
+  const v1 = lids => lids.flatMap(id => LESSON[id] ? LESSON[id].items.filter(it => !it.noListen && !LESSON[id].noListen) : []);
   const v1Words = Object.keys(LISTEN_V1).filter(k => +k <= L).flatMap(k => v1(LISTEN_V1[k]));
   const pal = packItems('aud-pal').filter(it => it.lv <= L);
   const expr = packItems('aud-expr').filter(it => it.lv <= L).concat((AUDIO_PACKS.find(p => p.id === 'aud-expr').refs || []).map(id => ITEM[id]).filter(Boolean));
