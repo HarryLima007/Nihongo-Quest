@@ -587,6 +587,63 @@ section .stats-grid:has(.kpi:nth-child(3)) { grid-template-columns: repeat(3, mi
 .ch-cur .link-btn, .ch-pend .link-btn { padding: 2px 0; font-size: .85rem; flex: none; }
 @media (max-width: 360px) { .tab span:last-child { font-size: .64rem; } .cm .cb { max-width: 88%; } .cm-card { margin-left: 0; } }
 
+/* ===== Nihongo Chat 5.0 ===== */
+.conv-list { padding: 4px 0; }
+.conv { display: flex; gap: 12px; align-items: center; width: 100%; text-align: left; padding: 10px 12px; background: none; border: 0; border-radius: 14px; color: inherit; font: inherit; }
+button.conv:hover { background: var(--surface-2); }
+.conv + .conv { border-top: 1px solid var(--line); border-radius: 0; }
+.conv.locked { opacity: .78; } .conv.locked .ch-av svg { filter: grayscale(.85); }
+.conv-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.conv-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.conv-top b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.conv-top b .jp { color: var(--violet); }
+.conv-time { font-size: .74rem; flex: none; }
+.conv-sub { font-size: .9rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.conv-sub.unread { color: var(--text); font-weight: 800; }
+.conv-chal { margin-right: 4px; padding: 1px 6px; font-size: .66rem; }
+.conv-rel { font-size: .74rem; font-weight: 700; }
+.ch-prof { background: none; border: 0; padding: 0; border-radius: 50%; }
+.cm.typing .cb.tp { flex-direction: row; align-items: center; gap: 8px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--line); border-bottom-left-radius: 6px; }
+.dots { display: inline-flex; gap: 4px; }
+.dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); opacity: .4; animation: nqDot 1.1s infinite ease-in-out; }
+.dots i:nth-child(2) { animation-delay: .15s; } .dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes nqDot { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .dots i { animation: none; opacity: .7; } }
+.tp-t { font-size: .8rem; color: var(--muted); font-weight: 700; }
+.stk-b { background: none; border: 0; padding: 0; line-height: 0; border-radius: 16px; }
+.stk-b:focus-visible, .stk-pick:focus-visible { outline: 3px solid var(--royal); outline-offset: 2px; }
+.stk-svg { display: block; filter: drop-shadow(0 2px 3px rgba(20, 20, 60, .18)); }
+.cm.char.stk { align-items: flex-end; }
+.me-col { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; max-width: min(84%, 420px); }
+.me-col .cb { max-width: 100%; }
+.cm-heard { font-size: .72rem; opacity: .85; font-weight: 700; margin-top: 2px; }
+.cm-card.tipc { border-style: solid; border-color: color-mix(in srgb, var(--royal) 30%, var(--line)); background: color-mix(in srgb, var(--royal) 5%, var(--surface)); }
+.cm-card.unk { border-style: dashed; color: var(--muted); }
+.cm-card.fb.soft { border-left-width: 3px; background: color-mix(in srgb, var(--gold-soft) 35%, var(--surface)); }
+.ch-chal { display: flex; align-items: flex-start; gap: 8px; background: var(--gold-soft); border-radius: 12px; padding: 8px 10px; }
+.ch-chal .chip { padding: 1px 7px; font-size: .7rem; }
+.ch-chal-d { display: block; font-size: .8rem; margin-top: 2px; }
+.ch-chal .link-btn { flex: none; padding: 2px 0; font-size: .85rem; }
+.stk-panel { display: flex; flex-direction: column; gap: 6px; }
+.stk-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.stk-tabs::-webkit-scrollbar { display: none; }
+.stk-tab { flex: none; padding: 5px 11px; border-radius: 999px; border: 2px solid var(--line); background: var(--surface); font-weight: 800; font-size: .8rem; color: inherit; }
+.stk-tab.on { border-color: var(--royal); color: var(--royal); }
+.stk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; max-height: 30vh; overflow-y: auto; }
+.stk-cell { position: relative; display: grid; place-items: center; }
+.stk-pick { background: var(--surface-2); border: 0; border-radius: 14px; padding: 4px; line-height: 0; width: 100%; display: grid; place-items: center; }
+.stk-fav { position: absolute; top: 0; right: 0; width: 28px; height: 28px; border-radius: 50%; border: 0; background: var(--surface); color: var(--muted); font-size: .95rem; line-height: 1; box-shadow: 0 1px 2px rgba(0,0,0,.15); }
+.stk-fav.on { color: var(--gold-ink, #b97a00); }
+.emo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 4px; max-height: 26vh; overflow-y: auto; }
+.emo { font-size: 1.5rem; height: 44px; border: 0; background: var(--surface-2); border-radius: 12px; }
+.stk-help { margin: 0; font-size: .76rem; }
+.chat-input-row .icon-btn[disabled] { opacity: .4; }
+@media (max-width: 360px) { .hide-xs { display: none !important; } .chat-input-row .icon-btn { width: 38px; } }
+.sheet .list .chip { white-space: normal; max-width: 100%; }
+.conv.locked .conv-top { justify-content: flex-start; }
+.chat-foot .chat-input-row { position: sticky; bottom: 0; background: var(--surface); z-index: 1; box-shadow: 0 -8px 8px var(--surface); }
+@media (max-height: 720px) { .stk-grid { max-height: 20vh; } .chat-foot { max-height: 56vh; } }
+
 </style>
 <div class="app" id="app"><main id="view"></main></div>
 <nav class="tabbar" id="tabbar" aria-label="Navegação principal"><div class="tabbar-in">
@@ -9689,8 +9746,8 @@ const NQK = (function () {
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '4.0.0';
-const SCHEMA_VERSION = 4;
+const APP_VERSION = '5.0.0';
+const SCHEMA_VERSION = 5;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -9792,6 +9849,21 @@ const MIGRATIONS = {
     if (!isPlainObj(s.chat)) s.chat = defaultChat();
     s.migratedFrom4 = { schema: 3, at: Date.now() };
     return s;
+  },
+  4: s => { // 4.0 -> 5.0: só ACRESCENTA (figurinhas, tempo de digitação); conversas, fatos e progresso ficam intactos
+    if (isPlainObj(s.chat)) {
+      const c = s.chat;
+      if (!isPlainObj(c.settings)) c.settings = {};
+      if (c.settings.instant == null) c.settings.instant = false;
+      if (!isPlainObj(c.stk)) c.stk = { fav: [], recent: [] };
+      // a conversa livre da 4.0 guardava só a última pergunta ("expect"): vira a expectativa de contexto da 5.0
+      if (isPlainObj(c.chars)) Object.keys(c.chars).forEach(id => { const a = c.chars[id] && c.chars[id].active; if (isPlainObj(a) && a.free && a.expect && !a.ex) { if (a.expect === 'imgood') a.ex = chLegacyEx(id, isPlainObj(c.threads) && Array.isArray(c.threads[id]) ? c.threads[id] : []); delete a.expect; } });
+      // mensagens da conversa livre da 4.0 (depois do marcador "Conversa livre") deixam de mostrar rótulo de avaliação
+      if (isPlainObj(c.threads)) Object.keys(c.threads).forEach(id => { const th = c.threads[id]; if (!Array.isArray(th)) return; let free = false; th.forEach(m => { if (!isPlainObj(m)) return; if (m.from === 'sys' && m.kind === 'topic') free = m.txt === 'Conversa livre'; else if (m.from === 'sys' && m.kind === 'done') free = false; else if (free && m.from === 'me') m.fr = 1; }); });
+      c.v = 2;
+    }
+    s.migratedFrom5 = { schema: 4, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -9817,6 +9889,8 @@ function normalize(data) {
   if (!isPlainObj(s.chat)) s.chat = defaultChat();
   ['chars', 'threads', 'facts', 'scenes', 'challenges'].forEach(k => { if (!isPlainObj(s.chat[k])) s.chat[k] = {}; });
   if (!Array.isArray(s.chat.corrections)) s.chat.corrections = [];
+  if (!isPlainObj(s.chat.stk)) s.chat.stk = { fav: [], recent: [] };
+  ['fav', 'recent'].forEach(k => { if (!Array.isArray(s.chat.stk[k])) s.chat.stk[k] = []; });
   Object.keys(s.chat.threads).forEach(k => { if (!Array.isArray(s.chat.threads[k])) s.chat.threads[k] = []; });
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
@@ -12372,7 +12446,7 @@ const {
 
   /* ---------- desafios opcionais ---------- */
   const CHAT_CHALLENGES = [
-    { id: 'ren-oi-genki', char: 'ren', title: 'Cumprimentar o Ren, perguntar como ele está e responder naturalmente', desc: 'Na conversa livre: cumprimente, pergunte 「げんき？」 e responda quando ele perguntar de volta.', xp: 25, tags: ['greet', 'howareyou', 'imgood'], natural: true },
+    { id: 'ren-oi-genki', char: 'ren', title: 'Responder ao “tudo bem?” do Ren com naturalidade', desc: 'No desafio “Tudo bem?”, responda de forma casual e natural, sem usar dicas.', xp: 25, scene: 'ren-genki', tags: ['respondeu'], natural: true },
     { id: 'ren-convite', char: 'ren', title: 'Responder a um convite do Ren', desc: 'Complete o assunto “O que você está fazendo?”.', xp: 20, scene: 'ren-ima', tags: [] },
     { id: 'ren-consolo', char: 'ren', title: 'Consolar o Ren depois da derrota', desc: 'No assunto “Tudo bem?”, reaja com uma palavra de consolo.', xp: 15, scene: 'ren-genki', tags: ['consolou'] },
     { id: 'aiko-apresentacao', char: 'aiko', title: 'Apresentar-se formalmente à professora', desc: 'Apresente-se com はじめまして…です。よろしく おねがいします, sem erros de formalidade.', xp: 20, scene: 'aiko-hajime', tags: ['apresentou'], natural: true },
@@ -12459,7 +12533,500 @@ function chBuildPrice() {
 }
 
 /* ==========================================================
-   NIHONGO CHAT 4.0 — motor de conversa
+   NIHONGO CHAT 5.0 — conversa livre: personalidade, reações e assuntos
+   Cada fala é escrita como 'japonês|romaji|português'.
+   Uma "resposta" é uma fala ou uma lista de falas (vários balões).
+   '#emoção' = o personagem manda uma figurinha (joy, laugh, surprise, shy,
+   doubt, sad, excited, celebrate, approve, confused).
+   { r: resposta, ex: expectativa, teach: [expressões], tip: nota, set: [fatos], end: true }
+   ex = o que o personagem acabou de perguntar e como ele reage a cada intenção:
+   { k: 'state'|'yn'|'open', on: { intenção: [variações] }, back: resposta para “e você?” / “por quê?”,
+     cap: true (aceita uma resposta curta livre, ex.: um nome), sugg: ['jp|ro|pt|lições'] }
+   Não é IA generativa: são roteiros com reconhecimento de intenção e contexto.
+   ========================================================== */
+const TALK = (function () {
+  const TOD = (manha, tarde, noite, o) => Object.assign({ tod: { manha, tarde, noite } }, o || {});
+
+  /* ================= REN — amigo próximo ================= */
+  const ren = {
+    style: { base: 320, per: 20, jit: 380, max: 2100, gap: 260, stk: 0.5 },
+    pivot: ['そういえば さ、|sou ieba sa,|Falando nisso…', 'あ、そうだ！|a, sou da!|Ah, é mesmo!', 'てか きいて！|teka kiite!|Escuta essa!'],
+    unknown: ['ん？ もう一回 言って くれる？|n? mou ikkai itte kureru?|Hã? Pode falar mais uma vez?', 'ごめん、いまの よく わかんなかった（笑）。もう一回！|gomen, ima no yoku wakannakatta (wara). mou ikkai!|Foi mal, não entendi direito (risos). De novo!', 'え？ どういう こと？|e? dou iu koto?|Hein? Como assim?'],
+    unknown2: [['あはは、ごめん！ おれの にほんごりょくが たりない（笑）|ahaha, gomen! ore no nihongoryoku ga tarinai (wara)|Haha, foi mal! Faltou japonês da minha parte (risos)', '#confused']],
+    state: { k: 'state', on: {
+      good: ['よかった！|yokatta!|Que bom!', ['いいね〜！|ii ne~!|Boa!', '#approve'], 'お、げんきそうじゃん！|o, genki sou jan!|Opa, tá animado(a), hein!'],
+      meh: ['まあまあ か〜。そういう ひも あるよな。|maa maa ka~. sou iu hi mo aru yo na.|Mais ou menos, é? Tem dias assim.'],
+      bad: [['え、だいじょうぶ？|e, daijoubu?|Eita, tá tudo bem?', 'むりすんなよ。|muri sunna yo.|Não exagera, hein.']],
+      tired: ['おつかれ〜。きょうは はやく ねなよ。|otsukare~. kyou wa hayaku ne na yo.|Cansou, né? Hoje dorme cedo.'],
+      sleepy: [['わかる〜。おれも ねむい（笑）|wakaru~. ore mo nemui (wara)|Te entendo. Eu também tô com sono (risos)', '#laugh']],
+      hungry: ['おなか すいてんの？（笑） なにか たべなよ！|onaka suiten no? (wara) nanika tabe na yo!|Tá com fome? (risos) Vai comer alguma coisa!'],
+      same: ['おー、おなじだ！|oo, onaji da!|Opa, igual!'],
+      yes: ['よかった！|yokatta!|Que bom!'], no: [['え、マジ？ だいじょうぶ？|e, maji? daijoubu?|Eita, sério? Tá tudo bem?']]
+    }, sugg: ['げんき！|genki!|Tô bem!|chat:genki', 'まあまあ。|maa maa.|Mais ou menos.|chat:maamaa', 'つかれた…|tsukareta…|Tô cansado(a)…|c8l3'] },
+    react: {
+      greet: [TOD('おはよ！ はやいじゃん！|ohayo! hayai jan!|Bom dia! Acordou cedo, hein!', 'よっ、{name}！|yo, {name}!|E aí, {name}!', 'おう、こんばんは〜！|ou, konbanwa~!|Opa, boa noite!'),
+        { r: [TOD('おはよー。まだ ねむい…（笑）|ohayoo. mada nemui… (wara)|Bom diaa. Ainda tô com sono… (risos)', 'おっす！|ossu!|Fala!', 'おー、{name}！|oo, {name}!|Ô, {name}!'), 'げんき？|genki?|Tudo bem?'], ex: 'state' }],
+      nice: [['よろしく！|yoroshiku!|Prazer!', '#joy']],
+      howareyou: [{ r: ['げんき げんき！|genki genki!|Tô bem, tô bem!', '{name}は？|{name} wa?|E você?'], ex: 'state' },
+        { r: ['まあまあ かな。|maa maa kana.|Mais ou menos.', 'きのう ねるの おそかった（笑）。{name}は？|kinou neru no osokatta (wara). {name} wa?|Dormi tarde ontem (risos). E você?'], ex: 'sleep' }],
+      good: ['よかった！|yokatta!|Que bom!', 'いいじゃん！|ii jan!|Boa!'],
+      meh: ['まあまあ か〜。|maa maa ka~.|Mais ou menos, é?'],
+      bad: [['え、どうした？|e, dou shita?|Eita, o que houve?', 'なんか あったら いえよ。|nanka attara ie yo.|Se precisar, fala comigo.']],
+      tired: ['おつかれ〜。むりしないで、やすんでね。|otsukare~. muri shinaide, yasunde ne.|Cansou, né? Não exagera, descansa.'],
+      sleepy: ['ねむい ときは ねる！ これ だいじ（笑）|nemui toki wa neru! kore daiji (wara)|Com sono, vai dormir! Isso é importante (risos)'],
+      hungry: [['おれも！ ラーメン いこうぜ！|ore mo! raamen ikou ze!|Eu também! Bora comer lámen!', '#excited']],
+      same: ['おー、おなじだね！|oo, onaji da ne!|Opa, igual!', 'なかまだ！（笑）|nakama da! (wara)|Somos dois! (risos)'],
+      yes: ['だよな！|da yo na!|Né!', 'うん うん！|un un!|Isso aí!'],
+      no: ['そっか〜。|sokka~.|Ah, entendi.', 'え、そうなの？|e, sou na no?|Ué, é mesmo?'],
+      laugh: ['#laugh', 'だろ？（笑）|daro? (wara)|Né? (risos)', 'わらった？ よし！（笑）|waratta? yoshi! (wara)|Riu? Boa! (risos)'],
+      ack: ['そう そう！|sou sou!|Pois é!', 'だよね〜。|da yo ne~.|Né?', 'うん。|un.|Uhum.'],
+      surprise: ['マジ マジ！|maji maji!|Sério, sério!', 'ほんと だって！（笑）|honto da tte! (wara)|É verdade! (risos)'],
+      praise: [['だろ？（笑）|daro? (wara)|Né não? (risos)', '#excited'], 'へへ、ありがと！|hehe, arigato!|Hehe, valeu!'],
+      yay: [['いえーい！|ieei!|Uhuuu!', '#celebrate']],
+      congrats: [['サンキュー！|sankyuu!|Valeu!', '#celebrate']],
+      sympathy: ['ありがと。まあ、なんとか なるっしょ！|arigato. maa, nantoka narussho!|Valeu. Ah, vai dar tudo certo!'],
+      thanks: ['いいって いいって！|ii tte ii tte!|Que nada!', 'おう！|ou!|Tranquilo!'],
+      sorry: ['きに すんなって！|ki ni sunna tte!|Esquenta não!', 'ぜんぜん へいき！|zenzen heiki!|Relaxa, de boa!'],
+      okay: ['よし！|yoshi!|Fechado!', 'オッケー！|okkee!|Beleza!'],
+      decline: ['りょうかい！ また こんど な。|ryoukai! mata kondo na.|Beleza! Fica pra próxima.'],
+      bye: [{ r: TOD('じゃあな！ きょうも がんばれ！|jaa na! kyou mo ganbare!|Falou! Boa sorte hoje!', 'じゃあな！ また はなそう！|jaa na! mata hanasou!|Falou! Depois a gente conversa!', 'おやすみ〜！ また あした！|oyasumi~! mata ashita!|Boa noite! Até amanhã!'), end: true }],
+      askback: ['おれ？ げんき げんき！|ore? genki genki!|Eu? Tô ótimo!', 'おれは いつもどおり ゲームばっか（笑）|ore wa itsumo doori geemu bakka (wara)|Eu? O de sempre, só jogando (risos)'],
+      why: ['なんとなく！（笑）|nantonaku! (wara)|Sei lá, porque sim! (risos)'],
+      whatdoing: [{ r: ['ゲーム してた！ いま いい ところ！|geemu shiteta! ima ii tokoro!|Tava jogando! Tá na parte boa!', '{name}は なに してた？|{name} wa nani shiteta?|E você, tava fazendo o quê?'], ex: 'open' }, 'アニメ みてた。「ほしの ゆうしゃ」の さいしんわ！|anime miteta. "Hoshi no Yuusha" no saishinwa!|Tava vendo anime. O episódio novo de “Hoshi no Yuusha”!'],
+      likesq: [{ r: 'ゲームと アニメと ラーメン！ ぜんぶ だいすき！ {name}は？|geemu to anime to raamen! zenbu daisuki! {name} wa?|Games, anime e lámen! Amo tudo! E você?', ex: 'likes' }],
+      ilike: ['{like}！ いいね〜！|{like}! ii ne~!|{like}! Que legal!', 'へえ、{like}か！ おれも けっこう すき！|hee, {like} ka! ore mo kekkou suki!|Hmm, {like}! Eu também curto!'],
+      dislike: ['そっか〜、にがて なんだ。|sokka~, nigate nan da.|Ah, não curte muito, né.'],
+      recommend: ['「ほしの ゆうしゃ」！ ぜったい みて！|"Hoshi no Yuusha"! zettai mite!|“Hoshi no Yuusha”! Assiste, sério!'],
+      weather: ['だよね〜。そとで あそびたく なる！|da yo ne~. soto de asobitaku naru!|Né? Dá vontade de sair!'],
+      studying: [['えらい！ おれも しゅくだい やらなきゃ…|erai! ore mo shukudai yaranakya…|Mandou bem! Eu também preciso fazer a lição…', '#approve']],
+      want: ['いいね、それ！|ii ne, sore!|Boa, hein!'],
+      question: ['うーん、むずかしい しつもん（笑）|uun, muzukashii shitsumon (wara)|Hmm, pergunta difícil (risos)'],
+      some: ['ときどき か〜。いいじゃん。|tokidoki ka~. ii jan.|De vez em quando? Tá ótimo.'],
+      dontknow: ['だいじょうぶ、だいじょうぶ！|daijoubu, daijoubu!|Tranquilo, tranquilo!']
+    },
+    ex: {
+      sleep: { k: 'state', on: {
+        same: [['マジ？ なかまだ！（笑）|maji? nakama da! (wara)|Sério? Somos dois! (risos)', 'ねむい どうし、がんばろうぜ。|nemui doushi, ganbarou ze.|Bora aguentar firme, dupla do sono.'], ['え、{name}も？（笑）|e, {name} mo? (wara)|Ué, você também? (risos)', '#laugh']],
+        sleepy: [['わかる〜、ねむいよな（笑）|wakaru~, nemui yo na (wara)|Te entendo, que sono (risos)', '#laugh']],
+        tired: ['おたがい おつかれ だな（笑）|otagai otsukare da na (wara)|Estamos os dois cansados (risos)'],
+        good: ['え、いいな〜！ ちゃんと ねたんだ。|e, ii na~! chanto neta n da.|Ah, que inveja! Você dormiu direitinho.'],
+        no: ['はやく ねたの？ えらい！|hayaku neta no? erai!|Dormiu cedo? Mandou bem!'],
+        bad: [['え、だいじょうぶ？ むりすんなよ。|e, daijoubu? muri sunna yo.|Eita, tá tudo bem? Não exagera.']],
+        laugh: ['わらうなって〜（笑）|warau na tte~ (wara)|Não ri! (risos)'],
+        why: ['ゲームが おわらなくて…（笑）|geemu ga owaranakute… (wara)|O jogo não acabava… (risos)']
+      }, back: 'ゲームが おわらなくて…（笑）|geemu ga owaranakute… (wara)|O jogo não acabava… (risos)',
+        sugg: ['わたしも。|watashi mo.|Eu também.|', 'げんき！|genki!|Tô bem!|chat:genki', 'ねむい…|nemui…|Tô com sono…|chat:nemui'] },
+      likes: { k: 'open', on: {
+        same: ['だよな！ やっぱ さいこう！|da yo na! yappa saikou!|Né! É o melhor!'],
+        ilike: ['{like}！ いいね〜！ こんど いっしょに はなそうぜ。|{like}! ii ne~! kondo issho ni hanasou ze.|{like}! Demais! Depois a gente conversa sobre isso.']
+      }, cap: true, any: ['{*}か！ いいじゃん！|{*} ka! ii jan!|{*}! Boa!'], sugg: ['アニメが すき！|anime ga suki!|Gosto de anime!|c4l6,c5l7', 'わたしも ゲームが すき。|watashi mo geemu ga suki.|Eu também gosto de games.|c4l6,c5l7'] },
+      open: { k: 'open', on: { same: ['おなじ じゃん！（笑）|onaji jan! (wara)|Igualzinho! (risos)'] }, cap: true, any: ['へえ、{*}！ いいね。|hee, {*}! ii ne.|Hmm, {*}! Legal.'] }
+    },
+    topics: [
+      { id: 'intro', intro: true, steps: [
+        { say: [TOD('おはよ！ はじめまして！|ohayo! hajimemashite!|Bom dia! Prazer!', 'よっ！ はじめまして！|yo! hajimemashite!|E aí! Prazer!', 'こんばんは〜！ はじめまして！|konbanwa~! hajimemashite!|Boa noite! Prazer!'), 'おれ、レン。よろしく！|ore, Ren. yoroshiku!|Eu sou o Ren. Prazer!'],
+          ex: { k: 'open', on: { nice: ['うん！|un!|Valeu!'], greet: ['うん、よろしく！|un, yoroshiku!|Isso, prazer!'] }, any: ['うん！|un!|Valeu!'], sugg: ['よろしく！|yoroshiku!|Prazer!|c1l3', 'はじめまして。|hajimemashite.|Muito prazer.|c1l3'] } },
+        { say: '{name}って いうんだよね？ ゲームと アニメ、すき？|{name} tte iu n da yo ne? geemu to anime, suki?|Você é o(a) {name}, né? Curte games e anime?',
+          ex: { k: 'yn', on: { yes: [['マジ？ やった！ はなし あいそう！|maji? yatta! hanashi aisou!|Sério? Oba! Vamos nos dar bem!', '#excited']], ilike: [['マジ？ やった！ はなし あいそう！|maji? yatta! hanashi aisou!|Sério? Oba! Vamos nos dar bem!', '#excited']], no: ['そっか！ じゃあ ほかの はなしも しようぜ。|sokka! jaa hoka no hanashi mo shiyou ze.|Beleza! Então a gente conversa sobre outras coisas.'], some: ['ちょっと？ じゅうぶん！（笑）|chotto? juubun! (wara)|Um pouco? Já tá ótimo! (risos)'] },
+            any: ['そっか！|sokka!|Saquei!'], sugg: ['うん、すき！|un, suki!|Curto, sim!|c4l6', 'ちょっと。|chotto.|Um pouco.|', 'ううん。|uun.|Não muito.|'] }, teach: ['maji'] },
+        { say: [{ r: 'これから よろしくな！ いつでも メッセージ してね。|kore kara yoroshiku na! itsu demo messeeji shite ne.|Conto com você! Me manda mensagem quando quiser.' }, '#joy'], end: true, set: ['ren:met'] }
+      ] },
+      { id: 'game', steps: [
+        { say: ['ねえ ねえ、きいて！|nee nee, kiite!|Ei, escuta só!', 'きのう ゲームで やっと かった！|kinou geemu de yatto katta!|Ontem finalmente ganhei no jogo!'],
+          ex: { k: 'open', on: {
+            praise: [['だろ？ さいこうだった！|daro? saikou datta!|Né? Foi demais!', '#excited']], congrats: [['サンキュー！ がんばった かいが あった！|sankyuu! ganbatta kai ga atta!|Valeu! Valeu a pena o esforço!', '#celebrate']],
+            yay: [['いえーい！|ieei!|Uhuuu!', '#celebrate']], surprise: ['ほんと！ 3かい まけてから やっと！|honto! sankai makete kara yatto!|Sério! Depois de perder 3 vezes, finalmente!'],
+            laugh: ['わらうなよ〜（笑） ほんとに むずかしかったんだって！|warau na yo~ (wara). honto ni muzukashikatta n da tte!|Não ri! Foi difícil de verdade!'],
+            ack: ['そう！ 3かい まけてから やっと！|sou! sankai makete kara yatto!|Isso! Depois de perder 3 vezes, finalmente!'],
+            same: ['{name}も かったの？ すげえ！|{name} mo katta no? sugee!|Você também ganhou? Que massa!'], why: ['れんしゅう しまくった！（笑）|renshuu shimakutta! (wara)|Treinei pra caramba! (risos)'] },
+            back: 'かくとうゲーム！ キャラが かっこいいんだよ。|kakutou geemu! kyara ga kakkoii n da yo.|Jogo de luta! Os personagens são muito estilosos.', any: ['へへっ。|hehe.|Hehe.'] }, teach: ['kakkoii'] },
+        { say: '{name}は ゲーム する？|{name} wa geemu suru?|E você, joga videogame?',
+          ex: { k: 'yn', on: { yes: ['マジ？ こんど いっしょに やろうぜ！|maji? kondo issho ni yarou ze!|Sério? Bora jogar junto qualquer dia!'], ilike: ['マジ？ こんど いっしょに やろうぜ！|maji? kondo issho ni yarou ze!|Sério? Bora jogar junto qualquer dia!'],
+            no: ['そっか〜。じゃあ こんど おしえて あげる！（笑）|sokka~. jaa kondo oshiete ageru! (wara)|Ah, entendi. Então um dia eu te ensino! (risos)'], some: ['ときどき？ じゃあ こんど たいせん しよう！|tokidoki? jaa kondo taisen shiyou!|De vez em quando? Então bora disputar uma partida!'] },
+            sugg: ['うん、する！|un, suru!|Jogo, sim!|', 'ときどき。|tokidoki.|De vez em quando.|', 'ううん、しない。|uun, shinai.|Não jogo.|'] } }
+      ] },
+      { id: 'ramen', steps: [
+        { say: ['あー、ラーメン たべたい…|aa, raamen tabetai…|Aaah, quero comer lámen…', '{name}は ラーメン すき？|{name} wa raamen suki?|Você gosta de lámen?'],
+          ex: { k: 'yn', on: { yes: [['だよね！ やっぱ とんこつ さいこう！|da yo ne! yappa tonkotsu saikou!|Né! Tonkotsu é o melhor!', '#excited']], same: [['だよね！ やっぱ とんこつ さいこう！|da yo ne! yappa tonkotsu saikou!|Né! Tonkotsu é o melhor!', '#excited']], hungry: ['だよな！ おなか すいた〜！|da yo na! onaka suita~!|Né! Que fome!'],
+            no: [{ r: 'えー、マジか（笑）。じゃあ なにが すき？|ee, maji ka (wara). jaa nani ga suki?|Quê, sério? (risos) Então do que você gosta?', ex: 'likes' }], some: ['まあまあ？ こんど おいしい みせ おしえるよ！|maa maa? kondo oishii mise oshieru yo!|Mais ou menos? Um dia te levo num lugar bom!'] },
+            back: 'おれは みそラーメンも すき！|ore wa miso raamen mo suki!|Eu também gosto de lámen de missô!', sugg: ['うん、すき！|un, suki!|Gosto, sim!|c4l6', 'わたしも たべたい！|watashi mo tabetai!|Eu também quero comer!|c6l3', 'ううん。|uun.|Não muito.|'] } }
+      ] },
+      { id: 'anime', steps: [
+        { say: ['さいきん「ほしの ゆうしゃ」って アニメ みてる。|saikin "Hoshi no Yuusha" tte anime miteru.|Ultimamente tô vendo um anime chamado “Hoshi no Yuusha”.', 'マジで おもしろい！|maji de omoshiroi!|É muito bom, sério!'],
+          ex: { k: 'open', on: { ack: ['しゅじんこうが かっこいいんだよ。|shujinkou ga kakkoii n da yo.|O protagonista é muito estiloso.'], surprise: ['ほんと！ しゅじんこうが かっこいいんだよ。|honto! shujinkou ga kakkoii n da yo.|Sério! O protagonista é muito estiloso.'],
+            praise: ['だろ？ ドラゴンも でるんだよ！|daro? doragon mo deru n da yo!|Né? Tem até dragão!'], same: ['え、{name}も みてる？ こんど はなそうぜ！|e, {name} mo miteru? kondo hanasou ze!|Ué, você também assiste? Bora conversar sobre!'], question: ['ぼうけんの はなし！ ドラゴンも でる！|bouken no hanashi! doragon mo deru!|É uma história de aventura! Tem até dragão!'] },
+            back: 'ぼうけんの はなし！ ドラゴンも でる！|bouken no hanashi! doragon mo deru!|É uma história de aventura! Tem até dragão!', any: ['へへ、こんど いっしょに みよう！|hehe, kondo issho ni miyou!|Hehe, um dia a gente assiste junto!'] }, teach: ['maji'] },
+        { say: '{name}の おすすめ アニメ、おしえて！|{name} no osusume anime, oshiete!|Me indica um anime!',
+          ex: { k: 'open', on: { dontknow: ['まだ ない？ じゃあ 「ほしの ゆうしゃ」から！（笑）|mada nai? jaa "Hoshi no Yuusha" kara! (wara)|Ainda não tem? Então começa por “Hoshi no Yuusha”! (risos)'], no: ['まだ ない？ じゃあ 「ほしの ゆうしゃ」から！（笑）|mada nai? jaa "Hoshi no Yuusha" kara! (wara)|Ainda não tem? Então começa por “Hoshi no Yuusha”! (risos)'] },
+            cap: true, any: [['「{*}」？ メモった！ みて みる！|"{*}"? memotta! mite miru!|“{*}”? Anotei! Vou assistir!', '#approve']], sugg: ['わからない。|wakaranai.|Não sei.|'] }, teach: ['osusume'] }
+      ] },
+      { id: 'train', steps: [
+        { say: ['きょう でんしゃで ねちゃって…|kyou densha de nechatte…|Hoje eu dormi no trem…', 'えきを すぎた（笑）|eki o sugita (wara)|E passei da estação (risos)'],
+          ex: { k: 'open', on: { laugh: [['わらいごとじゃ ないって！（笑）|waraigoto ja nai tte! (wara)|Não tem graça! (risos)', '#laugh']], sympathy: ['だろ？ さいあく…でも ちょっと おもしろい（笑）|daro? saiaku… demo chotto omoshiroi (wara)|Né? Péssimo… mas meio engraçado (risos)'],
+            surprise: ['ほんと！ 30ぷんも おくれた（笑）|honto! sanjuppun mo okureta (wara)|Sério! Atrasei 30 minutos (risos)'], same: [{ r: 'え、{name}も ある？ あるある だよね！|e, {name} mo aru? aruaru da yo ne!|Ué, já aconteceu com você? Clássico, né!', teach: ['aruaru'] }], ack: ['ねむかったんだよ〜。|nemukatta n da yo~.|Eu tava com muito sono.'] },
+            back: 'ゲームで よふかし したから…（笑）|geemu de yofukashi shita kara… (wara)|Porque fiquei acordado jogando… (risos)', any: ['まあ、つぎは きを つける！|maa, tsugi wa ki o tsukeru!|Bom, da próxima vez eu tomo cuidado!'] } }
+      ] },
+      { id: 'weekend', steps: [
+        { say: 'しゅうまつ、なに する？|shuumatsu, nani suru?|O que você vai fazer no fim de semana?',
+          ex: { k: 'open', on: { dontknow: ['まだ きめてない？ おれも（笑）|mada kimetenai? ore mo (wara)|Ainda não decidiu? Nem eu (risos)'], no: ['まだ きめてない？ おれも（笑）|mada kimetenai? ore mo (wara)|Ainda não decidiu? Nem eu (risos)'], studying: [['にほんご？ えらすぎ！|nihongo? erasugi!|Japonês? Que dedicação!', '#approve']], same: ['おれと おなじ じゃん！（笑）|ore to onaji jan! (wara)|Igual a mim! (risos)'] },
+            back: 'おれは たぶん ずっと ゲーム（笑）|ore wa tabun zutto geemu (wara)|Eu provavelmente vou jogar o tempo todo (risos)', cap: true, any: ['{*}か〜！ いいな。|{*} ka~! ii na.|{*}, é? Que legal.'],
+            sugg: ['べんきょう！|benkyou!|Estudar!|', 'まだ わからない。|mada wakaranai.|Ainda não sei.|', 'レンは？|Ren wa?|E você?|'] } }
+      ] },
+      { id: 'study', steps: [
+        { say: 'にほんごの べんきょう、どう？|nihongo no benkyou, dou?|E o estudo de japonês, como vai?',
+          ex: { k: 'state', on: { good: [['さすが！ おれより じょうずに なるかも（笑）|sasuga! ore yori jouzu ni naru kamo (wara)|Mandou bem! Vai ficar melhor que eu (risos)', '#approve']], hard: ['むずかしいよな〜。でも {name}、ちゃんと はなせてるよ！|muzukashii yo na~. demo {name}, chanto hanaseteru yo!|É difícil, né? Mas você tá falando direitinho!'],
+            bad: ['むずかしいよな〜。でも {name}、ちゃんと はなせてるよ！|muzukashii yo na~. demo {name}, chanto hanaseteru yo!|É difícil, né? Mas você tá falando direitinho!'], meh: ['まあまあ？ じゅうぶん すごいって！|maa maa? juubun sugoi tte!|Mais ou menos? Já é incrível!'], yes: ['いいね！ その ちょうし！|ii ne! sono choushi!|Boa! Continua assim!'], same: ['いいね！ その ちょうし！|ii ne! sono choushi!|Boa! Continua assim!'] },
+            sugg: ['たのしい！|tanoshii!|Tá divertido!|', 'むずかしい…|muzukashii…|Tá difícil…|', 'まあまあ。|maa maa.|Mais ou menos.|chat:maamaa'] } }
+      ] },
+      { id: 'likes-memory', fact: 'ctx.likes', nopivot: true, steps: [
+        { say: 'そういえば {name}、{likes}が すきって いってたよね。|sou ieba {name}, {likes} ga suki tte itteta yo ne.|Falando nisso, você disse que gosta de {likes}, né?',
+          ex: { k: 'yn', on: { yes: [['おれも さいきん ハマってる！|ore mo saikin hamatteru!|Eu também tô viciado nisso ultimamente!', '#excited']], ilike: [['おれも さいきん ハマってる！|ore mo saikin hamatteru!|Eu também tô viciado nisso ultimamente!', '#excited']], no: ['あれ、ちがった？（笑） ごめん！|are, chigatta? (wara) gomen!|Ué, me enganei? (risos) Foi mal!'] } } }
+      ] },
+      { id: 'late', tod: 'noite', steps: [
+        { say: 'まだ おきてる？（笑）|mada okiteru? (wara)|Ainda acordado(a)? (risos)',
+          ex: { k: 'yn', on: { yes: ['なかま！ おれも ねれない…|nakama! ore mo nerenai…|Somos dois! Eu também não consigo dormir…'], same: ['なかま！ おれも ねれない…|nakama! ore mo nerenai…|Somos dois! Eu também não consigo dormir…'], sleepy: [['じゃあ もう ねよう！ おやすみ〜|jaa mou neyou! oyasumi~|Então vamos dormir! Boa noite~', '#joy']], bye: [{ r: 'おやすみ〜！ また あした！|oyasumi~! mata ashita!|Boa noite! Até amanhã!', end: true }] } } }
+      ] }
+    ]
+  };
+
+  /* ================= AIKO-SENSEI — professora ================= */
+  const aiko = {
+    style: { base: 750, per: 30, jit: 400, max: 2700, gap: 450, stk: 0.25 },
+    pivot: ['ところで、|tokoro de,|A propósito…', 'そうそう、|sou sou,|Ah, sim…'],
+    unknown: ['すみません、もう一度 言って くれますか。|sumimasen, mou ichido itte kuremasu ka.|Desculpe, pode dizer mais uma vez?', 'うーん、すこし わかりにくかったです。もう一度 おねがいします。|uun, sukoshi wakarinikukatta desu. mou ichido onegaishimasu.|Hum, ficou um pouco difícil de entender. Mais uma vez, por favor.'],
+    unknown2: [['だいじょうぶですよ。わたしの ききとりが たりませんでした。|daijoubu desu yo. watashi no kikitori ga tarimasen deshita.|Tudo bem. Fui eu que não consegui entender.', '#doubt']],
+    state: { k: 'state', on: {
+      good: ['それは よかったです。|sore wa yokatta desu.|Que bom.', ['よかったです！|yokatta desu!|Que bom!', '#joy']],
+      meh: ['まあまあ ですか。むりを しないで くださいね。|maa maa desu ka. muri o shinaide kudasai ne.|Mais ou menos? Não se esforce demais.'],
+      bad: ['あら、だいじょうぶですか。むりは しないで くださいね。|ara, daijoubu desu ka. muri wa shinaide kudasai ne.|Ah, você está bem? Não se esforce demais.'],
+      tired: ['おつかれさまです。すこし やすみましょう。|otsukaresama desu. sukoshi yasumimashou.|Bom trabalho. Vamos descansar um pouco.'],
+      sleepy: ['ねむい ときは、みじかい べんきょうで いいですよ。|nemui toki wa, mijikai benkyou de ii desu yo.|Com sono, um estudo curtinho já basta.'],
+      same: ['あら、わたしと おなじですね。|ara, watashi to onaji desu ne.|Ah, igual a mim.'],
+      yes: ['それは よかったです。|sore wa yokatta desu.|Que bom.'], no: ['そうですか…。なにか あったら いつでも いって くださいね。|sou desu ka…. nanika attara itsu demo itte kudasai ne.|Entendo… Se precisar, é só falar.']
+    }, sugg: ['げんきです。|genki desu.|Estou bem.|chat:genki', 'つかれました。|tsukaremashita.|Estou cansado(a).|c8l3', 'まあまあです。|maa maa desu.|Mais ou menos.|chat:maamaa'] },
+    react: {
+      greet: [TOD('おはようございます、{name}さん。|ohayou gozaimasu, {name}-san.|Bom dia, {name}.', 'こんにちは、{name}さん。|konnichiwa, {name}-san.|Olá, {name}.', 'こんばんは。おそくまで えらいですね。|konbanwa. osoku made erai desu ne.|Boa noite. Estudando até tarde, que dedicação.'),
+        { r: [TOD('おはようございます。|ohayou gozaimasu.|Bom dia.', 'こんにちは。|konnichiwa.|Olá.', 'こんばんは。|konbanwa.|Boa noite.'), 'おげんきですか。|ogenki desu ka.|Como vai?'], ex: 'state' }],
+      nice: ['こちらこそ、よろしく おねがいします。|kochira koso, yoroshiku onegaishimasu.|O prazer é meu.'],
+      howareyou: [{ r: ['はい、げんきです。|hai, genki desu.|Estou bem, sim.', '{name}さんは？|{name}-san wa?|E você?'], ex: 'state' }, { r: ['ありがとう。すこし いそがしいですが、げんきですよ。|arigatou. sukoshi isogashii desu ga, genki desu yo.|Obrigada. Um pouco ocupada, mas bem.', '{name}さんは どうですか。|{name}-san wa dou desu ka.|E você, como está?'], ex: 'state' }],
+      good: ['それは よかったです。|sore wa yokatta desu.|Que bom.'],
+      meh: ['まあまあ ですか。|maa maa desu ka.|Mais ou menos?'],
+      bad: ['だいじょうぶですか。むりは しないで くださいね。|daijoubu desu ka. muri wa shinaide kudasai ne.|Você está bem? Não se esforce demais.'],
+      tired: ['むりを しないで くださいね。すこし やすみましょう。|muri o shinaide kudasai ne. sukoshi yasumimashou.|Não se esforce demais. Vamos descansar um pouco.'],
+      sleepy: ['きょうは はやめに やすんで くださいね。|kyou wa hayame ni yasunde kudasai ne.|Hoje descanse mais cedo, está bem?'],
+      hungry: ['もう すぐ ごはんの じかんですね。|mou sugu gohan no jikan desu ne.|Já está quase na hora de comer.'],
+      same: ['おなじですね。|onaji desu ne.|Igual, então.', 'あら、わたしもです。|ara, watashi mo desu.|Ah, eu também.'],
+      yes: ['はい。|hai.|Certo.', 'そうですか。|sou desu ka.|Entendo.'],
+      no: ['そうですか。|sou desu ka.|Entendo.'],
+      laugh: ['ふふっ。|fufu.|Hihi.', '#laugh'],
+      ack: ['ええ。|ee.|Sim.', 'そうなんです。|sou nan desu.|Pois é.'],
+      surprise: ['ほんとうですよ。|hontou desu yo.|É verdade.'],
+      praise: [['ありがとうございます。うれしいです。|arigatou gozaimasu. ureshii desu.|Obrigada. Fico feliz.', '#joy']],
+      yay: [['よかったですね！|yokatta desu ne!|Que ótimo!', '#celebrate']],
+      congrats: ['ありがとうございます。|arigatou gozaimasu.|Muito obrigada.'],
+      sympathy: ['やさしいですね。ありがとう。|yasashii desu ne. arigatou.|Que gentil. Obrigada.'],
+      thanks: ['どういたしまして。|dou itashimashite.|De nada.'],
+      sorry: ['だいじょうぶですよ。きに しないで ください。|daijoubu desu yo. ki ni shinaide kudasai.|Tudo bem. Não se preocupe.'],
+      okay: [['はい、その ちょうしです。|hai, sono choushi desu.|Isso, continue assim.', '#approve']],
+      decline: ['わかりました。また こんど にしましょう。|wakarimashita. mata kondo ni shimashou.|Certo. Fica para a próxima.'],
+      bye: [{ r: TOD('はい、いってらっしゃい。|hai, itterasshai.|Certo, bom dia e até mais.', 'では、また。おつかれさまでした。|dewa, mata. otsukaresama deshita.|Até mais. Bom trabalho hoje.', 'おやすみなさい。また あした。|oyasumi nasai. mata ashita.|Boa noite. Até amanhã.'), end: true }],
+      askback: ['わたしですか。げんきですよ。ありがとう。|watashi desu ka. genki desu yo. arigatou.|Eu? Estou bem. Obrigada.'],
+      why: ['いい しつもんですね。こんど ゆっくり せつめい しますね。|ii shitsumon desu ne. kondo yukkuri setsumei shimasu ne.|Boa pergunta. Depois explico com calma.'],
+      whatdoing: ['じゅぎょうの じゅんびを して います。|jugyou no junbi o shite imasu.|Estou preparando a aula.'],
+      likesq: ['わたしは ほんを よむのが すきです。とくに むかしばなしが すきです。|watashi wa hon o yomu no ga suki desu. toku ni mukashibanashi ga suki desu.|Gosto de ler livros. Principalmente contos antigos.'],
+      ilike: ['{like}ですか。すてきですね。|{like} desu ka. suteki desu ne.|{like}? Que bacana.'],
+      dislike: ['だれにでも にがてな ものは ありますよ。|dare ni demo nigate na mono wa arimasu yo.|Todo mundo tem algo de que não gosta.'],
+      recommend: ['まいにち こえに だして よむのが おすすめです。|mainichi koe ni dashite yomu no ga osusume desu.|Recomendo ler em voz alta todos os dias.'],
+      weather: ['そうですね。べんきょうびよりですね。|sou desu ne. benkyou biyori desu ne.|Pois é. Um ótimo dia para estudar.'],
+      studying: [['すばらしいです！ まいにち すこしずつ が だいじです。|subarashii desu! mainichi sukoshizutsu ga daiji desu.|Maravilhoso! O importante é um pouco todo dia.', '#approve']],
+      want: ['いいですね。|ii desu ne.|Que bom.'],
+      question: ['いい しつもんですね。|ii shitsumon desu ne.|Boa pergunta.'],
+      some: ['ときどき でも だいじょうぶですよ。|tokidoki demo daijoubu desu yo.|Mesmo de vez em quando, tudo bem.'],
+      dontknow: ['だいじょうぶですよ。いっしょに かんがえましょう。|daijoubu desu yo. issho ni kangaemashou.|Tudo bem. Vamos pensar juntos.']
+    },
+    ex: {},
+    topics: [
+      { id: 'intro', intro: true, steps: [
+        { say: ['はじめまして。にほんごの せんせいの あいこです。|hajimemashite. nihongo no sensei no Aiko desu.|Muito prazer. Sou Aiko, professora de japonês.', '{name}さん ですね。よろしく おねがいします。|{name}-san desu ne. yoroshiku onegaishimasu.|Você é o(a) {name}, certo? Muito prazer.'],
+          ex: { k: 'open', on: { nice: [['こちらこそ。|kochira koso.|O prazer é meu.', '#joy']], greet: ['こちらこそ、よろしく おねがいします。|kochira koso, yoroshiku onegaishimasu.|O prazer é meu.'], yes: ['こちらこそ、よろしく おねがいします。|kochira koso, yoroshiku onegaishimasu.|O prazer é meu.'] }, any: ['こちらこそ、よろしく おねがいします。|kochira koso, yoroshiku onegaishimasu.|O prazer é meu.'],
+            sugg: ['よろしく おねがいします。|yoroshiku onegaishimasu.|Muito prazer.|c1l3', 'はじめまして。|hajimemashite.|Muito prazer.|c1l3'] } },
+        { say: ['ここでは、ゆっくり にほんごで はなしましょう。|koko de wa, yukkuri nihongo de hanashimashou.|Aqui, vamos conversar em japonês com calma.', 'まちがえても だいじょうぶですよ。|machigaete mo daijoubu desu yo.|Tudo bem errar.'],
+          tip: { jp: 'まちがえても だいじょうぶ', ro: 'machigaete mo daijoubu', pt: 'Tudo bem errar.', why: 'Com a Aiko-sensei, use a forma educada (です/ます). Ela é sua professora, então o natural é falar com respeito.' },
+          ex: { k: 'open', on: { yes: [['はい。いっしょに がんばりましょう。|hai. issho ni ganbarimashou.|Isso. Vamos nos esforçar juntos.', '#approve']], okay: [['はい。いっしょに がんばりましょう。|hai. issho ni ganbarimashou.|Isso. Vamos nos esforçar juntos.', '#approve']], thanks: [['どういたしまして。いっしょに がんばりましょう。|dou itashimashite. issho ni ganbarimashou.|De nada. Vamos nos esforçar juntos.', '#approve']] }, any: ['いっしょに がんばりましょう。|issho ni ganbarimashou.|Vamos nos esforçar juntos.'], sugg: ['はい、おねがいします。|hai, onegaishimasu.|Sim, por favor.|c1l3', 'ありがとうございます。|arigatou gozaimasu.|Muito obrigado(a).|c1l3'] },
+          end: true, set: ['aiko:met'] }
+      ] },
+      { id: 'progress', dyn: 'aikoProgress', steps: [
+        { say: { dyn: 'aikoProgress' },
+          ex: { k: 'yn', on: { yes: ['だいじょうぶですよ。すこしずつ ふくしゅう しましょう。|daijoubu desu yo. sukoshizutsu fukushuu shimashou.|Tudo bem. Vamos revisar aos pouquinhos.'], bad: ['だいじょうぶですよ。すこしずつ ふくしゅう しましょう。|daijoubu desu yo. sukoshizutsu fukushuu shimashou.|Tudo bem. Vamos revisar aos pouquinhos.'],
+            no: [['すばらしいです！ その ちょうしです。|subarashii desu! sono choushi desu.|Maravilhoso! Continue assim.', '#approve']], good: [['すばらしいです！ その ちょうしです。|subarashii desu! sono choushi desu.|Maravilhoso! Continue assim.', '#approve']], some: ['すこし ですね。じゃあ、そこを ゆっくり ふくしゅう しましょう。|sukoshi desu ne. jaa, soko o yukkuri fukushuu shimashou.|Um pouco, então. Vamos revisar essa parte com calma.'] },
+            sugg: ['はい、すこし。|hai, sukoshi.|Sim, um pouco.|c1l3', 'いいえ、だいじょうぶです。|iie, daijoubu desu.|Não, tudo bem.|c1l4'] } }
+      ] },
+      { id: 'tea', steps: [
+        { say: ['きょうは あたたかい おちゃを のんで います。|kyou wa atatakai ocha o nonde imasu.|Hoje estou tomando um chá quentinho.', '{name}さんは おちゃが すきですか。|{name}-san wa ocha ga suki desu ka.|Você gosta de chá?'],
+          ex: { k: 'yn', on: { yes: ['いいですね。こんど おすすめの おちゃを おしえますね。|ii desu ne. kondo osusume no ocha o oshiemasu ne.|Que bom. Depois te indico um chá.'], same: ['いいですね。こんど おすすめの おちゃを おしえますね。|ii desu ne. kondo osusume no ocha o oshiemasu ne.|Que bom. Depois te indico um chá.'],
+            no: [{ r: 'そうですか。コーヒーの ほうが すきですか。|sou desu ka. koohii no hou ga suki desu ka.|Entendo. Prefere café?', ex: { k: 'yn', on: { yes: ['わたしも ときどき のみますよ。|watashi mo tokidoki nomimasu yo.|Eu também tomo às vezes.'], no: ['ふふ、みずが いちばんですね。|fufu, mizu ga ichiban desu ne.|Hihi, água é a melhor, então.'] } } }] },
+            back: 'りょくちゃが いちばん すきです。|ryokucha ga ichiban suki desu.|Chá verde é o meu preferido.', sugg: ['はい、すきです。|hai, suki desu.|Sim, gosto.|c4l6,c5l7', 'いいえ、あまり。|iie, amari.|Não muito.|c5l4'] } }
+      ] },
+      { id: 'naruhodo', steps: [
+        { say: ['そうそう、ひとつ おもしろい ことばを おしえますね。|sou sou, hitotsu omoshiroi kotoba o oshiemasu ne.|Ah, vou te ensinar uma palavra interessante.', 'にほんじんは よく「なるほど」と いいます。|nihonjin wa yoku "naruhodo" to iimasu.|Os japoneses dizem muito “naruhodo”.'], teach: ['naruhodo'],
+          ex: { k: 'open', on: { ack: [['そう、それです！ じょうずですね。|sou, sore desu! jouzu desu ne.|Isso mesmo! Muito bem.', '#approve']], question: ['「わかった！」「そういう ことか」と いう いみですよ。|"wakatta!" "sou iu koto ka" to iu imi desu yo.|Quer dizer “entendi!”, “ah, então é isso”.'], why: ['「わかった！」「そういう ことか」と いう いみですよ。|"wakatta!" "sou iu koto ka" to iu imi desu yo.|Quer dizer “entendi!”, “ah, então é isso”.'], laugh: ['ふふっ。たのしい ことばでしょう？|fufu. tanoshii kotoba deshou?|Hihi. Palavra divertida, não?'] },
+            any: ['なっとく した ときに つかって みて くださいね。|nattoku shita toki ni tsukatte mite kudasai ne.|Experimente usar quando algo fizer sentido.'], sugg: ['なるほど！|naruhodo!|Entendi! / Faz sentido!|chat:naruhodo', 'どういう いみですか。|dou iu imi desu ka.|O que significa?|'] } }
+      ] },
+      { id: 'book', steps: [
+        { say: 'きのう、むかしばなしの ほんを よみました。|kinou, mukashibanashi no hon o yomimashita.|Ontem li um livro de contos antigos.',
+          ex: { k: 'open', on: { ack: [{ r: 'ももたろうの はなしです。しって いますか。|momotarou no hanashi desu. shitte imasu ka.|É a história do Momotarō. Você conhece?', ex: 'momo' }], surprise: [{ r: 'ももたろうの はなしです。しって いますか。|momotarou no hanashi desu. shitte imasu ka.|É a história do Momotarō. Você conhece?', ex: 'momo' }], question: [{ r: 'ももたろうの はなしです。しって いますか。|momotarou no hanashi desu. shitte imasu ka.|É a história do Momotarō. Você conhece?', ex: 'momo' }], praise: [{ r: 'ありがとう。ももたろうの はなしです。しって いますか。|arigatou. momotarou no hanashi desu. shitte imasu ka.|Obrigada. É a história do Momotarō. Você conhece?', ex: 'momo' }] },
+            any: [{ r: 'ももたろうの はなしです。しって いますか。|momotarou no hanashi desu. shitte imasu ka.|É a história do Momotarō. Você conhece?', ex: 'momo' }] } }
+      ] },
+      { id: 'goal', steps: [
+        { say: 'にほんごで いちばん したい ことは なんですか。|nihongo de ichiban shitai koto wa nan desu ka.|O que você mais quer fazer em japonês?',
+          ex: { k: 'open', on: { ilike: [['{like}ですか。すてきな もくひょうですね。|{like} desu ka. suteki na mokuhyou desu ne.|{like}? Que objetivo bonito.', '#approve']], dontknow: ['ゆっくり かんがえて くださいね。|yukkuri kangaete kudasai ne.|Pense com calma, está bem?'], want: [['すてきな もくひょうですね。おうえん して います。|suteki na mokuhyou desu ne. ouen shite imasu.|Que objetivo bonito. Estou torcendo por você.', '#approve']] },
+            cap: true, any: [['すてきな もくひょうですね。おうえん して います。|suteki na mokuhyou desu ne. ouen shite imasu.|Que objetivo bonito. Estou torcendo por você.', '#approve']], back: 'わたしは、せいとが にほんで たのしく はなせる ように なって ほしいです。|watashi wa, seito ga nihon de tanoshiku hanaseru you ni natte hoshii desu.|Eu quero que meus alunos consigam conversar com alegria no Japão.',
+            sugg: ['アニメを みたいです。|anime o mitai desu.|Quero ver anime.|c6l3', 'にほんに いきたいです。|nihon ni ikitai desu.|Quero ir ao Japão.|c6l3', 'わかりません。|wakarimasen.|Não sei.|c1l4'] } }
+      ] },
+      { id: 'teinei', need: ['c9l3'], steps: [
+        { say: ['ひとつ ヒントです。|hitotsu hinto desu.|Uma dica.', 'ともだちと はなす ときは、「です」や「ます」が なくても いいですよ。|tomodachi to hanasu toki wa, "desu" ya "masu" ga nakute mo ii desu yo.|Quando falar com amigos, não precisa de “desu” nem “masu”.'],
+          tip: { jp: 'げんきです。→ げんき！', ro: 'genki desu. → genki!', pt: 'Estou bem. → Tô bem!', why: 'Com amigos (Ren, Yumi), a forma casual soa natural. Com a professora e com o Takeshi, prefira です/ます.' },
+          ex: { k: 'open', on: { ack: [['そう、その とおりです。|sou, sono toori desu.|Isso, exatamente.', '#approve']], yes: [['そう、その とおりです。|sou, sono toori desu.|Isso, exatamente.', '#approve']], okay: [['そう、その とおりです。|sou, sono toori desu.|Isso, exatamente.', '#approve']], question: ['わたしや おみせの ひとには、「です・ます」で はなしましょう。|watashi ya omise no hito ni wa, "desu, masu" de hanashimashou.|Comigo e com atendentes, fale com です/ます.'] }, any: ['すこしずつ なれて いきましょう。|sukoshizutsu narete ikimashou.|Vamos nos acostumar aos poucos.'] } }
+      ] }
+    ]
+  };
+  aiko.ex.momo = { k: 'yn', on: { yes: [['すごい！ よく しって いますね。|sugoi! yoku shitte imasu ne.|Que incrível! Você conhece bem.', '#surprise']], no: ['ももから うまれた おとこのこの はなしですよ。こんど いっしょに よみましょう。|momo kara umareta otoko no ko no hanashi desu yo. kondo issho ni yomimashou.|É a história de um menino que nasceu de um pêssego. Um dia lemos juntos.'], dontknow: ['ももから うまれた おとこのこの はなしですよ。こんど いっしょに よみましょう。|momo kara umareta otoko no ko no hanashi desu yo. kondo issho ni yomimashou.|É a história de um menino que nasceu de um pêssego. Um dia lemos juntos.'] },
+    sugg: ['はい、しって います。|hai, shitte imasu.|Sim, conheço.|', 'いいえ、しりません。|iie, shirimasen.|Não, não conheço.|'] };
+
+  /* ================= YUMI — colega expressiva ================= */
+  const yumi = {
+    style: { base: 250, per: 26, jit: 900, max: 2500, gap: 200, stk: 0.6 },
+    pivot: ['あ、そうだ！|a, sou da!|Ah, é mesmo!', 'ねえ ねえ！|nee nee!|Ei, ei!', 'きいて きいて！|kiite kiite!|Escuta, escuta!'],
+    unknown: ['え？ もう一回 言って？|e? mou ikkai itte?|Hã? Fala de novo?', 'ん〜？ ごめん、もう一回！|n~? gomen, mou ikkai!|Hmm? Desculpa, de novo!', 'なになに？ わかんなかった（笑）|nani nani? wakannakatta (wara)|O quê, o quê? Não entendi (risos)'],
+    unknown2: [['#confused', 'ごめんね、わたしが わかんなかった！ べつの はなし しよう！|gomen ne, watashi ga wakannakatta! betsu no hanashi shiyou!|Desculpa, quem não entendeu fui eu! Vamos falar de outra coisa!']],
+    state: { k: 'state', on: {
+      good: [['よかった〜！|yokatta~!|Que bom!', '#joy']],
+      meh: ['まあまあ か〜。あまい もの たべたら げんき でるよ！|maa maa ka~. amai mono tabetara genki deru yo!|Mais ou menos? Comer um docinho anima!'],
+      bad: [['えー、だいじょうぶ？|ee, daijoubu?|Ah não, tá tudo bem?', '#sad']],
+      tired: ['おつかれ！ あまい もの たべよう！|otsukare! amai mono tabeyou!|Cansou, né? Vamos comer um docinho!'],
+      sleepy: ['ねむいよね〜。わたしも あくび とまらない（笑）|nemui yo ne~. watashi mo akubi tomaranai (wara)|Que sono, né? Eu também não paro de bocejar (risos)'],
+      hungry: ['わたしも！ パン たべたい〜。|watashi mo! pan tabetai~.|Eu também! Quero pão!'],
+      same: [['おそろい だね！|osoroi da ne!|Combinamos!', '#joy']],
+      yes: ['よかった〜！|yokatta~!|Que bom!'], no: ['えー、どうしたの？|ee, dou shita no?|Ah, o que houve?']
+    }, sugg: ['げんき！|genki!|Tô bem!|chat:genki', 'ねむい〜|nemui~|Tô com sono~|chat:nemui', 'わたしも！|watashi mo!|Eu também!|'] },
+    react: {
+      greet: [TOD('おはよ〜！|ohayo~!|Bom diaaa!', 'やっほー！|yahhoo!|Oiê!', 'こんばんは〜！ まだ おきてたんだ！|konbanwa~! mada okiteta n da!|Boa noite! Ainda acordado(a)?'),
+        { r: [TOD('おはよ〜！|ohayo~!|Bom diaaa!', 'やっほー、{name}！|yahhoo, {name}!|Oiê, {name}!', 'こんばんは〜！|konbanwa~!|Boa noitee!'), 'げんき？|genki?|Tudo bem?'], ex: 'state' }],
+      nice: [['よろしくね！|yoroshiku ne!|Prazer!', '#joy']],
+      howareyou: [{ r: ['げんき げんき！|genki genki!|Tô ótima!', '{name}は？|{name} wa?|E você?'], ex: 'state' }, { r: ['きょうは ちょっと ねむい〜（笑）|kyou wa chotto nemui~ (wara)|Hoje tô meio com sono (risos)', '{name}は？|{name} wa?|E você?'], ex: 'state' }],
+      good: [['よかった〜！|yokatta~!|Que bom!', '#joy']],
+      meh: ['そっか〜。|sokka~.|Ah, entendi.'],
+      bad: [['えー、だいじょうぶ？|ee, daijoubu?|Ah não, tá tudo bem?', '#sad']],
+      tired: ['おつかれ！ あまい もの たべよう！|otsukare! amai mono tabeyou!|Cansou, né? Vamos comer um docinho!'],
+      sleepy: ['おひるね しちゃえ〜（笑）|ohirune shichae~ (wara)|Tira uma soneca (risos)'],
+      hungry: ['わたしも！ パン たべたい〜。|watashi mo! pan tabetai~.|Eu também! Quero pão!'],
+      same: [['おそろい だね！|osoroi da ne!|Combinamos!', '#joy'], 'え、{name}も？ うれしい！|e, {name} mo? ureshii!|Você também? Que alegria!'],
+      yes: ['だよね〜！|da yo ne~!|Né?!', 'うん うん！|un un!|Isso, isso!'],
+      no: ['そっか〜！|sokka~!|Ah, tá!', 'えー、そうなんだ！|ee, sou nan da!|Ah, é mesmo?'],
+      laugh: ['#laugh', 'あははっ！|ahaha!|Hahaha!', 'でしょ〜（笑）|desho~ (wara)|Né? (risos)'],
+      ack: ['でしょ〜！|desho~!|Né?!', 'そうなの！|sou na no!|É isso!'],
+      surprise: [['ほんと だよ！|honto da yo!|É sério!', '#surprise']],
+      praise: [['えへへ、ありがと！|ehehe, arigato!|Hehe, valeu!', '#shy']],
+      yay: [['やったー！|yattaa!|Ebaaa!', '#celebrate']],
+      congrats: [['ありがとう〜！|arigatou~!|Obrigadaaa!', '#celebrate']],
+      sympathy: ['やさしい〜。ありがと！|yasashii~. arigato!|Que fofo. Valeu!'],
+      thanks: ['いえいえ！|ie ie!|Imagina!'],
+      sorry: ['ぜんぜん だいじょうぶ！|zenzen daijoubu!|Tá tudo bem, sério!'],
+      okay: [['やった！|yatta!|Oba!', '#excited']],
+      decline: ['そっか、ざんねん！ また こんどね！|sokka, zannen! mata kondo ne!|Ah, que pena! Fica pra próxima!'],
+      bye: [{ r: TOD('いってらっしゃい！ またね〜！|itterasshai! mata ne~!|Vai lá! Até mais!', 'またね〜！|mata ne~!|Até mais!', 'おやすみ〜！ いい ゆめ みてね！|oyasumi~! ii yume mite ne!|Boa noite! Sonhe bonito!'), end: true }],
+      askback: ['わたし？ げんきだよ！ モチも げんき！（笑）|watashi? genki da yo! Mochi mo genki! (wara)|Eu? Tô bem! A Mochi também! (risos)'],
+      why: ['え〜、なんとなく！（笑）|ee~, nantonaku! (wara)|Ah, sei lá! (risos)'],
+      whatdoing: ['アニメの うたを きいてるの！|anime no uta o kiiteru no!|Tô ouvindo músicas de anime!', 'カラオケで うたう きょくを えらんでる！|karaoke de utau kyoku o eranderu!|Tô escolhendo as músicas pro karaokê!'],
+      likesq: [{ r: 'うたうのと アニメ！ あと あまい もの！ {name}は？|utau no to anime! ato amai mono! {name} wa?|Cantar e anime! E doces! E você?', ex: 'likes' }],
+      ilike: [['{like}！ いいね〜！|{like}! ii ne~!|{like}! Que legal!', '#excited']],
+      dislike: ['そっか〜、にがて なんだね。|sokka~, nigate nan da ne.|Ah, não é muito a sua, né.'],
+      recommend: ['「つきの としょかん」って アニメ、ぜったい おすすめ！|"Tsuki no Toshokan" tte anime, zettai osusume!|O anime “Tsuki no Toshokan”, super recomendo!'],
+      weather: ['ね〜！|ne~!|Né?!'],
+      studying: [['すごい！ いっしょに がんばろう！|sugoi! issho ni ganbarou!|Que demais! Vamos nos esforçar juntas!', '#excited']],
+      want: ['いいね！ わたしも〜！|ii ne! watashi mo~!|Boa! Eu também!'],
+      question: ['うーん、なんだろう？（笑）|uun, nan darou? (wara)|Hmm, o que será? (risos)'],
+      some: ['ちょっとでも うれしい！|chotto demo ureshii!|Mesmo um pouco já me deixa feliz!'],
+      dontknow: ['だいじょうぶ！ いっしょに かんがえよう。|daijoubu! issho ni kangaeyou.|Tranquilo! Vamos pensar juntas.']
+    },
+    ex: {
+      likes: { k: 'open', on: { same: [['え〜、おそろい！|ee~, osoroi!|Aaah, igual!', '#excited']], ilike: [['{like}！ わかる〜！|{like}! wakaru~!|{like}! Te entendo!', '#excited']] }, cap: true, any: ['{*}！ いいね〜！|{*}! ii ne~!|{*}! Que legal!'] }
+    },
+    topics: [
+      { id: 'intro', intro: true, steps: [
+        { say: ['はじめまして！ ゆみです！|hajimemashite! Yumi desu!|Prazer! Eu sou a Yumi!', '{name}さん ですよね？ よろしく おねがいします！|{name}-san desu yo ne? yoroshiku onegaishimasu!|Você é o(a) {name}, né? Muito prazer!'],
+          ex: { k: 'open', on: { nice: [['わーい、うれしい！|waai, ureshii!|Oba, que alegria!', '#joy']], greet: [['わーい、うれしい！|waai, ureshii!|Oba, que alegria!', '#joy']], yes: [['わーい、うれしい！|waai, ureshii!|Oba, que alegria!', '#joy']] }, any: ['わーい！|waai!|Oba!'], sugg: ['よろしく おねがいします。|yoroshiku onegaishimasu.|Muito prazer.|c1l3', 'はじめまして。|hajimemashite.|Muito prazer.|c1l3'] }, teach: ['ureshii'] },
+        { say: 'あの…タメ口で はなしても いい？|ano… tameguchi de hanashite mo ii?|Hum… posso falar com você de forma casual?', teach: ['tameguchi'],
+          ex: { k: 'yn', on: { yes: [{ r: ['やった！|yatta!|Oba!', 'じゃあ これから よろしくね！|jaa kore kara yoroshiku ne!|Então, de agora em diante, conto com você!', '#celebrate'], set: ['yumi:tame'] }], okay: [{ r: ['やった！|yatta!|Oba!', 'じゃあ これから よろしくね！|jaa kore kara yoroshiku ne!|Então, de agora em diante, conto com você!', '#celebrate'], set: ['yumi:tame'] }],
+            no: ['わかりました！ じゃあ ゆっくり なかよく なりましょう！|wakarimashita! jaa yukkuri nakayoku narimashou!|Entendi! Então vamos ficar amigos aos poucos!'], decline: ['わかりました！ じゃあ ゆっくり なかよく なりましょう！|wakarimashita! jaa yukkuri nakayoku narimashou!|Entendi! Então vamos ficar amigos aos poucos!'] },
+            sugg: ['うん、いいよ！|un, ii yo!|Claro, pode!|c6l5', 'はい、いいですよ。|hai, ii desu yo.|Sim, pode.|c6l2'] }, end: true, set: ['yumi:met'] }
+      ] },
+      { id: 'cat', steps: [
+        { say: ['みて みて！ うちの ねこ、モチって いうの！|mite mite! uchi no neko, Mochi tte iu no!|Olha, olha! Minha gata se chama Mochi!', 'いま、わたしの ひざで ねてる〜|ima, watashi no hiza de neteru~|Agora ela tá dormindo no meu colo~'], teach: ['kawaii'],
+          ex: { k: 'open', on: { praise: [['でしょ〜！ かわいすぎる！|desho~! kawaisugiru!|Né?! Fofa demais!', '#excited']], ack: ['でしょ〜！ しろくて まるいの！|desho~! shirokute marui no!|Né?! Ela é branquinha e redonda!'], laugh: ['でしょ〜（笑） ずっと ねてるの。|desho~ (wara). zutto neteru no.|Né? (risos) Dorme o tempo todo.'],
+            same: ['え、{name}も ねこ すき？ やったー！|e, {name} mo neko suki? yattaa!|Você também gosta de gatos? Ebaaa!'], why: ['しろくて まるいから モチなの（笑）|shirokute marui kara Mochi na no (wara)|É branca e redonda, por isso Mochi (risos)'], question: ['しろくて まるいから モチなの（笑）|shirokute marui kara Mochi na no (wara)|É branca e redonda, por isso Mochi (risos)'] },
+            back: 'しろくて まるいから モチなの（笑）|shirokute marui kara Mochi na no (wara)|É branca e redonda, por isso Mochi (risos)', any: ['えへへ、モチ だいすき。|ehehe, Mochi daisuki.|Hehe, amo a Mochi.'], sugg: ['かわいい！|kawaii!|Que fofa!|chat:kawaii', 'すごい！|sugoi!|Incrível!|chat:sugoi'] } },
+        { say: '{name}は どうぶつ すき？|{name} wa doubutsu suki?|Você gosta de animais?',
+          ex: { k: 'yn', on: { yes: ['わかる〜！ いやされるよね。|wakaru~! iyasareru yo ne.|Te entendo! Eles acalmam a gente, né.'], ilike: ['わかる〜！ いやされるよね。|wakaru~! iyasareru yo ne.|Te entendo! Eles acalmam a gente, né.'], no: ['そっか！ ひとそれぞれ だもんね。|sokka! hito sorezore da mon ne.|Ah, tá! Cada um é cada um.'], some: ['ちょっと？（笑） モチに あったら すきに なるよ！|chotto? (wara) Mochi ni attara suki ni naru yo!|Um pouco? (risos) Quando conhecer a Mochi, vai gostar!'] },
+            sugg: ['うん、すき！|un, suki!|Gosto, sim!|c4l6', 'いぬが すき！|inu ga suki!|Gosto de cachorro!|c4l6', 'ううん。|uun.|Não muito.|'] } }
+      ] },
+      { id: 'karaoke', steps: [
+        { say: ['きのう カラオケで 3じかん うたっちゃった！|kinou karaoke de sanjikan utacchatta!|Ontem cantei 3 horas no karaokê!'],
+          ex: { k: 'open', on: { surprise: [['ほんと！ のどが いたい〜（笑）|honto! nodo ga itai~ (wara)|Sério! Tô com a garganta doendo (risos)', '#laugh']], praise: ['えへへ、たのしかった〜！|ehehe, tanoshikatta~!|Hehe, foi muito divertido!'], laugh: ['わらわないで〜！（笑）|warawanaide~! (wara)|Não ri! (risos)'], ack: ['のどが いたい〜（笑） でも たのしかった！|nodo ga itai~ (wara). demo tanoshikatta!|A garganta tá doendo (risos), mas foi divertido!'] },
+            back: 'アニソンを いっぱい うたったよ！|anison o ippai utatta yo!|Cantei um monte de música de anime!', any: ['たのしかった〜！|tanoshikatta~!|Foi muito divertido!'] } },
+        { say: '{name}は カラオケ すき？|{name} wa karaoke suki?|Você gosta de karaokê?',
+          ex: { k: 'yn', on: { yes: [['こんど いっしょに いこう！ ぜったい！|kondo issho ni ikou! zettai!|Vamos juntos um dia! Com certeza!', '#excited']], ilike: [['こんど いっしょに いこう！ ぜったい！|kondo issho ni ikou! zettai!|Vamos juntos um dia! Com certeza!', '#excited']], no: ['えー、たのしいのに〜！ きくだけでも いいよ！|ee, tanoshii no ni~! kiku dake demo ii yo!|Ah, mas é tão legal! Pode ir só pra ouvir!'], shy: ['はずかしい？ わかる〜（笑）でも たのしいよ！|hazukashii? wakaru~ (wara). demo tanoshii yo!|Vergonha? Te entendo (risos). Mas é divertido!'] },
+            sugg: ['うん、すき！|un, suki!|Gosto, sim!|c4l6', 'ちょっと はずかしい…|chotto hazukashii…|Tenho um pouco de vergonha…|chat:hazukashii', 'ううん。|uun.|Não muito.|'] } }
+      ] },
+      { id: 'anime', steps: [
+        { say: 'あたらしい まほうの アニメ はじまったの、しってる？|atarashii mahou no anime hajimatta no, shitteru?|Sabia que começou um anime novo de magia?',
+          ex: { k: 'yn', on: { yes: [{ r: ['え、ほんと？ うれしい！|e, honto? ureshii!|Sério? Que alegria!', 'どの キャラが すき？|dono kyara ga suki?|Qual personagem você curte?'], ex: { k: 'open', cap: true, any: [['{*}！ わかる〜！|{*}! wakaru~!|{*}! Te entendo!', '#excited']] } }],
+            no: [['「つきの としょかん」って いうの！|"Tsuki no Toshokan" tte iu no!|Chama “Tsuki no Toshokan”!', 'えが すっごく きれいなの！|e ga suggoku kirei na no!|Os desenhos são lindos demais!']], surprise: [['ほんと！ 「つきの としょかん」って いうの！|honto! "Tsuki no Toshokan" tte iu no!|Sério! Chama “Tsuki no Toshokan”!', '#excited']] },
+            sugg: ['うん、しってる！|un, shitteru!|Sei, sim!|', 'しらない。|shiranai.|Não sabia.|'] } }
+      ] },
+      { id: 'pudding', steps: [
+        { say: 'コンビニの あたらしい プリン たべた？|konbini no atarashii purin tabeta?|Você comeu o pudim novo da loja de conveniência?',
+          ex: { k: 'yn', on: { yes: [['おいしかったよね！|oishikatta yo ne!|Tava uma delícia, né?!', '#joy']], no: ['たべて！ たけしさんの おみせに あるよ。|tabete! Takeshi-san no omise ni aru yo.|Come! Tem na loja do Takeshi.'], want: ['でしょ？ たけしさんの おみせに あるよ！|desho? Takeshi-san no omise ni aru yo!|Né? Tem na loja do Takeshi!'], hungry: ['わかる〜！ あまい もの たべたい！|wakaru~! amai mono tabetai!|Te entendo! Quero um doce!'] },
+            back: 'まっちゃの プリン！ ちょっと にがくて おいしいの。|maccha no purin! chotto nigakute oishii no.|Pudim de matchá! Meio amarguinho e gostoso.', sugg: ['うん、たべた！|un, tabeta!|Comi, sim!|c8l3', 'まだ。|mada.|Ainda não.|', 'たべたい！|tabetai!|Quero comer!|c6l3'] } }
+      ] },
+      { id: 'test', steps: [
+        { say: ['ねえ ねえ、きいて！|nee nee, kiite!|Ei, escuta!', 'テストで 100てん とった！|tesuto de hyakuten totta!|Tirei 100 na prova!'], teach: ['yatta'],
+          ex: { k: 'open', on: { praise: [['えへへ、ありがとう！ がんばった かいが あった〜！|ehehe, arigatou! ganbatta kai ga atta~!|Hehe, obrigada! Valeu o esforço!', '#celebrate']], congrats: [['えへへ、ありがとう！|ehehe, arigatou!|Hehe, obrigada!', '#celebrate']], yay: [['やったー！|yattaa!|Ebaaa!', '#celebrate']],
+            surprise: ['ほんと だよ！ じぶんでも びっくり！|honto da yo! jibun demo bikkuri!|É sério! Eu mesma me surpreendi!'], same: [['{name}も？ すごい！ おいわい しよう！|{name} mo? sugoi! oiwai shiyou!|Você também? Incrível! Vamos comemorar!', '#celebrate']] },
+            any: ['えへへ！|ehehe!|Hehe!'], sugg: ['すごい！|sugoi!|Incrível!|chat:sugoi', 'おめでとう！|omedetou!|Parabéns!|chat:omedetou', 'やったね！|yatta ne!|Arrasou!|chat:yatta'] } }
+      ] },
+      { id: 'song', steps: [
+        { say: ['いま、この うた ずっと きいてる〜♪|ima, kono uta zutto kiiteru~♪|Tô ouvindo essa música sem parar~♪', 'J-POP、きく？|jei poppu, kiku?|Você ouve J-pop?'],
+          ex: { k: 'yn', on: { yes: [['わーい！ こんど プレイリスト おくるね！|waai! kondo pureirisuto okuru ne!|Oba! Depois te mando minha playlist!', '#excited']], no: [{ r: 'じゃあ、どんな おんがくが すき？|jaa, donna ongaku ga suki?|Então, que tipo de música você curte?', ex: { k: 'open', cap: true, on: { ilike: ['{like}！ いいね〜！|{like}! ii ne~!|{like}! Legal!'] }, any: ['{*}！ こんど きいて みる！|{*}! kondo kiite miru!|{*}! Vou ouvir!'] } }], some: ['ときどき？ じゃあ おすすめ おしえる！|tokidoki? jaa osusume oshieru!|De vez em quando? Então te indico umas!'] },
+            back: 'あかるい うたが すき！ げんき でるから！|akarui uta ga suki! genki deru kara!|Gosto de música animada! Dá energia!' } }
+      ] }
+    ]
+  };
+
+  /* ================= TAKESHI — comerciante, keigo ================= */
+  const takeshi = {
+    style: { base: 700, per: 24, jit: 250, max: 2600, gap: 520, stk: 0.15 },
+    pivot: ['ちなみに、|chinami ni,|A propósito,', 'そういえば、|sou ieba,|Por falar nisso,'],
+    unknown: ['もうしわけございません、もう一度 おねがいできますか。|moushiwake gozaimasen, mou ichido onegai dekimasu ka.|Mil desculpas, poderia repetir?', 'しつれいしました。もう一度 おっしゃって いただけますか。|shitsurei shimashita. mou ichido osshatte itadakemasu ka.|Perdão. Poderia dizer mais uma vez?'],
+    unknown2: [['しょうしょう ききとれませんでした。もうしわけございません。|shoushou kikitoremasen deshita. moushiwake gozaimasen.|Não consegui entender direito. Mil desculpas.', '#doubt']],
+    state: { k: 'state', on: {
+      good: ['それは なによりです。|sore wa nani yori desu.|Isso é o mais importante.'],
+      meh: ['さようで ございますか。どうぞ ごむりなさらず。|sayou de gozaimasu ka. douzo gomuri nasarazu.|É mesmo? Não se esforce demais.'],
+      bad: ['それは たいへんでしたね。どうぞ おだいじに。|sore wa taihen deshita ne. douzo odaiji ni.|Que situação difícil. Cuide-se.'],
+      tired: ['おつかれさまです。あたたかい おちゃは いかがですか。|otsukaresama desu. atatakai ocha wa ikaga desu ka.|Deve estar cansado(a). Aceita um chá quente?'],
+      sleepy: ['コーヒーは いかがですか。めが さめますよ。|koohii wa ikaga desu ka. me ga samemasu yo.|Aceita um café? Ajuda a despertar.'],
+      same: [{ r: 'さようで ございますか。わたくしも おなじです。|sayou de gozaimasu ka. watakushi mo onaji desu.|É mesmo? Eu também.', tip: { jp: 'さようで ございます', ro: 'sayou de gozaimasu', pt: 'É isso mesmo / é assim', why: 'Forma muito educada de そうです. Atendentes usam bastante.' } }],
+      yes: ['それは なによりです。|sore wa nani yori desu.|Isso é o mais importante.'], no: ['さようで ございますか…。どうぞ おだいじに。|sayou de gozaimasu ka…. douzo odaiji ni.|É mesmo?… Cuide-se.']
+    }, sugg: ['げんきです。|genki desu.|Estou bem.|chat:genki', 'つかれました。|tsukaremashita.|Estou cansado(a).|c8l3'] },
+    react: {
+      greet: [{ r: 'いらっしゃいませ！ きょうも ありがとう ございます。|irasshaimase! kyou mo arigatou gozaimasu.|Bem-vindo(a)! Obrigado por vir hoje também.' },
+        { r: [TOD('おはようございます。いらっしゃいませ。|ohayou gozaimasu. irasshaimase.|Bom dia. Bem-vindo(a).', 'いらっしゃいませ、{name}さま。|irasshaimase, {name}-sama.|Bem-vindo(a), {name}.', 'こんばんは。いらっしゃいませ。|konbanwa. irasshaimase.|Boa noite. Bem-vindo(a).'), 'おげんきでしたか。|ogenki deshita ka.|Tem passado bem?'], ex: 'state' }],
+      nice: ['こちらこそ、よろしく おねがい いたします。|kochira koso, yoroshiku onegai itashimasu.|O prazer é meu.'],
+      howareyou: [{ r: ['はい、おかげさまで げんきです。|hai, okagesama de genki desu.|Estou bem, graças a Deus.', '{name}さまは いかがですか。|{name}-sama wa ikaga desu ka.|E você, como vai?'], ex: 'state', tip: { jp: 'おかげさまで', ro: 'okagesama de', pt: 'graças a você / graças a Deus', why: 'Resposta educada e comum a “como vai?”. Mostra gratidão, mesmo sem um motivo específico.' } }],
+      good: ['それは なによりです。|sore wa nani yori desu.|Isso é o mais importante.'],
+      meh: ['さようで ございますか。|sayou de gozaimasu ka.|É mesmo?'],
+      bad: ['それは たいへんでしたね。どうぞ おだいじに。|sore wa taihen deshita ne. douzo odaiji ni.|Que situação difícil. Cuide-se.'],
+      tired: ['おつかれさまです。あたたかい おちゃは いかがですか。|otsukaresama desu. atatakai ocha wa ikaga desu ka.|Deve estar cansado(a). Aceita um chá quente?'],
+      sleepy: ['コーヒーは いかがですか。ひゃくろくじゅうえんで ございます。|koohii wa ikaga desu ka. hyaku rokujuu en de gozaimasu.|Aceita um café? São 160 ienes.'],
+      hungry: ['でしたら、こちらの おべんとうは いかがですか。|deshitara, kochira no obentou wa ikaga desu ka.|Então, que tal este bentō?'],
+      same: ['さようで ございますか。|sayou de gozaimasu ka.|É mesmo?'],
+      yes: ['かしこまりました。|kashikomarimashita.|Entendido.', 'さようで ございますか。|sayou de gozaimasu ka.|É mesmo?'],
+      no: ['しょうち いたしました。|shouchi itashimashita.|Compreendido.'],
+      laugh: ['ははは。|hahaha.|Hahaha.', '#laugh'],
+      ack: ['はい。|hai.|Sim.', 'さようで ございます。|sayou de gozaimasu.|Isso mesmo.'],
+      surprise: ['はい、ほんとうで ございます。|hai, hontou de gozaimasu.|Sim, é verdade.'],
+      praise: [{ r: 'おそれいります。|osore irimasu.|Fico lisonjeado.', tip: { jp: 'おそれいります', ro: 'osore irimasu', pt: 'fico lisonjeado / agradeço muito', why: 'Resposta muito educada a um elogio ou a uma gentileza. Comum no atendimento.' } }],
+      yay: ['おめでとう ございます。|omedetou gozaimasu.|Meus parabéns.'],
+      congrats: ['ありがとう ございます。|arigatou gozaimasu.|Muito obrigado.'],
+      sympathy: ['おきづかい ありがとう ございます。|okizukai arigatou gozaimasu.|Obrigado pela consideração.'],
+      thanks: ['こちらこそ、ありがとう ございます。|kochira koso, arigatou gozaimasu.|Eu é que agradeço.', ['ありがとう ございます。|arigatou gozaimasu.|Muito obrigado.', '#joy']],
+      sorry: ['いえいえ、とんでも ございません。|ie ie, tonde mo gozaimasen.|Imagine, de forma alguma.'],
+      okay: [['かしこまりました。|kashikomarimashita.|Entendido.', '#approve']],
+      decline: ['しょうち いたしました。また いつでも どうぞ。|shouchi itashimashita. mata itsu demo douzo.|Compreendido. Volte quando quiser.'],
+      bye: [{ r: 'ありがとう ございました！ またの おこしを おまちして おります。|arigatou gozaimashita! mata no okoshi o omachi shite orimasu.|Muito obrigado! Esperamos sua próxima visita.', end: true }],
+      askback: [{ r: 'わたくしですか。おかげさまで げんきに して おります。|watakushi desu ka. okagesama de genki ni shite orimasu.|Eu? Graças a Deus, estou bem.', tip: { jp: 'わたくし', ro: 'watakushi', pt: 'eu (bem formal)', why: 'Versão mais formal de わたし. Comum no trabalho e no atendimento.' } }],
+      why: ['もうしわけございません、くわしくは わかりかねます。|moushiwake gozaimasen, kuwashiku wa wakarikanemasu.|Mil desculpas, não sei os detalhes.'],
+      whatdoing: ['しょうひんを ならべて おります。|shouhin o narabete orimasu.|Estou arrumando os produtos.'],
+      likesq: ['わたくしは おにぎりが だいすきです。とくに さけの おにぎりです。|watakushi wa onigiri ga daisuki desu. toku ni sake no onigiri desu.|Adoro oniguiri. Principalmente o de salmão.'],
+      ilike: ['{like}で ございますか。すてきですね。|{like} de gozaimasu ka. suteki desu ne.|{like}? Que bacana.'],
+      dislike: ['さようで ございますか。|sayou de gozaimasu ka.|É mesmo?'],
+      recommend: ['きょうの おすすめは さけの おにぎりで ございます。|kyou no osusume wa sake no onigiri de gozaimasu.|A recomendação de hoje é o oniguiri de salmão.'],
+      price: ['どちらの しょうひんでしょうか。おにぎりは ひゃくごじゅうえんで ございます。|dochira no shouhin deshou ka. onigiri wa hyaku gojuu en de gozaimasu.|Qual produto? O oniguiri custa 150 ienes.'],
+      weather: ['そうですね。おでかけびよりですね。|sou desu ne. odekake biyori desu ne.|É verdade. Um ótimo dia para passear.'],
+      studying: ['それは すばらしいですね。おうえん して おります。|sore wa subarashii desu ne. ouen shite orimasu.|Que maravilha. Estou torcendo por você.'],
+      want: ['かしこまりました。|kashikomarimashita.|Entendido.'],
+      question: ['しょうしょう おまちください。|shoushou omachi kudasai.|Um momento, por favor.'],
+      some: ['さようで ございますか。|sayou de gozaimasu ka.|É mesmo?'],
+      dontknow: ['だいじょうぶですよ。ゆっくりで けっこうです。|daijoubu desu yo. yukkuri de kekkou desu.|Tudo bem. Pode ser com calma.']
+    },
+    ex: {},
+    topics: [
+      { id: 'intro', intro: true, steps: [
+        { say: ['いらっしゃいませ！ はじめての ごらいてんですね。|irasshaimase! hajimete no goraiten desu ne.|Bem-vindo(a)! É a sua primeira visita, não é?', 'てんちょうの たけしと もうします。|tenchou no Takeshi to moushimasu.|Sou o Takeshi, o gerente.'],
+          tip: { jp: '〜と もうします', ro: '~to moushimasu', pt: 'me chamo… (humilde)', why: 'Jeito humilde de dizer o próprio nome. O Takeshi fala keigo porque está atendendo você.' },
+          ex: { k: 'open', on: { nice: ['こちらこそ、よろしく おねがい いたします。|kochira koso, yoroshiku onegai itashimasu.|O prazer é meu.'], greet: ['どうぞ ごゆっくり ごらんください。|douzo goyukkuri goran kudasai.|Fique à vontade para olhar com calma.'], yes: ['どうぞ ごゆっくり ごらんください。|douzo goyukkuri goran kudasai.|Fique à vontade para olhar com calma.'] }, any: ['どうぞ ごゆっくり ごらんください。|douzo goyukkuri goran kudasai.|Fique à vontade para olhar com calma.'],
+            sugg: ['よろしく おねがいします。|yoroshiku onegaishimasu.|Muito prazer.|c1l3', 'こんにちは。|konnichiwa.|Olá.|c1l3'] } },
+        { say: 'なにか おさがしですか。|nanika osagashi desu ka.|Procura algo?', teach: ['osagashi'],
+          ex: { k: 'open', on: { no: [{ r: 'かしこまりました。ごゆっくり どうぞ。|kashikomarimashita. goyukkuri douzo.|Certo. Fique à vontade.', end: true }], decline: [{ r: 'かしこまりました。ごゆっくり どうぞ。|kashikomarimashita. goyukkuri douzo.|Certo. Fique à vontade.', end: true }], browsing: [{ r: 'かしこまりました。ごゆっくり どうぞ。|kashikomarimashita. goyukkuri douzo.|Certo. Fique à vontade.', end: true }],
+            want: ['かしこまりました。こちらで ございます。|kashikomarimashita. kochira de gozaimasu.|Certo. Aqui está.'], hungry: ['でしたら、こちらの おべんとうは いかがですか。|deshitara, kochira no obentou wa ikaga desu ka.|Então, que tal este bentō?'] },
+            any: ['しょうしょう おまちください。おもちしますね。|shoushou omachi kudasai. omochi shimasu ne.|Um momento, por favor. Vou buscar.'],
+            sugg: ['みて いる だけです。|mite iru dake desu.|Só estou olhando.|chat:miteirudake', 'おにぎりを ください。|onigiri o kudasai.|Um oniguiri, por favor.|c6l4'] }, end: true, set: ['tk:met'] }
+      ] },
+      { id: 'bento', steps: [
+        { say: ['ほんじつ、あたらしい おべんとうが はいりました。|honjitsu, atarashii obentou ga hairimashita.|Hoje chegou um bentō novo.'],
+          tip: { jp: 'ほんじつ', ro: 'honjitsu', pt: 'hoje (formal)', why: 'No atendimento, きょう vira ほんじつ. É a mesma ideia, só mais formal.' },
+          ex: { k: 'open', on: { ack: ['からあげ べんとうで ございます。ごはんも おおめです。|karaage bentou de gozaimasu. gohan mo oome desu.|É bentō de karaage. Vem bastante arroz.'], surprise: ['からあげ べんとうで ございます。ごはんも おおめです。|karaage bentou de gozaimasu. gohan mo oome desu.|É bentō de karaage. Vem bastante arroz.'], question: ['からあげ べんとうで ございます。ごはんも おおめです。|karaage bentou de gozaimasu. gohan mo oome desu.|É bentō de karaage. Vem bastante arroz.'], price: ['ごひゃくにじゅうえんで ございます。|gohyaku nijuu en de gozaimasu.|São 520 ienes.'],
+            want: [['かしこまりました。おとりおき して おきますね。|kashikomarimashita. otorioki shite okimasu ne.|Certo. Vou reservar um para você.', '#approve']], yes: [['かしこまりました。おとりおき して おきますね。|kashikomarimashita. otorioki shite okimasu ne.|Certo. Vou reservar um para você.', '#approve']], hungry: [['でしたら ぜひ！ おとりおき して おきますね。|deshitara zehi! otorioki shite okimasu ne.|Então, com certeza! Vou reservar um.', '#approve']],
+            no: ['しょうち いたしました。また いつでも どうぞ。|shouchi itashimashita. mata itsu demo douzo.|Compreendido. Volte quando quiser.'], decline: ['しょうち いたしました。また いつでも どうぞ。|shouchi itashimashita. mata itsu demo douzo.|Compreendido. Volte quando quiser.'] },
+            any: ['よろしければ、ぜひ どうぞ。|yoroshikereba, zehi douzo.|Se quiser, fique à vontade.'], sugg: ['いくらですか。|ikura desu ka.|Quanto custa?|c6l4', 'おねがいします。|onegaishimasu.|Quero, por favor.|c1l3', 'けっこうです。|kekkou desu.|Não, obrigado(a).|chat:kekkou'] } }
+      ] },
+      { id: 'rain', steps: [
+        { say: 'きょうは あめが ふりそうですね。かさは おもちですか。|kyou wa ame ga furisou desu ne. kasa wa omochi desu ka.|Parece que vai chover hoje. Está com guarda-chuva?',
+          tip: { jp: 'おもちですか', ro: 'omochi desu ka', pt: 'o(a) senhor(a) tem?', why: 'Forma respeitosa de もって いますか (você tem?). O Takeshi eleva o cliente.' },
+          ex: { k: 'yn', on: { yes: ['さすがで ございます。|sasuga de gozaimasu.|Precavido(a), hein.'], no: [{ r: 'でしたら、こちらの かさは いかがですか。ごひゃくえんで ございます。|deshitara, kochira no kasa wa ikaga desu ka. gohyaku en de gozaimasu.|Então, que tal este guarda-chuva? São 500 ienes.', ex: { k: 'yn', on: { yes: [['ありがとう ございます！|arigatou gozaimasu!|Muito obrigado!', '#joy']], want: [['ありがとう ございます！|arigatou gozaimasu!|Muito obrigado!', '#joy']], no: ['しょうち いたしました。おきを つけて。|shouchi itashimashita. oki o tsukete.|Compreendido. Cuide-se.'], decline: ['しょうち いたしました。おきを つけて。|shouchi itashimashita. oki o tsukete.|Compreendido. Cuide-se.'] } } }] },
+            sugg: ['はい、あります。|hai, arimasu.|Sim, tenho.|c5l5', 'いいえ、ありません。|iie, arimasen.|Não tenho.|c5l5'] } }
+      ] },
+      { id: 'kid', steps: [
+        { say: ['さきほど、こどもの おきゃくさまに「ありがと！」と いわれました。|sakihodo, kodomo no okyakusama ni "arigato!" to iwaremashita.|Há pouco, um cliente criança me disse “arigato!”.', 'かわいかったです（笑）|kawaikatta desu (wara)|Foi uma graça (risos)'],
+          ex: { k: 'open', on: { laugh: ['ははは。おとなの おきゃくさまは「ありがとうございます」と いう ことが おおいですね。|hahaha. otona no okyakusama wa "arigatou gozaimasu" to iu koto ga ooi desu ne.|Hahaha. Os clientes adultos costumam dizer “arigatou gozaimasu”.'], praise: ['ええ。おとなの おきゃくさまは「ありがとうございます」と いう ことが おおいですね。|ee. otona no okyakusama wa "arigatou gozaimasu" to iu koto ga ooi desu ne.|Sim. Os clientes adultos costumam dizer “arigatou gozaimasu”.'] },
+            any: ['おとなの おきゃくさまは「ありがとうございます」と いう ことが おおいですね。|otona no okyakusama wa "arigatou gozaimasu" to iu koto ga ooi desu ne.|Os clientes adultos costumam dizer “arigatou gozaimasu”.'] },
+          tip: { jp: 'ありがと！ → ありがとうございます', ro: 'arigato! → arigatou gozaimasu', pt: 'Valeu! → Muito obrigado(a).', why: 'A mesma ideia em dois registros: casual entre amigos e educado no comércio e com desconhecidos.' } }
+      ] },
+      { id: 'matcha', steps: [
+        { say: 'ただいま、まっちゃの プリンが にんきで ございます。|tadaima, maccha no purin ga ninki de gozaimasu.|No momento, o pudim de matchá está fazendo sucesso.',
+          ex: { k: 'open', on: { want: [['ありがとう ございます！ ひゃくはちじゅうえんで ございます。|arigatou gozaimasu! hyaku hachijuu en de gozaimasu.|Muito obrigado! São 180 ienes.', '#joy']], yes: [['ありがとう ございます！ ひゃくはちじゅうえんで ございます。|arigatou gozaimasu! hyaku hachijuu en de gozaimasu.|Muito obrigado! São 180 ienes.', '#joy']], price: ['ひゃくはちじゅうえんで ございます。|hyaku hachijuu en de gozaimasu.|São 180 ienes.'],
+            no: ['しょうち いたしました。|shouchi itashimashita.|Compreendido.'], decline: ['しょうち いたしました。|shouchi itashimashita.|Compreendido.'], same: ['ゆみさんも よく かって いかれますよ。|Yumi-san mo yoku katte ikaremasu yo.|A Yumi também sempre leva.'], ack: ['ゆみさんも よく かって いかれますよ。|Yumi-san mo yoku katte ikaremasu yo.|A Yumi também sempre leva.'] },
+            any: ['よろしければ、いかがですか。|yoroshikereba, ikaga desu ka.|Se quiser, aceita um?'], sugg: ['ひとつ ください。|hitotsu kudasai.|Um, por favor.|c6l4', 'いくらですか。|ikura desu ka.|Quanto custa?|c6l4', 'けっこうです。|kekkou desu.|Não, obrigado(a).|chat:kekkou'] } }
+      ] },
+      { id: 'regular', steps: [
+        { say: 'いつも ごりよう ありがとう ございます。|itsumo goriyou arigatou gozaimasu.|Obrigado por sempre nos visitar.',
+          ex: { k: 'open', on: { thanks: [{ r: 'こちらこそ。{name}さまは じょうれんさまですから。|kochira koso. {name}-sama wa jourensama desu kara.|Eu que agradeço. Você é um(a) cliente fiel.', tip: { jp: '〜さま', ro: '~sama', pt: 'senhor(a) (muito respeitoso)', why: 'Versão mais respeitosa de さん. Lojas e empresas usam com clientes.' } }], nice: ['こちらこそ。|kochira koso.|Eu é que agradeço.'] },
+            any: ['これからも よろしく おねがい いたします。|kore kara mo yoroshiku onegai itashimasu.|Contamos com você daqui para frente também.'], sugg: ['こちらこそ。|kochira koso.|Eu é que agradeço.|chat:kochirakoso'] } }
+      ] }
+    ]
+  };
+
+  return { ren, aiko, yumi, takeshi };
+})();
+
+/* novas expressões ensinadas na conversa livre e nas figurinhas (ids estáveis "chat:chave") */
+[
+  ['kawaii', 'かわいい', 'kawaii', 'fofo, bonitinho (可愛い)', 'Elogio para coisas, animais e pessoas. かわいい！ = Que fofo!'],
+  ['yatta', 'やった！', 'yatta!', 'consegui! / oba! / aê!', 'Exclamação de alegria quando algo dá certo. Esticado: やったー！'],
+  ['kakkoii', 'かっこいい', 'kakkoii', 'legal, estiloso, maneiro (格好いい)', 'Elogio para algo ou alguém “descolado”. Educado: かっこいいですね.'],
+  ['wara', '笑', 'wara', 'risos (escrito)', 'Em mensagens, （笑） ou w funcionam como “kkk” / “rs”. わらう = rir.'],
+  ['ureshii', 'うれしい', 'ureshii', 'feliz, contente (嬉しい)', 'Para dizer que algo te deixou feliz: うれしい！'],
+  ['hazukashii', 'はずかしい', 'hazukashii', 'que vergonha, tímido (恥ずかしい)', 'Vergonha de timidez ou de constrangimento.'],
+  ['naruhodo', 'なるほど', 'naruhodo', 'entendi! / faz sentido', 'Reação quando algo fica claro. Com professores, prefira なるほど… ou そうなんですね.']
+].forEach(([k, jp, ro, pt, note]) => {
+  if (ITEM['chat:' + k]) return;
+  const it = { k, jp, ro, pt, note, id: 'chat:' + k, lesson: CHAT_PACK, group: 'expressao' };
+  CHAT_PACK.items.push(it); ITEM[it.id] = it;
+});
+Object.assign(CHAT_KANJI, { 私: 'わたし', 僕: 'ぼく', 俺: 'おれ', 同じ: 'おなじ', 嘘: 'うそ', 可愛: 'かわい', 格好: 'かっこ', 嬉: 'うれ', 恥: 'は', 猫: 'ねこ', 犬: 'いぬ', 好き: 'すき', 大好: 'だいす', 眠い: 'ねむい', 疲れた: 'つかれた', 何で: 'なんで', 寝: 'ね', 遅: 'おそ', 早: 'はや', 美味: 'おい', 面白: 'おもしろ', 時々: 'ときどき', 全然: 'ぜんぜん', 違: 'ちが', 大変: 'たいへん', 最高: 'さいこう', 楽しい: 'たのしい', 難しい: 'むずかしい', 知: 'し', 一緒: 'いっしょ', 宜: 'よろ', 了解: 'りょうかい' });
+
+/* ==========================================================
+   NIHONGO CHAT 4.0/5.0 — motor de conversa (desafios guiados)
    - Normaliza o que o aluno escreve (romaji, hiragana, katakana
      e kanji conhecidos) para comparar por intenção, não por frase exata.
    - Classifica a resposta: natural, pouco natural socialmente,
@@ -12685,8 +13252,9 @@ function chRegVerdict(want, got) {
 /* ---------- estado salvo ---------- */
 function defaultChat() {
   return {
-    v: 1,
-    settings: { ro: true, pt: true, listen: false, sugg: false },
+    v: 2,
+    settings: { ro: true, pt: true, listen: false, sugg: false, instant: false },
+    stk: { fav: [], recent: [] },
     chars: {}, threads: {}, facts: {}, scenes: {}, challenges: {},
     corrections: [], ini: { day: null, count: 0 },
     xp: { day: null, n: 0, got: {} },
@@ -12995,7 +13563,7 @@ function chLocalReply(req) {
   const cid = req.char, st = chState(cid), act = st.active;
   const c = chChar(cid);
   if (!act) return { kind: 'none' };
-  if (act.free) return chFreeReply(cid, act, req.text);
+  if (act.free) return chTalkReply(cid, req.text, req.stk);
   const nd = chNode(act); if (!nd || !nd.ask) return { kind: 'none' };
   const want = chWant(cid, act), ctx = chCtx(act);
   const res = chEvaluate(nd, req.text, want, ctx);
@@ -13037,8 +13605,9 @@ function chLocalReply(req) {
     if (b.chain && !chState(cid).active) chStartScene(cid, b.chain);
     return res;
   }
-  // erro: a conversa não avança; mostra a correção (curta) e deixa tentar de novo
-  act.tries++;
+  // erro: a conversa não avança; mostra a correção (curta) e deixa tentar de novo.
+  // Resposta não reconhecida não é erro: não conta tentativa nem tira XP.
+  if (res.kind !== 'unknown') act.tries++;
   if (res.kind === 'unknown') S.chat.stats.unknown++;
   else S.chat.stats[res.kind === 'grammar' ? 'gram' : res.kind === 'social' ? 'social' : 'vocab']++;
   if (nd.ask.dynWrong && CHAT_DYN_ANSWER[nd.ask.dynWrong]) { me.kind = res.kind === 'unknown' ? 'vocab' : res.kind; if (CHAT_DYN_ANSWER[nd.ask.dynWrong](cid, act, res, false)) return res; }
@@ -13052,8 +13621,9 @@ function chLocalReply(req) {
     [].concat((fixF && fixF.uses) || []).filter(u => u.startsWith('chat:') && ITEM[u]).forEach(u => recordAnswer(u, false, 'chat'));
     return res;
   }
-  chPushLines(cid, chLinesOf([pick(c.confused)], {}));
-  if (act.tries >= 2) chPush(cid, { from: 'sys', kind: 'hint', lv: 4, txt: 'Não reconheci essa resposta. Veja um modelo (ou toque em Dica para ajuda passo a passo):', model: chModel(nd, want, ctx) });
+  act.unk = (act.unk || 0) + 1;
+  chTalkSay(cid, act, chTalkPick(cid, TALK[cid].unknown, 'u'));
+  chPush(cid, { from: 'sys', kind: 'unk', txt: act.unk >= 2 ? 'O sistema não conseguiu interpretar essa resposta (não conta como erro). Veja um modelo abaixo ou toque na lâmpada para dicas passo a passo.' : 'O sistema não conseguiu interpretar essa resposta. Isso não conta como erro: tente escrever de outro jeito.', model: act.unk >= 2 ? chModel(nd, want, ctx) : null });
   return res;
 }
 function chModel(nd, want, ctx) { const b = chBestForm(nd, want); return b ? chFillF(b.f, ctx) : null; }
@@ -13166,7 +13736,7 @@ function RO_WORD() {
 }
 function chHint(cid) {
   const st = chState(cid), act = st.active; if (!act) return;
-  if (act.free) { chPush(cid, { from: 'sys', kind: 'hint', lv: 0, txt: 'Ideias para puxar assunto:', ideas: chFreeIdeas(cid).slice(0, 5) }); return; }
+  if (act.free) { const ex = chExGet(cid, act.ex); chPush(cid, { from: 'sys', kind: 'hint', lv: 0, txt: ex ? 'Algumas ideias de resposta (você pode responder do seu jeito):' : 'Ideias para puxar assunto (ou escreva o que quiser):', ideas: chTalkSugg(cid).map(x => ({ idea: x.idea || x.pt, jp: x.jp, ro: x.ro, pt: x.pt })) }); return; }
   const nd = chNode(act); if (!nd || !nd.ask) return;
   act.hint = Math.min(5, act.hint + 1);
   S.chat.stats.hints++;
@@ -13179,7 +13749,7 @@ function chHint(cid) {
 /* sugestões opcionais: formas já estudadas, priorizando as mais dominadas */
 function chSuggestions(cid) {
   const st = chState(cid), act = st.active; if (!act) return [];
-  if (act.free) return chFreeIdeas(cid).slice(0, 3).map(x => ({ jp: x.jp, ro: x.ro, pt: x.pt }));
+  if (act.free) return chTalkSugg(cid).slice(0, 3);
   const nd = chNode(act); if (!nd || !nd.ask) return [];
   const want = chWant(cid, act), out = [];
   (nd.ask.b || []).filter(b => !b.meta).forEach(b => {
@@ -13221,18 +13791,8 @@ function chInitiative() {
     if (!chUnlocked(c)) continue;
     if (CHV && CHV.id === c.id) continue;
     const st = chState(c.id);
-    if (st.pending || st.active || st.lastInit === today) continue;
-    let sc = null;
-    if (!st.met) sc = CH_SCENE[c.intro];
-    else {
-      const cands = CHAT_SCENES.filter(x => x.char === c.id && x.init && !x.intro && chSceneOpen(x) && !st.recent.includes(x.id));
-      cands.sort((a, b) => ((S.chat.scenes[a.id] || {}).n || 0) - ((S.chat.scenes[b.id] || {}).n || 0) || (hashStr(a.id + today) % 13) - (hashStr(b.id + today) % 13));
-      sc = cands[0];
-    }
-    if (!sc) continue;
-    if (!chStartScene(c.id, sc.id, { initiative: true })) continue;
-    st.pending = sc.id; st.unread = 1; st.lastInit = today;
-    st.recent.push(sc.id); if (st.recent.length > 4) st.recent.shift();
+    if (st.pending || st.lastInit === today) continue;
+    if (!chTalkInitiative(c, st, today)) continue;
     ini.count++; made++;
   }
   if (made) save();
@@ -13242,20 +13802,601 @@ function chUnreadTotal() { return CHAT_CHARS.reduce((a, c) => a + (chUnlocked(c)
 function chDismiss(cid) {
   const st = chState(cid);
   if (!st.pending) return;
-  st.pending = null; st.active = null; st.unread = 0;
+  st.pending = null; st.unread = 0;
+  if (st.active && st.active.free) { st.active.ex = null; st.active.topic = null; } else st.active = null;
   chPush(cid, { from: 'sys', kind: 'note', txt: 'Conversa deixada para depois. Sem problema!' });
   save();
 }
 
 /* ==========================================================
-   NIHONGO CHAT 4.0 — interface (central de personagens,
-   conversa em balões, dicas, histórico e expressões)
+   NIHONGO CHAT 5.0 — figurinhas (ilustrações originais em SVG)
+   Cada personagem tem o próprio conjunto de expressões; Hikari, o
+   espírito guia do app, é o conjunto básico do aluno.
+   Algumas figurinhas ensinam expressões (entram no Caderno e na Revisão).
+   ========================================================== */
+const CH_EMOS = ['joy', 'laugh', 'surprise', 'shy', 'doubt', 'sad', 'excited', 'celebrate', 'approve', 'confused'];
+const CH_EMO_PT = { joy: 'Alegria', laugh: 'Risada', surprise: 'Surpresa', shy: 'Vergonha', doubt: 'Dúvida', sad: 'Tristeza', excited: 'Empolgação', celebrate: 'Comemoração', approve: 'Aprovação', confused: 'Confusão', thanks: 'Agradecimento', bye: 'Despedida' };
+/* legenda de cada figurinha: japonês, romaji, tradução e (opcional) expressão ensinada */
+const CH_STK_CAP = {
+  hikari: { joy: ['うれしい！', 'ureshii!', 'Que alegria!', 'ureshii'], laugh: ['笑', 'wara', '(risos)', 'wara'], surprise: ['えっ！', 'e!', 'Hã?!'], shy: ['はずかしい', 'hazukashii', 'Que vergonha', 'hazukashii'], doubt: ['ん？', 'n?', 'Hum?'],
+    sad: ['かなしい', 'kanashii', 'Que triste'], excited: ['すごい！', 'sugoi!', 'Incrível!', 'sugoi'], celebrate: ['やった！', 'yatta!', 'Consegui! / Aê!', 'yatta'], approve: ['いいね！', 'ii ne!', 'Curti! / Boa!'], confused: ['わからない', 'wakaranai', 'Não entendi'],
+    thanks: ['ありがとう！', 'arigatou!', 'Obrigado(a)!'], bye: ['またね！', 'mata ne!', 'Até mais!', 'matane'] },
+  ren: { joy: ['よっしゃ！', 'yossha!', 'Isso aí!'], laugh: ['笑笑', 'warawara', 'kkkk', 'wara'], surprise: ['マジ？！', 'maji?!', 'Sério?!', 'maji'], shy: ['てへっ', 'tehe', 'Hehe (sem graça)'], doubt: ['ん？', 'n?', 'Hã?'],
+    sad: ['まけた…', 'maketa…', 'Perdi…', 'makeru'], excited: ['かっこいい！', 'kakkoii!', 'Que maneiro!', 'kakkoii'], celebrate: ['やった！', 'yatta!', 'Aê!', 'yatta'], approve: ['いいね！', 'ii ne!', 'Boa!'], confused: ['え？', 'e?', 'Hein?'] },
+  aiko: { joy: ['うれしいです', 'ureshii desu', 'Fico feliz', 'ureshii'], laugh: ['ふふっ', 'fufu', 'Hihi'], surprise: ['まあ！', 'maa!', 'Oh!'], shy: ['てれますね', 'teremasu ne', 'Que vergonha'], doubt: ['どうして？', 'doushite?', 'Por quê?'],
+    sad: ['ざんねん…', 'zannen…', 'Que pena…', 'zannen'], excited: ['すばらしい！', 'subarashii!', 'Maravilhoso!'], celebrate: ['おめでとう！', 'omedetou!', 'Parabéns!', 'omedetou'], approve: ['はなまる！', 'hanamaru!', 'Nota dez! (flor de aprovação)'], confused: ['あら？', 'ara?', 'Ué?'] },
+  yumi: { joy: ['わーい！', 'waai!', 'Oba!'], laugh: ['あははっ', 'ahaha', 'Hahaha'], surprise: ['えー！？', 'ee!?', 'Quêêê?!'], shy: ['はずかしい…', 'hazukashii…', 'Que vergonha…', 'hazukashii'], doubt: ['なになに？', 'nani nani?', 'O quê, o quê?'],
+    sad: ['えーん', 'een', 'Buáá'], excited: ['かわいい！', 'kawaii!', 'Que fofo!', 'kawaii'], celebrate: ['やったー！', 'yattaa!', 'Ebaaa!', 'yatta'], approve: ['すごい！', 'sugoi!', 'Incrível!', 'sugoi'], confused: ['はてな？', 'hatena?', 'Hein?'] },
+  takeshi: { joy: ['うれしいです', 'ureshii desu', 'Fico contente', 'ureshii'], laugh: ['ははは', 'hahaha', 'Hahaha'], surprise: ['なんと！', 'nanto!', 'Mas que coisa!'], shy: ['きょうしゅくです', 'kyoushuku desu', 'Fico sem jeito'], doubt: ['はて？', 'hate?', 'Hum?'],
+    sad: ['ざんねんです', 'zannen desu', 'Que pena', 'zannen'], excited: ['おすすめです！', 'osusume desu!', 'Recomendo!', 'osusume'], celebrate: ['おめでとう ございます', 'omedetou gozaimasu', 'Meus parabéns', 'omedetou'], approve: ['かしこまりました', 'kashikomarimashita', 'Entendido (formal)'], confused: ['しょうしょう…', 'shoushou…', 'Um momento…'] }
+};
+const CH_STK_SETS = ['hikari', 'ren', 'aiko', 'yumi', 'takeshi'];
+const CH_STK = {};
+CH_STK_SETS.forEach(set => Object.keys(CH_STK_CAP[set]).forEach(emo => { const [jp, ro, pt, item] = CH_STK_CAP[set][emo]; const id = set + '-' + emo; CH_STK[id] = { id, set, emo, jp, ro, pt, item: item || null }; }));
+function chStkSetName(set) { return set === 'hikari' ? 'Hikari' : (chChar(set) || {}).name || set; }
+/* conjuntos que o aluno pode usar: Hikari sempre; de cada personagem, depois de conhecê-lo */
+function chStkSetsFor() { return CH_STK_SETS.filter(s => s === 'hikari' || (chUnlocked(chChar(s)) && chState(s).met)); }
+
+/* ---------- desenho ---------- */
+function chStkSVG(id, size = 96) {
+  const s = CH_STK[id]; if (!s) return '';
+  const SK = '#ffe2cc', INK = '#2a2560';
+  const L = [41, 56], R = [59, 56];
+  const my = s.set === 'takeshi' ? 70 : 68;
+  const BG = { hikari: '#e9e2ff', ren: '#dfe6ff', aiko: '#ece3ff', yumi: '#ffe1ec', takeshi: '#ddf3e8' }[s.set];
+  const RING = { hikari: '#9a86f0', ren: '#3553d1', aiko: '#6c43dd', yumi: '#d0517a', takeshi: '#1f9461' }[s.set];
+  const blush = (o = .55, big) => `<ellipse cx="36" cy="63" rx="${big ? 6 : 4}" ry="${big ? 3 : 2.2}" fill="#ff8fb0" opacity="${o}"/><ellipse cx="64" cy="63" rx="${big ? 6 : 4}" ry="${big ? 3 : 2.2}" fill="#ff8fb0" opacity="${o}"/>`;
+  const dot = ([x, y], r = 3) => `<ellipse cx="${x}" cy="${y}" rx="${r * .85}" ry="${r * 1.15}" fill="${INK}"/><circle cx="${x + 1}" cy="${y - 1.4}" r="${r * .35}" fill="#fff"/>`;
+  const arc = ([x, y], up = true) => `<path d="M${x - 5} ${y + (up ? 2 : -2)}q5 ${up ? -7 : 7} 10 0" stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+  const star = ([x, y], r = 5.5, f = '#f2b632') => { let d = ''; for (let i = 0; i < 10; i++) { const a = Math.PI / 5 * i - Math.PI / 2, rr = i % 2 ? r * .45 : r; d += (i ? 'L' : 'M') + (x + rr * Math.cos(a)).toFixed(1) + ' ' + (y + rr * Math.sin(a)).toFixed(1); } return `<path d="${d}z" fill="${f}" stroke="#b97a00" stroke-width=".8"/>`; };
+  const spiral = ([x, y]) => `<path d="M${x} ${y}m-1 0a1 1 0 1 1 2 0a2.4 2.4 0 1 1-4.6 0a3.6 3.6 0 1 1 7.2 0a4.6 4.6 0 1 1-9.4 0" stroke="${INK}" stroke-width="1.6" fill="none"/>`;
+  const drop = (x, y, c = '#6fb7ff') => `<path d="M${x} ${y}q-4 6 0 8q4-2 0-8z" fill="${c}" stroke="#fff" stroke-width=".8"/>`;
+  const E = {
+    joy: arc(L) + arc(R) + `<path d="M43 ${my}q7 9 14 0z" fill="#d8476a"/>` + blush(.6),
+    laugh: `<path d="M37 53l7 3.5-7 3.5M63 53l-7 3.5 7 3.5" stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M41 ${my - 2}q9 14 18 0z" fill="#d8476a" stroke="${INK}" stroke-width="1.2"/>` + drop(31, 56) + drop(69, 56) + blush(.6),
+    surprise: `<circle cx="41" cy="56" r="5.2" fill="#fff" stroke="${INK}" stroke-width="1.6"/><circle cx="59" cy="56" r="5.2" fill="#fff" stroke="${INK}" stroke-width="1.6"/><circle cx="41" cy="56.5" r="2.6" fill="${INK}"/><circle cx="59" cy="56.5" r="2.6" fill="${INK}"/><ellipse cx="50" cy="${my + 2}" rx="3.6" ry="4.6" fill="#d8476a" stroke="${INK}" stroke-width="1.2"/><path d="M80 18v12M80 35v1" stroke="#e8463c" stroke-width="4" stroke-linecap="round"/><path d="M88 22v9M88 35v.5" stroke="#e8463c" stroke-width="3.2" stroke-linecap="round"/>`,
+    shy: arc(L, false) + arc(R, false) + `<path d="M45 ${my + 1}q2.5-3 5 0q2.5 3 5 0" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/>` + blush(.95, true) + `<path d="M31 61l3-3M34 63l3-3M63 61l3-3M66 63l3-3" stroke="#e0607e" stroke-width="1.4" stroke-linecap="round"/>` + drop(74, 40),
+    doubt: dot(L) + `<path d="M55 56h8" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/><path d="M36 47l9-2M55 46l9 3" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><path d="M45 ${my + 1}l9-2" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/><text x="82" y="34" font-size="22" font-weight="800" fill="${RING}" font-family="Nunito,system-ui,sans-serif" text-anchor="middle">?</text>`,
+    sad: dot(L, 2.8) + dot(R, 2.8) + `<path d="M35 48l9 3M65 48l-9 3" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><path d="M44 ${my + 3}q6-6 12 0" stroke="${INK}" stroke-width="2.4" fill="none" stroke-linecap="round"/>` + drop(38, 61) + drop(62, 61),
+    excited: star(L, 6.2) + star(R, 6.2) + `<path d="M42 ${my - 1}q8 12 16 0z" fill="#d8476a" stroke="${INK}" stroke-width="1"/>` + blush(.6) + star([18, 30], 4, '#ffd877') + star([84, 26], 5, '#ffd877') + star([86, 46], 3, '#ffd877'),
+    celebrate: arc(L) + arc(R) + `<path d="M42 ${my - 1}q8 12 16 0z" fill="#d8476a"/>` + blush(.6) + '<path d="M10 40l10-16 6 18z" fill="#f2b632" stroke="#b97a00" stroke-width="1"/><circle cx="16" cy="18" r="2.4" fill="#e8463c"/><circle cx="28" cy="14" r="2" fill="#3553d1"/><circle cx="22" cy="10" r="1.8" fill="#1f9461"/><rect x="78" y="14" width="4" height="4" fill="#e8463c" transform="rotate(20 80 16)"/><rect x="86" y="26" width="4" height="4" fill="#3553d1" transform="rotate(-15 88 28)"/><circle cx="84" cy="40" r="2" fill="#f2b632"/>',
+    approve: arc(L) + dot(R) + `<path d="M43 ${my}q7 7 14 0" stroke="${INK}" stroke-width="2.4" fill="none" stroke-linecap="round"/>` + blush(.55) + (s.set === 'aiko' ? '<g transform="translate(83 28)"><circle r="11" fill="none" stroke="#e8463c" stroke-width="2.4"/><circle r="5" fill="none" stroke="#e8463c" stroke-width="2"/><path d="M-11 0q-5-9 2-13M11 0q5-9-2-13" stroke="#e8463c" stroke-width="2" fill="none"/></g>' : `<g transform="translate(83 30)"><circle r="11" fill="#1f9461"/><path d="M-5 0l3.5 4L6-4" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>`),
+    confused: spiral(L) + spiral(R) + `<path d="M43 ${my + 1}q2-2.5 3.5 0t3.5 0t3.5 0t3.5 0" stroke="${INK}" stroke-width="1.8" fill="none" stroke-linecap="round"/>` + drop(72, 38),
+    thanks: arc(L) + arc(R) + `<path d="M43 ${my}q7 8 14 0" stroke="${INK}" stroke-width="2.4" fill="none" stroke-linecap="round"/>` + blush(.6) + '<path d="M80 22c-3-5-10-2-7 4l7 7 7-7c3-6-4-9-7-4z" fill="#ff6f91"/>',
+    bye: arc(L) + arc(R) + `<path d="M43 ${my - 1}q7 9 14 0z" fill="#d8476a"/>` + blush(.6) + '<g transform="translate(82 36) rotate(-15)"><rect x="-5" y="-9" width="10" height="16" rx="5" fill="#ffe2cc" stroke="#2a2560" stroke-width="1.2"/><path d="M-9 -12q-3 4 0 8M9 -12q3 4 0 8" stroke="#9a86f0" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>'
+  }[s.emo] || '';
+  const P = {
+    hikari: { back: '', head: '<path d="M50 14c5 10 26 15 28 36 2 21-12 38-28 38S20 71 22 50c1-13 10-19 15-26 4-4 7-8 13-10z" fill="#f3efff" stroke="#9a86f0" stroke-width="2"/><path d="M50 14c2-7 9-10 14-7-5 0-8 3-9 8" fill="#e4dcff" stroke="#9a86f0" stroke-width="2" stroke-linejoin="round"/>', front: '' },
+    ren: { back: '', head: `<ellipse cx="50" cy="54" rx="21" ry="24" fill="${SK}"/>`, front: '<path d="M27 52c-2-18 10-28 23-28s26 8 23 28l-5-10-4 7-5-11-4 9-6-10-4 10-5-8z" fill="#22224a"/><path d="M25 50a25 25 0 0 1 50 0" stroke="#f2b632" stroke-width="4" fill="none"/><rect x="21" y="48" width="9" height="15" rx="4" fill="#f2b632"/><rect x="70" y="48" width="9" height="15" rx="4" fill="#f2b632"/>' },
+    aiko: { back: '<path d="M27 58c-4-22 6-34 23-34s27 12 23 34l-2 22H29z" fill="#4a2a1a"/>', head: `<ellipse cx="50" cy="54" rx="21" ry="24" fill="${SK}"/>`, front: '<circle cx="50" cy="20" r="9" fill="#4a2a1a"/><path d="M29 48c4-14 34-16 42 0-8-6-30-8-42 0z" fill="#4a2a1a"/><path d="M57 18l6-6" stroke="#f2b632" stroke-width="2.4" stroke-linecap="round"/>', glasses: true },
+    yumi: { back: '<path d="M22 46c-8 6-8 26 2 34 4-10 4-22 6-30z" fill="#a8693a"/><path d="M78 46c8 6 8 26-2 34-4-10-4-22-6-30z" fill="#a8693a"/>', head: `<ellipse cx="50" cy="54" rx="21" ry="24" fill="${SK}"/>`, front: '<path d="M28 52c-2-18 9-28 22-28s25 10 22 28c-6-10-14-14-22-14s-16 4-22 14z" fill="#a8693a"/><path d="M66 32l2.2 4.4 4.8.6-3.5 3.3.9 4.7-4.4-2.3-4.4 2.3.9-4.7-3.5-3.3 4.8-.6z" fill="#ffd877"/>' },
+    takeshi: { back: '', head: `<ellipse cx="50" cy="54" rx="21" ry="24" fill="${SK}"/>`, front: '<path d="M29 46c0-14 9-20 21-20s21 6 21 20c-6-6-14-8-21-8s-15 2-21 8z" fill="#3b2a20"/><path d="M28 42q22-8 44 0v6q-22-8-44 0z" fill="#ffffff" stroke="#d6dbe8" stroke-width="1"/><path d="M71 44l9 3-8 4" fill="#ffffff" stroke="#d6dbe8" stroke-width="1"/><path d="M43 65q7-3 14 0" stroke="#3b2a20" stroke-width="2.6" fill="none" stroke-linecap="round"/>' }
+  }[s.set];
+  const glasses = P.glasses ? `<circle cx="41" cy="56" r="6.5" fill="none" stroke="${INK}" stroke-width="1.6"/><circle cx="59" cy="56" r="6.5" fill="none" stroke="${INK}" stroke-width="1.6"/><path d="M47.5 56h5" stroke="${INK}" stroke-width="1.6"/>` : '';
+  const fs = Math.max(7.5, Math.min(13, 86 / Math.max(1, [...s.jp].length) * 1.05));
+  return `<svg class="stk-svg" width="${size}" height="${size}" viewBox="0 0 100 100" role="img" aria-label="Figurinha: ${esc(s.jp)} (${esc(s.pt)})">
+    <circle cx="50" cy="48" r="44" fill="${BG}" stroke="#fff" stroke-width="4"/><circle cx="50" cy="48" r="44" fill="none" stroke="${RING}" stroke-width="1.4" opacity=".5"/>
+    ${P.back}${P.head}${P.front}${E}${glasses}
+    <rect x="8" y="80" width="84" height="18" rx="9" fill="#fff" stroke="${RING}" stroke-width="1.6"/>
+    <text x="50" y="${89 + fs * .36}" font-size="${fs}" font-weight="800" fill="${INK}" text-anchor="middle" font-family="'M PLUS Rounded 1c','Hiragino Maru Gothic ProN',system-ui,sans-serif">${esc(s.jp)}</text></svg>`;
+}
+
+/* ==========================================================
+   NIHONGO CHAT 5.0 — motor da conversa livre
+   - Entende a mensagem por intenção (não por frase exata): respostas curtas
+     (うん, わたしも, へえ), reações (笑, すごい, マジ？), estados (ねむい, つかれた),
+     perguntas de volta (レンは？), figurinhas e emojis.
+   - Interpreta pelo contexto: o que o personagem acabou de perguntar (a "expectativa")
+     decide o sentido de respostas curtas como 「わたしも」.
+   - Nunca trata o que não entendeu como erro: o personagem pede para repetir.
+   - Corrige pouco: só formalidade inadequada, com gentileza e no máximo uma vez por conversa.
+   Continua sendo um sistema local de roteiros e intenções, não uma IA generativa.
+   ========================================================== */
+
+/* ---------- falas: 'jp|ro|pt' ---------- */
+function chTL(s) { const [jp, ro, pt] = String(s).split('|'); return { jp: jp || '', ro: ro || '', pt: pt || '' }; }
+
+/* ---------- registro das expectativas (ids estáveis para salvar no progresso) ---------- */
+const CH_EXR = {};
+(function regAll() {
+  const walk = (o, path) => {
+    if (Array.isArray(o)) { o.forEach((x, i) => walk(x, path + '.' + i)); return; }
+    if (!o || typeof o !== 'object') return;
+    Object.keys(o).forEach(k => {
+      const v = o[k];
+      if (k === 'ex' && v && typeof v === 'object' && !Array.isArray(v) && !v.__id) { v.__id = path + '.ex'; CH_EXR[v.__id] = v; }
+      if (k !== '__id') walk(v, path + '.' + k);
+    });
+  };
+  Object.keys(TALK).forEach(cid => {
+    const T = TALK[cid];
+    T.state.__id = cid + '.state'; CH_EXR[T.state.__id] = T.state; walk(T.state.on, cid + '.state.on');
+    Object.keys(T.ex).forEach(n => { const e = T.ex[n]; e.__id = cid + '.ex.' + n; CH_EXR[e.__id] = e; walk(e.on || {}, e.__id + '.on'); });
+    walk(T.react, cid + '.react');
+    T.topics.forEach(t => walk(t.steps, cid + '.t.' + t.id));
+  });
+})();
+function chExGet(cid, ref) {
+  if (!ref) return null;
+  if (typeof ref === 'object') return ref;
+  if (CH_EXR[ref]) return CH_EXR[ref];
+  const T = TALK[cid]; if (!T) return null;
+  if (ref === 'state') return T.state;
+  return T.ex[ref] || null;
+}
+
+/* ---------- reconhecimento de intenção ---------- */
+const CH_EMOJI = [
+  [/[😂🤣😆😹]|w{3,}/u, 'laugh'], [/[😄😁😊☺🙂😀😃🥰😍]/u, 'good'], [/[😮😲😯😱🙀‼]/u, 'surprise'], [/[😢😭😞😔🥲☹😿💔]/u, 'bad'],
+  [/[🤔❓❔]/u, 'question'], [/[👍👌🙆✅💯]/u, 'okay'], [/[🎉🥳🎊✨]/u, 'yay'], [/[❤💕💖💗😘]/u, 'praise'], [/[😳🙈😅]/u, 'shy'],
+  [/[😴💤🥱]/u, 'sleepy'], [/[🙏]/u, 'thanks'], [/[👋]/u, 'bye'], [/[😵🌀😵‍💫]/u, 'dontknow'], [/[🍜🍙🍣🍱🍔🍕]/u, 'hungry']
+];
+const CH_EMO_INTENT = { joy: 'good', laugh: 'laugh', surprise: 'surprise', shy: 'shy', doubt: 'question', sad: 'bad', excited: 'yay', celebrate: 'yay', approve: 'okay', confused: 'dontknow', thanks: 'thanks', bye: 'bye', love: 'praise' };
+/* regras sobre a forma canônica (romaji sem espaços; kana e kanji já convertidos) */
+const CH_RULES = [
+  ['same', /^(watashi|watakushi|boku|ore|atashi|jibun|uchi|washi)?mo(sou|onaji|issho)?(da|desu)?(yo|ne|na|sa)*$/],
+  ['same', /^(onaji|onnaji|doukan|issho|metoo|ditto)(da|desu)?(yo|ne|na|kamo)*$/],
+  ['same', /^(watashi|watakushi|boku|ore|atashi|jibun)(mo|tomo)?(onaji|issho)(da|desu)?(yo|ne)*$/],
+  ['yes', /^(unn?|unun|hai+|ee|aa|sou(sou)*|soudesu|souda|souyo|soudayo|soudesuyo|haisou(desu)?|unsou|mochiron|tabun|unsoudayo|sounandayo|sounandesu|hontouni|haihai)(yo|ne|na)*$/],
+  ['no', /^(iie|iiya|iya|iyaiya|uun+|uuun+|ie|zenzen|chigau|chigaimasu|chigauyo|nai|naiyo|naidesu|arimasen|mada|madadesu|madamada|betsuni|sonnakoto(nai)?|souiu(wake)?janai|souja(nai)?|sounai)(yo|ne|desu)*$/],
+  ['laugh', /^(w{2,}|(ha){2,}h?|(ah){2,}|(he){2,}|(hi){2,}|(fu){2,}|k{3,}|(rs)+|lol|lmao|wara(i|u|ta|eru)?|kusa|bakuwara|aha(ha)+|ehe(he)*|ufufu|haha)$/],
+  ['ack', /^(he+|fu+n|fun|sounanda|sounandesu(ka|ne)?|sounan|naruhodo(ne|desu(ne)?)?|souka+|soudesuka|soudesune|soudane|soudayone|dayone|desuyone|wakaru(wakaru)?|wakarimasu|tashikani|ne+|nee+|sorena|soreda|sorewa(ii|yokatta)(desu)?(ne)?)$/],
+  ['surprise', /^(e+|eh+|ee+|hontou(ni)?(desu)?(ka|ni)?|honto(ni)?(ka)?|maji(de|ka|desu(ka)?)?|uso(da|desho|deshou|daa)?|nanisore|nani|ara+|uwa+|wa+o?|oh+|wow|bikkuri|bikkurishita|odoroita|sugoikoto|masaka)$/],
+  ['praise', /^(sugo(i|ii|e|ee|ku)|iine+|iidesune|iijan|kakkoi+|kakkou(ii|i)|kawai+|kawaisugi(ru)?|sasuga|subarashi+|suteki|erai|tensai|yarujan|yarune|kirei|oishisou|tanoshisou|omoshiro(i|sou)|saikou|ii)(desu|da)?(ne|na|yo|jan)*$/],
+  ['yay', /^(yatta+|yattane|yattaa+|yossha|yoshi|banzai|iei|ie+i|yaho+|yahho+|waai+|wai+)$/],
+  ['congrats', /^(omedetou|omedeto|omedetougozaimasu|omedetoune)$/],
+  ['sympathy', /^(zannen(da|desu|deshita)?(ne|na|datta(ne)?)?|kawaisou(ni)?|taihen(da|desu|datta|deshita)?(ne|na)|donmai|odaijini|ganbatte(ne|kudasai)?|kiotsukete|daijoubu(desuka|ka|\?)?)$/],
+  ['okay', /^(iiyo|iidesuyo|iidesu|ok|okk?e+|ookee|okkee|ryoukai(desu)?|ryo|wakatta|wakarimashita|kashikomarimashita|zehi|ikou|yarou|shiyou|ikuyo|iku|sansei|onegai(shimasu)?|haionegaishimasu|un(iiyo|onegai))$/],
+  ['decline', /^((gomen|sumimasen)?(kyouwa|imawa)?(chotto|muri|kekkou(desu)?|enryoshimasu|matakondo|ikenai|ikanai|dekinai|isogashii))$/],
+  ['shy', /^(hazukashii|hazukashi|tereru|tere|tehe|hazui)(desu|na|yo)?$/],
+  ['some', /^(tokidoki|tamani|chotto|sukoshi|chottodake|maamaa)(desu|da|kana|yo|ne)*$/],
+  ['dontknow', /^(wakaranai|wakannai|wakarimasen(deshita)?|shiranai|shirimasen|shiran|saa|ehto|etto|ee+tto|un+to|nandarou|nandeshou)(desu|na|yo|ne)*$/],
+  ['why', /^(nande|naze|doushite|doushitedesuka|nandedesuka|nazedesuka|nanide)(ka|no)?$/],
+  ['nice', /^(hajimemashite|yoroshiku(onegai(shimasu|itashimasu)?|ne|na)?|kochirakoso(yoroshiku)?(onegaishimasu)?|douzoyoroshiku(onegaishimasu)?)$/],
+  ['browsing', /^(miteirudake|miterudake|mitedake|miteirudakedesu|miterudakedesu|tadamiteiru(dake)?(desu)?)$/],
+  ['askback', /^((anata|kimi|omae|sensei|aikosensei|ren(kun|san|chan)?|yumi(chan|san)?|takeshi(san|sama)?|sochira|sotchi|soccha|minna|tenchou(san)?)(wa|mo|wadou|wadoudesuka|wadesuka|mo(dou)?|ha))$/],
+  ['askback', /^(dou|doudesuka|douda|douna(no)?|sochirawa(dou(desuka)?)?)$/],
+  ['hard', /^(muzukashii|muzukashi|muzui|taihen|kitsui)(desu|da|yo|ne)*$/],
+  ['good', /^(tanoshii|tanoshi|tanoshiidesu|ureshii|ureshi|ureshiidesu|bacchiri|zecchouchou|saikou(desu)?|genki(da|desu)?(yo)?|daijoubu(da|desu)?(yo)?)$/]
+];
+/* palavras dentro de frases maiores (intenção secundária) */
+const CH_PARTS = [
+  ['bad', /(genki|choushi)(ja|jya|de(wa|ha))nai|amarigenki|yokunai|saiaku|kanashi|sabishi|tsurai|dame|byouki|atamagaitai|onakagaitai|kibungawarui/],
+  ['sleepy', /nemu(i|kute|i)|nemutai|nemukatta|nebusoku|yofukashi/],
+  ['tired', /tsukare(ta|teru|mashita)|kutakuta|hetoheto/],
+  ['busy', /isogashi/],
+  ['hungry', /onaka(ga)?(suita|suki(mashita)?|pekopeko)|harahetta|pekopeko/],
+  ['hard', /muzukashi|muzui/],
+  ['good', /genki|tanoshi|ureshi|saikou|daijoubu/],
+  ['laugh', /(wara|w{2,}|(ha){3,}|k{3,})$/],
+  ['ilike', /(dai)?suki(da|desu|dayo|na)?(yo|ne)*$|hamatte(ru|imasu)/],
+  ['dislike', /kirai|nigate|suki(ja|jya|de(wa|ha))nai|amarisuki/],
+  ['want', /(tabe|nomi|mi|iki|shi|kai|asobi|yari)tai|hoshii/],
+  ['studying', /benkyou(shi|chuu|shiteru|shiteimasu)/],
+  ['same', /^(watashi|watakushi|boku|ore|atashi|jibun)mo/],
+  ['thanks', /arigat/],
+  ['sorry', /^(gomen|sumimasen)/]
+];
+/* exemplos para tolerar erros de digitação curtos (watshi mo, arigato, hazukashi…) */
+const CH_EXEMPLARS = {
+  same: ['watashimo', 'bokumo', 'atashimo', 'watashimodesu'], yes: ['soudesu', 'soudesune'], no: ['zenzen', 'chigaimasu', 'iiedesu'],
+  ack: ['naruhodo', 'sounanda', 'sounandesune', 'soudesuka'], surprise: ['hontouni', 'hontou', 'bikkuri'], praise: ['sugoidesune', 'kakkoii', 'kawaii', 'subarashii', 'sasuga'],
+  dontknow: ['wakaranai', 'wakarimasen', 'shiranai'], okay: ['ryoukai', 'wakatta', 'wakarimashita', 'kashikomarimashita'], congrats: ['omedetou'], yay: ['yattaa'],
+  sympathy: ['zannen', 'donmai', 'ganbatte'], shy: ['hazukashii']
+};
+/* frases em português (o aluno às vezes escreve em português): entende e mostra como seria em japonês */
+const CH_PT = [
+  [/^(eu tamb[eé]m|tamb[eé]m|eu tbm|tbm)\b/i, 'same', 'わたしも。', 'watashi mo.'], [/^(sim|claro|isso)\b/i, 'yes', 'うん。／はい。', 'un. / hai.'],
+  [/^(n[aã]o|nao)\b/i, 'no', 'ううん。／いいえ。', 'uun. / iie.'], [/^(obrigad[oa]|valeu|vlw)/i, 'thanks', 'ありがとう！', 'arigatou!'],
+  [/^(oi|ol[aá]|e a[ií]|bom dia|boa tarde|boa noite)\b/i, 'greet', 'こんにちは！', 'konnichiwa!'], [/^(tchau|at[eé] mais|falou)\b/i, 'bye', 'またね！', 'mata ne!'],
+  [/^(tudo bem|tudo bom|como vai|como voc[eê] est[aá])/i, 'howareyou', 'げんき？', 'genki?'], [/^(legal|incr[ií]vel|que demais|top)\b/i, 'praise', 'すごい！', 'sugoi!'],
+  [/^(que pena)/i, 'sympathy', 'ざんねん。', 'zannen.'], [/^(desculp)/i, 'sorry', 'ごめん。', 'gomen.'], [/^(n[aã]o entendi|n[aã]o sei)/i, 'dontknow', 'わからない。', 'wakaranai.']
+];
+const CH_PT_WORDS = /\b(eu|voc[eê]|tamb[eé]m|sim|n[aã]o|obrigad[oa]|tudo|bem|oi|ol[aá]|tchau|legal|que|muito|estou|est[aá]|gosto|sei|entendi|pena|desculpa|bom|boa)\b/i;
+const CH_INTENT_MAP = { greet: 'greet', howareyou: 'howareyou', imgood: 'good', imtired: 'tired', thanks: 'thanks', bye: 'bye', sorry: 'sorry', whatdoing: 'whatdoing', likesq: 'likesq', hungry: 'hungry', weather: 'weather', compliment: 'praise', studying: 'studying', recommend: 'recommend', price: 'price' };
+const CH_ROMAJI_OK = /^(?:(?:[kgsztdnhbpmyrwfjv]|ch|sh|ts|ky|gy|ny|hy|by|py|my|ry)?[aeiou]|n|([kstpcg])(?=\1|ch))+$/;
+
+function chTalkAnalyze(text, stk) {
+  const raw = String(text || '').trim();
+  const A = { raw, q: /[?？]\s*$/.test(raw), intents: [], meta: null, pt: null, fuzzy: null, cap: {}, capText: null };
+  const add = (id, s, o) => { const ex = A.intents.find(x => x.id === id); if (ex) { if (s > ex.s) ex.s = s; return; } A.intents.push(Object.assign({ id, s }, o || {})); };
+  // figurinha
+  if (stk && CH_STK[stk]) { const e = CH_STK[stk].emo; A.stkEmo = e; add(CH_EMO_INTENT[e] || 'ack', raw ? 1.2 : 3, { stk: true }); }
+  // emojis
+  CH_EMOJI.forEach(([re, id]) => { if (re.test(raw)) add(id, 1.1, { emoji: true }); });
+  const hasJa = /[぀-ヿ一-鿿]/.test(raw);
+  const c = chCanon(raw), l = chLoose(c);
+  A.c = c; A.l = l;
+  if (!c) { A.intents.sort((a, b) => b.s - a.s); return A; }
+  // português
+  if (!hasJa && CH_PT_WORDS.test(raw) && !CH_RULES.some(([, re]) => re.test(c))) {
+    const m = CH_PT.find(([re]) => re.test(raw.normalize('NFC')));
+    A.pt = m ? { id: m[1], jp: m[2], ro: m[3] } : { id: null };
+    if (m) add(m[1], 2, { pt: true });
+    A.intents.sort((a, b) => b.s - a.s); return A;
+  }
+  // "e?" sozinho, ou pedidos de repetir/devagar
+  if (/^(e|eh|n|nn)$/.test(c) && A.q) { A.meta = 'repeat'; return A; }
+  const ruleHit = CH_RULES.some(([id, re]) => re.test(c) && id !== 'dontknow');
+  if (!ruleHit) for (const m of CHAT_META) for (const f of m.f) { const r = chMatchForm(raw, f, c, l); if (r && r.q !== 'spelling') { A.meta = m.id; break; } }
+  if (A.meta === 'dontknow') { add('dontknow', 3); A.meta = null; }
+  if (A.meta) return A;
+  // regras exatas
+  CH_RULES.forEach(([id, re]) => { if (re.test(c)) add(id, 3); });
+  // "うん" e "ううん" só pela forma exata (a forma solta confundiria sim e não)
+  if (/^uu+n+$/.test(c)) { A.intents = A.intents.filter(x => x.id !== 'yes'); add('no', 3); }
+  // pergunta com "?" sobre o próprio estado: "daijoubu?" = preocupação, não "estou bem"
+  if (A.q && /^(daijoubu|genki|ii)(desuka|ka)?$/.test(c)) { A.intents = A.intents.filter(x => x.id !== 'good'); add(c.startsWith('daijoubu') ? 'sympathy' : 'howareyou', 3.2); }
+  // frases conhecidas do chat (cumprimentos, perguntas do dia a dia…)
+  const rank = { exact: 3, variant: 2.6, spelling: 1.6 };
+  CHAT_INTENTS_ALL().forEach(it => {
+    const id = CH_INTENT_MAP[it.id]; if (!id) return;
+    let best = null; it.f.forEach(f => { const m = chMatchForm(raw, f, c, l); if (m && (!best || rank[m.q] > rank[best.q])) best = { q: m.q, f }; });
+    if (best) { add(id === 'tired' && /nemu/.test(c) ? 'sleepy' : id, rank[best.q], { form: best.f }); if (best.q === 'spelling') A.fuzzy = A.fuzzy || best.f; }
+  });
+  // palavras dentro de frases maiores
+  CH_PARTS.forEach(([id, re]) => { if (re.test(c)) add(id, 1.5); });
+  // perguntas abertas ("donna anime?", "nani ga suki?", "doko?")
+  const qWord = /(donna|nani|nande|doko|dare|itsu|dore|dochira|docchi|ikura|ikutsu|doushite|naze|dou)/.test(c);
+  if (qWord && (A.q || /(ka|no|nano)$/.test(c))) add('question', 1.4);
+  else if (A.q && !A.intents.length) add('question', 1);
+  if (A.intents.some(x => x.id === 'bad')) A.intents = A.intents.filter(x => x.id !== 'good');
+  if (A.intents.some(x => x.id === 'dislike')) A.intents = A.intents.filter(x => x.id !== 'ilike');
+  if (A.intents.some(x => x.id === 'same' && x.s >= 3)) A.intents = A.intents.filter(x => x.id !== 'yes' || x.s >= 3);
+  // gostos: captura o que o aluno disse que gosta ("anime ga suki", "ラーメンが だいすき")
+  if (A.intents.some(x => x.id === 'ilike' || x.id === 'want' || x.id === 'same')) {
+    let best = null;
+    ['like', 'hobby', 'genre', 'music', 'food'].forEach(k => (CHAT_SLOTS[k] || []).forEach(v => chCompile(String(v.p || v.ro).toLowerCase()).forEach(e => { if (e.c && e.c.length >= 3 && c.includes(e.c) && (!best || e.c.length > best.n)) best = { v, n: e.c.length }; })));
+    if (best) A.cap.like = best.v;
+    else { const m = raw.match(/^(.{1,16}?)\s*(が|は|ga|wa)?\s*(だい|dai)?(すき|suki)/i); if (m && m[1] && !/^(わたし|watashi|boku|ore|atashi|わたしも|watashi mo)$/i.test(m[1].trim())) A.cap.like = { jp: m[1].trim(), ro: m[1].trim(), pt: m[1].trim() }; }
+  }
+  // erros de digitação em respostas curtas
+  if (!A.intents.some(x => x.s >= 2.5) && l.length >= 4) {
+    Object.keys(CH_EXEMPLARS).forEach(id => CH_EXEMPLARS[id].forEach(e => { const el = chLoose(e); if (el.length >= 5 && el !== l && chLev(l, el, 1) <= 1 && !A.intents.some(x => x.id === id && x.s >= 1.5)) { add(id, 1.6); A.fuzzy = A.fuzzy || { ro: e, jp: NQK.r2k(e) }; } }));
+  }
+  // texto livre curto (nome, título de anime…) para perguntas abertas
+  const words = raw.replace(/[。、！？!?.,…「」]/g, ' ').trim().split(/\s+/).filter(Boolean);
+  const plausible = hasJa || CH_ROMAJI_OK.test(l) || (words.length <= 3 && /^[A-ZÀ-Ú]/.test(raw));
+  if (raw.length <= 24 && words.length <= 4 && plausible) {
+    let t = raw.replace(/[。、！？!?.,…「」]/g, '').trim();
+    t = t.replace(/\s*(だよ|です|だ|desu|da yo|dayo|da|かな|kana|ga suki|が すき|がすき|かも|kamo)\s*$/i, '').trim();
+    if (t) A.capText = t;
+  }
+  A.intents.sort((a, b) => b.s - a.s);
+  return A;
+}
+
+/* quando o personagem esperava X, estas intenções também servem */
+const CH_FB = {
+  yay: ['praise', 'congrats', 'good'], congrats: ['praise', 'yay'], praise: ['yay', 'ack', 'good'], surprise: ['ack'], ack: [], laugh: [], shy: [],
+  sleepy: ['tired', 'bad', 'same'], tired: ['bad'], busy: ['bad'], bad: [], hard: ['bad'], meh: ['some', 'bad'], good: ['yes'], okay: ['yes'], yes: ['okay', 'good'],
+  no: ['decline'], decline: ['no'], same: ['yes'], ilike: ['yes', 'good'], dislike: ['no'], sympathy: ['ack'], some: ['meh', 'yes'], hungry: ['want', 'yes'],
+  want: ['yes', 'okay'], why: ['question'], question: [], askback: [], nice: ['greet', 'yes'], greet: ['nice'], thanks: [], dontknow: ['no'], browsing: ['no', 'decline'], studying: [], sorry: []
+};
+/* respostas que pedem a "fala própria" do personagem, mesmo no meio de um assunto */
+const CH_STANDALONE = ['bye', 'thanks', 'sorry', 'greet', 'howareyou', 'whatdoing', 'likesq', 'recommend', 'price', 'weather', 'studying', 'hungry'];
+const CH_LULL = ['ack', 'laugh', 'yes', 'okay', 'same', 'praise', 'good', 'yay', 'surprise', 'shy', 'sympathy', 'congrats'];
+
+/* ---------- respostas do personagem ---------- */
+function chTalkPick(cid, bank, key) {
+  if (!bank) return null;
+  if (!Array.isArray(bank)) return bank;
+  const st = chState(cid), rec = st.recentR || (st.recentR = []);
+  const opts = bank.map((v, i) => ({ v, k: key + '#' + i }));
+  const fresh = opts.filter(o => !rec.includes(o.k));
+  const o = (fresh.length ? fresh : opts)[Math.floor(chRand() * (fresh.length ? fresh.length : opts.length))];
+  rec.push(o.k); if (rec.length > 24) rec.splice(0, rec.length - 24);
+  return o.v;
+}
+let CH_SEED = null;
+function chRand() { if (CH_SEED == null) return Math.random(); CH_SEED = (CH_SEED * 1103515245 + 12345) % 2147483648; return CH_SEED / 2147483648; }
+/* divide uma fala longa em dois balões quando japonês, romaji e português têm o mesmo número de frases */
+function chSplitLine(l) {
+  if (l.jp.length < 22) return [l];
+  const sj = l.jp.split(/(?<=[。！？])\s*/).filter(Boolean), sr = l.ro.split(/(?<=[.!?])\s+/).filter(Boolean), sp = l.pt.split(/(?<=[.!?])\s+/).filter(Boolean);
+  if (sj.length < 2 || sj.length !== sr.length || sj.length !== sp.length || sj.some(x => x.length < 4)) return [l];
+  return sj.map((jp, i) => ({ jp, ro: sr[i], pt: sp[i] }));
+}
+/* publica uma resposta (falas, figurinhas, notas) e devolve o que ela pede em seguida */
+function chTalkSay(cid, act, variant, opts = {}) {
+  const out = { ex: null, end: false, lines: 0 };
+  if (variant == null) return out;
+  let v = variant;
+  if (typeof v === 'string' || Array.isArray(v) || v.tod) v = { r: v };
+  if (v.dyn) { const d = CH_TALK_DYN[v.dyn] && CH_TALK_DYN[v.dyn](cid); if (!d) return out; v = Object.assign({}, v, d, { dyn: null }); }
+  let r = v.r;
+  if (r && r.tod) r = r.tod[chTod()] || r.tod.tarde;
+  const ctx = chCtx(act);
+  const extra = opts.init ? { init: true } : {};
+  [].concat(r || []).forEach(x => {
+    if (x && x.tod) x = x.tod[chTod()] || x.tod.tarde;
+    if (x && typeof x === 'object' && (x.r || x.dyn)) { const o = chTalkSay(cid, act, x, opts); if (o.ex) out.ex = o.ex; out.lines += o.lines; return; }
+    if (typeof x !== 'string') return;
+    if (x[0] === '#') { chTalkSticker(cid, act, x.slice(1), extra); out.lines++; return; }
+    const l = chTL(x);
+    const f = { jp: chFill(l.jp, ctx, 'jp'), ro: chFill(l.ro, ctx, 'ro'), pt: chFill(l.pt, ctx, 'pt') };
+    if (/\{/.test(l.jp) && !f.jp.replace(/[\s、。！？]/g, '')) return;
+    chSplitLine(f).forEach(p => { chPush(cid, Object.assign({ from: 'char', jp: p.jp, ro: p.ro, pt: p.pt, say: chFill(p.jp === f.jp ? l.jp : p.jp, ctx, 'say') }, extra)); out.lines++; });
+  });
+  if (v.tip) chPush(cid, Object.assign({ from: 'sys', kind: 'tip' }, v.tip));
+  if (v.teach) chTalkTeach(cid, v.teach);
+  if (v.set) [].concat(v.set).forEach(k => { if (!S.chat.facts[k]) S.chat.facts[k] = Date.now(); });
+  if (v.ex) out.ex = typeof v.ex === 'string' ? (v.ex === 'state' ? cid + '.state' : (TALK[cid].ex[v.ex] ? cid + '.ex.' + v.ex : null)) : v.ex.__id;
+  if (v.end) out.end = true;
+  return out;
+}
+function chTalkTeach(cid, keys) {
+  const fresh = [];
+  [].concat(keys || []).forEach(k => { const it = chItem(k); if (!it) return; if (chPresent(k)) fresh.push(it.id); });
+  if (fresh.length) chPush(cid, { from: 'sys', kind: 'new', items: fresh, fresh });
+}
+function chTalkSticker(cid, act, emo, extra) {
+  const id = cid + '-' + emo;
+  if (!CH_STK[id]) return;
+  const th = chThread(cid), recent = th.slice(-6).filter(m => m.from === 'char' && m.stk).length;
+  if (recent && (act.n || 0) - (act.stkAt == null ? -9 : act.stkAt) < 2) return;
+  chPush(cid, Object.assign({ from: 'char', stk: id }, extra || {}));
+  act.stkAt = act.n || 0;
+  const it = CH_STK[id].item; if (it && chItem(it) && !(S.items['chat:' + it] && S.items['chat:' + it].seen)) chTalkTeach(cid, [it]);
+}
+
+/* ---------- assuntos ---------- */
+function chTalkTopicOk(cid, t) {
+  if (t.intro) return false;
+  if (!chKnows(t.need)) return false;
+  if (t.tod && t.tod !== chTod()) return false;
+  if (t.fact) { const [a, b] = t.fact.split('.'); const v = S.chat.facts[a]; if (!(b ? v && v[b] : v)) return false; }
+  if (t.dyn && !(CH_TALK_DYN[t.dyn] && CH_TALK_DYN[t.dyn](cid))) return false;
+  return true;
+}
+function chTalkNextTopic(cid) {
+  const st = chState(cid), T = TALK[cid], seen = st.topics || {};
+  const list = T.topics.filter(t => chTalkTopicOk(cid, t) && !(st.recentT || []).includes(t.id));
+  const pool = list.length ? list : T.topics.filter(t => chTalkTopicOk(cid, t));
+  if (!pool.length) return null;
+  const today = dayKey();
+  pool.sort((a, b) => ((seen[a.id] || {}).n || 0) - ((seen[b.id] || {}).n || 0) || ((seen[a.id] || {}).last || 0) - ((seen[b.id] || {}).last || 0) || (hashStr(a.id + today) % 13) - (hashStr(b.id + today) % 13));
+  return pool[0];
+}
+/* a 4.0 guardava só "expect: imgood"; a fala do Ren sobre ter dormido tarde tem a sua própria expectativa */
+function chLegacyEx(cid, th) {
+  const last = [...(th || [])].reverse().find(m => m && m.from === 'char');
+  if (cid === 'ren' && last && /ねるの おそかった/.test(last.jp || '')) return 'ren.ex.sleep';
+  return cid + '.state';
+}
+function chTalkAct() { return { free: true, scene: null, node: 'free', topic: null, step: 0, ex: null, miss: 0, n: 0, lull: 0, fbAt: -99, fb: {}, tags: [], ctx: {}, start: Date.now() }; }
+function chTalkEnsure(cid) {
+  const st = chState(cid);
+  if (!st.active || !st.active.free) { st.active = chTalkAct(); return st.active; }
+  const a = st.active;
+  if (a.n == null) Object.assign(a, { topic: null, step: 0, ex: a.ex || null, miss: 0, n: 0, lull: 0, fbAt: -99, fb: {}, tags: a.tags || [], ctx: a.ctx || {} });
+  if (a.expect && !a.ex) { if (a.expect === 'imgood') a.ex = chLegacyEx(cid, chThread(cid)); delete a.expect; }
+  return a;
+}
+function chTalkStartTopic(cid, act, t, opts = {}) {
+  const st = chState(cid);
+  act.topic = t.id; act.step = 0; act.lull = 0; act.miss = 0; act.back = null;
+  st.recentT = (st.recentT || []).filter(x => x !== t.id).concat(t.id).slice(-4);
+  if (opts.pivot && !t.nopivot) chTalkSay(cid, act, chTalkPick(cid, TALK[cid].pivot, 'pivot'), opts);
+  return chTalkStep(cid, act, opts);
+}
+function chTalkStep(cid, act, opts = {}) {
+  const T = TALK[cid], t = T.topics.find(x => x.id === act.topic);
+  const step = t && t.steps[act.step];
+  if (!step) { chTalkEndTopic(cid, act); return { ex: null }; }
+  const o = chTalkSay(cid, act, Object.assign({}, step, { r: step.say, ex: step.ex }), opts);
+  act.ex = o.ex; act.back = step.ex && step.ex.back ? step.ex.back : act.back;
+  if (o.end || step.end) chTalkEndTopic(cid, act);
+  return o;
+}
+function chTalkEndTopic(cid, act) {
+  const st = chState(cid);
+  if (act.topic) {
+    const t = (st.topics || (st.topics = {}));
+    const r = t[act.topic] || (t[act.topic] = { n: 0, last: 0 }); r.n++; r.last = Date.now();
+    const T = TALK[cid], tp = T.topics.find(x => x.id === act.topic);
+    if (tp && tp.intro) { st.met = true; (tp.steps.flatMap(s => [].concat(s.set || []))).forEach(k => { if (!S.chat.facts[k]) S.chat.facts[k] = Date.now(); }); }
+    if (st.pending && st.pending === 'talk:' + act.topic) st.pending = null;
+  }
+  act.topic = null; act.step = 0;
+}
+/* inicia uma conversa (abrir o chat pela primeira vez ou mensagem espontânea) */
+function chTalkOpen(cid, opts = {}) {
+  const st = chState(cid), act = chTalkEnsure(cid), T = TALK[cid];
+  const t = !st.met ? T.topics.find(x => x.intro) : (opts.topic ? T.topics.find(x => x.id === opts.topic) : chTalkNextTopic(cid));
+  if (!t) return null;
+  chTalkStartTopic(cid, act, t, opts);
+  return t;
+}
+
+/* ---------- a resposta do personagem a uma mensagem do aluno ---------- */
+function chTalkReply(cid, text, stk) {
+  const T = TALK[cid], c = chChar(cid), st = chState(cid);
+  const act = chTalkEnsure(cid);
+  const me = chPush(cid, Object.assign({ from: 'me', txt: text || '', kind: 'free', fr: 1 }, stk ? { stk } : {}));
+  S.chat.stats.sent++; act.n = (act.n || 0) + 1;
+  if (stk) { S.chat.stk = S.chat.stk || { fav: [], recent: [] }; const rc = S.chat.stk.recent = (S.chat.stk.recent || []).filter(x => x !== stk); rc.unshift(stk); rc.splice(12); const it = CH_STK[stk] && CH_STK[stk].item; if (it && chItem(it)) { if (!(S.items['chat:' + it] && S.items['chat:' + it].seen)) chTalkTeach(cid, [it]); else recordAnswer('chat:' + it, true, 'chat'); } }
+  const A = chTalkAnalyze(text, stk);
+  const ex = chExGet(cid, act.ex);
+  const res = { kind: 'free', intent: null };
+  if (A.fuzzy) me.heard = { jp: A.fuzzy.jp, ro: A.fuzzy.ro };
+  // pedir para repetir / falar devagar
+  if (A.meta === 'repeat' || A.meta === 'slow') {
+    me.kind = 'meta';
+    const last = [...chThread(cid)].reverse().find(m => m.from === 'char' && m.jp);
+    chTalkSay(cid, act, chTalkPick(cid, [c.repeat.map(l => l.jp + '|' + l.ro + '|' + l.pt)], 'rep'));
+    if (last) chPush(cid, { from: 'char', jp: last.jp, ro: last.ro, pt: last.pt, say: last.say, slow: true, showPt: true });
+    return { kind: 'meta', meta: A.meta };
+  }
+  // português: entende e mostra o jeito japonês, sem tratar como erro
+  if (A.pt) {
+    me.kind = 'pt';
+    chPush(cid, { from: 'sys', kind: 'tip', jp: A.pt.jp || '', ro: A.pt.ro || '', pt: '', why: A.pt.id ? `${c.name} entendeu a ideia! Em japonês, fica assim:` : `${c.name} fala japonês. Tente em romaji ou japonês: o chat aceita os dois.` });
+    if (!A.pt.id) return res;
+  }
+  let chosen = null, key = '', intent = A.intents[0] ? A.intents[0].id : null;
+  const ctx0 = {};
+  if (A.cap.like) ctx0.like = A.cap.like;
+  if (A.capText) ctx0['*'] = A.capText;
+  Object.assign(act.ctx, ctx0);
+  if (A.cap.like) { S.chat.facts.ctx = S.chat.facts.ctx || {}; const v = A.cap.like; S.chat.facts.ctx.likes = { jp: v.jp, ro: v.ro, pt: v.pt }; }
+  const isStandalone = A.intents.length && CH_STANDALONE.includes(A.intents[0].id) && A.intents[0].s >= 2.5;
+  // 1) o que o personagem acabou de perguntar decide o sentido da resposta curta
+  if (ex && (!isStandalone || (ex.on && ex.on[A.intents[0].id]))) {
+    for (const it of A.intents) { for (const k of [it.id].concat(CH_FB[it.id] || [])) { if (ex.on && ex.on[k]) { chosen = ex.on[k]; key = ex.__id + ':' + k; intent = it.id; break; } } if (chosen) break; }
+    if (!chosen && A.intents.some(x => x.id === 'askback' || x.id === 'why') && ex.back) { chosen = [ex.back]; key = ex.__id + ':back'; intent = 'askback'; }
+    if (!chosen && ex.cap && A.capText && (!A.intents.length || A.intents[0].s < 2.5)) { chosen = ex.any; key = ex.__id + ':any'; intent = 'cap'; }
+    if (!chosen && ex.any && A.intents.length && CH_LULL.includes(A.intents[0].id)) { chosen = ex.any; key = ex.__id + ':any'; }
+    if (!chosen && ex.k === 'state') { const m = A.intents.map(x => x.id).find(id => ex.on[id] || (CH_FB[id] || []).some(f => ex.on[f])); if (m) { const f = ex.on[m] ? m : CH_FB[m].find(f => ex.on[f]); chosen = ex.on[f]; key = ex.__id + ':' + f; } }
+  }
+  // 2) intenções reconhecidas sem expectativa: a reação própria do personagem
+  if (!chosen && A.intents.length) {
+    for (const it of A.intents) {
+      if ((it.id === 'askback' || it.id === 'why') && act.back) { chosen = [act.back]; key = 'back'; intent = it.id; break; }
+      for (const k of [it.id].concat(CH_FB[it.id] || [])) { if (T.react[k]) { chosen = T.react[k]; key = cid + '.react.' + k; intent = it.id; break; } }
+      if (chosen) break;
+    }
+  }
+  res.intent = intent;
+  // 3) não entendeu: o personagem pede para repetir (nunca é marcado como erro)
+  if (!chosen) {
+    me.kind = 'unknown'; res.kind = 'unknown';
+    S.chat.stats.unknown++;
+    act.miss++;
+    if (act.miss >= 2) {
+      chTalkSay(cid, act, chTalkPick(cid, T.unknown2, 'u2'));
+      act.miss = 0; act.ex = null;
+      const nt = chTalkNextTopic(cid); if (nt) chTalkStartTopic(cid, act, nt, { pivot: true });
+    } else {
+      chTalkSay(cid, act, chTalkPick(cid, T.unknown, 'u'));
+    }
+    if (!act.noteShown) { act.noteShown = true; chPush(cid, { from: 'sys', kind: 'unk', txt: `${c.name} não entendeu essa mensagem. Isso não quer dizer que você errou: o chat reconhece muitas respostas, mas não todas. Tente escrever de outro jeito, use uma figurinha ou toque na lâmpada para ver ideias.` }); }
+    return res;
+  }
+  act.miss = 0;
+  me.kind = 'free';
+  // reação
+  const variant = chTalkPick(cid, chosen, key);
+  const o = chTalkSay(cid, act, variant);
+  // figurinha espontânea quando combina com o momento (não aleatória: depende da intenção)
+  const STK_FOR = { laugh: 'laugh', praise: 'shy', yay: 'celebrate', congrats: 'celebrate', surprise: 'surprise', good: 'joy', thanks: 'joy', okay: 'approve' };
+  const lastIsStk = (() => { const th = chThread(cid); const m = th[th.length - 1]; return m && m.stk; })();
+  if (!lastIsStk && STK_FOR[intent] && (act.n - (act.stkAt == null ? -9 : act.stkAt)) >= 3 && chRand() < T.style.stk) chTalkSticker(cid, act, STK_FOR[intent]);
+  // XP discreto (uma vez por dia por intenção), sem transformar a conversa em prova
+  if (intent) chGain(2, 'livre:' + cid + ':' + intent);
+  // expressões do chat que o aluno usou entram na revisão
+  chTalkUsedItems(A.c);
+  // correção gentil de formalidade (no máximo uma vez a cada várias mensagens)
+  chTalkRegister(cid, act, A, intent);
+  if (o.end && (intent === 'bye')) { act.ex = null; chTalkEndTopic(cid, act); touchStudy(); st.met = true; return res; }
+  // continuação: nova pergunta da resposta, próximo passo do assunto ou novo assunto
+  if (o.ex) { act.ex = o.ex; act.lull = 0; return res; }
+  act.ex = null;
+  if (o.end) chTalkEndTopic(cid, act);
+  if (act.topic) {
+    const t = T.topics.find(x => x.id === act.topic);
+    if (t && act.step + 1 < t.steps.length) { act.step++; chTalkStep(cid, act); }
+    else chTalkEndTopic(cid, act);
+    return res;
+  }
+  if (CH_LULL.includes(intent) || A.stkEmo) {
+    act.lull++;
+    if (act.lull >= 2) { const nt = chTalkNextTopic(cid); if (nt) chTalkStartTopic(cid, act, nt, { pivot: true }); }
+  }
+  touchStudy();
+  return res;
+}
+const CH_USED = ['sugoi', 'maji', 'zannen', 'donmai', 'omedetou', 'genki', 'maamaa', 'nemui', 'otsukare', 'matane', 'yaa', 'kawaii', 'yatta', 'kakkoii', 'wara', 'hontou', 'iina', 'aruaru', 'onakasuita', 'osusume', 'choushi', 'ureshii', 'hazukashii', 'naruhodo', 'kochirakoso', 'kekkou', 'miteirudake'];
+function chTalkUsedItems(c) {
+  if (!c) return;
+  CH_USED.forEach(k => { const id = 'chat:' + k, it = ITEM[id]; if (!it || !(S.items[id] && S.items[id].seen)) return; const rc = chCanon(it.ro); if (rc && rc.length >= 3 && c.includes(rc)) recordAnswer(id, true, 'chat'); });
+}
+/* formalidade: Aiko-sensei e Takeshi esperam です/ます; com o Ren a forma polida soa distante */
+const CH_CASUAL_FIX = [
+  [/^unn?$/, 'はい。', 'hai.', 'Sim.'], [/^uu+n$/, 'いいえ。', 'iie.', 'Não.'], [/^arigato(u)?(ne)?$/, 'ありがとうございます。', 'arigatou gozaimasu.', 'Muito obrigado(a).'],
+  [/^gomen(ne)?$/, 'すみません。', 'sumimasen.', 'Desculpe.'], [/^ohayo(u)?$/, 'おはようございます。', 'ohayou gozaimasu.', 'Bom dia.'],
+  [/^(jaa?ne|jaana|matane|baibai|jaa?mata)$/, 'しつれいします。', 'shitsurei shimasu.', 'Com licença, já vou.'], [/^genki(dayo|da)?$/, 'げんきです。', 'genki desu.', 'Estou bem.'],
+  [/^sugo(i|ii|e)(ne|na)?$/, 'すごいですね。', 'sugoi desu ne.', 'Que incrível.'], [/^maji(de|ka)?$/, 'ほんとうですか。', 'hontou desu ka.', 'É mesmo?'],
+  [/^(yaa?|yo+|ossu|osu)$/, 'こんにちは。', 'konnichiwa.', 'Olá.'], [/^wakatta$/, 'わかりました。', 'wakarimashita.', 'Entendi.'],
+  [/^iiyo$/, 'いいですよ。', 'ii desu yo.', 'Pode ser.'], [/^nemui$/, 'ねむいです。', 'nemui desu.', 'Estou com sono.'], [/^tsukareta$/, 'つかれました。', 'tsukaremashita.', 'Estou cansado(a).'],
+  [/^onaka(ga)?suita$/, 'おなかが すきました。', 'onaka ga sukimashita.', 'Estou com fome.'], [/^(watashi|boku|ore|atashi)mo$/, 'わたしもです。', 'watashi mo desu.', 'Eu também.']
+];
+const CH_POLITE_FIX = [
+  [/^hai$/, 'うん！', 'un!', 'Uhum!'], [/^(doumo)?arigatougozaimasu$/, 'ありがとう！', 'arigatou!', 'Valeu!'], [/^genkidesu(yo)?$/, 'げんき！', 'genki!', 'Tô bem!'],
+  [/^sumimasen$/, 'ごめん！', 'gomen!', 'Foi mal!'], [/^ohayougozaimasu$/, 'おはよう！', 'ohayou!', 'Bom dia!'], [/^(watashi|boku)modesu$/, 'わたしも！', 'watashi mo!', 'Eu também!'],
+  [/^wakarimashita$/, 'わかった！', 'wakatta!', 'Entendi!'], [/^tsukaremashita$/, 'つかれた〜', 'tsukareta~', 'Cansei~'], [/^sugoidesune$/, 'すごい！', 'sugoi!', 'Incrível!']
+];
+function chTalkRegister(cid, act, A, intent) {
+  if (!A.c || act.n - act.fbAt < 4) return;
+  const want = chWant(cid, act), c = chChar(cid);
+  let fix = null, kind = null;
+  if (want === 'p' && (cid === 'aiko' || cid === 'takeshi')) { fix = CH_CASUAL_FIX.find(([re]) => re.test(A.c)); kind = 'casual'; }
+  else if (want === 'c' && cid === 'ren') { fix = CH_POLITE_FIX.find(([re]) => re.test(A.c)); kind = 'stiff'; }
+  if (!fix || act.fb[kind]) return;
+  act.fb[kind] = 1; act.fbAt = act.n;
+  const txt = kind === 'casual'
+    ? `Entendi o que você quis dizer! Só um detalhe: com ${c.pt.quem}, o natural é a forma educada. A sua frase é casual, como entre amigos.`
+    : `Está certo! Só que com ${c.pt.quem} a forma casual soa mais natural. A forma educada fica um pouco distante entre amigos.`;
+  const res = { kind: 'social', input: A.raw, whyTxt: txt };
+  const model = { jp: fix[1], ro: fix[2], pt: fix[3] };
+  chRecordCorrection(cid, res, model);
+  S.chat.stats.social++;
+  chPush(cid, { from: 'sys', kind: 'fb', res: 'social', soft: true, txt, model });
+}
+
+/* ---------- ideias e sugestões de resposta (sempre opcionais) ---------- */
+function chTalkSugg(cid) {
+  const act = chState(cid).active; if (!act || !act.free) return [];
+  const ex = chExGet(cid, act.ex), want = chWant(cid, act);
+  const parse = s => { const [jp, ro, pt, uses] = String(s).split('|'); return { jp, ro, pt, uses: uses ? uses.split(',').filter(Boolean) : [] }; };
+  let list = ex && ex.sugg ? ex.sugg.map(parse) : [];
+  if (!list.length && ex) {
+    const P = want === 'p';
+    if (ex.k === 'state') list = (P ? ['げんきです。|genki desu.|Estou bem.|chat:genki', 'つかれました。|tsukaremashita.|Estou cansado(a).|c8l3', 'わたしもです。|watashi mo desu.|Eu também.|'] : ['げんき！|genki!|Tô bem!|chat:genki', 'まあまあ。|maa maa.|Mais ou menos.|chat:maamaa', 'わたしも！|watashi mo!|Eu também!|']).map(parse);
+    else if (ex.k === 'yn') list = (P ? ['はい。|hai.|Sim.|', 'いいえ。|iie.|Não.|'] : ['うん！|un!|Sim!|', 'ううん。|uun.|Não.|']).map(parse);
+    else list = (P ? ['そうなんですね。|sou nan desu ne.|Ah, é mesmo?|', 'すごいですね！|sugoi desu ne!|Que incrível!|chat:sugoi'] : ['へえ〜！|hee~!|Nossa!|', 'すごい！|sugoi!|Incrível!|chat:sugoi', 'わらい|wara|(risos)|']).map(parse);
+  }
+  list = list.filter(x => chKnows(x.uses.filter(u => !u.startsWith('chat:'))));
+  if (!ex || list.length < 2) chFreeIdeas(cid).forEach(x => { if (list.length < 4 && !list.some(y => y.jp === x.jp)) list.push({ jp: x.jp, ro: x.ro, pt: x.pt, idea: x.idea }); });
+  return list.slice(0, 4).map(x => ({ jp: chFill(x.jp, chCtx(act), 'jp'), ro: chFill(x.ro, chCtx(act), 'ro'), pt: x.pt, idea: x.idea }));
+}
+
+/* ---------- falas montadas com os dados reais do aluno ---------- */
+const CH_TALK_DYN = {
+  aikoProgress(cid) {
+    const h = [...S.history].reverse().find(x => x.id && ITEM[x.id] && ITEM[x.id].lesson && ITEM[x.id].lesson.cat && ITEM[x.id].lesson.title);
+    if (!h) return null;
+    const L0 = ITEM[h.id].lesson;
+    return { r: ['さいきん、べんきょう がんばって いますね。|saikin, benkyou ganbatte imasu ne.|Você tem se esforçado nos estudos ultimamente.', 'むずかしい ところは ありますか。|muzukashii tokoro wa arimasu ka.|Tem alguma parte difícil?'],
+      tip: { jp: '', ro: '', pt: '', why: 'A Aiko-sensei viu que você estudou a lição “' + L0.title + '”.' } };
+  }
+};
+
+/* ---------- mensagens espontâneas (quando o site é aberto) ---------- */
+function chTalkInitiative(c, st, today) {
+  const act = st.active;
+  if (act && !act.free) return false;
+  if (act && act.free && (act.ex || act.topic) && Date.now() - (st.lastAt || 0) < 6 * 3600 * 1000) return false;
+  const n0 = chThread(c.id).length;
+  const t = chTalkOpen(c.id, { init: true, pivot: false });
+  if (!t) return false;
+  chThread(c.id).slice(n0).forEach(m => { if (m.from === 'char') m.init = true; });
+  st.pending = 'talk:' + t.id; st.unread = 1; st.lastInit = today;
+  return true;
+}
+
+/* ==========================================================
+   NIHONGO CHAT 5.0 — interface (lista de conversas no estilo
+   aplicativo de mensagens, conversa com indicador de digitação,
+   figurinhas e emojis, desafios separados da conversa livre)
    ========================================================== */
 IC.bulb = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg>';
 IC.send = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2-7z"/></svg>';
 IC.back = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
 IC.hist = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>';
 IC.ear = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-6 0"/><path d="M10 10a2 2 0 0 1 4 0"/></svg>';
+IC.smile = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01" stroke-width="3"/></svg>';
+IC.flag = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>';
 
 /* ---------- retratos originais (SVG) ---------- */
 function chPortrait(id, size = 56) {
@@ -13271,64 +14412,66 @@ function chPortrait(id, size = 56) {
 }
 
 /* ---------- estado da tela ---------- */
-const chUI = { sub: 'hub', char: null, histTab: 'msgs', vocabF: 'todas' };
+const chUI = { sub: 'hub', char: null, histTab: 'msgs', vocabF: 'todas', stkTab: null };
 const REG_SHORT = { c: 'casual', n: 'neutro', p: 'educado', k: 'keigo' };
 const VOCAB_LABEL = { nova: 'Nova', vista: 'Apresentada', aprendendo: 'Compreendida', dominada: 'Dominada', revisar: 'Revisar' };
+const CH_EMOJIS = ['😂', '😊', '😆', '😍', '🥰', '😮', '😢', '😭', '🤔', '😅', '😳', '😴', '👍', '👌', '🙏', '👋', '🎉', '✨', '❤️', '💪', '🍜', '🍙', '🎮', '🎤', '🐱', '☕'];
+function chStkState() { const k = S.chat.stk || (S.chat.stk = { fav: [], recent: [] }); if (!Array.isArray(k.fav)) k.fav = []; if (!Array.isArray(k.recent)) k.recent = []; return k; }
+function chLastMsg(cid) { return [...chThread(cid)].reverse().find(m => m.from === 'char' || m.from === 'me'); }
+function chMsgPreview(m) {
+  if (!m) return '';
+  if (m.from === 'me') return 'Você: ' + (m.txt || '') + (m.stk ? (m.txt ? ' ' : '') + '[figurinha]' : '');
+  return m.stk ? '[figurinha] ' + ((CH_STK[m.stk] || {}).jp || '') : (m.jp || '');
+}
+function chWhen(t) { if (!t) return ''; const d = new Date(t), now = new Date(); return d.toDateString() === now.toDateString() ? d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }); }
 
 function chNotifyUnlocks() {
   CHAT_CHARS.forEach(c => { const st = chState(c.id); if (chUnlocked(c) && !st.unlockSeen) { st.unlockSeen = true; if (c.id !== 'ren') toast('話', 'Novo personagem no Nihongo Chat: ' + c.name + '!'); } });
 }
+function chChalScenes(cid) { const c = chChar(cid); return CHAT_SCENES.filter(sc => sc.char === cid && (sc.intro || chSceneOpen(sc))); }
 function viewChat() {
   chNotifyUnlocks();
   chInitiative();
   if (chUI.sub === 'hist' && chUI.char) return viewChatHistory(chUI.char);
   if (chUI.sub === 'vocab') return viewChatVocab();
-  const cards = CHAT_CHARS.map(chCharCard).join('');
-  const chs = CHAT_CHALLENGES.map(ch => { const done = S.chat.challenges[ch.id]; const c = chChar(ch.char); const lk = !chUnlocked(c); return `<div class="row chal ${done ? 'done' : ''} ${lk ? 'locked' : ''}"><span class="chal-ic">${done ? '✓' : lk ? IC.lock.replace('width="22" height="22"', 'width="16" height="16"') : '挑'}</span><span class="grow"><b>${esc(ch.title)}</b><span class="muted" style="display:block;font-size:.85rem">${esc(c.name)} · ${esc(ch.desc)}</span></span><span class="chip ${done ? 'dominada' : 'nova'} tabnum">${done ? 'Feito' : '+' + ch.xp + ' XP'}</span></div>`; }).join('');
+  const rows = CHAT_CHARS.map(chConvRow).join('');
+  const goals = CHAT_CHALLENGES.map(ch => { const done = S.chat.challenges[ch.id]; const c = chChar(ch.char); const lk = !chUnlocked(c); return `<div class="row chal ${done ? 'done' : ''} ${lk ? 'locked' : ''}"><span class="chal-ic">${done ? '✓' : lk ? IC.lock.replace('width="22" height="22"', 'width="16" height="16"') : '挑'}</span><span class="grow"><b>${esc(ch.title)}</b><span class="muted" style="display:block;font-size:.85rem">${esc(c.name)} · ${esc(ch.desc)}</span></span><span class="chip ${done ? 'dominada' : 'nova'} tabnum">${done ? 'Feito' : '+' + ch.xp + ' XP'}</span></div>`; }).join('');
+  const chal = CHAT_CHARS.filter(chUnlocked).map(c => { const list = chChalScenes(c.id), done = list.filter(sc => S.chat.scenes[sc.id] && S.chat.scenes[sc.id].n).length, locked = chLockedScenes(c.id).length; return `<div class="row"><span class="ch-av">${chPortrait(c.id, 36)}</span><span class="grow"><b>${esc(c.name)}</b><span class="muted tabnum" style="display:block;font-size:.83rem">${list.length} disponíve${list.length === 1 ? 'l' : 'is'} · ${done} concluído${done === 1 ? '' : 's'}${locked ? ' · +' + locked + ' com a Academia' : ''}</span></span><button class="btn btn-ghost btn-small" data-act="chatChalOpen" data-id="${c.id}">Ver</button></div>`; }).join('');
   const chatIds = CHAT_PACK.items.map(it => it.id), cnt = { vista: 0, aprendendo: 0, dominada: 0, revisar: 0 };
   chatIds.forEach(id => { const s = itemStatus(id); if (cnt[s] != null) cnt[s]++; });
   const seen = cnt.vista + cnt.aprendendo + cnt.dominada + cnt.revisar;
-  const tier = chTier();
+  const set = S.chat.settings;
   return `<div class="wrap">
     <div class="page-title"><div><span class="jp">にほんごチャット</span><h1>Nihongo Chat</h1></div></div>
-    <p class="muted" style="margin:0 0 10px">Converse com personagens usando o que você aprendeu na Academia. As conversas acompanham o seu progresso real: nível <b>${CH_TIER_NAME[tier]}</b>.</p>
-    <details class="card chat-about"><summary><b>Como o Nihongo Chat funciona</b></summary>
-      <p>Os personagens seguem roteiros com intenções e ramificações: o app reconhece respostas equivalentes (romaji, hiragana, katakana ou kanji), diferencia erros de gramática, vocabulário, escrita e formalidade, e só cobra o que você já estudou. O que ainda é novo aparece marcado como <b>Novo</b>, com significado, romaji e tradução.</p>
-      <p>Não é uma IA generativa e não usa internet: tudo roda no seu aparelho e nada da conversa é enviado. As vozes são as do seu próprio aparelho.</p></details>
-    <section class="section"><div class="section-h"><h2>Personagens</h2><span class="muted tabnum" style="font-size:.85rem">${CHAT_CHARS.filter(chUnlocked).length}/${CHAT_CHARS.length} liberados</span></div>${cards}</section>
-    <section class="section"><div class="section-h"><h2>Desafios de conversa</h2><span class="muted tabnum" style="font-size:.85rem">${Object.keys(S.chat.challenges).length}/${CHAT_CHALLENGES.length}</span></div><div class="card list chal-list">${chs}</div></section>
+    <p class="muted" style="margin:0 0 10px">Converse em japonês com amigos, uma professora e conhecidos. Na conversa livre não tem prova: escreva do seu jeito. Os <b>desafios</b> ficam separados, com objetivo, correção e XP.</p>
+    <section class="section"><div class="section-h"><h2>Conversas</h2><span class="muted tabnum" style="font-size:.85rem">${CHAT_CHARS.filter(chUnlocked).length}/${CHAT_CHARS.length} liberados</span></div><div class="card list conv-list">${rows}</div></section>
+    <section class="section"><div class="section-h"><h2>Desafios</h2></div><p class="muted" style="margin:0 0 8px;font-size:.88rem">Situações guiadas: você sabe o objetivo, recebe correções e ganha XP. Usam só o que você já estudou (o que é novo aparece explicado antes).</p><div class="card list">${chal}</div></section>
+    <section class="section"><div class="section-h"><h2>Metas dos desafios</h2><span class="muted tabnum" style="font-size:.85rem">${Object.keys(S.chat.challenges).length}/${CHAT_CHALLENGES.length}</span></div><div class="card list chal-list">${goals}</div></section>
     <section class="section"><div class="section-h"><h2>Expressões do chat</h2></div>
       <div class="card"><div class="stats-grid" style="margin:0"><div class="kpi"><b class="tabnum">${cnt.vista}</b><span>apresentadas</span></div><div class="kpi"><b class="tabnum">${cnt.aprendendo + cnt.revisar}</b><span>compreendidas</span></div><div class="kpi"><b class="tabnum">${cnt.dominada}</b><span>dominadas</span></div></div>
-      <p class="muted" style="margin:10px 0 0;font-size:.85rem">Apresentada: você viu a expressão. Compreendida: você já a usou certo numa conversa. Dominada: acertou em pelo menos 3 dias diferentes. Elas entram na sua Revisão.</p>
+      <p class="muted" style="margin:10px 0 0;font-size:.85rem">Expressões novas aparecem marcadas na conversa e em algumas figurinhas. Apresentada: você viu. Compreendida: você usou. Dominada: usou certo em 3 dias diferentes. Elas entram na Revisão e no Caderno.</p>
       <div class="row-btns" style="margin-top:10px"><button class="btn btn-ghost btn-small" data-act="chatVocab">Ver expressões</button>${seen ? '<button class="btn btn-primary btn-small" data-act="startReview" data-mode="chat">Revisar expressões</button>' : ''}</div></div></section>
+    <section class="section"><details class="card"><summary><b>Configurações do chat</b></summary>
+      <div class="row" style="margin-top:8px"><span class="grow"><b>Respostas imediatas</b><span class="muted" style="display:block;font-size:.85rem">Desliga o tempo de digitação dos personagens.</span></span><button class="toggle ${set.instant ? 'on' : ''}" role="switch" aria-checked="${!!set.instant}" data-act="chatOptHub" data-k="instant" aria-label="Respostas imediatas"></button></div></details></section>
+    <section class="section"><details class="card chat-about"><summary><b>Como o Nihongo Chat funciona</b></summary>
+      <p>Os personagens respondem com um sistema local de roteiros e reconhecimento de intenções: ele entende respostas curtas pelo contexto (como 「わたしも」), aceita romaji, hiragana, katakana e kanji, tolera pequenos erros de digitação e reconhece reações, figurinhas e emojis.</p>
+      <p>Não é uma IA generativa: ele não entende tudo. Quando não entende, o personagem pede para você repetir, e isso <b>não conta como erro</b>. Tudo roda no seu aparelho, sem internet e sem enviar a conversa para lugar nenhum.</p></details></section>
     <section class="section"><details class="card"><summary><b>Guia de formalidade: pedir água</b></summary>${chCardHTML('agua', true)}</details></section>
   </div>`;
 }
-function chCharCard(c) {
+function chConvRow(c) {
   const st = chState(c.id), un = chUnlocked(c);
-  let status;
   if (!un) {
     const p = chUnlockProgress(c);
-    status = `<div class="ch-lock">${IC.lock.replace('width="22" height="22"', 'width="16" height="16"')}<span>${esc(c.unlock.txt)}</span></div>${p ? `<div class="bar light" style="margin-top:6px"><i style="width:${Math.round(p.done / Math.max(1, p.tot) * 100)}%"></i></div><span class="muted tabnum" style="font-size:.8rem">${p.done}/${p.tot} etapas</span>` : ''}`;
-  } else if (st.pending) {
-    const last = [...chThread(c.id)].reverse().find(m => m.from === 'char');
-    status = `<div class="ch-new"><span class="ch-dot"></span><span><b>Nova mensagem:</b> <span class="jp">${esc(last ? last.jp : '')}</span></span></div>`;
-  } else if (st.active) {
-    status = `<div class="ch-state">Conversa em andamento: <b>${esc(st.active.free ? 'Conversa livre' : (CH_SCENE[st.active.scene] || {}).title || '')}</b></div>`;
-  } else {
-    const open = chScenesFor(c.id), done = open.filter(sc => S.chat.scenes[sc.id] && S.chat.scenes[sc.id].n).length;
-    status = `<div class="ch-state tabnum">${st.met ? open.length + ' assuntos disponíveis · ' + done + ' já conversados' : 'Vocês ainda não se conhecem'}</div>`;
+    return `<div class="conv locked" id="ch-${c.id}"><span class="ch-av">${chPortrait(c.id, 50)}</span><span class="grow conv-main"><span class="conv-top"><b>${esc(c.name)}</b><span class="chip nova">${esc(c.rel)}</span></span><span class="ch-lock">${IC.lock.replace('width="22" height="22"', 'width="14" height="14"')}<span>${esc(c.unlock.txt)}</span></span>${p ? `<span class="bar light" style="margin-top:4px"><i style="width:${Math.round(p.done / Math.max(1, p.tot) * 100)}%"></i></span>` : ''}</span></div>`;
   }
-  const want = typeof c.reg === 'function' ? c.reg() : c.reg;
-  return `<article class="card ch-card ${un ? '' : 'locked'}" id="ch-${c.id}">
-    <div class="ch-top"><div class="ch-av">${chPortrait(c.id, 60)}${un && st.unread ? '<span class="ch-badge" aria-label="mensagem nova">1</span>' : ''}</div>
-      <div class="grow" style="min-width:0"><div class="ch-name"><span class="jp">${esc(c.jp)}</span> <b>${esc(c.ro)}</b></div>
-      <div class="ch-tags"><span class="chip aprendendo">${esc(c.rel)}</span><span class="chip nova">fala ${REG_SHORT[want]}</span></div></div></div>
-    <p class="ch-desc">${esc(c.desc)}</p>
-    <p class="muted ch-meta">Jeito de falar: ${esc(c.speech)}<br>Gosta de: ${esc(c.likes.join(', '))}</p>
-    ${status}
-    <div class="row-btns" style="margin-top:10px"><button class="btn ${!un ? 'btn-ghost' : st.pending ? 'btn-gold' : 'btn-primary'} btn-small" data-act="chatOpen" data-id="${c.id}" ${un ? '' : 'aria-disabled="true"'}>${!un ? 'Bloqueado' : st.pending ? 'Responder' : st.active ? 'Continuar' : st.met ? 'Conversar' : 'Conhecer'}</button>${un && chThread(c.id).length ? `<button class="btn btn-ghost btn-small" data-act="chatHistOpen" data-id="${c.id}">Histórico</button>` : ''}${st.pending ? `<button class="btn btn-ghost btn-small" data-act="chatDismiss" data-id="${c.id}">Agora não</button>` : ''}</div>
-  </article>`;
+  const last = chLastMsg(c.id);
+  const sub = last ? chMsgPreview(last) : (st.met ? '' : 'Vocês ainda não se conhecem. Diga oi!');
+  const busy = st.active && !st.active.free ? `<span class="chip k-new conv-chal">挑 desafio</span>` : '';
+  return `<button class="conv" id="ch-${c.id}" data-act="chatOpen" data-id="${c.id}"><span class="ch-av">${chPortrait(c.id, 50)}${st.unread ? '<span class="ch-badge" aria-label="mensagem nova">1</span>' : ''}</span>
+    <span class="grow conv-main"><span class="conv-top"><b><span class="jp">${esc(c.jp)}</span> ${esc(c.ro)}</b><span class="conv-time muted tabnum">${esc(chWhen(last && last.t))}</span></span>
+    <span class="conv-sub ${st.unread ? 'unread' : ''}">${busy}<span class="${last && last.from === 'char' && !last.stk ? 'jp' : ''}">${esc(sub)}</span></span>
+    <span class="conv-rel muted">${esc(c.rel)}</span></span></button>`;
 }
 function chCardHTML(id, bare) {
   const cd = CHAT_CARDS[id]; if (!cd) return '';
@@ -13364,11 +14507,13 @@ function viewChatHistory(cid) {
 function chPlayBtn(text, cid, i, label) { return AUDIO.supported ? `<button class="cb-play" data-act="chatPlay" data-c="${cid}" data-i="${i}" aria-label="${label || 'Ouvir'}">${IC.sound}</button>` : ''; }
 function chModelHTML(m, cid) {
   if (!m) return '';
-  return `<div class="cm-model"><span class="jp cm-jp">${esc(m.jp)}</span><span class="ro">${esc(m.ro)}</span><span>${esc(m.pt)}</span>${m.reg ? `<span class="chip nova" style="align-self:flex-start">${esc(REG_SHORT[m.reg] || '')}</span>` : ''}<div class="cm-actions">${AUDIO.supported ? `<button class="link-btn" data-act="speak" data-text="${esc(m.jp)}">Ouvir</button>` : ''}${cid ? `<button class="link-btn" data-act="chatUse" data-text="${esc(m.jp)}">Usar esta frase</button>` : ''}</div></div>`;
+  return `<div class="cm-model"><span class="jp cm-jp">${esc(m.jp)}</span>${m.ro ? `<span class="ro">${esc(m.ro)}</span>` : ''}${m.pt ? `<span>${esc(m.pt)}</span>` : ''}${m.reg ? `<span class="chip nova" style="align-self:flex-start">${esc(REG_SHORT[m.reg] || '')}</span>` : ''}<div class="cm-actions">${AUDIO.supported ? `<button class="link-btn" data-act="speak" data-text="${esc(m.jp)}">Ouvir</button>` : ''}${cid ? `<button class="link-btn" data-act="chatUse" data-text="${esc(m.jp)}">Usar esta frase</button>` : ''}</div></div>`;
 }
+function chStkBtn(id, size) { const s = CH_STK[id]; if (!s) return ''; return `<button class="stk-b" data-act="stkInfo" data-id="${id}" aria-label="Figurinha: ${esc(s.jp)}, ${esc(s.pt)}">${chStkSVG(id, size || 112)}</button>`; }
 function chMsgHTML(m, i, cid, ro) {
   const set = S.chat.settings, c = chChar(cid);
   if (m.from === 'char') {
+    if (m.stk) return `<div class="cm char stk${m.init ? ' init' : ''}"><div class="cm-av">${chPortrait(cid, 30)}</div>${chStkBtn(m.stk)}</div>`;
     const hide = set.listen && !m.rv && !ro;
     const inner = hide
       ? `<div class="cb-listen"><span class="muted" style="font-size:.88rem">Ouça e tente entender antes de ler.</span><div class="cm-actions"><button class="btn btn-small btn-primary" data-act="chatPlay" data-c="${cid}" data-i="${i}">${IC.sound} Ouvir</button><button class="btn btn-small btn-ghost" data-act="chatReveal" data-i="${i}">Mostrar texto</button></div></div>`
@@ -13376,59 +14521,70 @@ function chMsgHTML(m, i, cid, ro) {
     return `<div class="cm char${m.init ? ' init' : ''}"><div class="cm-av">${chPortrait(cid, 30)}</div><div class="cb">${inner}${hide ? '' : chPlayBtn(m.jp, cid, i, 'Ouvir a fala de ' + c.name)}</div></div>`;
   }
   if (m.from === 'me') {
-    const k = KIND_INFO[m.kind];
-    return `<div class="cm me"><div class="cb"><span class="cb-me">${esc(m.txt)}</span>${k && m.kind !== 'free' ? `<span class="cm-kind k-${m.kind}">${k.ic} ${esc(k.t)}${m.xp ? ` · +${m.xp} XP` : ''}</span>` : m.kind === 'meta' ? '<span class="cm-kind k-meta">Pedido de ajuda</span>' : ''}</div></div>`;
+    const k = !m.fr && KIND_INFO[m.kind];
+    const lab = k && !['free', 'meta', 'pt'].includes(m.kind) ? `<span class="cm-kind k-${m.kind}">${k.ic} ${esc(m.kind === 'unknown' ? 'Não entendi (não conta como erro)' : k.t)}${m.xp ? ` · +${m.xp} XP` : ''}</span>` : m.kind === 'meta' ? '<span class="cm-kind k-meta">Pedido de ajuda</span>' : '';
+    const heard = m.heard ? `<span class="cm-heard">entendi: ${esc(m.heard.jp)} (${esc(m.heard.ro)})</span>` : '';
+    return `<div class="cm me"><div class="me-col">${m.txt ? `<div class="cb"><span class="cb-me">${esc(m.txt)}</span>${lab}${heard}</div>` : ''}${m.stk ? chStkBtn(m.stk, 100) : ''}</div></div>`;
   }
   // mensagens do sistema
-  if (m.kind === 'topic') return `<div class="cm-topic"><span>Assunto: ${esc(m.txt)}</span></div>`;
+  if (m.kind === 'topic') return `<div class="cm-topic"><span>${m.txt === 'Conversa livre' ? 'Conversa livre' : 'Desafio: ' + esc(m.txt)}</span></div>`;
   if (m.kind === 'note') return `<div class="cm-topic"><span>${esc(m.txt)}</span></div>`;
-  if (m.kind === 'done') return `<div class="cm-done">✓ Conversa concluída: <b>${esc(m.txt)}</b>${m.xp ? ` · +${m.xp} XP` : ''}</div>`;
-  if (m.kind === 'challenge') return `<div class="cm-done chal">挑 Desafio concluído: <b>${esc(m.txt)}</b> · +${m.xp} XP</div>`;
+  if (m.kind === 'done') return `<div class="cm-done">✓ Desafio concluído: <b>${esc(m.txt)}</b>${m.xp ? ` · +${m.xp} XP` : ''}</div>`;
+  if (m.kind === 'challenge') return `<div class="cm-done chal">挑 Meta alcançada: <b>${esc(m.txt)}</b> · +${m.xp} XP</div>`;
   if (m.kind === 'card') return `<div class="cm-card">${chCardHTML(m.card)}</div>`;
   if (m.kind === 'new') {
-    return `<div class="cm-card new">${(m.items || []).map(id => { const it = ITEM[id]; if (!it) return ''; const fresh = (m.fresh || []).includes(id); return `<div class="cm-word"><span class="chip ${fresh ? 'k-new' : 'nova'}">${fresh ? 'Novo' : 'Revisão'}</span><span class="jp cm-jp">${esc(it.jp)}</span><span class="ro">${esc(it.ro)}</span><span>${esc(it.pt)}</span>${fresh && it.note ? `<span class="muted" style="font-size:.85rem">${esc(it.note)}</span>` : ''}${AUDIO.supported ? `<button class="link-btn" style="align-self:flex-start;padding:0" data-act="speak" data-text="${esc(it.say || it.jp)}">Ouvir</button>` : ''}</div>`; }).join('')}</div>`;
+    return `<div class="cm-card new">${(m.items || []).map(id => { const it = ITEM[id]; if (!it) return ''; const fresh = (m.fresh || []).includes(id); return `<div class="cm-word"><span class="chip ${fresh ? 'k-new' : 'nova'}">${fresh ? 'Expressão nova' : 'Revisão'}</span><span class="jp cm-jp">${esc(it.jp)}</span><span class="ro">${esc(it.ro)}</span><span>${esc(it.pt)}</span>${fresh && it.note ? `<span class="muted" style="font-size:.85rem">${esc(it.note)}</span>` : ''}${AUDIO.supported ? `<button class="link-btn" style="align-self:flex-start;padding:0" data-act="speak" data-text="${esc(it.say || it.jp)}">Ouvir</button>` : ''}</div>`; }).join('')}</div>`;
   }
+  if (m.kind === 'tip') return `<div class="cm-card tipc"><span class="eyebrow">Nota</span>${m.why ? `<span style="font-size:.9rem">${esc(m.why)}</span>` : ''}${m.jp ? `<div class="cm-model"><span class="jp cm-jp">${esc(m.jp)}</span>${m.ro ? `<span class="ro">${esc(m.ro)}</span>` : ''}${m.pt ? `<span>${esc(m.pt)}</span>` : ''}${AUDIO.supported ? `<div class="cm-actions"><button class="link-btn" data-act="speak" data-text="${esc(m.jp.split('→').pop().trim())}">Ouvir</button></div>` : ''}</div>` : ''}</div>`;
+  if (m.kind === 'unk') return `<div class="cm-card unk"><span style="font-size:.88rem">${esc(m.txt)}</span>${m.model ? chModelHTML(m.model, ro ? null : cid) : ''}</div>`;
   if (m.kind === 'teach') return `<div class="cm-card teach"><span class="chip k-new">Novo</span><span style="font-size:.9rem">${esc(m.why)}</span>${chModelHTML(m.model, ro ? null : cid)}</div>`;
   if (m.kind === 'hint') return `<div class="cm-card hint"><span class="eyebrow">${m.lv ? 'Dica ' + m.lv + '/5 · ' + esc(HINT_LV[m.lv]) : 'Ideias'}</span>${m.txt ? `<span style="font-size:.92rem">${esc(m.txt)}</span>` : ''}${m.model ? chModelHTML(m.model, ro ? null : cid) : ''}${(m.models || []).map(x => chModelHTML(x, ro ? null : cid)).join('')}${m.ideas ? `<div class="cm-ideas">${m.ideas.map(x => `<button class="idea" data-act="chatUse" data-text="${esc(x.jp)}"><b>${esc(x.idea || x.pt)}</b><span class="jp">${esc(x.jp)}</span><span class="ro">${esc(x.ro)}</span></button>`).join('')}</div>` : ''}</div>`;
   if (m.kind === 'fb') {
     const k = KIND_INFO[m.res] || KIND_INFO.unknown;
-    return `<div class="cm-card fb fb-${m.res}"><span class="cm-fb-t">${k.ic} ${esc(k.t)}</span>${m.txt ? `<span style="font-size:.92rem">${esc(m.txt)}</span>` : ''}${m.model ? `<span class="eyebrow" style="margin-top:4px">${m.res === 'social' ? 'Mais natural aqui' : 'Forma correta'}</span>${chModelHTML(m.model, ro || !m.retry ? null : cid)}` : ''}${m.alts && m.alts.length ? `<details><summary class="muted" style="font-size:.85rem">Outras formas naturais</summary>${m.alts.map(a => chModelHTML(a)).join('')}</details>` : ''}${m.retry && !ro ? '<span class="muted" style="font-size:.85rem">Tente de novo: a conversa continua quando você responder.</span>' : ''}</div>`;
+    if (m.soft) return `<div class="cm-card fb fb-social soft"><span class="cm-fb-t">敬 Dica de naturalidade</span><span style="font-size:.9rem">${esc(m.txt)}</span>${m.model ? `<span class="eyebrow" style="margin-top:2px">Mais natural aqui</span>${chModelHTML(m.model, null)}` : ''}</div>`;
+    return `<div class="cm-card fb fb-${m.res}"><span class="cm-fb-t">${k.ic} ${esc(k.t)}</span>${m.txt ? `<span style="font-size:.92rem">${esc(m.txt)}</span>` : ''}${m.model ? `<span class="eyebrow" style="margin-top:4px">${m.res === 'social' ? 'Mais natural aqui' : 'Forma correta'}</span>${chModelHTML(m.model, ro || !m.retry ? null : cid)}` : ''}${m.alts && m.alts.length ? `<details><summary class="muted" style="font-size:.85rem">Outras formas naturais</summary>${m.alts.map(a => chModelHTML(a)).join('')}</details>` : ''}${m.retry && !ro ? '<span class="muted" style="font-size:.85rem">Tente de novo: o desafio continua quando você responder.</span>' : ''}</div>`;
   }
   return '';
 }
 
 /* ---------- painel da conversa ---------- */
+function chSpeed() { if (typeof window !== 'undefined' && window.__NQ_FAST) return 0; return S.chat.settings.instant ? 0 : 1; }
 function chatOpen(cid) {
   const c = chChar(cid); if (!c) return;
   if (!chUnlocked(c)) { toast('鍵', c.unlock.txt); return; }
   stopAudio();
-  CHV = { id: cid, gain: 0, busy: false, lastPlayed: chThread(cid).length };
   const st = chState(cid);
-  if (!st.met && !st.active) chStartScene(cid, c.intro);
+  const before = chThread(cid).length;
+  CHV = { id: cid, gain: 0, busy: false, shown: before, timer: null, typing: false, playFrom: before, stk: false };
+  if (!st.met && !(st.active && st.active.free && st.active.topic)) { if (!st.active || st.active.free) chTalkOpen(cid); }
+  else if (!st.active) chTalkEnsure(cid);
   st.unread = 0;
+  if (st.pending && String(st.pending).startsWith('talk:')) st.pending = null;
   save();
   $('#player').hidden = false; document.body.style.overflow = 'hidden';
   $('#player').innerHTML = chPaneHTML(cid);
   chRenderLog(true); chRenderExtra();
   updateTabDots();
-  if (S.chat.settings.listen) chAutoPlay(cid, Math.max(0, chThread(cid).length - 3));
+  chFlow();
 }
+function chHeadSub(cid) { const c = chChar(cid); if (CHV && CHV.typing) return `${c.name} está digitando…`; const act = chState(cid).active; return act && !act.free ? 'Desafio em andamento' : c.rel + ' · fala ' + REG_SHORT[chWant(cid, act)]; }
 function chPaneHTML(cid) {
   const c = chChar(cid), set = S.chat.settings;
-  const want = chWant(cid, chState(cid).active);
   const tg = (k, t, ic) => `<button class="tg ${set[k] ? 'on' : ''}" data-act="chatOpt" data-k="${k}" aria-pressed="${!!set[k]}">${ic || ''}${t}</button>`;
   return `<div class="chat-pane" data-char="${cid}">
-    <header class="chat-head"><button class="icon-btn" data-act="chatClose" aria-label="Voltar para a central">${IC.back}</button>
-      <div class="ch-av">${chPortrait(cid, 40)}</div>
-      <div class="grow" style="min-width:0"><b class="ch-hname"><span class="jp">${esc(c.jp)}</span> ${esc(c.ro)}</b><span class="ch-hsub">${esc(c.rel)} · fala ${REG_SHORT[want]}</span></div>
+    <header class="chat-head"><button class="icon-btn" data-act="chatClose" aria-label="Voltar para a lista de conversas">${IC.back}</button>
+      <button class="ch-av ch-prof" data-act="chatProfile" aria-label="Perfil de ${esc(c.name)}">${chPortrait(cid, 40)}</button>
+      <div class="grow" style="min-width:0"><b class="ch-hname"><span class="jp">${esc(c.jp)}</span> ${esc(c.ro)}</b><span class="ch-hsub" id="chHsub" aria-live="polite">${esc(chHeadSub(cid))}</span></div>
+      <button class="icon-btn" data-act="chatChal" aria-label="Desafios com ${esc(c.name)}" title="Desafios">${IC.flag}</button>
       <button class="icon-btn" data-act="chatHistFromPane" aria-label="Histórico">${IC.hist}</button></header>
     <div class="chat-tools" role="group" aria-label="Opções de exibição">${tg('ro', 'Romaji')}${tg('pt', 'Tradução')}${tg('listen', 'Ouvir primeiro', IC.ear)}${tg('sugg', 'Sugestões')}</div>
     <div class="chat-log" id="chatLog" aria-live="polite"></div>
-    <div class="chat-foot"><div id="chatExtra"></div>
+    <div class="chat-foot"><div id="chatExtra"></div><div id="chatStk"></div>
       <div class="chat-input-row">
-        <button class="icon-btn" data-act="chatHint" aria-label="Pedir dica">${IC.bulb}</button>
-        <input id="chatIn" type="text" enterkeyhint="send" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="120" placeholder="Responda em romaji ou japonês" aria-label="Sua resposta">
-        ${AUDIO.supported ? `<button class="icon-btn" data-act="chatSpeakMine" aria-label="Ouvir a minha frase">${IC.sound}</button>` : ''}
+        <button class="icon-btn" data-act="chatStkToggle" aria-label="Figurinhas e emojis" aria-expanded="false" id="stkBtn">${IC.smile}</button>
+        <button class="icon-btn" data-act="chatHint" aria-label="Ideias e dicas">${IC.bulb}</button>
+        <input id="chatIn" type="text" enterkeyhint="send" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="120" placeholder="Mensagem" aria-label="Sua mensagem">
+        ${AUDIO.supported ? `<button class="icon-btn hide-xs" data-act="chatSpeakMine" aria-label="Ouvir a minha frase">${IC.sound}</button>` : ''}
         <button class="icon-btn send" data-act="chatSend" aria-label="Enviar">${IC.send}</button>
       </div></div></div>`;
 }
@@ -13436,28 +14592,118 @@ function chRenderLog(jump) {
   if (!CHV) return;
   const box = $('#chatLog'); if (!box) return;
   const th = chThread(CHV.id);
-  const start = Math.max(0, th.length - 60);
-  box.innerHTML = (start ? `<p class="muted" style="text-align:center;font-size:.8rem">Mensagens anteriores no Histórico.</p>` : '') + th.slice(start).map((m, k) => chMsgHTML(m, start + k, CHV.id)).join('');
+  const end = Math.min(th.length, CHV.shown == null ? th.length : CHV.shown);
+  const start = Math.max(0, end - 60);
+  const c = chChar(CHV.id);
+  box.innerHTML = (start ? `<p class="muted" style="text-align:center;font-size:.8rem">Mensagens anteriores no Histórico.</p>` : '') + th.slice(start, end).map((m, k) => chMsgHTML(m, start + k, CHV.id)).join('')
+    + (CHV.typing ? `<div class="cm char typing" aria-label="${esc(c.name)} está digitando"><div class="cm-av">${chPortrait(CHV.id, 30)}</div><div class="cb tp"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="tp-t">${esc(c.name)} está digitando…</span></div></div>` : '');
   if (jump !== false) requestAnimationFrame(() => { box.scrollTop = box.scrollHeight; });
+  const hs = $('#chHsub'); if (hs) hs.textContent = chHeadSub(CHV.id);
+}
+/* revela as mensagens do personagem uma a uma, com "digitando…" e pausas naturais */
+function chTypingDelay(cid, m, first) {
+  const T = (TALK[cid] || TALK.ren).style;
+  let d = m.stk ? 420 + chRand() * 380 : T.base + [...(m.jp || '')].length * T.per + chRand() * T.jit;
+  d = Math.min(Math.max(d, 280), T.max);
+  if (first) d += 220 + chRand() * 260;
+  return d * chSpeed();
+}
+function chFlow() {
+  if (!CHV) return;
+  clearTimeout(CHV.timer);
+  const th = chThread(CHV.id), cid = CHV.id;
+  if (CHV.shown >= th.length) {
+    if (CHV.typing) { CHV.typing = false; chRenderLog(); }
+    chRenderExtra();
+    if (S.chat.settings.listen && CHV.playFrom < th.length) { const f = CHV.playFrom; CHV.playFrom = th.length; chAutoPlay(cid, f); }
+    return;
+  }
+  const m = th[CHV.shown];
+  if (m.from !== 'char' || !chSpeed()) {
+    // sistema e mensagens do aluno aparecem logo; com respostas imediatas, tudo aparece de uma vez
+    while (CHV.shown < th.length && (th[CHV.shown].from !== 'char' || !chSpeed())) CHV.shown++;
+    chRenderLog();
+    return chFlow();
+  }
+  const prev = th[CHV.shown - 1];
+  const first = !prev || prev.from === 'me';
+  CHV.typing = true; chRenderLog();
+  const T = (TALK[cid] || TALK.ren).style;
+  CHV.timer = setTimeout(() => {
+    if (!CHV || CHV.id !== cid) return;
+    CHV.typing = false; CHV.shown++;
+    chRenderLog();
+    const nx = th[CHV.shown];
+    CHV.timer = setTimeout(chFlow, nx && nx.from === 'char' ? T.gap * (0.6 + chRand() * 0.8) * chSpeed() : 0);
+  }, chTypingDelay(cid, m, first));
+}
+/* mostra na hora tudo o que ainda estava "sendo digitado" (ex.: o aluno mandou outra mensagem) */
+function chFlush() {
+  if (!CHV) return;
+  clearTimeout(CHV.timer);
+  const n = chThread(CHV.id).length;
+  if (CHV.shown < n || CHV.typing) { CHV.shown = n; CHV.typing = false; chRenderLog(); }
 }
 function chRenderExtra() {
   if (!CHV) return;
   const box = $('#chatExtra'); if (!box) return;
   const cid = CHV.id, st = chState(cid), act = st.active;
   let h = '';
-  if (st.pending) h += `<div class="ch-pend"><span class="muted" style="font-size:.85rem">${esc(chChar(cid).name)} puxou assunto. Responda quando quiser.</span><button class="link-btn" data-act="chatDismiss" data-id="${cid}">Agora não</button></div>`;
-  if (!act) {
-    const open = chScenesFor(cid), locked = chLockedScenes(cid).length;
-    h += `<div class="ch-topics"><span class="eyebrow">Escolha um assunto ou escreva para conversar livremente</span><div class="ch-chips">${open.map(sc => { const d = S.chat.scenes[sc.id]; return `<button class="ch-chip" data-act="chatScene" data-id="${sc.id}">${esc(sc.title)}${d && d.n ? '' : ' <span class="chip k-new">novo</span>'}</button>`; }).join('')}<button class="ch-chip free" data-act="chatFree">Conversa livre</button></div>${locked ? `<span class="muted" style="font-size:.8rem">+${locked} assunto${locked > 1 ? 's' : ''} libera${locked > 1 ? 'm' : ''} conforme você avança na Academia.</span>` : ''}</div>`;
-  } else {
-    const sc = act.scene ? CH_SCENE[act.scene] : null;
-    h += `<div class="ch-cur"><span class="muted" style="font-size:.8rem">${sc ? 'Assunto: ' + esc(sc.title) : 'Conversa livre'}</span><button class="link-btn" data-act="chatEnd">${act.free ? 'Encerrar' : 'Trocar de assunto'}</button></div>`;
-    if (S.chat.settings.sugg) { const sg = chSuggestions(cid); if (sg.length) h += `<div class="ch-sugg">${sg.map(x => `<button class="sugg" data-act="chatUse" data-text="${esc(x.jp)}"><span class="jp">${esc(x.jp)}</span><span class="ro">${esc(x.ro)}</span></button>`).join('')}</div>`; }
+  if (act && !act.free) {
+    const sc = CH_SCENE[act.scene] || {};
+    h += `<div class="ch-chal"><div class="grow" style="min-width:0"><span class="chip k-new">挑 Desafio</span> <b>${esc(sc.title || '')}</b>${sc.desc ? `<span class="muted ch-chal-d">${esc(sc.desc)}</span>` : ''}</div><button class="link-btn" data-act="chatEnd">Sair</button></div>`;
   }
+  if (S.chat.settings.sugg && act && !CHV.typing) { const sg = chSuggestions(cid); if (sg.length) h += `<div class="ch-sugg">${sg.map(x => `<button class="sugg" data-act="chatUse" data-text="${esc(x.jp)}"><span class="jp">${esc(x.jp)}</span><span class="ro">${esc(x.ro)}</span></button>`).join('')}</div>`; }
   box.innerHTML = h;
+  const sb = $('#stkBtn'); if (sb) { sb.toggleAttribute('disabled', !!(act && !act.free)); sb.title = act && !act.free ? 'Figurinhas ficam na conversa livre' : 'Figurinhas e emojis'; }
+  if (act && !act.free && CHV.stk) { CHV.stk = false; chRenderStk(); }
+}
+/* ---------- área de figurinhas e emojis ---------- */
+function chRenderStk() {
+  const box = $('#chatStk'); if (!box || !CHV) return;
+  const b = $('#stkBtn'); if (b) b.setAttribute('aria-expanded', CHV.stk ? 'true' : 'false');
+  if (!CHV.stk) { box.innerHTML = ''; return; }
+  const k = chStkState(), sets = chStkSetsFor();
+  const tabs = [['fav', '★'], ['rec', 'Recentes']].concat(sets.map(s => [s, chStkSetName(s)])).concat([['emoji', '😊']]);
+  let tab = chUI.stkTab || (k.fav.length ? 'fav' : 'hikari');
+  if (!tabs.some(t => t[0] === tab)) tab = 'hikari';
+  const ids = tab === 'fav' ? k.fav.filter(id => CH_STK[id]) : tab === 'rec' ? k.recent.filter(id => CH_STK[id]) : tab === 'emoji' ? [] : Object.keys(CH_STK).filter(id => CH_STK[id].set === tab);
+  const grid = tab === 'emoji'
+    ? `<div class="emo-grid">${CH_EMOJIS.map(e => `<button class="emo" data-act="chatEmoji" data-e="${e}" aria-label="Emoji ${e}">${e}</button>`).join('')}</div>`
+    : ids.length ? `<div class="stk-grid">${ids.map(id => { const s = CH_STK[id], fav = k.fav.includes(id); return `<div class="stk-cell"><button class="stk-pick" data-act="chatStkSend" data-id="${id}" aria-label="Enviar figurinha ${esc(s.jp)} (${esc(s.pt)})">${chStkSVG(id, 64)}</button><button class="stk-fav ${fav ? 'on' : ''}" data-act="stkFav" data-id="${id}" aria-pressed="${fav}" aria-label="${fav ? 'Remover dos favoritos' : 'Favoritar'}">${fav ? '★' : '☆'}</button></div>`; }).join('')}</div>`
+      : `<p class="muted" style="margin:6px 0;font-size:.85rem">${tab === 'fav' ? 'Toque na ☆ de uma figurinha para guardar aqui.' : 'As figurinhas que você enviar aparecem aqui.'}</p>`;
+  box.innerHTML = `<div class="stk-panel"><div class="stk-tabs" role="tablist">${tabs.map(([id, t]) => `<button class="stk-tab ${tab === id ? 'on' : ''}" role="tab" aria-selected="${tab === id}" data-act="chatStkTab" data-t="${id}">${esc(t)}</button>`).join('')}</div>${grid}<p class="muted stk-help">Toque para enviar. Se houver texto no campo, a figurinha vai junto com ele.</p></div>`;
+}
+function chStkInfo(id) {
+  const s = CH_STK[id]; if (!s) return;
+  const fav = chStkState().fav.includes(id), it = s.item && chItem(s.item);
+  openModal(`<div class="stack" style="align-items:center;text-align:center">${chStkSVG(id, 150)}
+    <span class="eyebrow">${esc(CH_EMO_PT[s.emo] || '')} · ${esc(chStkSetName(s.set))}</span>
+    <span class="jp" style="font-size:1.4rem;font-weight:800">${esc(s.jp)}</span><span class="ro">${esc(s.ro)}</span><span>${esc(s.pt)}</span>
+    ${it ? `<p class="muted" style="margin:0;font-size:.88rem">Expressão do Caderno: <b class="jp">${esc(it.jp)}</b> = ${esc(it.pt)}. ${esc(it.note || '')}</p>` : ''}
+    <div class="row-btns" style="justify-content:center">${AUDIO.supported ? `<button class="btn btn-ghost btn-small" data-act="speak" data-text="${esc(s.jp === '笑' || s.jp === '笑笑' ? 'わら' : s.jp)}">${IC.sound} Ouvir</button>` : ''}<button class="btn btn-ghost btn-small" data-act="stkFav" data-id="${id}" data-modal="1">${fav ? '★ Favorita' : '☆ Favoritar'}</button></div>
+    <button class="btn btn-primary btn-block" data-act="closeModal">Fechar</button></div>`, 'center');
+}
+function chChalSheet(cid) {
+  const c = chChar(cid), list = chChalScenes(cid), locked = chLockedScenes(cid);
+  const act = chState(cid).active;
+  const row = sc => { const d = S.chat.scenes[sc.id]; const goals = CHAT_CHALLENGES.filter(g => g.char === cid && (g.scene === sc.id || (g.scenesDone || []).includes(sc.id))); return `<div class="row" style="align-items:flex-start"><span class="grow"><b>${esc(sc.intro ? 'Apresentação: ' + sc.title : sc.title)}</b><span class="muted" style="display:block;font-size:.85rem">${esc(sc.desc || 'Apresente-se de acordo com a relação com ' + c.name + '.')}</span>${goals.map(g => `<span class="chip ${S.chat.challenges[g.id] ? 'dominada' : 'nova'}" style="margin-top:4px">${S.chat.challenges[g.id] ? '✓ ' : '挑 '}${esc(g.title)}</span>`).join('')}</span><span style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${d && d.n ? `<span class="chip dominada tabnum">feito ${d.n}×</span>` : '<span class="chip k-new">novo</span>'}<button class="btn btn-primary btn-small" data-act="chatScene" data-id="${sc.id}">${act && act.scene === sc.id ? 'Continuar' : 'Começar'}</button></span></div>`; };
+  openModal(`<div class="stack"><div style="display:flex;gap:10px;align-items:center">${chPortrait(cid, 44)}<div><span class="eyebrow">Desafios com ${esc(c.name)}</span><h2 style="margin:0">Situações guiadas</h2></div></div>
+    <p class="muted" style="margin:0;font-size:.9rem">Cada desafio tem um objetivo claro, respostas esperadas, correção e XP. A conversa livre continua do mesmo jeito depois que você sai.</p>
+    <div class="card list" style="max-height:52vh;overflow:auto">${list.map(row).join('')}</div>
+    ${locked.length ? `<p class="muted" style="margin:0;font-size:.85rem">+${locked.length} desafio${locked.length > 1 ? 's' : ''} libera${locked.length > 1 ? 'm' : ''} conforme você avança na Academia.</p>` : ''}
+    <button class="btn btn-ghost btn-block" data-act="closeModal">Voltar à conversa</button></div>`);
+}
+function chProfileSheet(cid) {
+  const c = chChar(cid), want = typeof c.reg === 'function' ? c.reg() : c.reg;
+  openModal(`<div class="stack" style="align-items:center;text-align:center">${chPortrait(cid, 96)}<div><span class="jp" style="font-size:1.3rem;font-weight:800">${esc(c.jp)}</span> <b style="font-size:1.2rem">${esc(c.ro)}</b></div>
+    <div class="ch-tags" style="justify-content:center"><span class="chip aprendendo">${esc(c.rel)}</span><span class="chip nova">fala ${REG_SHORT[want]}</span></div>
+    <p style="margin:0">${esc(c.desc)}</p><p class="muted" style="margin:0;font-size:.9rem">Jeito de falar: ${esc(c.speech)}<br>Gosta de: ${esc(c.likes.join(', '))}</p>
+    <button class="btn btn-primary btn-block" data-act="closeModal">Voltar à conversa</button></div>`, 'center');
 }
 function chatClose() {
   stopAudio();
+  if (CHV) clearTimeout(CHV.timer);
   const g = CHV ? CHV.gain : 0;
   CHV = null; saveNow();
   $('#player').hidden = true; $('#player').innerHTML = ''; document.body.style.overflow = '';
@@ -13471,7 +14717,7 @@ async function chAutoPlay(cid, from) {
   const th = chThread(cid), c = chChar(cid);
   const my = ++AUDIO.token;
   for (let i = from; i < th.length; i++) {
-    const m = th[i]; if (m.from !== 'char') continue;
+    const m = th[i]; if (m.from !== 'char' || !m.jp) continue;
     if (my !== AUDIO.token || !CHV) return;
     AUDIO.token = my - 1;
     const ok = await speak(m.say || m.jp, { pitch: c.pitch, rate: m.slow ? 0.62 : undefined, key: 'ch' + i });
@@ -13479,30 +14725,38 @@ async function chAutoPlay(cid, from) {
     await new Promise(r => setTimeout(r, 300));
   }
 }
-async function chatSend() {
+async function chatSend(stk) {
   if (!CHV || CHV.busy) return;
   const inp = $('#chatIn'); if (!inp) return;
   const text = inp.value.trim().slice(0, 120);
-  if (!text) { inp.focus(); return; }
+  if (!text && !stk) { inp.focus(); return; }
   const cid = CHV.id, st = chState(cid);
+  if (stk && st.active && !st.active.free) { toast('挑', 'No desafio, responda com uma frase. As figurinhas ficam na conversa livre.'); return; }
   CHV.busy = true;
   stopAudio();
-  if (!st.active) { st.active = { scene: null, node: 'free', tries: 0, hint: 0, tags: [], start: Date.now(), ctx: {}, free: true }; chPush(cid, { from: 'sys', kind: 'topic', txt: 'Conversa livre' }); }
+  chFlush();
+  if (!st.active) chTalkEnsure(cid);
   st.pending = null; st.lastAt = Date.now();
   const before = chThread(cid).length;
   inp.value = '';
   let res = null;
   try {
-    res = await CHAT_BRAINS[chatBrainId()].reply({ char: cid, text, scene: st.active && st.active.scene, node: st.active && st.active.node, register: chWant(cid, st.active), tier: chTier() });
-  } catch (e) { chPush(cid, { from: 'sys', kind: 'note', txt: 'Algo deu errado ao processar a mensagem. Tente de novo.' }); }
+    res = await CHAT_BRAINS[chatBrainId()].reply({ char: cid, text, stk: stk || null, scene: st.active && st.active.scene, node: st.active && st.active.node, register: chWant(cid, st.active), tier: chTier() });
+  } catch (e) { console.warn(e); chPush(cid, { from: 'sys', kind: 'note', txt: 'Algo deu errado ao processar a mensagem. Tente de novo.' }); }
   CHV.busy = false;
   if (res && ['ok', 'variant'].includes(res.kind)) sfx('ok'); else if (res && ['grammar', 'vocab'].includes(res.kind)) sfx('bad'); else sfx('tap');
   save();
+  // a mensagem do aluno aparece na hora; as respostas, com "digitando…"
+  const th = chThread(cid);
+  CHV.shown = before;
+  while (CHV.shown < th.length && th[CHV.shown].from !== 'char') CHV.shown++;
+  CHV.playFrom = before;
+  if (CHV.stk && stk) { CHV.stk = false; chRenderStk(); }
   chRenderLog(); chRenderExtra();
-  const ph = $('.chat-head .ch-hsub'); if (ph) { const c = chChar(cid); ph.textContent = c.rel + ' · fala ' + REG_SHORT[chWant(cid, chState(cid).active)]; }
-  if (S.chat.settings.listen) chAutoPlay(cid, before);
+  chFlow();
   const inp2 = $('#chatIn'); if (inp2 && !matchMedia('(pointer: coarse)').matches) inp2.focus();
 }
+function chAfterAction(cid, n) { save(); if (!CHV) return; CHV.playFrom = n; chRenderLog(); chRenderExtra(); chFlow(); }
 
 Object.assign(ACT, {
   chatOpen: el => chatOpen(el.dataset.id),
@@ -13514,35 +14768,56 @@ Object.assign(ACT, {
   chatHistOpen: el => { chUI.sub = 'hist'; chUI.char = el.dataset.id; chUI.histTab = 'msgs'; go('chat'); },
   chatHistFromPane: () => { const id = CHV && CHV.id; chatClose(); chUI.sub = 'hist'; chUI.char = id; chUI.histTab = 'msgs'; go('chat'); },
   chatHistTab: el => { chUI.histTab = el.dataset.t; render(); },
-  chatDismiss: el => { chDismiss(el.dataset.id); if (CHV) { chRenderLog(); chRenderExtra(); } else render(); },
-  chatScene: el => { if (!CHV) return; const sc = CH_SCENE[el.dataset.id]; if (!sc || !chSceneOpen(sc)) { toast('鍵', 'Este assunto ainda não está liberado.'); return; } const n = chThread(CHV.id).length; chStartScene(CHV.id, sc.id); save(); chRenderLog(); chRenderExtra(); if (S.chat.settings.listen) chAutoPlay(CHV.id, n); },
-  chatFree: () => { if (!CHV) return; const n = chThread(CHV.id).length; chStartFree(CHV.id); save(); chRenderLog(); chRenderExtra(); if (S.chat.settings.listen) chAutoPlay(CHV.id, n); },
-  chatEnd: () => { if (!CHV) return; const st = chState(CHV.id); if (st.active && st.active.free) chEndFree(CHV.id, st.active); else { st.active = null; st.pending = null; chPush(CHV.id, { from: 'sys', kind: 'note', txt: 'Assunto encerrado. Escolha outro quando quiser.' }); } save(); chRenderLog(); chRenderExtra(); },
-  chatHint: () => { if (!CHV) return; const st = chState(CHV.id); if (!st.active) { toast('光', 'Escolha um assunto primeiro, ou escreva um cumprimento para conversar livremente.'); return; } chHint(CHV.id); save(); chRenderLog(); chRenderExtra(); },
+  chatDismiss: el => { chDismiss(el.dataset.id); if (CHV) { CHV.shown = chThread(CHV.id).length; chRenderLog(); chRenderExtra(); } else render(); },
+  chatChal: () => { if (CHV) chChalSheet(CHV.id); },
+  chatChalOpen: el => { chatOpen(el.dataset.id); if (CHV) chChalSheet(CHV.id); },
+  chatProfile: () => { if (CHV) chProfileSheet(CHV.id); },
+  chatScene: el => {
+    if (!CHV) return; const sc = CH_SCENE[el.dataset.id];
+    if (!sc || !(sc.intro || chSceneOpen(sc))) { toast('鍵', 'Este desafio ainda não está liberado.'); return; }
+    if (!$('#modal').hidden) closeModal();
+    chFlush();
+    const st = chState(CHV.id); if (st.active && st.active.scene === sc.id) return;
+    const n = chThread(CHV.id).length; st.active = null; chStartScene(CHV.id, sc.id); chAfterAction(CHV.id, n);
+  },
+  chatEnd: () => {
+    if (!CHV) return; chFlush();
+    const st = chState(CHV.id), n = chThread(CHV.id).length;
+    if (st.active && !st.active.free) { st.active = null; st.pending = null; chPush(CHV.id, { from: 'sys', kind: 'note', txt: 'Você saiu do desafio. A conversa livre continua.' }); chTalkEnsure(CHV.id); }
+    chAfterAction(CHV.id, n);
+  },
+  chatHint: () => { if (!CHV) return; chFlush(); const st = chState(CHV.id); if (!st.active) chTalkEnsure(CHV.id); const n = chThread(CHV.id).length; chHint(CHV.id); chAfterAction(CHV.id, n); },
   chatUse: el => { const i = $('#chatIn'); if (!i) return; i.value = el.dataset.text; i.focus(); try { i.setSelectionRange(i.value.length, i.value.length); } catch (e) {} },
   chatOpt: el => { const k = el.dataset.k; S.chat.settings[k] = !S.chat.settings[k]; save(); el.classList.toggle('on', S.chat.settings[k]); el.setAttribute('aria-pressed', S.chat.settings[k]); chRenderLog(false); chRenderExtra(); },
+  chatOptHub: el => { const k = el.dataset.k; S.chat.settings[k] = !S.chat.settings[k]; save(); el.classList.toggle('on', S.chat.settings[k]); el.setAttribute('aria-checked', S.chat.settings[k]); },
   chatReveal: el => { const m = chThread(CHV.id)[+el.dataset.i]; if (m) { m.rv = true; save(); chRenderLog(false); } },
   chatShowPt: el => { const m = chThread(CHV.id)[+el.dataset.i]; if (m) { m.showPt = true; save(); chRenderLog(false); } },
   chatPlay: el => { const cid = el.dataset.c, m = chThread(cid)[+el.dataset.i]; if (!m) return; speak(m.say || m.jp, { pitch: (chChar(cid) || {}).pitch, rate: m.slow ? 0.62 : undefined }); },
+  chatStkToggle: () => { if (!CHV) return; const act = chState(CHV.id).active; if (act && !act.free) { toast('挑', 'As figurinhas ficam na conversa livre.'); return; } CHV.stk = !CHV.stk; chRenderStk(); },
+  chatStkTab: el => { chUI.stkTab = el.dataset.t; chRenderStk(); },
+  chatStkSend: el => chatSend(el.dataset.id),
+  chatEmoji: el => { const i = $('#chatIn'); if (!i) return; i.value = (i.value + el.dataset.e).slice(0, 120); if (!matchMedia('(pointer: coarse)').matches) i.focus(); },
+  stkFav: el => { const k = chStkState(), id = el.dataset.id; const ix = k.fav.indexOf(id); if (ix >= 0) k.fav.splice(ix, 1); else k.fav.unshift(id); save(); if (el.dataset.modal) chStkInfo(id); chRenderStk(); },
+  stkInfo: el => chStkInfo(el.dataset.id),
   chatSpeakMine: () => {
     const v = ($('#chatIn') || {}).value || '';
     if (!v.trim()) { toast('音', 'Escreva a sua frase para ouvi-la antes de enviar.'); return; }
-    let t = v;
-    if (!/[぀-ヿ一-鿿]/.test(v)) { try { t = NQK.r2k(v.toLowerCase().replace(/[^a-z' .,!?-]/g, '')); } catch (e) { toast('音', 'Não consegui ler esse romaji. Confira a escrita.'); return; } }
+    let t = v.replace(/[\u{1F000}-\u{1FAFF}☀-➿]/gu, '');
+    if (!/[぀-ヿ一-鿿]/.test(t)) { try { t = NQK.r2k(t.toLowerCase().replace(/[^a-z' .,!?-]/g, '')); } catch (e) { toast('音', 'Não consegui ler esse romaji. Confira a escrita.'); return; } }
     speak(t);
   }
 });
 document.addEventListener('keydown', e => {
   if (e.target && e.target.id === 'chatIn' && e.key === 'Enter' && !e.isComposing && e.keyCode !== 229) { e.preventDefault(); chatSend(); }
-  if (e.key === 'Escape' && CHV && $('#modal').hidden) chatClose();
+  if (e.key === 'Escape' && CHV && $('#modal').hidden) { if (CHV.stk) { CHV.stk = false; chRenderStk(); } else chatClose(); }
 });
 function homeChatCard() {
   const un = CHAT_CHARS.filter(c => chUnlocked(c) && chState(c.id).unread);
   if (un.length) {
     const c = un[0], last = [...chThread(c.id)].reverse().find(m => m.from === 'char');
-    return `<section class="section"><div class="card ch-home"><div class="mascot-tip" style="align-items:center">${chPortrait(c.id, 52)}<div style="min-width:0"><span class="eyebrow">Nihongo Chat · nova mensagem</span><h3 style="font-size:1.02rem">${esc(c.name)}: <span class="jp">${esc(last ? last.jp : '')}</span></h3>${un.length > 1 ? `<span class="muted" style="font-size:.85rem">e mais ${un.length - 1} ${un.length - 1 === 1 ? 'mensagem' : 'mensagens'}</span>` : ''}</div></div><div class="row-btns"><button class="btn btn-gold btn-small" data-act="chatOpen" data-id="${c.id}">Responder</button><button class="btn btn-ghost btn-small" data-act="nav" data-view="chat">Ver o chat</button></div></div></section>`;
+    return `<section class="section"><div class="card ch-home"><div class="mascot-tip" style="align-items:center">${chPortrait(c.id, 52)}<div style="min-width:0"><span class="eyebrow">Nihongo Chat · nova mensagem</span><h3 style="font-size:1.02rem">${esc(c.name)}: <span class="jp">${esc(chMsgPreview(last))}</span></h3>${un.length > 1 ? `<span class="muted" style="font-size:.85rem">e mais ${un.length - 1} ${un.length - 1 === 1 ? 'mensagem' : 'mensagens'}</span>` : ''}</div></div><div class="row-btns"><button class="btn btn-gold btn-small" data-act="chatOpen" data-id="${c.id}">Responder</button><button class="btn btn-ghost btn-small" data-act="nav" data-view="chat">Ver o chat</button></div></div></section>`;
   }
-  return `<section class="section"><div class="card ch-home"><div class="mascot-tip" style="align-items:center"><span class="mod-ic big">${IC.chat}</span><div style="min-width:0"><span class="eyebrow">Novo · Nihongo Chat</span><h3 style="font-size:1.05rem">Use o que aprendeu numa conversa</h3><span class="muted" style="font-size:.85rem">${CHAT_CHARS.filter(chUnlocked).map(c => c.name).join(', ')} ${CHAT_CHARS.filter(chUnlocked).length > 1 ? 'estão' : 'está'} te esperando.</span></div></div><div class="row-btns"><button class="btn btn-primary btn-small" data-act="nav" data-view="chat">Abrir o chat</button></div></div></section>`;
+  return `<section class="section"><div class="card ch-home"><div class="mascot-tip" style="align-items:center"><span class="mod-ic big">${IC.chat}</span><div style="min-width:0"><span class="eyebrow">Nihongo Chat</span><h3 style="font-size:1.05rem">Converse com seus amigos japoneses</h3><span class="muted" style="font-size:.85rem">${CHAT_CHARS.filter(chUnlocked).map(c => c.name).join(', ')} ${CHAT_CHARS.filter(chUnlocked).length > 1 ? 'estão' : 'está'} por aqui. Mande um oi, uma figurinha ou um 「げんき？」.</span></div></div><div class="row-btns"><button class="btn btn-primary btn-small" data-act="nav" data-view="chat">Abrir o chat</button></div></div></section>`;
 }
 
 /* ==========================================================
@@ -13565,7 +14840,7 @@ function homeChatCard() {
 })();
 
 /* gancho para testes automatizados */
-window.__NQ = { get S() { return S; }, get P() { return P; }, get CHV() { return CHV; }, get AUDIO() { return AUDIO; }, CHAT: { chars: CHAT_CHARS, scenes: CHAT_SCENES, canon: chCanon, evaluate: chEvaluate, knows: chKnows, node: chNode, state: chState, thread: chThread, initiative: chInitiative, unlocked: chUnlocked, scenesFor: chScenesFor, bestForm: chBestForm, want: chWant, pack: CHAT_PACK }, CATS, LESSON, ITEM, DIALOGS, AUDIO_PACKS, numJp, levelInfo, dayDiff, normalize, setState(s) { S = s; saveNow(); render(); }, suspendSave() { saveSuspended = true; } };
+window.__NQ = { get S() { return S; }, get P() { return P; }, get CHV() { return CHV; }, get AUDIO() { return AUDIO; }, CHAT: { chars: CHAT_CHARS, scenes: CHAT_SCENES, canon: chCanon, evaluate: chEvaluate, knows: chKnows, node: chNode, state: chState, thread: chThread, initiative: chInitiative, unlocked: chUnlocked, scenesFor: chScenesFor, bestForm: chBestForm, want: chWant, pack: CHAT_PACK, analyze: chTalkAnalyze, talk: TALK, stickers: CH_STK, exGet: chExGet, sugg: chTalkSugg, reply: chTalkReply, seed(n) { CH_SEED = n; } }, CATS, LESSON, ITEM, DIALOGS, AUDIO_PACKS, numJp, levelInfo, dayDiff, normalize, setState(s) { S = s; saveNow(); render(); }, suspendSave() { saveSuspended = true; } };
 
 </script>
 </body>

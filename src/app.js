@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '4.0.0';
-const SCHEMA_VERSION = 4;
+const APP_VERSION = '5.0.0';
+const SCHEMA_VERSION = 5;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -105,6 +105,21 @@ const MIGRATIONS = {
     if (!isPlainObj(s.chat)) s.chat = defaultChat();
     s.migratedFrom4 = { schema: 3, at: Date.now() };
     return s;
+  },
+  4: s => { // 4.0 -> 5.0: só ACRESCENTA (figurinhas, tempo de digitação); conversas, fatos e progresso ficam intactos
+    if (isPlainObj(s.chat)) {
+      const c = s.chat;
+      if (!isPlainObj(c.settings)) c.settings = {};
+      if (c.settings.instant == null) c.settings.instant = false;
+      if (!isPlainObj(c.stk)) c.stk = { fav: [], recent: [] };
+      // a conversa livre da 4.0 guardava só a última pergunta ("expect"): vira a expectativa de contexto da 5.0
+      if (isPlainObj(c.chars)) Object.keys(c.chars).forEach(id => { const a = c.chars[id] && c.chars[id].active; if (isPlainObj(a) && a.free && a.expect && !a.ex) { if (a.expect === 'imgood') a.ex = chLegacyEx(id, isPlainObj(c.threads) && Array.isArray(c.threads[id]) ? c.threads[id] : []); delete a.expect; } });
+      // mensagens da conversa livre da 4.0 (depois do marcador "Conversa livre") deixam de mostrar rótulo de avaliação
+      if (isPlainObj(c.threads)) Object.keys(c.threads).forEach(id => { const th = c.threads[id]; if (!Array.isArray(th)) return; let free = false; th.forEach(m => { if (!isPlainObj(m)) return; if (m.from === 'sys' && m.kind === 'topic') free = m.txt === 'Conversa livre'; else if (m.from === 'sys' && m.kind === 'done') free = false; else if (free && m.from === 'me') m.fr = 1; }); });
+      c.v = 2;
+    }
+    s.migratedFrom5 = { schema: 4, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -130,6 +145,8 @@ function normalize(data) {
   if (!isPlainObj(s.chat)) s.chat = defaultChat();
   ['chars', 'threads', 'facts', 'scenes', 'challenges'].forEach(k => { if (!isPlainObj(s.chat[k])) s.chat[k] = {}; });
   if (!Array.isArray(s.chat.corrections)) s.chat.corrections = [];
+  if (!isPlainObj(s.chat.stk)) s.chat.stk = { fav: [], recent: [] };
+  ['fav', 'recent'].forEach(k => { if (!Array.isArray(s.chat.stk[k])) s.chat.stk[k] = []; });
   Object.keys(s.chat.threads).forEach(k => { if (!Array.isArray(s.chat.threads[k])) s.chat.threads[k] = []; });
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);

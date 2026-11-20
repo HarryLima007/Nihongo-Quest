@@ -2,7 +2,7 @@
 
 Academia gamificada de japonês para brasileiros, do zero ao nível proficiente. Todo o conteúdo e a interface estão em português.
 
-**Versão atual:** v4.0.0
+**Versão atual:** v5.0.0
 
 ## O que tem no app
 
@@ -20,6 +20,19 @@ Cada item traz japonês, romaji e português, com notas sobre nuances e exceçõ
 A **revisão** separa o que foi só apresentado do que foi dominado (acertos em dias diferentes), guarda os erros recorrentes, mostra estatísticas por habilidade e os assuntos mais fracos, e oferece revisão de vencidos, mais difíceis, por ala, por lição, pontos fracos e teste de conhecimento.
 
 A **Academia Auditiva** tem treinos de palavras, sons (pares mínimos), frases, expressões, “Responder certo” (ouvir uma fala e escolher a reação adequada), o Detetive dos Animes e o Laboratório de Diálogos (22 conversas originais, incluindo telefonema de negócios, recusa indireta e dialeto de Kansai). A voz usa o próprio navegador (Web Speech), em três velocidades e no modo “Bem devagar”.
+
+## Nihongo Chat 5.0: conversa de verdade
+
+A 5.0 transforma o chat em um mensageiro: conversa livre com cada personagem, separada dos desafios.
+
+- **Conversa livre com contexto.** O personagem entende a resposta pelo que ele acabou de dizer. Quando o Ren diz 「きのう ねるの おそかった（笑）。…は？」, responder 「わたしも」, `Watashi mo`, 私も, ぼくも ou até `watshi mo` é entendido como “eu também dormi tarde”. Respostas curtas como うん, ううん, へえ, マジ？, www, 笑 e 😂 mudam de sentido conforme a pergunta.
+- **Personalidades próprias.** Ren (amigo, casual, brincalhão), Aiko-sensei (paciente, educada), Yumi (expressiva e curiosa, com gostos próprios; vira amiga e passa para a タメ口 se você aceitar) e Takeshi (keigo de atendimento, explica a formalidade na prática). Cada um puxa assuntos próprios quando a conversa esfria e lembra o que você contou.
+- **Não entendi ≠ errei.** Uma mensagem que o app não reconhece nunca é tratada como erro: o personagem pede para repetir (「ん？ もう一回 言って くれる？」) e, na segunda vez, muda de assunto. Na conversa livre não há rótulos de avaliação; dicas de naturalidade (ex.: “arigato” com a professora) aparecem com japonês, romaji e tradução, no máximo uma vez por conversa.
+- **Desafios separados.** A bandeira no topo da conversa abre os desafios (objetivo, resposta esperada, XP e histórico). Neles, a resposta é classificada como correta, pouco natural, erro (gramática, vocabulário, escrita, formalidade) ou não reconhecida (que não conta como tentativa).
+- **Como um mensageiro.** Indicador “Ren está digitando…”, ritmo diferente para cada personagem, respostas em mais de um balão, sem esperas longas e sem mensagens fora de ordem (se você mandar algo enquanto o personagem digita, a resposta anterior aparece primeiro). Há a opção “Respostas imediatas”.
+- **Figurinhas e emojis.** Figurinhas originais (Hikari e um conjunto para cada personagem, com dez emoções), favoritas, recentes, texto + figurinha e emojis. Os personagens mandam figurinhas quando faz sentido e entendem as suas. Algumas ensinam expressões (笑, やった, かわいい…), que vão para a Revisão e o Caderno.
+- **Honesto:** as respostas vêm de roteiros e regras locais, não de IA generativa. Não há chaves, contas nem serviços pagos. A arquitetura continua pronta para um backend seguro no futuro.
+- Save no esquema 5. Saves da 4.0 são migrados com cópia de segurança `nihongoQuest:backup:schema4`, preservando progresso, XP, histórico, Revisão, Caderno, configurações, personagens e conversas.
 
 ## Nihongo Chat (4.0)
 
@@ -65,10 +78,10 @@ O site é publicado direto da branch `Root`, pasta raiz (`/`). Um merge em `Root
 | Pasta / arquivo | O que é |
 | --- | --- |
 | `index.html` | Página inicial do site, redireciona para o app |
-| `nihongo-quest.html` | O app pronto (v4.0.0), gerado a partir de `src/` |
-| `src/` | Código-fonte: `content.js` (lições da v1), `content2.js` (pacotes de áudio, pronúncia e diálogos da 2.0), `content3.js` (2.1: Hiragana, Katakana, Kanji), `content4.js` (2.1: Vocabulário, Gramática, Construção de Frases), `content5.js` (2.1: Japonês Falado, Formalidade, Animes e expansão auditiva), `content6.js` a `content26.js` (3.0: alas novas dos quatro estágios; `src/kit.js` traz os atalhos de autoria), `content27.js` (3.0: expansão auditiva), `finalize.js` (ordem das alas e estágios), `manifest.json` (ordem dos arquivos no build), `app.js` (núcleo), `audio.js` (voz, escuta e modos auditivos), `chat-data.js` (4.0: personagens, assuntos, expressões e desafios do Nihongo Chat), `chat-core.js` (4.0: motor do chat: normalização de romaji/kana/kanji, avaliação das respostas, cenas, dicas, XP, iniciativa e adaptador para backend futuro), `chat-ui.js` (4.0: telas do chat), `boot.js` (inicialização), `style.css`, `shell.html` |
+| `nihongo-quest.html` | O app pronto (v5.0.0), gerado a partir de `src/` |
+| `src/` | Código-fonte: `content.js` (lições da v1), `content2.js` (pacotes de áudio, pronúncia e diálogos da 2.0), `content3.js` (2.1: Hiragana, Katakana, Kanji), `content4.js` (2.1: Vocabulário, Gramática, Construção de Frases), `content5.js` (2.1: Japonês Falado, Formalidade, Animes e expansão auditiva), `content6.js` a `content26.js` (3.0: alas novas dos quatro estágios; `src/kit.js` traz os atalhos de autoria), `content27.js` (3.0: expansão auditiva), `finalize.js` (ordem das alas e estágios), `manifest.json` (ordem dos arquivos no build), `app.js` (núcleo), `audio.js` (voz, escuta e modos auditivos), `chat-data.js` (4.0: personagens, assuntos, expressões e desafios do Nihongo Chat), `chat-core.js` (4.0: motor do chat: normalização de romaji/kana/kanji, avaliação das respostas, cenas, dicas, XP, iniciativa e adaptador para backend futuro), `chat-talk-data.js` (5.0: falas, assuntos e personalidades da conversa livre), `chat-talk.js` (5.0: motor da conversa livre por contexto e intenção), `chat-stickers.js` (5.0: figurinhas originais em SVG), `chat-ui.js` (telas do chat no estilo mensageiro), `boot.js` (inicialização), `style.css`, `shell.html` |
 | `src/build.py` | Junta o código-fonte e gera `dist/nihongo-quest.html` |
-| `tests/` | `content.js` valida o conteúdo sem navegador (ids estáveis, exercícios, duplicatas). Testes com Playwright: `e2e.js` (v1), `e2e2.js` (v2 e migração do save da v1), `e2e3.js` (2.1: save real da 2.0, alas novas, todas as lições), `e2e4.js` (3.0: migração dos saves da 2.0 e 2.1, estágios, pré-requisitos, todas as perguntas, revisões, cópias de segurança, Responder certo), `e2e5.js` (4.0: Nihongo Chat: migração do save real da 3.0, desbloqueio, personagens bloqueados, respostas equivalentes, classificação dos erros, conteúdo novo antes de ser cobrado, romaji/tradução, áudio, histórico, iniciativa, XP sem farm, revisão, todos os assuntos de ponta a ponta e telas de 320px). `readings.js` confere as leituras dos kanji com o dicionário kuromoji |
+| `tests/` | `content.js` valida o conteúdo sem navegador (ids estáveis, exercícios, duplicatas). Testes com Playwright: `e2e.js` (v1), `e2e2.js` (v2 e migração do save da v1), `e2e3.js` (2.1: save real da 2.0, alas novas, todas as lições), `e2e4.js` (3.0: migração dos saves da 2.0 e 2.1, estágios, pré-requisitos, todas as perguntas, revisões, cópias de segurança, Responder certo), `e2e5.js` (4.0: Nihongo Chat: migração do save real da 3.0, desbloqueio, personagens bloqueados, respostas equivalentes, classificação dos erros, conteúdo novo antes de ser cobrado, romaji/tradução, áudio, histórico, iniciativa, XP sem farm, revisão, todos os assuntos de ponta a ponta e telas de 320px), `e2e6.js` (5.0: caso “watashi mo” no save real da 4.0, respostas curtas pelo contexto, romaji/kana/kanji, não reconhecida ≠ erro, digitação e ordem, figurinhas e emojis, desafios, Revisão/Caderno, mensagens espontâneas e 320px). `readings.js` confere as leituras dos kanji com o dicionário kuromoji |
 | `backup/` | A versão 1.0.0 original |
 
 ## Como adicionar conteúdo
@@ -95,4 +108,14 @@ node tests/e2e2.js
 node tests/e2e3.js
 node tests/e2e4.js
 node tests/e2e5.js
+node tests/e2e6.js
 ```
+
+## Histórico de versões
+
+- **5.0.0** — Nihongo Chat Evolution: conversa livre com contexto, personalidades, digitação, figurinhas, desafios separados, esquema 5.
+- **4.0.0** — Nihongo Chat com quatro personagens, esquema 4.
+- **3.0.0** — 349 lições em 35 alas e quatro estágios, esquema 3.
+- **2.1.0** — Expansão da Academia (65 lições).
+- **2.0.0** — Academia Auditiva, pronúncia e diálogos.
+- **1.0.0** — Primeira versão.
