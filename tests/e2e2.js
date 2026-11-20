@@ -37,7 +37,7 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
 (async () => {
   const browser = await chromium.launch();
   const errors = [];
-  const mk = async (voices, vp) => { const ctx = await browser.newContext(vp || { ...devices['Pixel 5'] }); if (voices !== 'none') await ctx.addInitScript(stub(voices)); else await ctx.addInitScript(() => { delete window.speechSynthesis; delete window.SpeechSynthesisUtterance; }); const p = await ctx.newPage(); p.on('pageerror', e => errors.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/ERR_FAILED|fonts/.test(m.text())) errors.push(m.text()); }); await p.route(/fonts\.(googleapis|gstatic)/, r => r.abort()); return p; };
+  const mk = async (voices, vp) => { const ctx = await browser.newContext(vp || { ...devices['Pixel 5'] }); if (voices !== 'none') await ctx.addInitScript(stub(voices)); else await ctx.addInitScript(() => { delete window.speechSynthesis; delete window.SpeechSynthesisUtterance; }); const p = await ctx.newPage(); p.on('pageerror', e => errors.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/ERR_FAILED|fonts/.test(m.text())) errors.push(m.text()); }); await p.route(/fonts\.(googleapis|gstatic)/, r => r.abort()); return require('./reveal')(p); };
 
   /* ---------- 1. preservação de um save real da v1.0 ---------- */
   const page = await mk(JA);
@@ -54,11 +54,13 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
   same(after.level, (await page.evaluate(x => __NQ.levelInfo(x).level, before.xp)), 'nível preservado (' + after.level + ')');
   same(after.streak, before.streak, 'sequência preservada'); same(after.lessons, before.lessons, 'lições aprovadas preservadas (' + Object.keys(after.lessons).length + ')');
   same(after.catExams, before.catExams, 'avaliações finais preservadas'); ok(Object.keys(before.achievements).every(k => JSON.stringify(after.ach[k]) === JSON.stringify(before.achievements[k])), 'conquistas preservadas (' + Object.keys(before.achievements).length + ' da v1, ' + Object.keys(after.ach).length + ' agora)');
-  same(after.items, before.items, 'caderno/revisão preservados (' + Object.keys(after.items).length + ' itens)'); same(after.stats, before.stats, 'estatísticas preservadas');
+  // 3.0 acrescenta campos novos aos itens (d, ld, lw); os campos antigos devem continuar idênticos
+  const keep = Object.fromEntries(Object.entries(after.items).map(([k, v]) => [k, Object.fromEntries(Object.keys(before.items[k] || {}).map(f => [f, v[f]]))]));
+  same(keep, before.items, 'caderno/revisão preservados (' + Object.keys(after.items).length + ' itens)'); same(after.stats, before.stats, 'estatísticas preservadas');
   same(after.shop, before.shop, 'loja preservada'); same(after.settings, { romaji: before.settings.romaji, sound: before.settings.sound, theme: before.settings.theme }, 'configurações preservadas');
   same(after.history, before.history.length, 'histórico preservado'); same(after.name, before.profile.name, 'perfil preservado');
   const mig = await page.evaluate(raw => ({ v: __NQ.S.schemaVersion, app: __NQ.S.appVersion, lst: !!__NQ.S.listening && __NQ.S.listening.level, disc: typeof __NQ.S.discoveries, bk: localStorage.getItem('nihongoQuest:backup') === raw, bk1: localStorage.getItem('nihongoQuest:backup:schema1') === raw, stored: JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion }), v1raw);
-  ok(mig.v === 2 && mig.app === '2.1.0' && mig.lst === 'iniciante' && mig.disc === 'object' && mig.stored === 2, 'migração para esquema 2 ' + JSON.stringify(mig));
+  ok(mig.v === 3 && mig.app === '3.0.0' && mig.lst === 'iniciante' && mig.disc === 'object' && mig.stored === 3, 'migração da v1 para o esquema 3 ' + JSON.stringify(mig));
   ok(mig.bk && mig.bk1, 'cópia de segurança do save v1 criada antes da migração');
   await closeModals(page);
   await page.screenshot({ path: shots + '/01-home-v2.png', fullPage: true });
@@ -196,13 +198,13 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
   await page.reload(); await closeModals(page);
   ok((await page.evaluate(() => JSON.stringify({ d: __NQ.S.discoveries, l: __NQ.S.listening, xp: __NQ.S.xp }))) === s1, 'descobertas e progresso auditivo persistem após recarregar');
   await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="export"]'); const exp = await page.inputValue('#exportText'); await page.click('#modal [data-act="closeModal"]');
-  ok(JSON.parse(exp).schemaVersion === 2 && JSON.parse(exp).appVersion === '2.1.0', 'exportação v2');
+  ok(JSON.parse(exp).schemaVersion === 3 && JSON.parse(exp).appVersion === '3.0.0', 'exportação 3.0');
   await page.click('[data-act="resetAsk"]'); await page.click('[data-act="resetConfirm"]'); await page.fill('#nameInput', 'X'); await page.click('[data-act="onboard"]');
-  await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="import"]'); await page.fill('#importText', exp); await page.click('[data-act="importCheck"]'); await page.click('[data-act="importConfirm"]');
-  ok((await page.evaluate(() => JSON.stringify({ d: __NQ.S.discoveries, l: __NQ.S.listening, xp: __NQ.S.xp }))) === s1, 'importação v2 restaura tudo');
+  await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="import"]'); await page.$eval('#importText', (e, v) => { e.value = v; }, exp); await page.click('[data-act="importCheck"]'); await page.click('[data-act="importConfirm"]');
+  ok((await page.evaluate(() => JSON.stringify({ d: __NQ.S.discoveries, l: __NQ.S.listening, xp: __NQ.S.xp }))) === s1, 'importação 3.0 restaura tudo');
   // importar arquivo exportado pela v1.0
-  await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="import"]'); await page.fill('#importText', JSON.stringify(V1)); await page.click('[data-act="importCheck"]'); await page.click('[data-act="importConfirm"]');
-  ok(await page.evaluate(x => __NQ.S.xp === x && __NQ.S.schemaVersion === 2 && !!__NQ.S.listening, V1.data.xp), 'importação de arquivo exportado pela v1.0');
+  await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="import"]'); await page.$eval('#importText', (e, v) => { e.value = v; }, JSON.stringify(V1)); await page.click('[data-act="importCheck"]'); await page.click('[data-act="importConfirm"]');
+  ok(await page.evaluate(x => __NQ.S.xp === x && __NQ.S.schemaVersion === 3 && !!__NQ.S.listening, V1.data.xp), 'importação de arquivo exportado pela v1.0');
 
   /* ---------- 9. sem voz japonesa ---------- */
   const p2 = await mk([{ lang: 'en-US', name: 'English', localService: true }, { lang: 'pt-BR', name: 'Português', localService: true }]);

@@ -5,3 +5,4 @@ __pycache__/
 .DS_Store
 shots2/
 shots3/
+node_modules

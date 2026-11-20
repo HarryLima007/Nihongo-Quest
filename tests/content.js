@@ -1,10 +1,8 @@
 /* Validação do conteúdo (sem navegador): node tests/content.js
    Confere ids estáveis da 2.0, estrutura de lições e exercícios,
    diálogos, pares de som e palavras duplicadas. */
-const fs = require('fs'), vm = require('vm'), path = require('path');
-const src = f => fs.readFileSync(path.resolve(__dirname, '../src', f), 'utf8');
-const code = ['content.js', 'content2.js', 'content3.js', 'content4.js', 'content5.js'].map(src).join('\n').replace(/^const /gm, 'var ');
-const C = {}; vm.createContext(C); vm.runInContext(code, C);
+const fs = require('fs'), path = require('path');
+const C = require('./load-content');
 const { CATS, AUDIO_PACKS, PRON_SETS, DIALOGS, CHARS, LISTEN_V1, LISTEN_V1_FRASES, ACHIEVEMENTS } = C;
 let fails = 0; const ok = (c, m) => { if (!c) { console.log('FAIL ' + m); fails++; } };
 
@@ -26,17 +24,22 @@ old.lessons.forEach(id => { const l = LESSON[id]; if (l) ok(l.cat.lessons.indexO
 /* 2. categorias e desbloqueio */
 const catIds = new Set(CATS.map(c => c.id));
 CATS.forEach(c => {
-  ok(!c.requires || catIds.has(c.requires), c.id + ': requisito inexistente ' + c.requires);
+  [].concat(c.requires || []).forEach(r => ok(catIds.has(r), c.id + ': requisito inexistente ' + r));
+  ok(['ini', 'int', 'ava', 'pro'].includes(c.stage), c.id + ': estágio inválido ' + c.stage);
+  /* um requisito nunca pode estar num estágio mais avançado nem depois da ala no mapa */
+  [].concat(c.requires || []).forEach(r => { const rc = CATS.find(x => x.id === r); if (rc) ok(CATS.indexOf(rc) < CATS.indexOf(c), c.id + ': requisito ' + r + ' aparece depois no mapa'); });
   ok(c.lessons.length > 0, c.id + ': categoria sem lições');
   ok(Array.isArray(c.soon) && c.soon.length === 0, c.id + ': ainda tem “em breve”');
-  let k = c, n = 0; while (k && k.requires && n < 20) { k = CATS.find(x => x.id === k.requires); n++; } ok(n < 20, c.id + ': ciclo de requisitos');
+
 });
 ok(CATS.map(c => c.num).join() === CATS.map((_, i) => i + 1).join(), 'numeração das categorias');
 
 /* 3. lições, itens e exercícios */
 const KINDS = ['number', 'vocab', 'grammar', 'kana', 'kanaword'];
+const it0 = l => false;
 const kanaOnly = s => /^[぀-ゟ゠-ヿー\s、。！？…・「」〜~0-9０-９]+$/.test(s);
 let nLessons = 0, nItems = 0, nEx = 0;
+const OLD = new Set(Object.keys(LESSON).filter(id => +id.slice(1, id.indexOf('l')) <= 10));
 Object.values(LESSON).forEach(l => {
   nLessons++;
   ok(KINDS.includes(l.kind), l.id + ': kind inválido');
@@ -52,10 +55,13 @@ Object.values(LESSON).forEach(l => {
     if (it.say) ok(kanaOnly(it.say), l.id + ':' + it.k + ': say com kanji: ' + it.say);
     if (l.kind === 'grammar' || l.kind === 'vocab') ok(kanaOnly(it.jp.replace(/[〜]/g, '')) || it.say, l.id + ':' + it.k + ': kanji sem say (a voz pode ler errado)');
     if (it.ex) ok(it.ex.jp && it.ex.ro && it.ex.pt, l.id + ':' + it.k + ': exemplo incompleto');
+    if (it.ex && !OLD.has(l.id) && /[一-鿿]/.test(it.ex.jp)) ok(it.ex.say && kanaOnly(it.ex.say), l.id + ':' + it.k + ': exemplo com kanji sem say');
   });
   /* pt distintos dentro da lição (as alternativas não podem empatar) */
   const pts = l.items.map(i => i.pt); ok(new Set(pts).size === pts.length, l.id + ': traduções repetidas');
   if (l.kind === 'kana') { const ros = l.items.map(i => i.ro); ok(new Set(ros).size === ros.length, l.id + ': sons repetidos (pergunta ambígua)'); }
+  (l.text || []).forEach((e, i) => { ok(e.jp && e.ro && e.pt, l.id + ': texto incompleto ' + i); if (/[一-鿿]/.test(e.jp)) ok(e.say && kanaOnly(e.say), l.id + ': texto sem say ' + i); });
+  if (it0(l)) ok(true, '');
   l.exercises.forEach((ex, i) => {
     nEx++;
     const tag = l.id + ' ex' + i + ' (' + ex.t + ')';
@@ -96,9 +102,11 @@ ok(new Set(ACHIEVEMENTS.map(a => a.id)).size === ACHIEVEMENTS.length, 'ids de co
 const norm = s => String(s || '').replace(/[\s、。！？!?…〜~「」]/g, '');
 const seen = new Map();
 const ALLOW = new Set(['いいえ']); // já duplicado na 2.0: c1l4 (expressão) e c2l1 (leitura de hiragana)
-const isCharLesson = it => it.lesson.kind === 'kana' || (it.lesson.cat && it.lesson.cat.id === 'c7') || it.lesson.kind === 'number';
+const CHAR_WINGS = new Set(['c7', 'c17', 'c23']); // alas de kanji ensinam a escrita
+const isCharLesson = it => it.lesson.kind === 'kana' || (it.lesson.cat && CHAR_WINGS.has(it.lesson.cat.id)) || it.lesson.kind === 'number';
 Object.entries(ITEM).forEach(([id, it]) => {
   if (isCharLesson(it)) return;
+  if (it.lesson.group === 'resposta') return; // treino de reação: a frase ouvida pode repetir expressões já ensinadas
   [...new Set([norm(it.jp), norm(it.say)].filter(Boolean))].forEach(k => {
     if (seen.has(k) && !ALLOW.has(k)) ok(false, 'palavra duplicada: ' + k + ' em ' + seen.get(k) + ' e ' + id); else seen.set(k, id);
   });
