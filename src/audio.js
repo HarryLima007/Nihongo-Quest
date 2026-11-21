@@ -161,7 +161,7 @@ function sayOf(it) { return it.say || it.jp; }
 function ptDistractors(it, pool, n = 3) {
   const seen = new Set([it.pt]), out = [];
   const g = groupOf(it);
-  const cands = shuffle(pool.filter(x => groupOf(x) === g)).concat(shuffle(pool), shuffle(Object.values(ITEM).filter(x => groupOf(x) === g)));
+  const cands = shuffle(pool.filter(x => groupOf(x) === g)).concat(shuffle(pool), shuffle(curriculumItems().filter(x => groupOf(x) === g)));
   for (const x of cands) { if (out.length >= n) break; if (x === it || seen.has(x.pt)) continue; seen.add(x.pt); out.push(x); }
   return out;
 }
@@ -554,7 +554,7 @@ function viewNotebook() {
       <div class="nb-meta"><span class="chip nova">${GROUP_LABEL[g]}</span><span>${esc(originOf(it))}</span><span>· desde ${new Date(r.seen).toLocaleDateString('pt-BR')}</span>${r.c + r.w ? `<span class="tabnum">· ${r.c} acerto${r.c === 1 ? '' : 's'}, ${r.w} erro${r.w === 1 ? '' : 's'}</span>` : ''}${g === 'anime' ? `<button class="link-btn" style="padding:0" data-act="discOpen" data-id="${it.id}">Ver descoberta</button>` : ''}</div></div>`;
   };
   // agrupa pela origem, mantendo a ordem do conteúdo
-  const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK]);
+  const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK], typeof DICT_LESSON !== 'undefined' ? [DICT_LESSON] : []);
   let groups;
   if (nb.t === 'dificeis') groups = entries.length ? `<section class="section"><div class="card">${entries.map(entryHTML).join('')}</div></section>` : '';
   else groups = order.map(l => { const list = entries.filter(it => it.lesson === l); return list.length ? `<section class="section"><div class="section-h"><h2 style="font-size:1rem">${esc(l.kind === 'audio' || l.id === 'chat' ? originOf(list[0]) : l.title)}</h2><span class="muted" style="font-size:.8rem">${esc(l.cat.title)}</span></div><div class="card">${list.map(entryHTML).join('')}</div></section>` : ''; }).join('');

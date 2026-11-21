@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '6.0.0';
-const SCHEMA_VERSION = 6;
+const APP_VERSION = '7.0.0';
+const SCHEMA_VERSION = 7;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -56,11 +56,14 @@ function defaultState() {
     discoveries: {},
     exStats: {}, skills: {}, log: {}, tests: [],
     chat: defaultChat(),
-    lacad: defaultLacad()
+    lacad: defaultLacad(),
+    dict: defaultDict()
   };
 }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
 function defaultLacad() { return { v: 1, lessons: {}, exams: {}, words: {}, dialogs: {}, speed: 1, stats: { a: 0, c: 0, ms: 0, byCat: {}, byType: {} } }; }
+/* 7.0: Dicionário (favoritos e recentes; salvar no Caderno usa S.items, como o resto do app) */
+function defaultDict() { return { v: 1, fav: {}, recent: [] }; }
 function defaultListening() {
   const ac = () => ({ a: 0, c: 0 });
   return {
@@ -128,6 +131,13 @@ const MIGRATIONS = {
     if (!isPlainObj(s.lacad)) s.lacad = defaultLacad();
     s.migratedFrom6 = { schema: 5, at: Date.now() };
     return s;
+  },
+  6: s => { // 6.0 -> 7.0: só ACRESCENTA o Dicionário. XP, níveis, conquistas, histórico, Caderno, Revisão, Chat e
+    // progresso da Academia e da Listening Academy ficam intactos. (S.lacad.taught é reconstruído das lições já
+    // feitas na primeira vez que a Listening Academy é aberta.)
+    if (!isPlainObj(s.dict)) s.dict = defaultDict();
+    s.migratedFrom7 = { schema: 6, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -159,6 +169,9 @@ function normalize(data) {
   if (!isPlainObj(s.lacad)) s.lacad = defaultLacad();
   ['lessons', 'exams', 'words', 'dialogs'].forEach(k => { if (!isPlainObj(s.lacad[k])) s.lacad[k] = {}; });
   if (!isPlainObj(s.lacad.stats)) s.lacad.stats = defaultLacad().stats;
+  if (!isPlainObj(s.dict)) s.dict = defaultDict();
+  if (!isPlainObj(s.dict.fav)) s.dict.fav = {};
+  if (!Array.isArray(s.dict.recent)) s.dict.recent = [];
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;
@@ -435,9 +448,12 @@ function genNumQ() {
 function poolFor(item, n, field) {
   const same = item.lesson.items.filter(x => x !== item);
   const kind = item.lesson.kind;
-  let others = ALL_LESSONS.filter(l => l !== item.lesson && l.kind === kind).flatMap(l => l.items);
+  // 7.0: alternativas vêm primeiro da mesma ala e das etapas anteriores; conteúdo futuro só como último recurso
+  const pos = ALL_LESSONS.indexOf(item.lesson), sameKind = ALL_LESSONS.filter(l => l !== item.lesson && l.kind === kind);
+  const near = sameKind.filter(l => l.cat === item.lesson.cat), past = sameKind.filter(l => l.cat !== item.lesson.cat && (pos < 0 || ALL_LESSONS.indexOf(l) < pos)), rest = sameKind.filter(l => !near.includes(l) && !past.includes(l));
+  const others = shuffle(near.flatMap(l => l.items)).concat(shuffle(past.flatMap(l => l.items)), shuffle(rest.flatMap(l => l.items)));
   const seen = new Set([item[field]]); const out = [];
-  for (const x of shuffle(same).concat(shuffle(others))) { if (out.length >= n) break; if (seen.has(x[field])) continue; seen.add(x[field]); out.push(x); }
+  for (const x of shuffle(same).concat(others)) { if (out.length >= n) break; if (seen.has(x[field])) continue; seen.add(x[field]); out.push(x); }
   return out;
 }
 function explainItem(it) { return it.jp + ' (' + it.ro + ') = ' + it.pt + '. ' + (it.note || ''); }
@@ -482,11 +498,38 @@ function authoredQ(ex, lesson) {
   }
   return null;
 }
-function reviewPool(excludeLesson) {
-  // itens de lições anteriores, priorizando os mais errados
-  return seenItems().map(id => ITEM[id]).filter(it => it.lesson !== excludeLesson)
+/* ---------- 7.0: CURRÍCULO — de onde cada avaliação pode tirar perguntas ----------
+   Regra única para todas as avaliações (Academia e Listening Academy):
+   uma avaliação só cobra conteúdo do CURRÍCULO daquela etapa. "Visto" (S.items.seen) NÃO é
+   currículo: o Chat, o Caderno, o Dicionário, a Revisão e a própria Listening Academy marcam
+   palavras como vistas, e isso alimenta a Revisão, nunca as avaliações.
+   - Fonte de um item: 'academia' (lições de CATS), 'auditiva' (pacotes 2.0), 'listening' (6.0),
+     'chat', 'dicionario'. Só itens 'academia' podem aparecer como revisão dentro de uma avaliação.
+   - Escopo de uma lição L: as lições ANTERIORES da mesma ala (mesma progressão), já aprovadas.
+     Nada de alas futuras, de outras alas ou de outras áreas do app. */
+const ACADEMY_LESSONS = new Set(ALL_LESSONS);
+function itemSource(it) {
+  if (!it || !it.lesson) return 'outro';
+  if (ACADEMY_LESSONS.has(it.lesson)) return 'academia';
+  if (it.lesson.la) return 'listening';
+  if (it.lesson.id === 'chat') return 'chat';
+  if (it.lesson.id === 'dict') return 'dicionario';
+  if (AUDIO_PACKS.includes(it.lesson)) return 'auditiva';
+  return 'outro';
+}
+function curriculumScope(L) {
+  if (!L || !ACADEMY_LESSONS.has(L)) return [];
+  return L.cat.lessons.slice(0, L.index).filter(l => lessonPassed(l.id));
+}
+function reviewPool(L) {
+  // revisão DENTRO da avaliação: só itens já estudados das lições anteriores desta mesma ala
+  const scope = curriculumScope(L);
+  return scope.flatMap(l => l.items).filter(it => itemSource(it) === 'academia' && S.items[it.id] && S.items[it.id].seen)
     .sort((a, b) => ((S.items[b.id].w - S.items[b.id].c * .3) - (S.items[a.id].w - S.items[a.id].c * .3)) + (Math.random() - .5));
 }
+/* itens que podem servir de alternativa (distratores): conteúdo de curso, nunca Chat ou Dicionário */
+let _curItems = null;
+function curriculumItems() { return _curItems || (_curItems = Object.values(ITEM).filter(it => ['academia', 'auditiva', 'listening'].includes(itemSource(it)))); }
 /* 2.1: perguntas de áudio dentro das lições da Academia (não em kana nem kanji) */
 function lessonCanListen(L) { return !L.noListen && ['vocab', 'grammar', 'kanaword'].includes(L.kind) && L.cat && L.cat.id !== 'c7'; }
 function lessonListenQs(L, n) {

@@ -666,3 +666,81 @@ button.conv:hover { background: var(--surface-2); }
 .la-word-ro { font-weight: 800; color: var(--royal); }
 .la-word-pt { font-size: 1.05rem; }
 @media (max-width: 380px) { .la-speed button { min-width: 44px; padding-inline: 6px; } .mode-switch.three button { font-size: .82rem; } .mode-switch.three button svg { display: none; } }
+
+/* ==========================================================
+   7.0 — Listening Academy: pergunta falada, alternativas com voz, feedback
+   ========================================================== */
+.la-q { display: flex; align-items: flex-start; gap: 10px; }
+.la-q .q-prompt { flex: 1; min-width: 0; }
+.la-qbtn { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px 7px 10px; border-radius: 999px; background: color-mix(in srgb, var(--violet) 12%, var(--surface)); color: var(--violet); font-weight: 800; font-size: .82rem; border: 2px solid transparent; }
+.la-qbtn svg { width: 18px; height: 18px; }
+.la-qbtn.playing, .la-ans .icon-btn.playing, .d-snd.playing { border-color: currentColor; animation: la-pulse 1s ease-in-out infinite; }
+@keyframes la-pulse { 50% { transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { .la-qbtn.playing, .la-ans .icon-btn.playing, .d-snd.playing { animation: none; } }
+.la-qjp { display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border-radius: 12px; background: var(--surface-2); font-size: .92rem; }
+.la-opt-tip { margin: 0; font-size: .8rem; text-align: center; }
+.la-opt.has-snd { position: relative; padding-right: 44px; }
+.la-osnd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); display: grid; place-items: center; }
+.la-osnd svg { width: 18px; height: 18px; }
+.la-opt.speaking .la-osnd { color: var(--royal); animation: la-pulse 1s ease-in-out infinite; }
+.la-opt.speaking:not(.sel):not(.right):not(.wrong) { border-color: color-mix(in srgb, var(--royal) 45%, var(--line)); }
+
+.la-ans { display: flex; align-items: center; gap: 10px; margin: 6px 0; padding: 10px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); text-align: left; }
+.la-ans-t { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.la-ans-jp { font-size: 1.15rem; font-weight: 700; overflow-wrap: anywhere; }
+.la-dict { font-family: var(--f-display); font-weight: 800; font-size: 1rem; color: var(--violet); }
+
+/* ==========================================================
+   7.0 — Dicionário
+   ========================================================== */
+.page-title:has(.d-tabs) { flex-wrap: wrap; }
+.d-tabs { margin-left: auto; }
+.d-search { position: relative; }
+.d-search .search { padding-right: 44px; font-size: 1rem; }
+.d-clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 10px; font-size: 1.4rem; line-height: 1; color: var(--muted); }
+.d-try { padding: 0 2px; font-size: inherit; }
+.d-list { padding: 4px 12px; }
+.d-row { display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--line); }
+.d-row:last-child { border-bottom: 0; }
+.d-main { flex: 1; min-width: 0; text-align: left; display: flex; flex-direction: column; gap: 1px; padding: 11px 0; background: none; color: inherit; }
+.d-jp { font-size: 1.3rem; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; }
+.d-sub { font-size: .82rem; color: var(--muted); font-weight: 600; }
+.d-pos { color: var(--violet); }
+.d-pt { font-size: .95rem; font-weight: 700; overflow-wrap: anywhere; }
+.d-acts { display: flex; align-items: center; gap: 4px; flex: none; }
+.d-fav { color: var(--gold); display: grid; place-items: center; width: 24px; }
+.d-wod-in { display: flex; align-items: center; gap: 10px; }
+.d-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.d-chip { display: inline-flex; flex-direction: column; align-items: flex-start; padding: 7px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); max-width: 100%; text-align: left; }
+.d-chip .jp { font-weight: 700; font-size: 1.05rem; }
+.d-chip small { color: var(--muted); font-size: .74rem; font-weight: 700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.d-themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.d-theme { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); font-weight: 800; font-size: .88rem; text-align: left; }
+.d-theme .jp { width: 32px; height: 32px; flex: none; border-radius: 10px; display: grid; place-items: center; background: var(--surface-2); color: var(--violet); font-size: 1.05rem; }
+.d-sheet { gap: 12px; }
+.d-entry { display: flex; flex-direction: column; gap: 14px; }
+.d-entry section { display: flex; flex-direction: column; gap: 6px; }
+.d-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.d-head-t { display: flex; flex-direction: column; min-width: 0; }
+.d-big { font-size: 2.4rem; font-weight: 800; line-height: 1.15; overflow-wrap: anywhere; }
+.d-read { font-size: 1.05rem; color: var(--violet); font-weight: 700; }
+.d-ro { font-size: .95rem; color: var(--muted); font-weight: 700; }
+.d-head-b { display: flex; align-items: center; gap: 8px; }
+.icon-btn.big { width: 52px; height: 52px; border-radius: 16px; }
+.icon-btn.big svg { width: 26px; height: 26px; }
+.d-poschip { align-self: flex-start; }
+.d-means { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 3px; font-weight: 700; }
+.d-note { margin: 0; font-size: .9rem; color: var(--muted); }
+.d-kanji { display: flex; flex-direction: column; gap: 6px; }
+.d-kj { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); text-align: left; }
+.d-kj > .jp { font-size: 1.8rem; font-weight: 800; width: 40px; text-align: center; flex: none; }
+.d-kj > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+.d-kj small { color: var(--muted); font-weight: 700; }
+.d-ex { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.d-ex-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.d-ex-jp { font-weight: 700; font-size: 1.05rem; overflow-wrap: anywhere; }
+.d-segs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.d-seg { padding: 5px 10px; border-radius: 10px; background: var(--surface-2); font-family: var(--f-display); font-weight: 700; font-size: .92rem; border: 2px solid transparent; color: var(--text); }
+.d-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.d-btns .btn { flex: 1 1 160px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.d-done { color: var(--ok); }
