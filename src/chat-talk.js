@@ -113,7 +113,7 @@ const CH_PT_WORDS = /\b(eu|voc[eê]|tamb[eé]m|sim|n[aã]o|obrigad[oa]|tudo|bem|
 const CH_INTENT_MAP = { greet: 'greet', howareyou: 'howareyou', imgood: 'good', imtired: 'tired', thanks: 'thanks', bye: 'bye', sorry: 'sorry', whatdoing: 'whatdoing', likesq: 'likesq', hungry: 'hungry', weather: 'weather', compliment: 'praise', studying: 'studying', recommend: 'recommend', price: 'price' };
 const CH_ROMAJI_OK = /^(?:(?:[kgsztdnhbpmyrwfjv]|ch|sh|ts|ky|gy|ny|hy|by|py|my|ry)?[aeiou]|n|([kstpcg])(?=\1|ch))+$/;
 
-function chTalkAnalyze(text, stk) {
+function chTalkAnalyze1(text, stk) {
   const raw = String(text || '').trim();
   const A = { raw, q: /[?？]\s*$/.test(raw), intents: [], meta: null, pt: null, fuzzy: null, cap: {}, capText: null };
   const add = (id, s, o) => { const ex = A.intents.find(x => x.id === id); if (ex) { if (s > ex.s) ex.s = s; return; } A.intents.push(Object.assign({ id, s }, o || {})); };
@@ -179,6 +179,74 @@ function chTalkAnalyze(text, stk) {
     t = t.replace(/\s*(だよ|です|だ|desu|da yo|dayo|da|かな|kana|ga suki|が すき|がすき|かも|kamo)\s*$/i, '').trim();
     if (t) A.capText = t;
   }
+  A.intents.sort((a, b) => b.s - a.s);
+  return A;
+}
+
+/* 6.0: mensagens com mais de uma frase ("konbanwa! hajimemashite!") e frases que o
+   personagem acabou de usar. Primeiro tenta a mensagem inteira; se nada forte foi
+   reconhecido, divide em partes (pontuação, palavras e, por último, a forma canônica)
+   e junta as intenções. Depois compara com as últimas falas do personagem (eco). */
+const chStrong = A => A.intents.some(x => x.s >= 2.5);
+function chTalkSegments(raw) {
+  const out = [];
+  const tryCanon = part => {
+    const c = chCanon(part); if (!c || c.length > 32) return false;
+    let i = 0, cov = 0; const got = [];
+    while (i < c.length) {
+      let j = c.length, found = false;
+      for (; j >= i + 3; j--) { const sub = c.slice(i, j); if (chStrong(chTalkAnalyze1(sub))) { got.push(sub); cov += sub.length; found = true; break; } }
+      i = found ? j : i + 1;
+    }
+    // só aceita quando as partes reconhecidas cobrem quase tudo (evita achar palavras dentro de texto aleatório)
+    if (!got.length || cov / c.length < 0.75) return false;
+    out.push(...got); return true;
+  };
+  String(raw).split(/[!?！？。、,.\n~〜…・]+/).map(x => x.trim()).filter(Boolean).forEach(part => {
+    if (chStrong(chTalkAnalyze1(part))) { out.push(part); return; }
+    const w = part.split(/\s+/).filter(Boolean);
+    let i = 0;
+    while (i < w.length) {
+      let j = w.length, found = false;
+      for (; j > i; j--) { const seg = w.slice(i, j).join(' '); if (chStrong(chTalkAnalyze1(seg))) { out.push(seg); found = true; break; } }
+      if (found) { i = j; continue; }
+      // nenhuma combinação de palavras: tenta a forma canônica (kana sem espaços, "konbanwahajimemashite")
+      let k = i + 1; while (k < w.length && !chStrong(chTalkAnalyze1(w.slice(k).join(' ')))) k++;
+      tryCanon(w.slice(i, k).join(''));
+      i = k;
+    }
+  });
+  return out;
+}
+function chTalkAnalyze(text, stk, cid) {
+  const A = chTalkAnalyze1(text, stk);
+  if (A.meta || (A.pt && A.pt.id) || !A.c || chStrong(A)) return A;
+  const merge = (B, sc, extra) => B.intents.forEach(x => { const ex = A.intents.find(y => y.id === x.id); const s = Math.min(x.s, sc); if (ex) { if (s > ex.s) ex.s = s; } else A.intents.push(Object.assign({}, x, { s }, extra || {})); });
+  // várias frases na mesma mensagem
+  const segs = A.pt ? [] : chTalkSegments(A.raw);
+  if (segs.length >= 2 || (segs.length === 1 && chCanon(segs[0]) !== A.c)) {
+    A.segs = segs;
+    segs.forEach(sg => merge(chTalkAnalyze1(sg), 3, { seg: true }));
+    if (A.intents.some(x => x.id === 'bad')) A.intents = A.intents.filter(x => x.id !== 'good');
+  }
+  // eco: o aluno repetiu (quase) igual uma fala recente do personagem
+  if (cid && !chStrong(A) && A.c.length >= 3) {
+    const th = typeof chThread === 'function' ? chThread(cid) : [];
+    const lines = []; for (let i = th.length - 1; i >= 0 && lines.length < 4; i--) { const m = th[i]; if (m && m.from === 'me') break; if (m && m.from === 'char' && m.jp) lines.push(m); }
+    const l = A.l;
+    for (const m of lines) {
+      const cands = [chCanon(m.jp), chCanon(m.ro || '')].filter(x => x && x.length >= 3);
+      const near = cands.some(x => x === A.c || chLoose(x) === l || (l.length >= 6 && chLev(l, chLoose(x), Math.max(1, Math.floor(l.length / 8))) <= Math.max(1, Math.floor(l.length / 8))));
+      if (!near) continue;
+      A.echo = { jp: m.jp, ro: m.ro };
+      const B = chTalkAnalyze1(m.jp);
+      const parts = chStrong(B) ? [B] : chTalkSegments(m.jp).map(x => chTalkAnalyze1(x));
+      parts.forEach(P => merge(P, 2.8, { echo: true }));
+      if (!A.intents.length) A.intents.push({ id: 'ack', s: 1.5, echo: true });
+      break;
+    }
+  }
+  A.pt = A.intents.length ? null : A.pt;
   A.intents.sort((a, b) => b.s - a.s);
   return A;
 }
@@ -333,7 +401,7 @@ function chTalkReply(cid, text, stk) {
   const me = chPush(cid, Object.assign({ from: 'me', txt: text || '', kind: 'free', fr: 1 }, stk ? { stk } : {}));
   S.chat.stats.sent++; act.n = (act.n || 0) + 1;
   if (stk) { S.chat.stk = S.chat.stk || { fav: [], recent: [] }; const rc = S.chat.stk.recent = (S.chat.stk.recent || []).filter(x => x !== stk); rc.unshift(stk); rc.splice(12); const it = CH_STK[stk] && CH_STK[stk].item; if (it && chItem(it)) { if (!(S.items['chat:' + it] && S.items['chat:' + it].seen)) chTalkTeach(cid, [it]); else recordAnswer('chat:' + it, true, 'chat'); } }
-  const A = chTalkAnalyze(text, stk);
+  const A = chTalkAnalyze(text, stk, cid);
   const ex = chExGet(cid, act.ex);
   const res = { kind: 'free', intent: null };
   if (A.fuzzy) me.heard = { jp: A.fuzzy.jp, ro: A.fuzzy.ro };
@@ -357,7 +425,7 @@ function chTalkReply(cid, text, stk) {
   if (A.capText) ctx0['*'] = A.capText;
   Object.assign(act.ctx, ctx0);
   if (A.cap.like) { S.chat.facts.ctx = S.chat.facts.ctx || {}; const v = A.cap.like; S.chat.facts.ctx.likes = { jp: v.jp, ro: v.ro, pt: v.pt }; }
-  const isStandalone = A.intents.length && CH_STANDALONE.includes(A.intents[0].id) && A.intents[0].s >= 2.5;
+  const isStandalone = A.intents.length && A.intents[0].s >= 2.5 && A.intents.filter(x => x.s >= 2.5).every(x => CH_STANDALONE.includes(x.id));
   // 1) o que o personagem acabou de perguntar decide o sentido da resposta curta
   if (ex && (!isStandalone || (ex.on && ex.on[A.intents[0].id]))) {
     for (const it of A.intents) { for (const k of [it.id].concat(CH_FB[it.id] || [])) { if (ex.on && ex.on[k]) { chosen = ex.on[k]; key = ex.__id + ':' + k; intent = it.id; break; } } if (chosen) break; }

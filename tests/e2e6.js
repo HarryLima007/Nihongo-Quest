@@ -6,6 +6,8 @@ const { chromium, devices } = require('playwright');
 const path = require('path'); const fs = require('fs');
 const URL = 'file://' + path.resolve(__dirname, '../dist/nihongo-quest.html');
 const V40 = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'v4.0-save.json'), 'utf8'));
+// a conversa pendente fica "recente" (o personagem só puxa outro assunto depois de 6 h sem conversa)
+Object.values(V40.chat.chars).forEach(c => { if (c && typeof c === 'object') c.lastAt = Date.now(); });
 const V30 = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'v3.0-save.json'), 'utf8'));
 let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++; };
 const same = (a, b, m) => ok(JSON.stringify(a) === JSON.stringify(b), m + (JSON.stringify(a) === JSON.stringify(b) ? '' : ' → ' + JSON.stringify(a)));
@@ -33,7 +35,7 @@ const stub = `(() => {
   const page = await mk();
   const raw = await loadSave(page, V40);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 5 && S.appVersion === '5.0.0', '4.0: migrado para o esquema 5 (versão 5.0.0)');
+  ok(S.schemaVersion === 6 && S.appVersion === '6.0.0', '4.0: migrado para o esquema 6 (versão 6.0.0)');
   const bk = await page.evaluate(() => localStorage.getItem('nihongoQuest:backup:schema4'));
   ok(bk === raw, '4.0: cópia de segurança do save antigo guardada antes da migração');
   same(S.lessons, V40.lessons, '4.0: lições preservadas');

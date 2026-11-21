@@ -39,6 +39,8 @@
     "chat-stickers.js",
     "chat-talk.js",
     "chat-ui.js",
+    "listening-data.js",
+    "listening.js",
     "boot.js"
   ]
 }

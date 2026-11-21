@@ -86,7 +86,7 @@ function speak(text, opts = {}) {
       if (my !== AUDIO.token) return resolve(false);
       let u;
       try { u = new SpeechSynthesisUtterance(cleanSay(text)); } catch (e) { AUDIO.status = 'unsupported'; audioProblem(); return resolve(false); }
-      u.lang = 'ja-JP'; if (AUDIO.ja) u.voice = AUDIO.ja;
+      u.lang = 'ja-JP'; if (opts.voice) u.voice = opts.voice; else if (AUDIO.ja) u.voice = AUDIO.ja;
       u.rate = opts.rate || (AUDIO.slow ? 0.6 : RATES[S.settings.rate] || RATES.normal); u.pitch = opts.pitch || 1;
       let started = false;
       const guard = setTimeout(() => {
@@ -398,9 +398,11 @@ function renderDialogLab() {
    ========================================================== */
 const aud = { sub: 'hub', detTab: 'casos' };
 function viewAcademyRoot() {
-  const mode = S.settings.academyMode === 'aud' ? 'aud' : 'trad';
-  const sw = `<div class="wrap"><div class="mode-switch" role="tablist"><button role="tab" aria-selected="${mode === 'trad'}" class="${mode === 'trad' ? 'on' : ''}" data-act="acadMode" data-mode="trad">${IC.academy} Academia</button><button role="tab" aria-selected="${mode === 'aud'}" class="${mode === 'aud' ? 'on' : ''}" data-act="acadMode" data-mode="aud">${IC.headphones} Auditiva</button></div></div>`;
+  const mode = ['aud', 'la'].includes(S.settings.academyMode) ? S.settings.academyMode : 'trad';
+  const b = (m, ic, txt) => `<button role="tab" aria-selected="${mode === m}" class="${mode === m ? 'on' : ''}" data-act="acadMode" data-mode="${m}">${ic} ${txt}</button>`;
+  const sw = `<div class="wrap"><div class="mode-switch three" role="tablist">${b('trad', IC.academy, 'Academia')}${b('la', IC.headphones, 'Listening')}${b('aud', IC.wave, 'Treinos')}</div></div>`;
   if (mode === 'trad') return sw + viewAcademy();
+  if (mode === 'la') return sw + viewLA();
   return sw + ({ hub: viewAudioHub, expr: viewExpressions, det: viewDetective, dlg: viewDialogs }[aud.sub] || viewAudioHub)();
 }
 function backBar(title, jp) {
@@ -552,12 +554,14 @@ function viewNotebook() {
       <div class="nb-meta"><span class="chip nova">${GROUP_LABEL[g]}</span><span>${esc(originOf(it))}</span><span>· desde ${new Date(r.seen).toLocaleDateString('pt-BR')}</span>${r.c + r.w ? `<span class="tabnum">· ${r.c} acerto${r.c === 1 ? '' : 's'}, ${r.w} erro${r.w === 1 ? '' : 's'}</span>` : ''}${g === 'anime' ? `<button class="link-btn" style="padding:0" data-act="discOpen" data-id="${it.id}">Ver descoberta</button>` : ''}</div></div>`;
   };
   // agrupa pela origem, mantendo a ordem do conteúdo
-  const order = ALL_LESSONS.concat(AUDIO_PACKS, [CHAT_PACK]);
+  const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK]);
   let groups;
   if (nb.t === 'dificeis') groups = entries.length ? `<section class="section"><div class="card">${entries.map(entryHTML).join('')}</div></section>` : '';
   else groups = order.map(l => { const list = entries.filter(it => it.lesson === l); return list.length ? `<section class="section"><div class="section-h"><h2 style="font-size:1rem">${esc(l.kind === 'audio' || l.id === 'chat' ? originOf(list[0]) : l.title)}</h2><span class="muted" style="font-size:.8rem">${esc(l.cat.title)}</span></div><div class="card">${list.map(entryHTML).join('')}</div></section>` : ''; }).join('');
   if (dlgs.length) groups += `<section class="section"><div class="section-h"><h2 style="font-size:1rem">Diálogos concluídos</h2><span class="muted" style="font-size:.8rem">Laboratório de Diálogos</span></div><div class="card">${dlgs.map(d => { const r = S.listening.dialogs[d.id]; return `<div class="nb-entry"><div class="nb-top"><span class="jpw" style="font-size:1.1rem;font-family:var(--f-body)">${esc(d.title)}</span><span class="chip dominada tabnum">${r.best}%</span><button class="icon-btn" data-act="dialog" data-id="${d.id}" aria-label="Abrir diálogo">${IC.play.replace('<svg', '<svg width="18" height="18"')}</button></div>${d.lines.map(l => `<div style="font-size:.9rem"><b>${esc((CHARS[l.sp] || {}).name)}:</b> <span class="jp">${esc(l.jp)}</span><br><span class="ro">${esc(l.ro)}</span> · ${esc(l.pt)}</div>`).join('')}<div class="nb-meta"><span class="chip nova">Diálogo</span><span>concluído em ${new Date(r.at).toLocaleDateString('pt-BR')}</span></div></div>`; }).join('')}</div></section>`;
-  const total = entries.length + dlgs.length;
+  const laD = (nb.t === 'todas' || nb.t === 'dialogo') && nb.f === 'todas' && typeof LA_LESSONS !== 'undefined' ? LA_LESSONS.filter(L => L.d && S.lacad && S.lacad.dialogs[L.id] && match(L.title, L.situ, ...L.d.map(x => x[1]))) : [];
+  if (laD.length) groups += `<section class="section"><div class="section-h"><h2 style="font-size:1rem">Diálogos compreendidos</h2><span class="muted" style="font-size:.8rem">Listening Academy</span></div><div class="card">${laD.map(L => { const r = S.lacad.dialogs[L.id]; return `<div class="nb-entry"><div class="nb-top"><span class="jpw" style="font-size:1.1rem;font-family:var(--f-body)">${esc(L.title)}</span><span class="chip dominada tabnum">${r.best}%</span><button class="icon-btn" data-act="laOpen" data-id="${L.id}" aria-label="Abrir lição">${IC.play.replace('<svg', '<svg width="18" height="18"')}</button></div>${L.d.map(([sp, s]) => { const x = laTL(s); return `<div style="font-size:.9rem"><b>${esc(laWho(sp).name)}:</b> <span class="jp">${esc(x.jp)}</span><br><span class="ro">${esc(x.ro)}</span> · ${esc(x.pt)}</div>`; }).join('')}<div class="nb-meta"><span class="chip nova">Diálogo</span><span>compreendido em ${new Date(r.at).toLocaleDateString('pt-BR')}</span></div></div>`; }).join('')}</div></section>`;
+  const total = entries.length + dlgs.length + laD.length;
   const fl = [['todas', 'Qualquer status'], ['aprendendo', 'Aprendendo'], ['revisar', 'Revisar'], ['dominadas', 'Dominadas']];
   return `<div class="wrap"><div class="page-title"><div><span class="jp">がくしゅうノート</span><h1>Caderno de Aprendizado</h1></div></div>
     <div class="stack"><input class="search" id="nbSearch" type="search" placeholder="Buscar em japonês, romaji ou português" value="${esc(nb.q)}" aria-label="Buscar no caderno">
@@ -577,7 +581,7 @@ Object.assign(ACT, {
   rate: el => { S.settings.rate = el.dataset.val; save(); document.querySelectorAll('.rate-seg button').forEach(b => b.classList.toggle('on', b.dataset.val === S.settings.rate)); if (P && P.phase === 'quiz') playQ(); },
   revealJp: () => { const q = P.qs[P.i]; q.revealJp = true; q.hinted = true; P.keepScroll = true; renderPlayer(); },
   hintRo: () => { const q = P.qs[P.i]; q.hintRo = true; q.hinted = true; P.keepScroll = true; renderPlayer(); },
-  acadMode: el => { S.settings.academyMode = el.dataset.mode; if (el.dataset.mode === 'aud') aud.sub = 'hub'; save(); render(); window.scrollTo(0, 0); },
+  acadMode: el => { S.settings.academyMode = el.dataset.mode; if (el.dataset.mode === 'aud') aud.sub = 'hub'; save(); if (view !== 'academia') go('academia'); else render(); window.scrollTo(0, 0); },
   audSub: el => { aud.sub = el.dataset.sub; S.settings.academyMode = 'aud'; render(); window.scrollTo(0, 0); },
   gotoAud: el => { aud.sub = el.dataset.sub || 'hub'; S.settings.academyMode = 'aud'; go('academia'); },
   setLevel: el => { S.listening.level = el.dataset.lv; save(); render(); toast('聴', 'Nível auditivo: ' + LEVELS[levelNum(el.dataset.lv) - 1].name); },
