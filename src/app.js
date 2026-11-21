@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '5.0.0';
-const SCHEMA_VERSION = 5;
+const APP_VERSION = '6.0.0';
+const SCHEMA_VERSION = 6;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -55,9 +55,12 @@ function defaultState() {
     listening: defaultListening(),
     discoveries: {},
     exStats: {}, skills: {}, log: {}, tests: [],
-    chat: defaultChat()
+    chat: defaultChat(),
+    lacad: defaultLacad()
   };
 }
+/* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
+function defaultLacad() { return { v: 1, lessons: {}, exams: {}, words: {}, dialogs: {}, speed: 1, stats: { a: 0, c: 0, ms: 0, byCat: {}, byType: {} } }; }
 function defaultListening() {
   const ac = () => ({ a: 0, c: 0 });
   return {
@@ -120,6 +123,11 @@ const MIGRATIONS = {
     }
     s.migratedFrom5 = { schema: 4, at: Date.now() };
     return s;
+  },
+  5: s => { // 5.0 -> 6.0: só ACRESCENTA a Listening Academy; Academia, chat, revisão, caderno e configurações ficam intactos
+    if (!isPlainObj(s.lacad)) s.lacad = defaultLacad();
+    s.migratedFrom6 = { schema: 5, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -148,6 +156,9 @@ function normalize(data) {
   if (!isPlainObj(s.chat.stk)) s.chat.stk = { fav: [], recent: [] };
   ['fav', 'recent'].forEach(k => { if (!Array.isArray(s.chat.stk[k])) s.chat.stk[k] = []; });
   Object.keys(s.chat.threads).forEach(k => { if (!Array.isArray(s.chat.threads[k])) s.chat.threads[k] = []; });
+  if (!isPlainObj(s.lacad)) s.lacad = defaultLacad();
+  ['lessons', 'exams', 'words', 'dialogs'].forEach(k => { if (!isPlainObj(s.lacad[k])) s.lacad[k] = {}; });
+  if (!isPlainObj(s.lacad.stats)) s.lacad.stats = defaultLacad().stats;
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;
@@ -807,6 +818,7 @@ function viewReview() {
     ${weak.length ? `<section class="section"><h2 style="font-size:1.1rem">Assuntos que precisam de prática</h2><div class="card list">${weak.map(x => `<div class="row"><span class="jpw" style="width:40px;text-align:center">${esc(x.L.emblem)}</span><div class="grow"><b>${esc(x.L.title)}</b><div class="muted" style="font-size:.82rem">${esc(x.L.cat.title)} · ${x.acc.pct}% de acertos em ${x.acc.a} respostas</div></div><button class="btn btn-small btn-primary" data-act="startReview" data-mode="lesson:${x.L.id}">Praticar</button></div>`).join('')}</div></section>` : ''}
     <section class="section"><h2 style="font-size:1.1rem">Erros recorrentes</h2><div class="card list">${hard.length ? hard.map(id => { const it = ITEM[id], r = S.items[id]; return `<div class="row"><div class="grow"><div class="jpw">${esc(it.jp)}</div><div class="muted" style="font-size:.85rem">${esc(it.ro)} · ${esc(it.pt)}</div></div><span class="chip ${r.lastOk ? 'aprendendo' : 'revisar'} tabnum">${r.w} erro${r.w > 1 ? 's' : ''}${r.lastOk ? ' · corrigido' : ''}</span></div>`; }).join('') : '<p class="muted" style="margin:0">Nenhum erro registrado até agora. Excelente!</p>'}
       ${wex.length ? `<p class="muted" style="margin:8px 0 0;font-size:.85rem">E ${wex.length} exercício${wex.length > 1 ? 's' : ''} de frase errado${wex.length > 1 ? 's' : ''} na última tentativa (entram em “Treinar meus erros”).</p>` : ''}</div></section>
+    ${typeof laReviewIds === 'function' && laReviewIds().length ? `<section class="section"><div class="card mascot-tip" style="align-items:center"><span class="mod-ic big">${IC.headphones}</span><div class="grow" style="min-width:0"><b>Revisão auditiva</b><p class="muted" style="margin:2px 0 0;font-size:.85rem">${laReviewIds().length} palavras e frases da Listening Academy, pelo som.</p></div><button class="btn btn-small btn-primary" data-act="startReview" data-mode="la">Ouvir</button></div></section>` : ''}
     <section class="section"><h2 style="font-size:1.1rem">Revisar por ala</h2><div class="card list">${byCat}</div></section>
     ${statsSection()}</div>`;
 }
