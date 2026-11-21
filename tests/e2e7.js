@@ -185,7 +185,7 @@ const night = `(() => { const R = Date; const off = new R(2026, 10, 20, 23, 10).
   const prof = await page.textContent('#view');
   ok(prof.includes('Listening Academy') && prof.includes('categorias concluídas') && prof.includes('diálogos compreendidos') && prof.includes('Academia Auditiva'), 'Perfil mostra a evolução auditiva');
   await page.click('.tab[data-view="inicio"]'); await page.waitForTimeout(100);
-  ok(await page.isVisible('text=Entenda japonês falado'), 'Início mostra o cartão da Listening Academy');
+  ok(await page.isVisible('.nq-tile[data-act="gotoLA"]'), 'Início mostra a Listening Academy (10.0: bloco na “Sua jornada”)');
 
   /* ---------- 8. avaliação da categoria ---------- */
   await page.evaluate(() => { LA_CAT.la4.lessons.forEach(l => { __NQ.S.lacad.lessons[l.id] = { passed: true, best: 90, attempts: 1 }; }); });
