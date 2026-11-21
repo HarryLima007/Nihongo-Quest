@@ -51,6 +51,8 @@
     "journey.js",
     "rpg-data.js",
     "rpg.js",
+    "vocab-data.js",
+    "vocab.js",
     "boot.js"
   ]
 }
