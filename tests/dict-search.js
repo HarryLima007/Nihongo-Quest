@@ -21,7 +21,8 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   for (const [q, jp] of [['gato', '猫'], ['GATO', '猫'], ['  gato  ', '猫'], ['neko', '猫'], ['ねこ', '猫'], ['ネコ', '猫'], ['猫', '猫'], ['familia', '家族'], ['família', '家族'], ['maçã', 'りんご'], ['maca', 'りんご'], ['arigato', 'ありがとう'], ['arigatō', 'ありがとう'], ['koohii', 'コーヒー'], ['kōhī', 'コーヒー'], ['こーひー', 'コーヒー'], ['segunda-feira', '月曜日'], ['taberu', '食べる'], ['konnitiwa', 'こんにちは'], ['bom dia', 'おはよう']])
     ok((await top(q, 2)).includes(jp), `“${q}” acha ${jp}`);
   // ausências reais (conteúdo, não busca)
-  for (const q of ['quadrado', 'chifre', 'triângulo', 'escudo']) ok((await top(q)).length === 0, `“${q}” continua sem resultado: a palavra não está cadastrada`);
+  // lacunas do audit da 11.0, preenchidas na 12.0
+  for (const [q, jp] of [['quadrado', '四角'], ['chifre', '角'], ['triângulo', '三角'], ['escudo', '盾']]) ok((await top(q, 3)).includes(jp), `“${q}” agora acha ${jp}`);
   ok(await page.evaluate(() => DICT.list.length) >= 1590, 'nenhum verbete removido (' + await page.evaluate(() => DICT.list.length) + ')');
   await browser.close();
   console.log(fails ? `\n${fails} FALHA(S)` : '\nTUDO OK');

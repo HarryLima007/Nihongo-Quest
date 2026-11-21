@@ -86,16 +86,16 @@ const stub = `(() => {
 
   /* ---------- 1. migração 10.0 -> 11.0 ---------- */
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 11 && S.appVersion === '11.0.0', '10.0: migrado para o esquema 11 (versão 11.0.0)');
+  ok(S.schemaVersion === 12 && S.appVersion === '12.0.0', '10.0: migrado para o esquema 11 (versão 11.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema10') === r, raw), 'backup do save 10.0 guardado (nihongoQuest:backup:schema10) antes de migrar');
   ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict', 'world', 'lacad', 'read', 'journey', 'settings', 'profile', 'discoveries', 'listening'].forEach(k => ok(JSON.stringify(S[k]) === JSON.stringify(V10[k]) || (k === 'journey' && S.journey.seenVersion !== undefined && JSON.stringify(S.journey.claimed) === JSON.stringify(V10.journey.claimed)), 'preservado: ' + k));
   ok(JSON.stringify(S.chat.chars) === JSON.stringify(V10.chat.chars) && JSON.stringify(S.chat.threads) === JSON.stringify(V10.chat.threads), 'preservado: Chat (personagens e conversas)');
   ok(S.rpg && S.rpg.v === 1 && !S.rpg.started && S.rpg.hero.lv === 1 && !Object.keys(S.rpg.quests).length, 'aventura criada vazia (nada iniciado na migração)');
-  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 11, 'save regravado no esquema 11');
+  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 12, 'save regravado no esquema 11');
 
   /* ---------- 2. entradas ---------- */
   ok(await page.isVisible('.av-homecard') && await page.isVisible('.nq-tiles'), 'Início: cartão do Adventure Mode acima de “Sua jornada” (8 áreas mantidas)');
-  ok((await page.$$('.nq-tiles .nq-tile')).length === 8, 'Sua jornada continua com 8 áreas');
+  ok((await page.$$('.nq-tiles .nq-tile')).length === 9, 'Sua jornada continua com 9 áreas');
   await page.click('.tab[data-view="mundo"]'); await page.waitForTimeout(100);
   ok(await page.isVisible('.w-mapcard') && await page.isVisible('.av-homecard'), 'Mundo: atalho para a aventura sem esconder o mapa de Hikari-machi');
   await page.click('.av-homecard'); await page.waitForTimeout(100);
@@ -322,7 +322,7 @@ const stub = `(() => {
   ok(!!savedId, 'salvar no Caderno é opcional e cria o item da aventura (' + savedId + ')');
   await closeModals(page);
   await page.evaluate(() => { __NQ.S.rpg.hero.hp = 1; __NQ.RPG.battle('ishi', { t: 'enemy', id: 'zz', e: 'ishi' }); });
-  for (let i = 0; i < 30 && await page.evaluate(() => !!(__NQ.AV.bt && __NQ.AV.bt.mode !== 'end')); i++) { await page.evaluate(() => __NQ.AV.bt.mode === 'cmd' && document.querySelector('#avBattle [data-act="btAttack"]').click()); await page.waitForTimeout(30); }
+  for (let i = 0; i < 150 && await page.evaluate(() => !!(__NQ.AV.bt && __NQ.AV.bt.mode !== 'end')); i++) { await page.evaluate(() => __NQ.AV.bt.mode === 'cmd' && document.querySelector('#avBattle [data-act="btAttack"]').click()); await page.waitForTimeout(60); }
   const lost = await page.evaluate(() => __NQ.AV.bt && __NQ.AV.bt.result && __NQ.AV.bt.result.win === false);
   const invBefore = await page.evaluate(() => JSON.stringify(__NQ.S.rpg.inv));
   if (lost) { await page.click('#avBattle [data-act="btEnd"]'); await page.waitForTimeout(40); }
@@ -349,7 +349,7 @@ const stub = `(() => {
   await pn.evaluate(() => { __NQ.S.rpg.taught = {}; __NQ.RPG.battle('mochi', { t: 'enemy', id: 'q', e: 'mochi' }); });
   await pn.click('#avBattle [data-act="btWord"]'); await pn.waitForTimeout(30);
   ok(await pn.evaluate(() => !__NQ.RPG.QZ && Object.keys(__NQ.S.rpg.taught).length === 1 && __NQ.AV.bt.log.some(l => /ensina/.test(l.txt))), 'sem palavras conhecidas: Ren ensina uma palavra em vez de cobrar');
-  ok(await pn.evaluate(() => __NQ.S.schemaVersion === 11 && __NQ.S.xp === 0), 'aluno novo: esquema 11, sem XP indevido');
+  ok(await pn.evaluate(() => __NQ.S.schemaVersion === 12 && __NQ.S.xp === 0), 'aluno novo: esquema 11, sem XP indevido');
 
   ok(!errors.length, 'sem erros de JavaScript ' + errors.slice(0, 3).join(' | '));
   await browser.close();

@@ -33,6 +33,12 @@ DICT_EXTRA_P.forEach(e => {
   e.dictId = it.id;
 });
 
+/* 12.0: as partículas também podem ir para o Caderno e a Revisão (item próprio; a voz lê は como “wa” e へ como “e”) */
+DICT_PARTICLES.forEach(P => {
+  const id = 'dict:part:' + P.p;
+  if (!ITEM[id]) { ITEM[id] = { k: 'part:' + P.p, jp: P.p, say: P.p === 'は' ? 'わ' : P.p === 'へ' ? 'え' : P.p, ro: P.ro, pt: P.pt.join(' / '), group: 'palavra', particle: P, tag: 'particulas', note: P.intro, id, lesson: DICT_LESSON }; DICT_LESSON.items.push(ITEM[id]); }
+});
+
 /* ---------- índice (montado na primeira consulta) ---------- */
 function dictBuild() {
   if (DICT.built) return; DICT.built = true;
@@ -45,8 +51,12 @@ function dictBuild() {
     const kana = src.kana, kanji = src.kanji || '';
     if (!kana && !kanji) return;
     const reading = KANA.kata2hira(kana || '');
-    // mesma leitura + mesma escrita (ou uma delas sem kanji) = mesma palavra
-    let e = (DICT.byWord[reading] || []).find(x => !kanji || !x.kanji || x.kanji === kanji);
+    // mesma leitura + mesma escrita (ou uma delas sem kanji) = mesma palavra.
+    // 12.0: entre homófonos (はし 箸 × 橋, そば “ao lado” × “macarrão”), prefere a escrita igual e, para palavras
+    // em kana, a entrada em kana ou a de significado compatível; senão cria outra entrada (não mistura sentidos).
+    const same = DICT.byWord[reading] || [], ptOk = x => !src.pt || x.pt.some(p => nqPtCompat(p, src.pt));
+    let e = kanji ? same.find(x => x.kanji === kanji) || same.find(x => !x.kanji && ptOk(x)) || same.find(x => !x.kanji && !x.particle)
+      : same.find(x => !x.kanji && ptOk(x)) || same.find(x => ptOk(x)) || (same.length === 1 && !same[0].kanji ? same[0] : null);
     if (!e) {
       e = { key: (kanji || '') + '|' + (kana || src.ro), kanji, kana, reading, ro: src.ro, pt: [], pos: '', tags: [], ex: [], notes: [], ctx: [], items: [], srcs: [] };
       DICT.list.push(e); (DICT.byWord[reading] = DICT.byWord[reading] || []).push(e); DICT.byKey[e.key] = e;
@@ -70,7 +80,8 @@ function dictBuild() {
     if (/[。？！?!]/.test(it.jp) && it.jp.length > 6) return; // frases inteiras
     const jp = it.jp, say = it.say && isKana(it.say) ? it.say : '';
     let kana, kanji = '';
-    if (hasKanji(jp)) { kanji = jp.replace(/[！!？?。]/g, ''); kana = say || KANA.toKana(it.ro); }
+    if (L.vc) { kana = it.kana; kanji = it.write && it.write !== it.kana ? it.write : ''; }
+    else if (hasKanji(jp)) { kanji = jp.replace(/[！!？?。]/g, ''); kana = say || KANA.toKana(it.ro); }
     else { kana = jp.replace(/[！!？?。…〜~]/g, ''); kanji = it.kanji && hasKanji(it.kanji) && it.kanji.length <= 4 ? it.kanji : ''; }
     if (!kana || kana.length > 14) return;
     const ctx = [];
@@ -79,8 +90,8 @@ function dictBuild() {
     if (it.formal) ctx.push(it.formal);
     const lt = (L.title || '') + ' ' + (L.cat && L.cat.title || '');
     const kanjiLesson = L.cat && /kanji/i.test(L.cat.title || '');
-    const pos = kind === 'number' ? 'num' : kanjiLesson && /^[一-鿿]$/.test(jp) ? 'kanji' : it.group === 'expressao' ? 'expr' : /verbo/i.test(L.title || '') && /^(a |o )?[a-zà-ú]+(ar|er|ir|or)\b/i.test(it.pt) ? 'verbo' : /adjetivo/i.test(L.title || '') && /i$/.test(it.ro) ? 'adj-i' : '';
-    add({ kana, kanji, ro: it.ro, pt: it.pt, pos, note: it.note, ex: it.ex, ctx, id: it.id, srcLabel, tag: tagHint || (kanjiLesson ? '' : dictTagFromTitle(lt)) });
+    const pos = it.pos || (kind === 'number' ? 'num' : kanjiLesson && /^[一-鿿]$/.test(jp) ? 'kanji' : it.group === 'expressao' ? 'expr' : /verbo/i.test(L.title || '') && /^(a |o )?[a-zà-ú]+(ar|er|ir|or)\b/i.test(it.pt) ? 'verbo' : /adjetivo/i.test(L.title || '') && /i$/.test(it.ro) ? 'adj-i' : '');
+    add({ kana, kanji, ro: it.ro, pt: it.pt, pos, note: it.note, ex: it.ex, ctx, id: it.id, srcLabel, tag: it.tag || tagHint || (kanjiLesson ? '' : dictTagFromTitle(lt)) });
   };
   ALL_LESSONS.forEach(l => l.items.forEach(it => fromItem(it, l.cat.title + ' · ' + l.title)));
   AUDIO_PACKS.forEach(p => p.items.forEach(it => fromItem(it, p.title || 'Academia Auditiva', p.id === 'aud-ani' ? 'anime' : '')));
@@ -88,13 +99,27 @@ function dictBuild() {
   if (typeof CHAT_PACK !== 'undefined') CHAT_PACK.items.forEach(it => fromItem(it, 'Nihongo Chat'));
   if (typeof WORLD_LESSON !== 'undefined') WORLD_LESSON.items.forEach(it => fromItem(it, 'Living Japanese World'));
   if (typeof RD_WORDS_PACK !== 'undefined') RD_WORDS_PACK.items.forEach(it => fromItem(it, 'Leitura Japonesa'));
+  // 12.0: Academia de Vocabulário (classe, tema, notas e exemplos revisados) e as palavras do Adventure Mode
+  if (typeof VC_LESSONS !== 'undefined') VC_LESSONS.forEach(l => l.items.forEach(it => fromItem(it, 'Academia de Vocabulário · ' + l.vcat.title)));
+  if (typeof RPG_LESSON !== 'undefined') RPG_LESSON.items.forEach(it => fromItem(it, 'Adventure Mode', 'aventura'));
   DICT_EXTRA_P.forEach(e => add({ kana: e.kana, kanji: e.kanji, ro: e.ro, pt: e.pt, pos: e.pos, tag: e.tag, ex: e.ex, id: null, dict: true }));
   DICT_EXTRA_P.forEach(e => { const d = dictFind(e.kanji || e.kana, e.kana); if (d) d.dictId = e.dictId; });
+  // 12.0: as 14 partículas, com verbete próprio (não se misturam com homófonos como 歯 は ou 二 に)
+  DICT_PARTICLES.forEach((P, i) => {
+    const old = (DICT.byWord[P.p] || []).find(x => !x.kanji && (!x.pos || x.pos === 'part'));
+    const e = old || { key: 'part|' + P.p, kanji: '', kana: P.p, reading: P.p, ro: P.ro, pt: [], pos: 'part', tags: [], ex: [], notes: [], ctx: [], items: [], srcs: [] };
+    if (!old) { DICT.list.push(e); DICT.byKey[e.key] = e; }
+    e.ro = P.ro; e.pos = 'part'; e.particle = P; e.pi = i; e.dictId = 'dict:part:' + P.p;
+    e.pt = P.pt.concat(e.pt.filter(p => !P.pt.some(x => dNorm(x) === dNorm(p))));
+    e.tags = ['particulas'].concat(e.tags.filter(t => t !== 'particulas'));
+    if (!e.srcs.includes('Gramática da Academia')) e.srcs.push('Gramática da Academia');
+  });
   DICT.list.forEach((e, i) => {
     e.rank = i;
     e.jp = e.kanji || e.kana;
     e.k = { ro: KANA.phon(e.ro || KANA.toRomaji(e.kana)), roRaw: dNorm(e.ro).replace(/[^a-z]/g, ''), kana: e.reading, pt: e.pt.map(p => dNorm(p).replace(/\((a|o|as|os|es)\)/g, '').replace(/\s+/g, ' ').trim()), ptWords: e.pt.flatMap(p => dNorm(p).split(/[^a-z0-9à-ú]+/).filter(Boolean)) };
     e.k.ptAlt = dictPtAlt(e.pt); e.k.ptWords.push(...e.k.ptAlt.flatMap(p => p.split(' ')).filter(w => w && !e.k.ptWords.includes(w)));
+    if (e.particle) { e.k.roAlt = e.particle.alt || []; e.k.ptWords.push('particula', 'particulas'); e.k.pt.push('particula ' + e.particle.ro, 'particula ' + e.particle.p); }
   });
 }
 function dictTagFromTitle(t) {
@@ -117,7 +142,7 @@ function dictSearch(q) {
     const hira = KANA.kata2hira(q.replace(/\s/g, ''));
     DICT.list.forEach(e => {
       let s = 0;
-      if (e.kanji === q || e.kana === q || e.reading === hira) s = 100;
+      if (e.kanji === q || e.kana === q || e.reading === hira) s = 100 + (e.particle && e.kana === q ? 1 : 0);
       else if (e.kanji && e.kanji.startsWith(q) || e.reading.startsWith(hira)) s = 70;
       else if (e.kanji && e.kanji.includes(q)) s = 50;
       else if (hira.length >= 2 && e.reading.includes(hira)) s = 35;
@@ -130,7 +155,8 @@ function dictSearch(q) {
     DICT.list.forEach(e => {
       let s = 0;
       // romaji (grafias diferentes: ou/oo/ō, shi/si, tsu/tu, n'…)
-      if (raw && e.k.roRaw === raw) s = 100;
+      if (raw && e.k.roRaw === raw) s = 100 + (e.particle ? 1 : 0);
+      else if (raw && e.k.roAlt && e.k.roAlt.includes(raw)) s = 99;
       else if (ph && e.k.ro === ph) s = 96;
       else if (kana && e.reading === kana) s = 95;
       else if (ph.length >= 2 && e.k.ro.startsWith(ph)) s = 62 - Math.min(10, e.k.ro.length - ph.length);
@@ -142,7 +168,32 @@ function dictSearch(q) {
       if (s) out.push([s, e]);
     });
   }
-  return out.sort((a, b) => b[0] - a[0] || (a[1].jp.length - b[1].jp.length) || a[1].rank - b[1].rank).map(x => x[1]);
+  // 12.0: quando há resultado exato ou quase exato, pedaços soltos no meio de outras palavras (substring) saem da lista
+  const best = out.reduce((m, x) => Math.max(m, x[0]), 0);
+  const kept = best >= 90 ? out.filter(x => x[0] >= 40) : out;
+  return kept.sort((a, b) => b[0] - a[0] || (a[1].jp.length - b[1].jp.length) || a[1].rank - b[1].rank).map(x => x[1]);
+}
+/* 12.0: sem resultado → sugestões parecidas (erro de digitação em romaji ou português). Nunca inventa verbete. */
+function dictLev(a, b, max) {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) { const cur = [i]; let lo = i; for (let j = 1; j <= b.length; j++) { cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); lo = Math.min(lo, cur[j]); } if (lo > max) return max + 1; prev = cur; }
+  return prev[b.length];
+}
+function dictSuggest(q) {
+  dictBuild();
+  q = String(q || '').trim(); if (q.length < 3) return [];
+  const out = [];
+  if (/[぀-ヿ]/.test(q)) { const h = KANA.kata2hira(q.replace(/\s/g, '')); DICT.list.forEach(e => { const d = dictLev(h, e.reading, 1); if (d <= 1) out.push([d, e]); }); }
+  else if (!/[一-鿿]/.test(q)) {
+    const n = dNorm(q).replace(/[^a-z ]/g, '').trim(), raw = n.replace(/ /g, ''), max = raw.length >= 6 ? 2 : 1;
+    DICT.list.forEach(e => {
+      let d = dictLev(raw, e.k.roRaw, max);
+      e.k.ptWords.forEach(w => { if (w.length >= 3) d = Math.min(d, dictLev(n, w, max)); });
+      if (d <= max) out.push([d, e]);
+    });
+  }
+  return out.sort((a, b) => a[0] - b[0] || a[1].rank - b[1].rank).map(x => x[1]).filter((e, i, a) => a.indexOf(e) === i).slice(0, 6);
 }
 
 /* 11.0 — correções da busca em português (comprovadas na investigação de conteúdo):
@@ -153,7 +204,7 @@ function dictPtAlt(pts) {
   const out = [];
   pts.forEach(p => {
     const d = dNorm(p).replace(/\s+/g, ' ').trim();
-    const fem = d.replace(/([a-z]+)o\(a\)/g, '$1a').replace(/([a-z]+)os\(as\)/g, '$1as').replace(/\((a|o|as|os|es)\)/g, '').trim();
+    const fem = d.replace(/([a-z]+)o\(a\)/g, '$1a').replace(/([a-z]+)os\(as\)/g, '$1as').replace(/([a-z]*[a-np-z])\(a\)/g, '$1a').replace(/\((a|o|as|os|es)\)/g, '').trim();
     [fem, d.replace(/\((a|o|as|os|es)\)/g, '').replace(/-/g, ' ').replace(/\s+/g, ' ').trim(), fem.replace(/-/g, ' ')].forEach(v => { if (v && !out.includes(v)) out.push(v); });
   });
   return out;
@@ -218,12 +269,18 @@ function dictListHTML() {
   const q = dictUI.q.trim();
   if (q) {
     const res = dictSearch(q);
-    if (!res.length) return `<div class="card mascot-tip" style="box-shadow:none">${mascot('neutral', 56)}<div><b>Nada encontrado para “${esc(q)}”.</b><p class="muted" style="margin:4px 0 0">Tente outra grafia (ex.: <i>arigato</i>, <i>ありがとう</i>), uma palavra em português sem acento ou só o começo da palavra.</p></div></div>`;
-    return `<p class="muted tabnum" style="margin:0 2px;font-size:.82rem">${res.length} resultado${res.length > 1 ? 's' : ''}</p><div class="card d-list">${res.slice(0, dictUI.limit).map(dictRow).join('')}</div>${res.length > dictUI.limit ? `<button class="btn btn-ghost btn-block" data-act="dictMore">Ver mais</button>` : ''}`;
+    if (!res.length) {
+      const sug = dictSuggest(q);
+      return `<div class="card mascot-tip" style="box-shadow:none">${mascot('neutral', 56)}<div><b>Nada encontrado para “${esc(q)}”.</b><p class="muted" style="margin:4px 0 0">Tente outra grafia (ex.: <i>arigato</i>, <i>ありがとう</i>), uma palavra em português sem acento ou só o começo da palavra.</p></div></div>${sug.length ? `<section class="section" style="margin-top:4px"><h2 style="font-size:1rem">Você quis dizer…</h2><div class="d-chips">${sug.map(e => `<button class="d-chip" data-act="dictOpen" data-k="${esc(e.key)}"><span class="jp">${esc(e.jp)}</span><small>${esc(e.ro)} · ${esc(e.pt[0] || '')}</small></button>`).join('')}</div></section>` : ''}`;
+    }
+    const kc = /^[一-鿿]$/.test(q) ? dictKanjiCard(q) : '';
+    return `${kc}<p class="muted tabnum" style="margin:0 2px;font-size:.82rem">${res.length} resultado${res.length > 1 ? 's' : ''}</p><div class="card d-list">${res.slice(0, dictUI.limit).map(dictRow).join('')}</div>${res.length > dictUI.limit ? `<button class="btn btn-ghost btn-block" data-act="dictMore">Ver mais</button>` : ''}`;
   }
   if (dictUI.theme) {
     const th = DICT_THEMES.find(t => t[0] === dictUI.theme);
-    const res = DICT.list.filter(e => e.tags.includes(dictUI.theme)).slice(0, 120);
+    let res = DICT.list.filter(e => e.tags.includes(dictUI.theme));
+    if (dictUI.theme === 'particulas') res.sort((a, b) => (a.pi ?? 99) - (b.pi ?? 99));
+    res = res.slice(0, 160);
     return `<div class="section-h" style="margin:0"><h2 style="font-size:1.05rem">${esc(th ? th[1] : '')}</h2><button class="link-btn" data-act="dictTheme" data-t="">Voltar</button></div><div class="card d-list">${res.map(dictRow).join('') || '<p class="muted">Nenhuma palavra neste tema ainda.</p>'}</div>`;
   }
   const d = dictState();
@@ -251,6 +308,7 @@ function viewDictionary() {
 }
 /* ficha da palavra (abre em janela, de qualquer lugar do app, inclusive durante uma lição) */
 function dictEntryHTML(e) {
+  if (e.particle) return dictParticleHTML(e);
   const d = dictState(), fav = !!d.fav[e.key], inNb = dictInNotebook(e), id = dictItemId(e);
   const kj = [...(e.kanji || '')].filter(ch => hasKanji(ch)).map(ch => ({ ch, k: DICT.kanji[ch] })).filter(x => x.k);
   const exs = e.ex.slice(0, 3).concat(dictAppExamples(e, 3 - Math.min(3, e.ex.length)));
@@ -260,17 +318,54 @@ function dictEntryHTML(e) {
   return `<div class="d-entry">
     <div class="d-head"><div class="d-head-t"><span class="d-big jp">${esc(e.jp)}</span>${e.kanji ? `<span class="d-read jp">${esc(e.kana)}</span>` : ''}<span class="d-ro">${esc(e.ro)}</span></div>
       <div class="d-head-b">${dictSnd(e.kana || e.jp, 'Ouvir a palavra', 'big')}<button class="btn btn-ghost btn-small d-snd" data-act="dictSaySlow" data-text="${esc(e.kana || e.jp)}">Devagar</button></div></div>
-    ${e.pos ? `<span class="chip nova d-poschip">${esc(DICT_POS[e.pos] || e.pos)}</span>` : ''}
-    <section><span class="eyebrow">Significados</span><ol class="d-means">${e.pt.map(p => `<li>${esc(p)}</li>`).join('')}</ol></section>
+    <div class="d-chiprow">${e.pos ? `<span class="chip nova d-poschip">${esc(DICT_POS[e.pos] || e.pos)}</span>` : ''}${e.tags.slice(0, 2).map(t => { const th = DICT_THEMES.find(x => x[0] === t); return th ? `<button class="chip d-themechip" data-act="dictTheme" data-t="${esc(t)}">${esc(th[1])}</button>` : ''; }).join('')}</div>
+    <section><span class="eyebrow">${e.pt.length > 1 ? e.pt.length + ' significados' : 'Significado'}</span><ol class="d-means ${e.pt.length > 1 ? '' : 'one'}">${e.pt.map(p => `<li>${esc(p)}</li>`).join('')}</ol>${e.pt.length > 1 ? '<p class="muted" style="margin:4px 0 0;font-size:.8rem">O sentido certo depende do contexto. Veja os exemplos.</p>' : ''}</section>
     ${e.notes.length || e.ctx.length ? `<section><span class="eyebrow">Uso e variações</span>${e.notes.concat(e.ctx).slice(0, 4).map(n => `<p class="d-note">${esc(n)}</p>`).join('')}</section>` : ''}
-    ${kj.length ? `<section><span class="eyebrow">Kanji</span><div class="d-kanji">${kj.map(x => `<button class="d-kj" data-act="dictTry" data-q="${esc(x.ch)}"><span class="jp">${esc(x.ch)}</span><span><b>${esc(x.k.m)}</b><small>${esc(x.k.r || '')}</small></span></button>`).join('')}</div></section>` : ''}
+    ${kj.length ? `<section><span class="eyebrow">Kanji</span><div class="d-kanji">${kj.map(x => `<button class="d-kj" data-act="dictTry" data-q="${esc(x.ch)}"><span class="jp">${esc(x.ch)}</span><span><b>${esc(x.k.m)}</b><small>${esc(x.k.r || '')}</small></span></button>`).join('')}</div>${kj.filter(x => DICT_KREAD[x.ch]).map(x => `<details class="d-kread"><summary>Leituras de <span class="jp">${esc(x.ch)}</span> em palavras reais</summary>${dictKreadHTML(x.ch)}</details>`).join('')}</section>` : ''}
+    ${dictSameHTML(e)}
     ${exHTML ? `<section><span class="eyebrow">Exemplos</span>${exHTML}</section>` : ''}
     ${related.length ? `<section><span class="eyebrow">Palavras relacionadas e expressões</span><div class="d-chips">${related.map(r => `<button class="d-chip" data-act="dictOpen" data-k="${esc(r.key)}"><span class="jp">${esc(r.jp)}</span><small>${esc(r.pt[0] || '')}</small></button>`).join('')}</div></section>` : ''}
-    ${e.srcs.length ? `<p class="muted" style="margin:0;font-size:.8rem">No Nihongo Quest: ${esc(e.srcs.slice(0, 2).join(' · '))}</p>` : ''}
+    ${e.srcs.length ? `<p class="muted" style="margin:0;font-size:.8rem">Onde aparece no Nihongo Quest: ${esc(e.srcs.slice(0, 4).join(' · '))}${e.srcs.length > 4 ? ' e mais ' + (e.srcs.length - 4) : ''}</p>` : ''}
     <div class="d-btns"><button class="btn ${fav ? 'btn-gold' : 'btn-ghost'}" data-act="dictFav" data-k="${esc(e.key)}" aria-pressed="${fav}">${DICT_STAR} ${fav ? 'Favorita' : 'Favoritar'}</button>
       ${id ? (inNb ? `<span class="btn btn-ghost d-done" aria-disabled="true">✓ No Caderno${status ? ' · ' + esc(status) : ''}</span>` : `<button class="btn btn-primary" data-act="dictSave" data-k="${esc(e.key)}">Adicionar ao Caderno e à Revisão</button>`) : ''}</div>
     <button class="btn btn-ghost btn-block" data-act="${P ? 'closeModal' : 'dictClose'}">Fechar</button></div>`;
 }
+/* 12.0: leituras de um kanji, sempre com palavras reais (nunca uma lista solta de leituras) */
+function dictKreadHTML(ch) {
+  return `<ul class="d-kr">${(DICT_KREAD[ch] || []).map(l => { const [kana, ro, mean, words] = l.split('|'); return `<li><b class="jp">${esc(kana)}</b>${ro && ro !== '—' ? ` <span class="ro">${esc(ro)}</span>` : ''} · ${esc(mean)}<small>${esc(words)}</small></li>`; }).join('')}</ul>`;
+}
+function dictKanjiCard(ch) {
+  const k = DICT.kanji[ch]; if (!k && !DICT_KREAD[ch]) return '';
+  return `<div class="card d-kcard"><div class="d-kc-top"><span class="jp d-kc-big">${esc(ch)}</span><div style="min-width:0"><span class="eyebrow">Kanji</span><b style="display:block">${esc(k ? k.m : '')}</b>${k && k.r ? `<small class="muted">${esc(k.r)}</small>` : ''}</div></div>${DICT_KREAD[ch] ? `<span class="eyebrow">Leituras em contexto</span>${dictKreadHTML(ch)}<p class="muted" style="margin:0;font-size:.8rem">A leitura depende da palavra. Aprenda cada leitura junto com uma palavra real.</p>` : ''}</div>`;
+}
+/* mesma escrita com outra leitura (角 かど × つの × かく) e mesmo som com outra escrita (橋 × 箸), úteis para ouvir */
+function dictSameHTML(e) {
+  const homo = e.kanji ? DICT.list.filter(x => x !== e && x.kanji === e.kanji && !x.particle) : [];
+  const phon = (DICT.byWord[e.reading] || []).filter(x => x !== e && x.kanji !== e.kanji && !homo.includes(x)).slice(0, 4);
+  const chip = (x, sub) => `<button class="d-chip" data-act="dictOpen" data-k="${esc(x.key)}"><span class="jp">${esc(x.jp)}</span><small>${esc(sub)}</small></button>`;
+  return (homo.length ? `<section><span class="eyebrow">Mesma escrita, outra leitura</span><div class="d-chips">${homo.map(x => chip(x, x.kana + ' · ' + (x.pt[0] || ''))).join('')}</div></section>` : '')
+    + (phon.length ? `<section><span class="eyebrow">Mesmo som, outra palavra</span><div class="d-chips">${phon.map(x => chip(x, x.pt[0] || '')).join('')}</div><p class="muted" style="margin:4px 0 0;font-size:.8rem">Na fala, o contexto (e às vezes a entonação) mostra qual é.</p></section>` : '');
+}
+/* 12.0: verbete de partícula — funções separadas, exemplos com áudio, comparação, erros comuns */
+function dictParticleHTML(e) {
+  const P = e.particle, d = dictState(), fav = !!d.fav[e.key], id = dictItemId(e), inNb = dictInNotebook(e);
+  const exHTML = x => `<div class="d-ex"><div class="d-ex-top"><span class="jp d-ex-jp">${esc(x[0])}</span>${dictSnd(NQK.hasKanji(x[0]) ? NQK.r2k(x[1]) : x[0], 'Ouvir o exemplo')}</div><span class="ro">${esc(x[1])}</span><span>${esc(x[2])}</span></div>`;
+  return `<div class="d-entry d-part">
+    <div class="d-head"><div class="d-head-t"><span class="d-big jp">${esc(P.p)}</span><span class="d-ro">${esc(P.ro)}</span></div>
+      <div class="d-head-b">${dictSnd(ITEM[id] ? ITEM[id].say : P.p, 'Ouvir a partícula', 'big')}</div></div>
+    <div class="d-chiprow"><span class="chip nova d-poschip">Partícula</span><button class="chip d-themechip" data-act="dictTheme" data-t="particulas">Todas as partículas</button></div>
+    <p class="d-note" style="margin:0">${esc(P.intro)}</p>
+    <section><span class="eyebrow">${P.fn.length > 1 ? P.fn.length + ' funções principais' : 'Função principal'}</span>
+      ${P.fn.map((f, i) => `<div class="d-fn"><b>${i + 1}. ${esc(f[0])}</b><p class="d-note">${esc(f[1])}</p>${f[2].map(exHTML).join('')}</div>`).join('')}</section>
+    ${P.cmp ? `<section><span class="eyebrow">Compare</span><p class="d-note">${esc(P.cmp)}</p></section>` : ''}
+    ${P.err ? `<section><span class="eyebrow">Erro comum</span><p class="d-note">${esc(P.err)}</p></section>` : ''}
+    ${P.note ? `<section><span class="eyebrow">Nota</span><p class="d-note">${esc(P.note)}</p></section>` : ''}
+    <p class="muted" style="margin:0;font-size:.8rem">Partículas não têm um significado fixo: a função muda com a frase. Comece pela primeira função e vá somando as outras.</p>
+    <div class="d-btns"><button class="btn ${fav ? 'btn-gold' : 'btn-ghost'}" data-act="dictFav" data-k="${esc(e.key)}" aria-pressed="${fav}">${DICT_STAR} ${fav ? 'Favorita' : 'Favoritar'}</button>
+      ${id ? (inNb ? `<span class="btn btn-ghost d-done" aria-disabled="true">✓ No Caderno</span>` : `<button class="btn btn-primary" data-act="dictSave" data-k="${esc(e.key)}">Adicionar ao Caderno e à Revisão</button>`) : ''}</div>
+    <button class="btn btn-ghost btn-block" data-act="${P_OPEN() ? 'closeModal' : 'dictClose'}">Fechar</button></div>`;
+}
+const P_OPEN = () => !!(typeof P !== 'undefined' && P);
 /* exemplos reais do app que contêm a palavra (frases de gramática e falas da Listening Academy) */
 function dictAppExamples(e, n) {
   if (n <= 0) return [];

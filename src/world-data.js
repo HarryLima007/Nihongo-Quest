@@ -25,7 +25,7 @@ const WORLD_PLACES = [
   { id: 'gakkou', jp: '学校', ro: 'gakkō', pt: 'Escola', name: 'Escola Hikari', color: '#7b52e0', icon: '学', host: 'yumi',
     desc: 'Colegas, professores, aulas e a hora mais esperada: o almoço.' },
   { id: 'machi', jp: '街', ro: 'machi', pt: 'Cidade', name: 'Rua comercial', color: '#e0861e', icon: '街', host: 'takeshi',
-    desc: 'Ruas, lojinhas, o posto policial e surpresas a cada esquina.' }
+    desc: 'Ruas, lojinhas de roupa, farmácia, o posto policial, um templo e surpresas a cada esquina.' }
 ];
 
 /* personagens: chat = usa o retrato do Nihongo Chat; look = retrato próprio */
@@ -78,9 +78,14 @@ const WORLD_CHARS = {
   imo: { name: 'Vendedor de batata-doce', jp: '焼き芋屋さん', role: 'Vendedor ambulante', place: 'machi', pitch: 0.7, bio: 'Passa cantando no outono e no inverno.', style: 'Casual e animado',
     look: { bg: '#a0522d', skin: '#f2c9a5', hair: '#2b2b2b', style: 'bald', top: '#4a4a8a', acc: 'headband' } },
   oldman: { name: 'Senhor de chapéu', jp: 'おじいさん', role: 'Morador', place: 'machi', pitch: 0.65, bio: 'Passeia pela rua comercial todas as tardes.', style: 'Educado',
-    look: { bg: '#5a7a5a', skin: '#f5d2b5', hair: '#e0e0e0', style: 'side', top: '#8a6a4a', acc: 'hat' } }
+    look: { bg: '#5a7a5a', skin: '#f5d2b5', hair: '#e0e0e0', style: 'side', top: '#8a6a4a', acc: 'hat' } },
+  aoi: { name: 'Aoi-san', jp: '葵さん', role: 'Vendedora da loja de roupas', place: 'machi', pitch: 1.2,
+    bio: 'Trabalha na lojinha de roupas da rua comercial. Sempre sabe qual cor combina com você.', likes: 'Moda de rua e cachecóis.', style: 'Educado de loja',
+    look: { bg: '#3fa7a0', skin: '#ffe2cc', hair: '#3a2418', style: 'bun', top: '#f2c14e', acc: 'none' } },
+  kobayashi: { name: 'Kobayashi-san', jp: '小林さん', role: 'Farmacêutica', place: 'machi', pitch: 1.0,
+    bio: 'Farmacêutica do bairro. Calma, explica tudo devagar.', likes: 'Chá de gengibre e plantas.', style: 'Educado e claro',
+    look: { bg: '#4f8a6a', skin: '#f5d2b5', hair: '#22224a', style: 'side', top: '#ffffff', acc: 'glasses' } }
 };
-
 /* palavras do mundo: 'escrita|kana|romaji|português|explicação simples|e (expressão)' */
 const WORLD_WORDS = {
   kore: 'これ|これ|kore|isto (perto de mim)|Use apontando para algo perto de você.',
@@ -145,9 +150,23 @@ const WORLD_WORDS = {
   shashin: '写真|しゃしん|shashin|foto|',
   kasa: '傘|かさ|kasa|guarda-chuva|',
   yakiimo: '焼き芋|やきいも|yakiimo|batata-doce assada|',
-  nanji: '何時|なんじ|nanji|que horas|“Ima nanji desu ka?” = que horas são?'
+  nanji: '何時|なんじ|nanji|que horas|“Ima nanji desu ka?” = que horas são?',
+  fuku: '服|ふく|fuku|roupa|',
+  shichaku: '試着してもいいですか|しちゃくしてもいいですか|shichaku shite mo ii desu ka|posso provar (a roupa)?|“Shichaku” = provar roupa. No provador, tire os sapatos.|e',
+  chiisai: '小さい|ちいさい|chiisai|pequeno|',
+  ookii: '大きい|おおきい|ōkii|grande|',
+  iro: '色|いろ|iro|cor|',
+  atama: '頭|あたま|atama|cabeça|Cuidado: “atama ga ii” = ser inteligente.',
+  itai: '痛い|いたい|itai|dói, dolorido|“Atama ga itai” = estou com dor de cabeça.',
+  netsu: '熱|ねつ|netsu|febre|“Netsu ga aru” = estar com febre.',
+  kusuri: '薬|くすり|kusuri|remédio|Remédio se “bebe”: kusuri o nomu.',
+  doubutsuen: '動物園|どうぶつえん|dōbutsuen|zoológico|',
+  zou: '象|ぞう|zō|elefante|',
+  kawaii: 'かわいい|かわいい|kawaii|fofo, bonitinho|',
+  tanoshii: '楽しい|たのしい|tanoshii|divertido|No passado: tanoshikatta (foi divertido).',
+  otera: 'お寺|おてら|otera|templo budista|',
+  shizuka: '静か|しずか|shizuka|silencioso, tranquilo|'
 };
-
 const WORLD_SCENES = [
   /* ================= コンビニ ================= */
   { id: 'k1', place: 'konbini', kind: 'missao', title: 'Comprar chá e um lanche', desc: 'Peça algo apontando e responda sobre a sacola.', chars: ['sato'], words: ['kore', 'kudasai', 'ikura', 'fukuro', 'daijoubu', 'okane'], nodes: {
@@ -465,5 +484,59 @@ const WORLD_SCENES = [
       ['30です。|sanjū desu.|É trinta.', 'x', 'bx', '“Sanjū” é trinta. Três horas é “sanji”.']] },
     bx: { s: 'oldman|はて…？|hate…?|Hum...?', n: 'O senhor coça a cabeça. Tente de novo.', back: 1 },
     c: { s: 'oldman|3時！/おやつの/時間だ。/ありがとう。|sanji! oyatsu no jikan da. arigatō.|Três horas! Hora do lanchinho. Obrigado.|さんじ！おやつのじかんだ。ありがとう。', tip: 'No Japão, 3 da tarde é a tradicional “hora do lanche” (oyatsu no jikan).', end: 'Você disse as horas para alguém. Pequena ajuda, grande japonês!' }
+  } },
+  { id: 'm5', place: 'machi', kind: 'missao', title: 'Provar uma camiseta', desc: 'Peça para provar, diga o tamanho e escolha a cor.', need: ['m1'], chars: ['aoi'], words: ['fuku', 'shichaku', 'chiisai', 'ookii', 'iro'], nodes: {
+    a: { n: 'Você entra numa lojinha de roupas na rua comercial.', s: 'aoi|いらっしゃいませ！/どうぞ、/ご覧ください。|irasshaimase! dōzo, goran kudasai.|Bem-vindo(a)! Fique à vontade para olhar.|いらっしゃいませ！どうぞ、ごらんください。', tip: 'Em lojas de roupa, a vendedora costuma deixar você olhar à vontade e só se aproxima quando você chama.', go: 'b' },
+    b: { n: 'Você gostou de uma camiseta azul e quer provar.', t: ['fuku', 'shichaku'], o: [
+      ['すみません、/試着しても/いいですか？|sumimasen, shichaku shite mo ii desu ka?|Com licença, posso provar?', 'g', 'c'],
+      ['これ、/着たいです。|kore, kitai desu.|Quero vestir isto.', 'k', 'c', 'Ela entende! Mas “shichaku shite mo ii desu ka?” é o jeito natural de pedir para provar.'],
+      ['これ、/食べても/いいですか？|kore, tabete mo ii desu ka?|Posso comer isto?', 'x', 'bx', '“Taberu” é comer! Para provar roupa, use “shichaku”.']] },
+    bx: { s: 'aoi|え…？/服は/食べられませんよ！|e…? fuku wa taberaremasen yo!|Hã...? Roupa não se come!|え…？ふくは、たべられませんよ！', n: 'Ela ri, sem entender.', back: 1 },
+    c: { s: 'aoi|はい、/どうぞ。/試着室は/あちらです。|hai, dōzo. shichakushitsu wa achira desu.|Claro. O provador é ali.|はい、どうぞ。しちゃくしつは、あちらです。', tip: 'No Japão, você tira os sapatos antes de entrar no provador.', go: 'd' },
+    d: { n: 'Você veste a camiseta... está apertada.', s: 'aoi|いかがですか？|ikaga desu ka?|Que tal?', t: ['chiisai', 'ookii'], o: [
+      ['ちょっと/小さいです。|chotto chiisai desu.|Está um pouco pequena.', 'g', 'e'],
+      ['大きいです！|ōkii desu!|Está grande!', 'x', 'dx', 'Ela está apertada, então é pequena: “chiisai”. “Ōkii” é grande.']] },
+    dx: { s: 'aoi|大きい…ですか？/ぴったりに/見えますけど…|ōkii… desu ka? pittari ni miemasu kedo…|Grande...? Parece bem justa...|おおきい…ですか？ぴったりに、みえますけど…', back: 1 },
+    e: { s: 'aoi|では、/Lサイズは/いかがですか？/色は/青と/白が/あります。|dewa, eru saizu wa ikaga desu ka? iro wa ao to shiro ga arimasu.|Então, que tal o tamanho G? Temos azul e branca.|では、エルサイズはいかがですか？いろは、あおと、しろがあります。', t: ['iro'], o: [
+      ['青を/お願いします。|ao o onegai shimasu.|A azul, por favor.', 'g', 'f'],
+      ['白を/お願いします。|shiro o onegai shimasu.|A branca, por favor.', 'g', 'f']] },
+    f: { s: 'aoi|ありがとうございます！/よく/お似合いですよ。|arigatō gozaimasu! yoku oniai desu yo.|Obrigada! Ficou muito bem em você.|ありがとうございます！よくおにあいですよ。', end: 'Você provou, trocou o tamanho e escolheu a cor. Compras de roupa em japonês!' }
+  } },
+  { id: 'm6', place: 'machi', kind: 'missao', title: 'Na farmácia', desc: 'Diga o que está sentindo e entenda como tomar o remédio.', need: ['m1'], chars: ['kobayashi'], words: ['atama', 'itai', 'netsu', 'kusuri'], nodes: {
+    a: { n: 'Você acordou com dor de cabeça e foi à farmácia do bairro (薬局, yakkyoku).', s: 'kobayashi|こんにちは。/どうしましたか？|konnichiwa. dō shimashita ka?|Olá. O que houve?', go: 'b' },
+    b: { t: ['atama', 'itai'], n: 'Explique o que você sente.', o: [
+      ['頭が/痛いです。|atama ga itai desu.|Estou com dor de cabeça.', 'g', 'c'],
+      ['お腹が/痛いです。|onaka ga itai desu.|Estou com dor de barriga.', 'k', 'b2', 'A frase está certa, mas a sua dor é na cabeça (atama).'],
+      ['頭が/いいです。|atama ga ii desu.|Eu sou inteligente.', 'x', 'bx', '“Atama ga ii” quer dizer “ser inteligente”! Dor é “itai”: atama ga itai desu.']] },
+    bx: { s: 'kobayashi|それは/よかったですね…？|sore wa yokatta desu ne…?|Que bom... para você?|それは、よかったですね…？', n: 'Ela não sabe se ri ou se ajuda.', back: 1 },
+    b2: { s: 'kobayashi|お腹ですか？|onaka desu ka?|A barriga?|おなかですか？', n: 'Você aponta para a cabeça e corrige.', go: 'c' },
+    c: { s: 'kobayashi|熱は/ありますか？|netsu wa arimasu ka?|Está com febre?|ねつは、ありますか？', t: ['netsu'], o: [
+      ['いいえ、/ありません。|iie, arimasen.|Não, não estou.', 'g', 'd'],
+      ['ちょっと/あります。|chotto arimasu.|Um pouco.', 'g', 'c2']] },
+    c2: { s: 'kobayashi|無理しないで、/ゆっくり/休んで/ください。|muri shinaide, yukkuri yasunde kudasai.|Não se esforce e descanse bem.|むりしないで、ゆっくりやすんでください。', go: 'd' },
+    d: { s: 'kobayashi|この/薬を/どうぞ。/一日/三回、/食後に/飲んで/ください。|kono kusuri o dōzo. ichinichi sankai, shokugo ni nonde kudasai.|Este remédio. Tome três vezes por dia, depois das refeições.|このくすりをどうぞ。いちにち、さんかい、しょくごに、のんでください。', t: ['kusuri'], tip: 'Em japonês, remédio se “bebe” (nomu), mesmo sendo comprimido.', go: 'e' },
+    e: { n: 'Ela repete a dose. Quantas vezes por dia?', p: { say: 'kobayashi|一日/三回です。|ichinichi sankai desu.|Três vezes por dia.|いちにち、さんかいです。', q: 'Quantas vezes por dia você deve tomar?', items: [['一回|ikkai|uma vez', 0], ['三回|sankai|três vezes', 1], ['五回|gokai|cinco vezes', 0]], go: 'f', miss: 'Ouça de novo: “san-kai”.' } },
+    f: { s: 'kobayashi|お大事に。|odaiji ni.|Melhoras!|おだいじに。', tip: '“Odaiji ni” é o que se diz a quem está doente: cuide-se, melhoras.', end: 'Você explicou o que sentia e entendeu como tomar o remédio.' }
+  } },
+  { id: 'g5', place: 'gakkou', kind: 'historia', title: 'Excursão ao zoológico', desc: 'Animais, emoções e um panda muito fofo.', need: ['g2'], chars: ['aiko', 'yumi', 'shota'], words: ['doubutsuen', 'zou', 'kawaii', 'tanoshii'], nodes: {
+    a: { n: 'Hoje a turma sai em excursão.', s: 'aiko|今日は/動物園に/行きます！|kyō wa dōbutsuen ni ikimasu!|Hoje vamos ao zoológico!|きょうは、どうぶつえんにいきます！', t: ['doubutsuen'], go: 'b' },
+    b: { n: 'Vocês param diante de um animal enorme, cinza, de tromba comprida.', s: 'yumi|見て！/大きい！|mite! ōkii!|Olha! Que grande!|みて！おおきい！', t: ['zou'], go: 'b2' },
+    b2: { n: 'O Shōta grita o nome do animal.', p: { say: 'shota|象だ！|zō da!|É um elefante!|ぞうだ！', q: 'Que animal o Shōta viu?', items: [['象|zō|elefante', 1], ['猿|saru|macaco', 0], ['熊|kuma|urso', 0], ['鳥|tori|pássaro', 0]], go: 'c', miss: 'Ouça de novo: “zō”.' } },
+    c: { s: 'yumi|あ、/パンダ！/かわいい〜！|a, panda! kawaii!|Ah, um panda! Que fofo!', t: ['kawaii'], o: [
+      ['本当に/かわいいね！|hontō ni kawaii ne!|Muito fofo mesmo!', 'g', 'd'],
+      ['こわいね！|kowai ne!|Que medo!', 'k', 'd', 'Pode ser sincero, mas o panda só está comendo bambu. “Kawaii” combina mais.'],
+      ['おいしそう！|oishisō!|Parece gostoso!', 'x', 'cx', '“Oishisō” é “parece gostoso”! Não se diz isso de um panda.']] },
+    cx: { s: 'shota|ははは！/パンダは/食べ物じゃないよ！|hahaha! panda wa tabemono ja nai yo!|Hahaha! Panda não é comida!|ははは！パンダは、たべものじゃないよ！', back: 1 },
+    d: { n: 'No ônibus de volta, a professora pergunta:', s: 'aiko|今日は/どうでしたか？|kyō wa dō deshita ka?|Como foi hoje?|きょうは、どうでしたか？', t: ['tanoshii'], o: [
+      ['とても/楽しかったです！|totemo tanoshikatta desu!|Foi muito divertido!', 'g', 'e'],
+      ['楽しいです！|tanoshii desu!|É divertido!', 'k', 'e', 'Funciona! Para algo que já passou, o natural é o passado: “tanoshikatta”.']] },
+    e: { s: 'aiko|よかったです。/また/来ましょうね。|yokatta desu. mata kimashō ne.|Que bom. Vamos voltar outra vez.|よかったです。また、きましょうね。', end: 'Animais, “kawaii” e “tanoshikatta”: um passeio inteiro em japonês!' }
+  } },
+  { id: 'v5', place: 'machi', kind: 'evento', title: 'O templo do bairro', desc: 'Um lugar tranquilo no fim da rua.', chars: ['oldman'], words: ['otera', 'shizuka'], nodes: {
+    a: { n: 'No fim da rua comercial há um pequeno templo. O senhor de chapéu está lá.', s: 'oldman|ここは/古い/お寺です。/静かでしょう？|koko wa furui otera desu. shizuka deshō?|Aqui é um templo antigo. Tranquilo, não é?|ここは、ふるいおてらです。しずかでしょう？', t: ['otera', 'shizuka'], o: [
+      ['はい、/とても/静かですね。|hai, totemo shizuka desu ne.|Sim, muito tranquilo.', 'g', 'b'],
+      ['きれいですね。|kirei desu ne.|É bonito, né?', 'g', 'b']] },
+    b: { s: 'oldman|お参りの/前に、/手と/口を/清めますよ。|omairi no mae ni, te to kuchi o kiyomemasu yo.|Antes de rezar, a gente purifica as mãos e a boca.|おまいりのまえに、てと、くちを、きよめますよ。', tip: 'Na entrada de templos e santuários há uma fonte (temizuya) para lavar as mãos e a boca antes de rezar.', o: [['ありがとうございます。|arigatō gozaimasu.|Obrigado(a).', 'g', 'c']] },
+    c: { s: 'oldman|いい/一日を。|ii ichinichi o.|Tenha um bom dia.|いい、いちにちを。', end: 'Você visitou o templo do bairro e aprendeu “otera” e “shizuka”.' }
   } }
 ];

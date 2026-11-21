@@ -35,7 +35,7 @@ const stub = `(() => {
   const page = await mk();
   const raw = await loadSave(page, V40);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 11 && S.appVersion === '11.0.0', '4.0: migrado para o esquema 6 (versão 6.0.0)');
+  ok(S.schemaVersion === 12 && S.appVersion === '12.0.0', '4.0: migrado para o esquema 6 (versão 6.0.0)');
   const bk = await page.evaluate(() => localStorage.getItem('nihongoQuest:backup:schema4'));
   ok(bk === raw, '4.0: cópia de segurança do save antigo guardada antes da migração');
   same(S.lessons, V40.lessons, '4.0: lições preservadas');

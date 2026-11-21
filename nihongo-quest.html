@@ -1230,6 +1230,65 @@ button.conv:hover { background: var(--surface-2); }
 @media (max-width: 370px) { .av-hub { flex-direction: column; align-items: stretch; } .av-hub-art { width: 100%; } .av-bwrap { width: 78px; } .av-dpad { grid-template-columns: repeat(3, 50px); } }
 @media (prefers-reduced-motion: reduce) { .av-actor { transition: none; } .av-bob { animation: none; } }
 
+/* ==========================================================
+   12.0 — Academia de Vocabulário e Dicionário 2.0
+   ========================================================== */
+.mode-switch.five { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; padding: 3px; }
+.mode-switch.five button { flex-direction: column; gap: 2px; font-size: .74rem; padding: 6px 1px; min-width: 0; min-height: 52px; line-height: 1.1; }
+.mode-switch.five button span:last-child { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mode-switch.five button svg { width: 18px; height: 18px; flex: none; }
+.mode-switch.five .rd-swic { font-size: 1.05rem; }
+.vc-wrap .page-title { margin-bottom: 4px; }
+.vc-hero { margin-top: 12px; border-radius: 22px; padding: 16px; color: #fff; background: linear-gradient(135deg, #2f9e8f, #3553d1 70%, #191c4a); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; }
+.vc-hero-in { display: flex; gap: 14px; align-items: center; }
+.vc-hero-in b { display: block; font-size: 1.1rem; font-family: var(--f-display); }
+.vc-hero-in small { opacity: .9; line-height: 1.35; display: block; }
+.vc-hero-ic { flex: none; width: 60px; height: 60px; border-radius: 18px; background: rgba(255,255,255,.16); display: grid; place-items: center; font-size: 2rem; font-weight: 800; }
+.vc-hero .btn-gold { white-space: normal; text-align: center; }
+.vc-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.vc-opts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+.vc-opts .filter { display: inline-flex; align-items: center; gap: 6px; }
+.vc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+.vc-cat { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line); border-top: 5px solid var(--sc); box-shadow: var(--shadow); text-align: left; min-height: 118px; min-width: 0; }
+.vc-cat .rd-stbar { width: 100%; margin-top: auto; }
+.vc-cat.done { background: var(--ok-bg); }
+.vc-cem { font-size: 1.6rem; font-weight: 800; color: var(--sc); line-height: 1; }
+.vc-ct { font-weight: 800; font-size: .95rem; line-height: 1.2; overflow-wrap: anywhere; }
+.vc-cs { font-size: .78rem; font-weight: 700; color: var(--muted); }
+.vc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.vc-kana { font-size: 1.25rem; font-weight: 700; color: var(--muted); }
+.vc-pt { font-weight: 800; font-size: 1.15rem; }
+.vc-senses { margin: 0; padding-left: 1.3em; font-weight: 700; line-height: 1.5; }
+.vc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.vc-chips .chip { font-size: .95rem; }
+.vc-ex { background: var(--surface-2); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.vc-ex-top { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+.vc-ex-jp { font-weight: 700; font-size: 1.1rem; line-height: 1.4; }
+.vc-ex .rd-ro { font-size: .9rem; }
+.vc-ex .rd-reveal { align-self: flex-start; }
+.vc-listen { display: flex; flex-direction: column; }
+.vc-lrow { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); min-height: 52px; }
+.vc-num { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--royal); color: #fff; font-weight: 800; display: grid; place-items: center; }
+.vc-ljp { font-size: 1.2rem; font-weight: 700; }
+.vc-lrow .rd-reveal { padding: 4px 10px; min-height: 32px; font-size: .78rem; }
+.vc-pane .opts .o-jp { font-size: 1.15rem; }
+.vc-revcard .btn { flex: none; }
+.d-chiprow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.d-themechip { border: 1px solid var(--line); background: var(--surface); color: var(--royal); font-weight: 800; cursor: pointer; }
+.d-means.one { list-style: none; padding-left: 0; }
+.d-kread { margin-top: 8px; border-radius: 12px; background: var(--surface-2); padding: 8px 10px; }
+.d-kread summary { font-weight: 800; cursor: pointer; color: var(--royal); min-height: 32px; display: flex; align-items: center; gap: 4px; }
+.d-kr { margin: 6px 0 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; }
+.d-kr li { line-height: 1.4; }
+.d-kr small { display: block; color: var(--muted); font-size: .82rem; }
+.d-kcard { display: flex; flex-direction: column; gap: 8px; box-shadow: none; }
+.d-kc-top { display: flex; gap: 12px; align-items: center; }
+.d-kc-big { font-size: 3rem; font-weight: 800; line-height: 1; }
+.d-fn { display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-top: 1px solid var(--line); }
+.d-fn:first-of-type { border-top: 0; padding-top: 4px; }
+.d-part .d-big { font-size: 3.4rem; }
+@media (max-width: 340px) { .vc-grid { grid-template-columns: 1fr; } .mode-switch.five button { font-size: .68rem; } }
+
 </style>
 <div class="app" id="app"><main id="view"></main></div>
 <nav class="tabbar" id="tabbar" aria-label="Navegação principal"><div class="tabbar-in">
@@ -10333,8 +10392,8 @@ const NQK = (function () {
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '11.0.0';
-const SCHEMA_VERSION = 11;
+const APP_VERSION = '12.0.0';
+const SCHEMA_VERSION = 12;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -10392,7 +10451,8 @@ function defaultState() {
     world: defaultWorld(),
     read: defaultRead(),
     journey: defaultJourney(),
-    rpg: defaultRpg()
+    rpg: defaultRpg(),
+    vocab: defaultVocab()
   };
 }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
@@ -10505,6 +10565,13 @@ const MIGRATIONS = {
     if (!isPlainObj(s.rpg)) s.rpg = defaultRpg();
     s.migratedFrom11 = { schema: 10, at: Date.now() };
     return s;
+  },
+  11: s => { // 11.0 -> 12.0: só ACRESCENTA a Academia de Vocabulário (S.vocab: lições, avaliações, opções). XP, moedas, níveis,
+    // conquistas, histórico, Caderno, Revisão, Chat, Dicionário, Mundo, Leitura, Academia, Listening e Adventure Mode ficam intactos.
+    // Idempotente: se S.vocab já existe (save importado de novo, por exemplo), nada muda.
+    if (!isPlainObj(s.vocab)) s.vocab = defaultVocab();
+    if (!s.migratedFrom12) s.migratedFrom12 = { schema: 11, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -10547,6 +10614,9 @@ function normalize(data) {
   if (!Array.isArray(s.read.log)) s.read.log = [];
   if (!isPlainObj(s.rpg)) s.rpg = defaultRpg();
   ['hero', 'equip', 'inv', 'spells', 'quests', 'flags', 'opened', 'spots', 'gather', 'signs', 'visited', 'kills', 'taught', 'words', 'stats', 'opt'].forEach(k => { if (!isPlainObj(s.rpg[k])) s.rpg[k] = defaultRpg()[k]; });
+  if (!isPlainObj(s.vocab)) s.vocab = defaultVocab();
+  ['lessons', 'exams', 'opened'].forEach(k => { if (!isPlainObj(s.vocab[k])) s.vocab[k] = {}; });
+  if (!Array.isArray(s.vocab.log)) s.vocab.log = [];
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;
@@ -12308,7 +12378,7 @@ function viewNotebook() {
       <div class="nb-meta"><span class="chip nova">${GROUP_LABEL[g]}</span><span>${esc(originOf(it))}</span>${nqAlsoIn(it.id)}<span>· desde ${new Date(r.seen).toLocaleDateString('pt-BR')}</span>${r.c + r.w ? `<span class="tabnum">· ${r.c} acerto${r.c === 1 ? '' : 's'}, ${r.w} erro${r.w === 1 ? '' : 's'}</span>` : ''}${g === 'anime' ? `<button class="link-btn" style="padding:0" data-act="discOpen" data-id="${it.id}">Ver descoberta</button>` : ''}</div></div>`;
   };
   // agrupa pela origem, mantendo a ordem do conteúdo
-  const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK], typeof DICT_LESSON !== 'undefined' ? [DICT_LESSON] : [], typeof WORLD_LESSON !== 'undefined' ? [WORLD_LESSON] : [], typeof RD_WORDS_PACK !== 'undefined' ? [RD_WORDS_PACK] : [], typeof RPG_LESSON !== 'undefined' ? [RPG_LESSON] : []);
+  const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK], typeof DICT_LESSON !== 'undefined' ? [DICT_LESSON] : [], typeof WORLD_LESSON !== 'undefined' ? [WORLD_LESSON] : [], typeof RD_WORDS_PACK !== 'undefined' ? [RD_WORDS_PACK] : [], typeof RPG_LESSON !== 'undefined' ? [RPG_LESSON] : [], typeof VC_LESSONS !== 'undefined' ? VC_LESSONS : []);
   let groups;
   if (nb.t === 'dificeis') groups = entries.length ? `<section class="section"><div class="card">${entries.map(entryHTML).join('')}</div></section>` : '';
   else groups = order.map(l => { const list = entries.filter(it => it.lesson === l); return list.length ? `<section class="section"><div class="section-h"><h2 style="font-size:1rem">${esc(l.kind === 'audio' || l.id === 'chat' ? originOf(list[0]) : l.title)}</h2><span class="muted" style="font-size:.8rem">${esc(l.cat.title)}</span></div><div class="card">${list.map(entryHTML).join('')}</div></section>` : ''; }).join('');
@@ -13562,6 +13632,14 @@ const TALK = (function () {
         { say: '{name}は どうぶつ すき？|{name} wa doubutsu suki?|Você gosta de animais?',
           ex: { k: 'yn', on: { yes: ['わかる〜！ いやされるよね。|wakaru~! iyasareru yo ne.|Te entendo! Eles acalmam a gente, né.'], ilike: ['わかる〜！ いやされるよね。|wakaru~! iyasareru yo ne.|Te entendo! Eles acalmam a gente, né.'], no: ['そっか！ ひとそれぞれ だもんね。|sokka! hito sorezore da mon ne.|Ah, tá! Cada um é cada um.'], some: ['ちょっと？（笑） モチに あったら すきに なるよ！|chotto? (wara) Mochi ni attara suki ni naru yo!|Um pouco? (risos) Quando conhecer a Mochi, vai gostar!'] },
             sugg: ['うん、すき！|un, suki!|Gosto, sim!|c4l6', 'いぬが すき！|inu ga suki!|Gosto de cachorro!|c4l6', 'ううん。|uun.|Não muito.|'] } }
+      ] },
+      { id: 'zoo', steps: [
+        { say: ['きのう どうぶつえんに いったよ！|kinou doubutsuen ni itta yo!|Ontem fui ao zoológico!', 'パンダが ほんとに かわいかった〜！|panda ga honto ni kawaikatta~!|O panda era fofo demais!'],
+          ex: { k: 'open', on: { praise: [['でしょ〜！ ずっと たけを たべてたの（笑）|desho~! zutto take o tabeteta no (wara)|Né?! Ficou comendo bambu o tempo todo (risos)', '#excited']], ack: ['ぞうも すごく おおきかったよ！|zou mo sugoku ookikatta yo!|O elefante também era enorme!'], surprise: ['ほんと！ はじめて みたの！|honto! hajimete mita no!|Sério! Foi a primeira vez que vi!'], laugh: ['えへへ、たのしかった〜！|ehehe, tanoshikatta~!|Hehe, foi muito divertido!'] },
+            back: 'ぞうも きりんも いたよ！|zou mo kirin mo ita yo!|Tinha elefante e girafa também!', any: ['たのしかった〜！|tanoshikatta~!|Foi muito divertido!'], sugg: ['かわいい！|kawaii!|Que fofo!|chat:kawaii', 'いいね！|ii ne!|Que legal!|'] } },
+        { say: '{name}は なんの どうぶつが すき？|{name} wa nan no doubutsu ga suki?|De qual animal você gosta?',
+          ex: { k: 'yn', on: { yes: ['いいね〜！ わたしは やっぱり パンダ！|ii ne~! watashi wa yappari panda!|Legal! Eu, com certeza, o panda!'], ilike: ['いいね〜！ わたしは やっぱり パンダ！|ii ne~! watashi wa yappari panda!|Legal! Eu, com certeza, o panda!'], no: ['そっか！ わたしは パンダが すき！|sokka! watashi wa panda ga suki!|Entendi! Eu gosto de panda!'] },
+            sugg: ['いぬが すき！|inu ga suki!|Gosto de cachorro!|', 'ねこが すき！|neko ga suki!|Gosto de gato!|', 'ぞうが すき！|zou ga suki!|Gosto de elefante!|'] } }
       ] },
       { id: 'karaoke', steps: [
         { say: ['きのう カラオケで 3じかん うたっちゃった！|kinou karaoke de sanjikan utacchatta!|Ontem cantei 3 horas no karaokê!'],
@@ -17221,6 +17299,170 @@ const DICT_KANJI = {
 };
 
 /* ==========================================================
+   12.0 — DICIONÁRIO 2.0: temas novos, partículas e leituras de kanji em contexto
+   ========================================================== */
+DICT_THEMES.push(['formas', 'Formas e medidas', '形'], ['roupas', 'Roupas', '服'], ['adverbios', 'Advérbios', '副'], ['profissoes', 'Profissões', '職'], ['aventura', 'Aventura e fantasia', '剣'], ['particulas', 'Partículas', 'は']);
+/* As 14 partículas: verbetes próprios, com funções separadas, exemplos (japonês | romaji | tradução),
+   comparação com partículas parecidas, erros comuns e notas. Não são “um significado fixo”: cada uma tem funções. */
+const DICT_PARTICLES = [
+  { p: 'は', ro: 'wa', alt: ['ha'], pt: ['partícula de tópico (“quanto a…”)', 'contraste'],
+    intro: 'Escreve-se は, mas como partícula lê-se “wa”. Marca o assunto da frase: aquilo sobre o que você vai falar.',
+    fn: [['Tópico da frase', 'Apresenta o assunto; o resto da frase comenta sobre ele.', [['私はハリーです。', 'watashi wa harii desu.', 'Eu sou o Harry.'], ['今日は暑いですね。', 'kyou wa atsui desu ne.', 'Hoje está quente, né?']]],
+      ['Contraste', 'Compara uma coisa com outra, às vezes deixando a outra subentendida.', [['肉は食べますが、魚は食べません。', 'niku wa tabemasu ga, sakana wa tabemasen.', 'Carne eu como, mas peixe não.']]]],
+    cmp: 'は × が: は apresenta o tema (“quanto a mim…”); が destaca quem ou o quê (“fui EU que…”). Numa resposta a だれ (quem) ou なに (o quê) como sujeito, usa-se が: だれが来ましたか。— ハリーが来ました。',
+    err: 'Escrever わ no lugar de は. Como partícula, escreve-se sempre は, mesmo soando “wa”.',
+    note: 'Em こんにちは e こんばんは, o は final é essa mesma partícula, por isso se escreve は e se lê “wa”.' },
+  { p: 'が', ro: 'ga', pt: ['partícula de sujeito (destaca quem ou o quê)', 'mas (ligando duas frases)'],
+    intro: 'Marca quem faz a ação ou o que existe, com foco nessa pessoa ou coisa. Também aparece com gostos, habilidades e desejos.',
+    fn: [['Sujeito, com foco', 'Quem faz, o que acontece ou o que existe.', [['猫がいる。', 'neko ga iru.', 'Tem um gato.'], ['雨が降っています。', 'ame ga futte imasu.', 'Está chovendo.']]],
+      ['Com gostar, entender, querer, saber fazer', 'Com 好き, 嫌い, 分かる, ほしい e できる, o “objeto” leva が.', [['私は猫が好きです。', 'watashi wa neko ga suki desu.', 'Eu gosto de gatos.'], ['日本語が分かります。', 'nihongo ga wakarimasu.', 'Eu entendo japonês.']]],
+      ['“Mas”, ligando frases', 'No fim de uma frase, liga outra com sentido de contraste.', [['高いですが、おいしいです。', 'takai desu ga, oishii desu.', 'É caro, mas é gostoso.']]]],
+    cmp: 'が × は: が põe o foco em quem ou o quê; は apresenta o assunto. Com uma informação nova (“tem um gato!”), o natural é が.',
+    err: 'Usar を com 好き: 猫を好きです ✗ → 猫が好きです ✓.',
+    note: 'Palavras de pergunta como sujeito (だれ, なに, どれ) levam が, nunca は: だれが来ましたか。' },
+  { p: 'を', ro: 'o', alt: ['wo'], pt: ['partícula de objeto direto (o que recebe a ação)', 'lugar por onde se passa ou que se deixa'],
+    intro: 'Escreve-se を e lê-se “o”. Marca a coisa que recebe a ação do verbo: o que se come, bebe, lê, compra...',
+    fn: [['Objeto da ação', 'O que recebe a ação.', [['水を飲む。', 'mizu o nomu.', 'Beber água.'], ['本を読みます。', 'hon o yomimasu.', 'Eu leio um livro.']]],
+      ['Lugar percorrido ou deixado', 'Com verbos de movimento: por onde se passa, de onde se sai.', [['公園を歩く。', 'kouen o aruku.', 'Andar pelo parque.'], ['家を出ます。', 'ie o demasu.', 'Saio de casa.']]]],
+    cmp: 'を × が: com 好き, 分かる, ほしい e できる usa-se が, não を.',
+    err: 'Escrever お no lugar de を. A partícula é sempre を, embora soe “o”.',
+    note: 'を quase só aparece como partícula. Por isso, ao vê-la num texto, você já sabe que acabou o objeto e vem o verbo.' },
+  { p: 'に', ro: 'ni', pt: ['destino (para onde)', 'momento exato (em, às)', 'lugar onde algo está', 'para alguém (quem recebe)'],
+    intro: 'Uma das partículas com mais funções. A ideia comum é um “ponto”: um destino, um momento, um lugar ou uma pessoa.',
+    fn: [['Destino', 'Para onde se vai.', [['学校に行く。', 'gakkou ni iku.', 'Ir à escola.']]],
+      ['Momento exato', 'Horas, dias da semana, datas.', [['七時に起きます。', 'shichiji ni okimasu.', 'Eu acordo às sete.'], ['日曜日に会いましょう。', 'nichiyoubi ni aimashou.', 'Vamos nos encontrar no domingo.']]],
+      ['Onde algo está', 'Com いる e ある (existir).', [['部屋に猫がいます。', 'heya ni neko ga imasu.', 'Tem um gato no quarto.']]],
+      ['Para quem', 'A pessoa que recebe a ação.', [['友達に手紙を書きます。', 'tomodachi ni tegami o kakimasu.', 'Escrevo uma carta para um amigo.']]]],
+    cmp: 'に × で: に é onde algo ESTÁ ou para onde VAI; で é onde uma AÇÃO acontece (公園で遊ぶ = brincar no parque). に × へ: no destino, quase iguais; へ destaca a direção.',
+    err: 'Usar に com “hoje”, “amanhã”, “ontem”: 明日に ✗ → 明日 ✓. Palavras de tempo relativo não levam に.',
+    note: 'Ao ouvir に, pense em “ponto de chegada”: de lugar, de tempo ou de pessoa.' },
+  { p: 'で', ro: 'de', pt: ['lugar onde a ação acontece', 'meio ou instrumento (de, com, em)', 'motivo (por causa de)', 'total ou limite (ao todo, em)'],
+    intro: 'Mostra o “palco” de uma ação e também o meio usado para fazê-la.',
+    fn: [['Onde a ação acontece', 'O lugar de uma atividade.', [['図書館で勉強します。', 'toshokan de benkyou shimasu.', 'Estudo na biblioteca.']]],
+      ['Meio ou instrumento', 'Transporte, ferramenta, língua.', [['バスで行きます。', 'basu de ikimasu.', 'Vou de ônibus.'], ['日本語で話しましょう。', 'nihongo de hanashimashou.', 'Vamos falar em japonês.']]],
+      ['Motivo', 'A causa de algo.', [['風邪で休みました。', 'kaze de yasumimashita.', 'Faltei por causa de um resfriado.']]],
+      ['Total', 'Ao somar tudo.', [['全部で千円です。', 'zenbu de sen\'en desu.', 'Ao todo, mil ienes.']]]],
+    cmp: 'で × に: 部屋で勉強する (ação no quarto) × 部屋にいる (estar no quarto).',
+    err: 'Usar で com existir: 部屋で猫がいます ✗ → 部屋に猫がいます ✓.',
+    note: 'でも, では e でした contêm で, mas são outras palavras: preste atenção no que vem depois.' },
+  { p: 'へ', ro: 'e', alt: ['he'], pt: ['direção (para, rumo a)'],
+    intro: 'Escreve-se へ e, como partícula, lê-se “e”. Indica a direção de um movimento.',
+    fn: [['Direção', 'Para onde se vai, com foco no caminho.', [['日本へ行きます。', 'nihon e ikimasu.', 'Vou ao Japão.'], ['家へ帰ります。', 'ie e kaerimasu.', 'Volto para casa.']]],
+      ['“Para” em bilhetes e presentes', 'No começo de um recado: para quem é.', [['お母さんへ。', 'okaasan e.', 'Para a mamãe.']]]],
+    cmp: 'へ × に: para destinos, as duas funcionam (学校に行く / 学校へ行く). に também marca tempo e lugar; へ, só direção.',
+    err: 'Ler “he”. Como partícula, へ soa “e”.',
+    note: 'は (wa), へ (e) e を (o): as três partículas que se escrevem diferente de como soam.' },
+  { p: 'と', ro: 'to', pt: ['e (entre substantivos)', 'com (junto com alguém)', 'citação (“…”, que)'],
+    intro: 'Liga pessoas e coisas: “e”, “com”. Também marca o que alguém disse ou pensou.',
+    fn: [['“E” numa lista completa', 'Liga substantivos.', [['犬と猫', 'inu to neko', 'cachorro e gato'], ['パンと牛乳を買いました。', 'pan to gyuunyuu o kaimashita.', 'Comprei pão e leite.']]],
+      ['“Com” alguém', 'Quem faz junto.', [['友達と映画を見ました。', 'tomodachi to eiga o mimashita.', 'Vi um filme com um amigo.']]],
+      ['Citação', 'Depois do que foi dito ou pensado.', [['先生は「おはよう」と言いました。', 'sensei wa "ohayou" to iimashita.', 'O professor disse “bom dia”.']]]],
+    cmp: 'と × や: と lista tudo (“pão e leite”, só isso); や dá exemplos (“pão, leite etc.”).',
+    err: 'Usar と para ligar adjetivos ou frases: 寒いと暗い ✗ → 寒くて暗い ✓ (forma -te).',
+    note: 'Depois de verbos, と também pode significar “quando” ou “se” (conteúdo intermediário).' },
+  { p: 'の', ro: 'no', pt: ['de (posse, ligação entre substantivos)', 'o/a de (substitui um substantivo)', 'pergunta ou explicação casual (no fim)'],
+    intro: 'Liga dois substantivos. A ordem é a contrária do português: dono + の + coisa.',
+    fn: [['Posse', 'De quem é.', [['私の本', 'watashi no hon', 'o meu livro'], ['田中さんの車', 'tanaka san no kuruma', 'o carro do Tanaka']]],
+      ['Tipo ou origem', 'Que tipo de coisa, de onde.', [['日本語の先生', 'nihongo no sensei', 'professor(a) de japonês'], ['学校の友達', 'gakkou no tomodachi', 'amigo da escola']]],
+      ['Substitui o substantivo', 'Evita repetir a palavra.', [['この傘は私のです。', 'kono kasa wa watashi no desu.', 'Este guarda-chuva é meu.']]],
+      ['Fim de frase casual', 'Pergunta ou explicação entre amigos.', [['どうしたの？', 'doushita no?', 'O que aconteceu?']]]],
+    cmp: 'Leia de trás para a frente: 田中さんの車 = carro (車) de (の) Tanaka.',
+    err: 'Esquecer o の: 私本 ✗ → 私の本 ✓.',
+    note: 'のです / んです (explicar, enfatizar) é um uso de nível intermediário.' },
+  { p: 'も', ro: 'mo', pt: ['também', 'nem; nada, ninguém (com negativa)', 'até; tanto (ênfase em quantidade)'],
+    intro: 'Significa “também”. Fica no lugar de は, が ou を.',
+    fn: [['Também', 'Acrescenta algo igual.', [['私も学生です。', 'watashi mo gakusei desu.', 'Eu também sou estudante.']]],
+      ['Nada, ninguém (com negativa)', 'Com palavras de pergunta e verbo negativo.', [['何も食べていません。', 'nani mo tabete imasen.', 'Não comi nada.'], ['だれもいません。', 'dare mo imasen.', 'Não tem ninguém.']]],
+      ['Ênfase em quantidade', 'Depois de um número: “tudo isso!”.', [['三時間も待った。', 'sanjikan mo matta.', 'Esperei três horas inteiras!']]]],
+    cmp: 'も substitui は, が e を (私は → 私も). Com に e で, soma-se: 学校にも (na escola também).',
+    err: 'Juntar com は: 私はも ✗ → 私も ✓.',
+    note: '' },
+  { p: 'か', ro: 'ka', pt: ['pergunta (no fim da frase)', 'ou (entre opções)', 'algum, alguém (com palavras de pergunta)'],
+    intro: 'No fim de uma frase educada, transforma a frase em pergunta.',
+    fn: [['Pergunta', 'No fim da frase com です/ます.', [['学生ですか。', 'gakusei desu ka.', 'Você é estudante?']]],
+      ['“Ou”', 'Entre duas opções.', [['お茶かコーヒー', 'ocha ka koohii', 'chá ou café']]],
+      ['Algum, alguém', 'Depois de palavras de pergunta.', [['何か食べたい。', 'nanika tabetai.', 'Quero comer alguma coisa.'], ['だれか来た。', 'dareka kita.', 'Alguém veio.']]]],
+    cmp: 'Na fala casual entre amigos, a pergunta costuma ser só a entonação (行く？) ou の (行くの？). か sozinho no casual pode soar seco.',
+    err: 'Achar que か sempre vem com ？: em textos japoneses, perguntas com か muitas vezes terminam em 。.',
+    note: 'Mesmo som de 蚊 (mosquito). O contexto resolve.' },
+  { p: 'から', ro: 'kara', pt: ['de; a partir de (lugar, tempo)', 'porque; já que (motivo)'],
+    intro: 'Marca o ponto de partida. Depois de uma frase, dá o motivo.',
+    fn: [['Ponto de partida', 'De onde ou desde quando.', [['九時から始まります。', 'kuji kara hajimarimasu.', 'Começa às nove (a partir das nove).'], ['ブラジルから来ました。', 'burajiru kara kimashita.', 'Vim do Brasil.']]],
+      ['Motivo', 'Vem DEPOIS da causa.', [['暑いから、窓を開けます。', 'atsui kara, mado o akemasu.', 'Está quente, então vou abrir a janela.']]]],
+    cmp: 'から × まで: から é o começo; まで, o fim (月曜日から金曜日まで = de segunda a sexta). から × ので: ので também é “porque”, com tom mais suave.',
+    err: 'Pôr から antes do motivo, como em português: から暑い ✗ → 暑いから ✓.',
+    note: '' },
+  { p: 'まで', ro: 'made', pt: ['até (lugar, tempo)', 'até; inclusive (ênfase)'],
+    intro: 'Marca o ponto final: até onde ou até quando.',
+    fn: [['Até (lugar ou tempo)', 'O limite final.', [['駅まで歩きます。', 'eki made arukimasu.', 'Ando até a estação.'], ['五時まで働きます。', 'goji made hatarakimasu.', 'Trabalho até as cinco.']]],
+      ['De… até… (com から)', 'Começo e fim.', [['月曜日から金曜日まで', 'getsuyoubi kara kin\'youbi made', 'de segunda a sexta']]]],
+    cmp: 'まで × までに: まで = durante todo o tempo, até; までに = antes de, no prazo (五時までに来て = venha antes das cinco).',
+    err: 'Usar まで para prazos: 五時まで宿題を出して ✗ → 五時までに ✓.',
+    note: '' },
+  { p: 'よ', ro: 'yo', pt: ['ênfase: informa algo que o outro não sabe (“viu!”, “sabia?”)'],
+    intro: 'No fim da frase, mostra que você está passando uma informação nova ou dando um aviso.',
+    fn: [['Informação nova', 'Você conta algo ao outro.', [['この店のラーメン、おいしいですよ。', 'kono mise no raamen, oishii desu yo.', 'O lámen desta loja é gostoso, viu!']]],
+      ['Aviso, chamado', 'Ênfase forte.', [['あぶないよ！', 'abunai yo!', 'Cuidado! (É perigoso!)'], ['行くよ！', 'iku yo!', 'Lá vou eu! / Vamos!']]]],
+    cmp: 'よ × ね: よ traz algo que o outro não sabe; ね busca concordância. よね junta os dois: “é assim, né?”.',
+    err: 'Usar よ o tempo todo com professores ou chefes pode soar insistente.',
+    note: 'Muito comum em animes e conversas entre amigos.' },
+  { p: 'ね', ro: 'ne', pt: ['busca concordância (“né?”)', 'suaviza a frase'],
+    intro: 'No fim da frase, chama o outro para concordar ou deixa a frase mais simpática.',
+    fn: [['“Né?”', 'Algo que os dois sabem ou sentem.', [['今日は暑いですね。', 'kyou wa atsui desu ne.', 'Hoje está quente, né?']]],
+      ['Suavizar, mostrar empatia', 'Reação simpática.', [['いいですね！', 'ii desu ne!', 'Que legal!'], ['じゃあ、また明日ね。', 'jaa, mata ashita ne.', 'Então, até amanhã, tá?']]]],
+    cmp: 'ね × よ: ね = “concorda?”; よ = “fique sabendo”.',
+    err: 'Usar ね com algo que só você sabe: 私の名前はハリーですね ✗ soa como se você tivesse esquecido o próprio nome.',
+    note: 'No começo da frase, ねえ chama a atenção: ねえ、聞いて！ = Ei, escuta!' }
+];
+/* Leituras de kanji em contexto (só as que aparecem no Nihongo Quest ou ajudam a entender palavras já ensinadas).
+   Formato: kanji → ['kana|romaji|sentido|palavras reais (escrita (leitura) = tradução · ...)']. Leitura especial =
+   a palavra inteira tem leitura própria, que não vem dos kanji separados. */
+const DICT_KREAD = {
+  '間': ['あいだ|aida|entre; intervalo; durante|駅と学校の間 (あいだ) = entre a estação e a escola · この間 (このあいだ) = outro dia', 'ま|ma|espaço; pausa; tempo|間に合う (まにあう) = chegar a tempo · 居間 (いま) = sala de estar', 'かん|kan|intervalo (em palavras compostas)|時間 (じかん) = tempo, hora · 一週間 (いっしゅうかん) = uma semana', 'げん|gen|em 人間|人間 (にんげん) = ser humano'],
+  '角': ['かど|kado|canto; esquina|角 (かど) = esquina, canto', 'つの|tsuno|chifre|角 (つの) = chifre', 'かく|kaku|ângulo; canto (em compostos)|三角 (さんかく) = triângulo · 四角 (しかく) = quadrado · 角度 (かくど) = ângulo'],
+  '生': ['せい|sei|vida; estudante (em compostos)|先生 (せんせい) = professor · 学生 (がくせい) = estudante', 'しょう|shou|vida (em compostos)|一生 (いっしょう) = a vida inteira', 'い(きる)|i(kiru)|viver|生きる (いきる) = viver', 'う(まれる)|u(mareru)|nascer|生まれる (うまれる) = nascer', 'なま|nama|cru; ao vivo|生卵 (なまたまご) = ovo cru'],
+  '日': ['にち|nichi|dia (em compostos)|毎日 (まいにち) = todo dia · 日曜日 (にちようび) = domingo', 'に|ni|em 日本|日本 (にほん) = Japão', 'ひ / び|hi / bi|dia; sol|日 (ひ) = dia, sol · 日曜日 (にちようび): o último 日 vira び', 'か|ka|dias (contagem e datas)|三日 (みっか) = dia 3; três dias · 十日 (とおか) = dia 10', 'leitura especial|—|a palavra inteira tem leitura própria|今日 (きょう) = hoje · 明日 (あした) = amanhã · 昨日 (きのう) = ontem'],
+  '上': ['うえ|ue|em cima|机の上 (つくえのうえ) = em cima da mesa', 'じょう|jou|em compostos|上手 (じょうず) = habilidoso', 'あ(がる)|a(garu)|subir|上がる (あがる) = subir', 'のぼ(る)|nobo(ru)|subir (escada, montanha)|上る (のぼる) = subir'],
+  '下': ['した|shita|embaixo|机の下 (つくえのした) = embaixo da mesa · 靴下 (くつした) = meia · 下着 (したぎ) = roupa íntima', 'か|ka|em compostos|地下鉄 (ちかてつ) = metrô', 'さ(がる)|sa(garu)|baixar; descer|下がる (さがる) = baixar'],
+  '人': ['ひと|hito|pessoa|人 (ひと) = pessoa · 男の人 (おとこのひと) = homem', 'じん|jin|nacionalidade|日本人 (にほんじん) = japonês(a)', 'にん|nin|contagem; quem faz|三人 (さんにん) = três pessoas · 料理人 (りょうりにん) = cozinheiro', 'leitura especial|—|a palavra inteira tem leitura própria|一人 (ひとり) = uma pessoa, sozinho · 二人 (ふたり) = duas pessoas · 大人 (おとな) = adulto'],
+  '大': ['おお(きい)|oo(kii)|grande|大きい (おおきい) = grande · 大きさ (おおきさ) = tamanho', 'だい|dai|grande (em compostos)|大学 (だいがく) = universidade · 大好き (だいすき) = adorar', 'たい|tai|em compostos|大切 (たいせつ) = importante · 大変 (たいへん) = difícil, puxado'],
+  '中': ['なか|naka|dentro; meio|中 (なか) = dentro · 真ん中 (まんなか) = meio, centro', 'ちゅう|chuu|meio (em compostos)|中学校 (ちゅうがっこう) = escola (fundamental II) · 中国 (ちゅうごく) = China', 'じゅう|juu|durante todo; em todo|一日中 (いちにちじゅう) = o dia inteiro'],
+  '行': ['い(く)|i(ku)|ir|行く (いく) = ir', 'こう|kou|ir; linha (em compostos)|銀行 (ぎんこう) = banco · 飛行機 (ひこうき) = avião · 旅行 (りょこう) = viagem'],
+  '来': ['く(る) / き(ます)|ku(ru) / ki(masu)|vir|来る (くる) = vir · 来ます (きます) = vem', 'らい|rai|próximo (tempo)|来週 (らいしゅう) = semana que vem · 来年 (らいねん) = ano que vem'],
+  '手': ['て|te|mão|手 (て) = mão · 手袋 (てぶくろ) = luva', 'しゅ|shu|quem faz|歌手 (かしゅ) = cantor · 運転手 (うんてんしゅ) = motorista', 'leitura especial|—|a palavra inteira tem leitura própria|上手 (じょうず) = habilidoso · 下手 (へた) = desajeitado'],
+  '気': ['き|ki|energia; ânimo; ar|元気 (げんき) = disposto · 天気 (てんき) = tempo · 電気 (でんき) = eletricidade · 気持ち (きもち) = sentimento', 'け|ke|sinal; presença|湿気 (しっけ) = umidade'],
+  '何': ['なに|nani|o quê|何 (なに) = o quê · 何か (なにか) = alguma coisa', 'なん|nan|o quê (antes de d, t, n e de contadores)|何ですか (なんですか) = o que é? · 何時 (なんじ) = que horas'],
+  '今': ['いま|ima|agora|今 (いま) = agora', 'こん|kon|este (tempo)|今週 (こんしゅう) = esta semana · 今晩 (こんばん) = esta noite', 'leitura especial|—|a palavra inteira tem leitura própria|今日 (きょう) = hoje · 今年 (ことし) = este ano'],
+  '本': ['ほん|hon|livro; origem; verdadeiro|本 (ほん) = livro · 日本 (にほん) = Japão · 本当 (ほんとう) = verdade', 'ぽん / ぼん|pon / bon|contador de objetos compridos|一本 (いっぽん) = um (objeto comprido) · 三本 (さんぼん) = três', 'もと|moto|origem; base (em nomes)|山本 (やまもと) = Yamamoto (sobrenome)'],
+  '月': ['つき|tsuki|lua|月 (つき) = lua', 'げつ|getsu|lua; mês (em compostos)|月曜日 (げつようび) = segunda-feira', 'がつ|gatsu|mês do ano|一月 (いちがつ) = janeiro · 四月 (しがつ) = abril'],
+  '金': ['かね|kane|dinheiro|お金 (おかね) = dinheiro', 'きん|kin|ouro; sexta-feira|金曜日 (きんようび) = sexta-feira · 金色 (きんいろ) = dourado · 金魚 (きんぎょ) = peixinho-dourado'],
+  '水': ['みず|mizu|água|水 (みず) = água · 水着 (みずぎ) = roupa de banho', 'すい|sui|água (em compostos)|水曜日 (すいようび) = quarta-feira · 水族館 (すいぞくかん) = aquário'],
+  '火': ['ひ / び|hi / bi|fogo|火 (ひ) = fogo · 花火 (はなび) = fogos de artifício (ひ vira び)', 'か|ka|fogo (em compostos)|火曜日 (かようび) = terça-feira'],
+  '年': ['とし|toshi|ano; idade|年 (とし) = ano, idade', 'ねん|nen|ano (em compostos e contagem)|来年 (らいねん) = ano que vem · 一年生 (いちねんせい) = aluno do 1º ano', 'leitura especial|—|a palavra inteira tem leitura própria|今年 (ことし) = este ano'],
+  '時': ['とき|toki|momento; quando|時 (とき) = momento · 時々 (ときどき) = às vezes', 'じ|ji|hora|何時 (なんじ) = que horas · 時間 (じかん) = tempo', 'leitura especial|—|a palavra inteira tem leitura própria|時計 (とけい) = relógio'],
+  '学': ['がく|gaku|estudo|学生 (がくせい) = estudante · 大学 (だいがく) = universidade · 数学 (すうがく) = matemática', 'がっ|ga(k)|antes de k (som dobrado)|学校 (がっこう) = escola', 'まな(ぶ)|mana(bu)|aprender|学ぶ (まなぶ) = aprender'],
+  '名': ['な|na|nome|名前 (なまえ) = nome', 'めい|mei|nome; famoso (em compostos)|有名 (ゆうめい) = famoso', 'みょう|myou|em 名字|名字 (みょうじ) = sobrenome'],
+  '前': ['まえ|mae|frente; antes|前 (まえ) = frente, antes · 名前 (なまえ) = nome', 'ぜん|zen|antes (em compostos)|午前 (ごぜん) = de manhã (a.m.)'],
+  '後': ['あと|ato|depois|後で (あとで) = depois', 'うし(ろ)|ushi(ro)|atrás|後ろ (うしろ) = atrás', 'ご|go|depois (em compostos)|午後 (ごご) = de tarde (p.m.)'],
+  '先': ['さき|saki|à frente; antes|先に (さきに) = antes, na frente', 'せん|sen|anterior; à frente (em compostos)|先生 (せんせい) = professor · 先輩 (せんぱい) = veterano · 先週 (せんしゅう) = semana passada'],
+  '子': ['こ|ko|criança|子供 (こども) = criança · 女の子 (おんなのこ) = menina', 'し|shi|em compostos|帽子 (ぼうし) = chapéu', 'す|su|em algumas palavras|椅子 (いす) = cadeira'],
+  '入': ['はい(る)|hai(ru)|entrar|入る (はいる) = entrar', 'い(れる)|i(reru)|colocar dentro|入れる (いれる) = colocar · 押し入れ (おしいれ) = armário embutido', 'いり|iri|entrada|入口 (いりぐち) = entrada', 'にゅう|nyuu|em compostos|入学 (にゅうがく) = entrar na escola'],
+  '食': ['た(べる)|ta(beru)|comer|食べる (たべる) = comer · 食べ物 (たべもの) = comida', 'しょく|shoku|comida (em compostos)|食事 (しょくじ) = refeição · 給食 (きゅうしょく) = merenda escolar'],
+  '物': ['もの|mono|coisa|食べ物 (たべもの) = comida · 着物 (きもの) = quimono · 飲み物 (のみもの) = bebida', 'ぶつ|butsu|coisa; ser (em compostos)|動物 (どうぶつ) = animal · 博物館 (はくぶつかん) = museu', 'もつ|motsu|em 荷物|荷物 (にもつ) = bagagem'],
+  '家': ['いえ / うち|ie / uchi|casa; lar|家 (いえ) = casa · 家 (うち) = minha casa, meu lar', 'か|ka|casa; especialista (em compostos)|家族 (かぞく) = família · 漫画家 (まんがか) = mangaká · 農家 (のうか) = agricultor'],
+  '方': ['かた|kata|modo; pessoa (educado)|読み方 (よみかた) = jeito de ler · あの方 (あのかた) = aquela pessoa', 'ほう|hou|direção; lado|〜の方が (のほうが) = “é mais…” (comparação) · 長方形 (ちょうほうけい) = retângulo'],
+  '体': ['からだ|karada|corpo|体 (からだ) = corpo', 'たい|tai|corpo (em compostos)|体育 (たいいく) = educação física · 立方体 (りっぽうたい) = cubo'],
+  '心': ['こころ|kokoro|coração; mente|心 (こころ) = coração (sentimentos)', 'しん|shin|em compostos|心配 (しんぱい) = preocupação · 心臓 (しんぞう) = coração (órgão) · 安心 (あんしん) = alívio'],
+  '風': ['かぜ|kaze|vento|風 (かぜ) = vento', 'ふう|fuu|vento; estilo (em compostos)|台風 (たいふう) = tufão', 'ふ|fu|em お風呂|お風呂 (おふろ) = banho'],
+  '着': ['き(る)|ki(ru)|vestir|着る (きる) = vestir · 着物 (きもの) = quimono', 'ぎ|gi|roupa (き vira ぎ no fim de palavras)|上着 (うわぎ) = casaco · 水着 (みずぎ) = roupa de banho', 'つ(く)|tsu(ku)|chegar|着く (つく) = chegar'],
+  '空': ['そら|sora|céu|空 (そら) = céu', 'くう|kuu|ar; vazio (em compostos)|空港 (くうこう) = aeroporto', 'あ(く)|a(ku)|ficar vago, vazio|空く (あく) = vagar, ficar livre'],
+  '形': ['かたち|katachi|forma|形 (かたち) = forma', 'がた|gata|formato (no fim de palavras)|星形 (ほしがた) = forma de estrela', 'けい|kei|figura (em compostos)|三角形 (さんかくけい) = triângulo · 正方形 (せいほうけい) = quadrado'],
+  '長': ['なが(い)|naga(i)|comprido; longo|長い (ながい) = comprido · 長さ (ながさ) = comprimento', 'ちょう|chou|chefe; longo (em compostos)|社長 (しゃちょう) = presidente da empresa · 長方形 (ちょうほうけい) = retângulo'],
+  '楽': ['たの(しい)|tano(shii)|divertido|楽しい (たのしい) = divertido', 'がく|gaku|música|音楽 (おんがく) = música', 'らく|raku|conforto; facilidade|楽 (らく) = confortável, fácil'],
+  '薬': ['くすり|kusuri|remédio|薬 (くすり) = remédio', 'やく / やっ|yaku / yak|remédio (em compostos)|薬草 (やくそう) = erva medicinal · 薬局 (やっきょく) = farmácia']
+};
+
+/* ==========================================================
    Nihongo Quest 7.0 — DICIONÁRIO JAPONÊS-PORTUGUÊS
    - Junta todas as palavras do app (Academia, Academia Auditiva, Listening Academy,
      Chat) + DICT_EXTRA, sem duplicar (mesma leitura e mesma escrita = uma entrada).
@@ -17255,6 +17497,12 @@ DICT_EXTRA_P.forEach(e => {
   e.dictId = it.id;
 });
 
+/* 12.0: as partículas também podem ir para o Caderno e a Revisão (item próprio; a voz lê は como “wa” e へ como “e”) */
+DICT_PARTICLES.forEach(P => {
+  const id = 'dict:part:' + P.p;
+  if (!ITEM[id]) { ITEM[id] = { k: 'part:' + P.p, jp: P.p, say: P.p === 'は' ? 'わ' : P.p === 'へ' ? 'え' : P.p, ro: P.ro, pt: P.pt.join(' / '), group: 'palavra', particle: P, tag: 'particulas', note: P.intro, id, lesson: DICT_LESSON }; DICT_LESSON.items.push(ITEM[id]); }
+});
+
 /* ---------- índice (montado na primeira consulta) ---------- */
 function dictBuild() {
   if (DICT.built) return; DICT.built = true;
@@ -17267,8 +17515,12 @@ function dictBuild() {
     const kana = src.kana, kanji = src.kanji || '';
     if (!kana && !kanji) return;
     const reading = KANA.kata2hira(kana || '');
-    // mesma leitura + mesma escrita (ou uma delas sem kanji) = mesma palavra
-    let e = (DICT.byWord[reading] || []).find(x => !kanji || !x.kanji || x.kanji === kanji);
+    // mesma leitura + mesma escrita (ou uma delas sem kanji) = mesma palavra.
+    // 12.0: entre homófonos (はし 箸 × 橋, そば “ao lado” × “macarrão”), prefere a escrita igual e, para palavras
+    // em kana, a entrada em kana ou a de significado compatível; senão cria outra entrada (não mistura sentidos).
+    const same = DICT.byWord[reading] || [], ptOk = x => !src.pt || x.pt.some(p => nqPtCompat(p, src.pt));
+    let e = kanji ? same.find(x => x.kanji === kanji) || same.find(x => !x.kanji && ptOk(x)) || same.find(x => !x.kanji && !x.particle)
+      : same.find(x => !x.kanji && ptOk(x)) || same.find(x => ptOk(x)) || (same.length === 1 && !same[0].kanji ? same[0] : null);
     if (!e) {
       e = { key: (kanji || '') + '|' + (kana || src.ro), kanji, kana, reading, ro: src.ro, pt: [], pos: '', tags: [], ex: [], notes: [], ctx: [], items: [], srcs: [] };
       DICT.list.push(e); (DICT.byWord[reading] = DICT.byWord[reading] || []).push(e); DICT.byKey[e.key] = e;
@@ -17292,7 +17544,8 @@ function dictBuild() {
     if (/[。？！?!]/.test(it.jp) && it.jp.length > 6) return; // frases inteiras
     const jp = it.jp, say = it.say && isKana(it.say) ? it.say : '';
     let kana, kanji = '';
-    if (hasKanji(jp)) { kanji = jp.replace(/[！!？?。]/g, ''); kana = say || KANA.toKana(it.ro); }
+    if (L.vc) { kana = it.kana; kanji = it.write && it.write !== it.kana ? it.write : ''; }
+    else if (hasKanji(jp)) { kanji = jp.replace(/[！!？?。]/g, ''); kana = say || KANA.toKana(it.ro); }
     else { kana = jp.replace(/[！!？?。…〜~]/g, ''); kanji = it.kanji && hasKanji(it.kanji) && it.kanji.length <= 4 ? it.kanji : ''; }
     if (!kana || kana.length > 14) return;
     const ctx = [];
@@ -17301,8 +17554,8 @@ function dictBuild() {
     if (it.formal) ctx.push(it.formal);
     const lt = (L.title || '') + ' ' + (L.cat && L.cat.title || '');
     const kanjiLesson = L.cat && /kanji/i.test(L.cat.title || '');
-    const pos = kind === 'number' ? 'num' : kanjiLesson && /^[一-鿿]$/.test(jp) ? 'kanji' : it.group === 'expressao' ? 'expr' : /verbo/i.test(L.title || '') && /^(a |o )?[a-zà-ú]+(ar|er|ir|or)\b/i.test(it.pt) ? 'verbo' : /adjetivo/i.test(L.title || '') && /i$/.test(it.ro) ? 'adj-i' : '';
-    add({ kana, kanji, ro: it.ro, pt: it.pt, pos, note: it.note, ex: it.ex, ctx, id: it.id, srcLabel, tag: tagHint || (kanjiLesson ? '' : dictTagFromTitle(lt)) });
+    const pos = it.pos || (kind === 'number' ? 'num' : kanjiLesson && /^[一-鿿]$/.test(jp) ? 'kanji' : it.group === 'expressao' ? 'expr' : /verbo/i.test(L.title || '') && /^(a |o )?[a-zà-ú]+(ar|er|ir|or)\b/i.test(it.pt) ? 'verbo' : /adjetivo/i.test(L.title || '') && /i$/.test(it.ro) ? 'adj-i' : '');
+    add({ kana, kanji, ro: it.ro, pt: it.pt, pos, note: it.note, ex: it.ex, ctx, id: it.id, srcLabel, tag: it.tag || tagHint || (kanjiLesson ? '' : dictTagFromTitle(lt)) });
   };
   ALL_LESSONS.forEach(l => l.items.forEach(it => fromItem(it, l.cat.title + ' · ' + l.title)));
   AUDIO_PACKS.forEach(p => p.items.forEach(it => fromItem(it, p.title || 'Academia Auditiva', p.id === 'aud-ani' ? 'anime' : '')));
@@ -17310,13 +17563,27 @@ function dictBuild() {
   if (typeof CHAT_PACK !== 'undefined') CHAT_PACK.items.forEach(it => fromItem(it, 'Nihongo Chat'));
   if (typeof WORLD_LESSON !== 'undefined') WORLD_LESSON.items.forEach(it => fromItem(it, 'Living Japanese World'));
   if (typeof RD_WORDS_PACK !== 'undefined') RD_WORDS_PACK.items.forEach(it => fromItem(it, 'Leitura Japonesa'));
+  // 12.0: Academia de Vocabulário (classe, tema, notas e exemplos revisados) e as palavras do Adventure Mode
+  if (typeof VC_LESSONS !== 'undefined') VC_LESSONS.forEach(l => l.items.forEach(it => fromItem(it, 'Academia de Vocabulário · ' + l.vcat.title)));
+  if (typeof RPG_LESSON !== 'undefined') RPG_LESSON.items.forEach(it => fromItem(it, 'Adventure Mode', 'aventura'));
   DICT_EXTRA_P.forEach(e => add({ kana: e.kana, kanji: e.kanji, ro: e.ro, pt: e.pt, pos: e.pos, tag: e.tag, ex: e.ex, id: null, dict: true }));
   DICT_EXTRA_P.forEach(e => { const d = dictFind(e.kanji || e.kana, e.kana); if (d) d.dictId = e.dictId; });
+  // 12.0: as 14 partículas, com verbete próprio (não se misturam com homófonos como 歯 は ou 二 に)
+  DICT_PARTICLES.forEach((P, i) => {
+    const old = (DICT.byWord[P.p] || []).find(x => !x.kanji && (!x.pos || x.pos === 'part'));
+    const e = old || { key: 'part|' + P.p, kanji: '', kana: P.p, reading: P.p, ro: P.ro, pt: [], pos: 'part', tags: [], ex: [], notes: [], ctx: [], items: [], srcs: [] };
+    if (!old) { DICT.list.push(e); DICT.byKey[e.key] = e; }
+    e.ro = P.ro; e.pos = 'part'; e.particle = P; e.pi = i; e.dictId = 'dict:part:' + P.p;
+    e.pt = P.pt.concat(e.pt.filter(p => !P.pt.some(x => dNorm(x) === dNorm(p))));
+    e.tags = ['particulas'].concat(e.tags.filter(t => t !== 'particulas'));
+    if (!e.srcs.includes('Gramática da Academia')) e.srcs.push('Gramática da Academia');
+  });
   DICT.list.forEach((e, i) => {
     e.rank = i;
     e.jp = e.kanji || e.kana;
     e.k = { ro: KANA.phon(e.ro || KANA.toRomaji(e.kana)), roRaw: dNorm(e.ro).replace(/[^a-z]/g, ''), kana: e.reading, pt: e.pt.map(p => dNorm(p).replace(/\((a|o|as|os|es)\)/g, '').replace(/\s+/g, ' ').trim()), ptWords: e.pt.flatMap(p => dNorm(p).split(/[^a-z0-9à-ú]+/).filter(Boolean)) };
     e.k.ptAlt = dictPtAlt(e.pt); e.k.ptWords.push(...e.k.ptAlt.flatMap(p => p.split(' ')).filter(w => w && !e.k.ptWords.includes(w)));
+    if (e.particle) { e.k.roAlt = e.particle.alt || []; e.k.ptWords.push('particula', 'particulas'); e.k.pt.push('particula ' + e.particle.ro, 'particula ' + e.particle.p); }
   });
 }
 function dictTagFromTitle(t) {
@@ -17339,7 +17606,7 @@ function dictSearch(q) {
     const hira = KANA.kata2hira(q.replace(/\s/g, ''));
     DICT.list.forEach(e => {
       let s = 0;
-      if (e.kanji === q || e.kana === q || e.reading === hira) s = 100;
+      if (e.kanji === q || e.kana === q || e.reading === hira) s = 100 + (e.particle && e.kana === q ? 1 : 0);
       else if (e.kanji && e.kanji.startsWith(q) || e.reading.startsWith(hira)) s = 70;
       else if (e.kanji && e.kanji.includes(q)) s = 50;
       else if (hira.length >= 2 && e.reading.includes(hira)) s = 35;
@@ -17352,7 +17619,8 @@ function dictSearch(q) {
     DICT.list.forEach(e => {
       let s = 0;
       // romaji (grafias diferentes: ou/oo/ō, shi/si, tsu/tu, n'…)
-      if (raw && e.k.roRaw === raw) s = 100;
+      if (raw && e.k.roRaw === raw) s = 100 + (e.particle ? 1 : 0);
+      else if (raw && e.k.roAlt && e.k.roAlt.includes(raw)) s = 99;
       else if (ph && e.k.ro === ph) s = 96;
       else if (kana && e.reading === kana) s = 95;
       else if (ph.length >= 2 && e.k.ro.startsWith(ph)) s = 62 - Math.min(10, e.k.ro.length - ph.length);
@@ -17364,7 +17632,32 @@ function dictSearch(q) {
       if (s) out.push([s, e]);
     });
   }
-  return out.sort((a, b) => b[0] - a[0] || (a[1].jp.length - b[1].jp.length) || a[1].rank - b[1].rank).map(x => x[1]);
+  // 12.0: quando há resultado exato ou quase exato, pedaços soltos no meio de outras palavras (substring) saem da lista
+  const best = out.reduce((m, x) => Math.max(m, x[0]), 0);
+  const kept = best >= 90 ? out.filter(x => x[0] >= 40) : out;
+  return kept.sort((a, b) => b[0] - a[0] || (a[1].jp.length - b[1].jp.length) || a[1].rank - b[1].rank).map(x => x[1]);
+}
+/* 12.0: sem resultado → sugestões parecidas (erro de digitação em romaji ou português). Nunca inventa verbete. */
+function dictLev(a, b, max) {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) { const cur = [i]; let lo = i; for (let j = 1; j <= b.length; j++) { cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); lo = Math.min(lo, cur[j]); } if (lo > max) return max + 1; prev = cur; }
+  return prev[b.length];
+}
+function dictSuggest(q) {
+  dictBuild();
+  q = String(q || '').trim(); if (q.length < 3) return [];
+  const out = [];
+  if (/[぀-ヿ]/.test(q)) { const h = KANA.kata2hira(q.replace(/\s/g, '')); DICT.list.forEach(e => { const d = dictLev(h, e.reading, 1); if (d <= 1) out.push([d, e]); }); }
+  else if (!/[一-鿿]/.test(q)) {
+    const n = dNorm(q).replace(/[^a-z ]/g, '').trim(), raw = n.replace(/ /g, ''), max = raw.length >= 6 ? 2 : 1;
+    DICT.list.forEach(e => {
+      let d = dictLev(raw, e.k.roRaw, max);
+      e.k.ptWords.forEach(w => { if (w.length >= 3) d = Math.min(d, dictLev(n, w, max)); });
+      if (d <= max) out.push([d, e]);
+    });
+  }
+  return out.sort((a, b) => a[0] - b[0] || a[1].rank - b[1].rank).map(x => x[1]).filter((e, i, a) => a.indexOf(e) === i).slice(0, 6);
 }
 
 /* 11.0 — correções da busca em português (comprovadas na investigação de conteúdo):
@@ -17375,7 +17668,7 @@ function dictPtAlt(pts) {
   const out = [];
   pts.forEach(p => {
     const d = dNorm(p).replace(/\s+/g, ' ').trim();
-    const fem = d.replace(/([a-z]+)o\(a\)/g, '$1a').replace(/([a-z]+)os\(as\)/g, '$1as').replace(/\((a|o|as|os|es)\)/g, '').trim();
+    const fem = d.replace(/([a-z]+)o\(a\)/g, '$1a').replace(/([a-z]+)os\(as\)/g, '$1as').replace(/([a-z]*[a-np-z])\(a\)/g, '$1a').replace(/\((a|o|as|os|es)\)/g, '').trim();
     [fem, d.replace(/\((a|o|as|os|es)\)/g, '').replace(/-/g, ' ').replace(/\s+/g, ' ').trim(), fem.replace(/-/g, ' ')].forEach(v => { if (v && !out.includes(v)) out.push(v); });
   });
   return out;
@@ -17440,12 +17733,18 @@ function dictListHTML() {
   const q = dictUI.q.trim();
   if (q) {
     const res = dictSearch(q);
-    if (!res.length) return `<div class="card mascot-tip" style="box-shadow:none">${mascot('neutral', 56)}<div><b>Nada encontrado para “${esc(q)}”.</b><p class="muted" style="margin:4px 0 0">Tente outra grafia (ex.: <i>arigato</i>, <i>ありがとう</i>), uma palavra em português sem acento ou só o começo da palavra.</p></div></div>`;
-    return `<p class="muted tabnum" style="margin:0 2px;font-size:.82rem">${res.length} resultado${res.length > 1 ? 's' : ''}</p><div class="card d-list">${res.slice(0, dictUI.limit).map(dictRow).join('')}</div>${res.length > dictUI.limit ? `<button class="btn btn-ghost btn-block" data-act="dictMore">Ver mais</button>` : ''}`;
+    if (!res.length) {
+      const sug = dictSuggest(q);
+      return `<div class="card mascot-tip" style="box-shadow:none">${mascot('neutral', 56)}<div><b>Nada encontrado para “${esc(q)}”.</b><p class="muted" style="margin:4px 0 0">Tente outra grafia (ex.: <i>arigato</i>, <i>ありがとう</i>), uma palavra em português sem acento ou só o começo da palavra.</p></div></div>${sug.length ? `<section class="section" style="margin-top:4px"><h2 style="font-size:1rem">Você quis dizer…</h2><div class="d-chips">${sug.map(e => `<button class="d-chip" data-act="dictOpen" data-k="${esc(e.key)}"><span class="jp">${esc(e.jp)}</span><small>${esc(e.ro)} · ${esc(e.pt[0] || '')}</small></button>`).join('')}</div></section>` : ''}`;
+    }
+    const kc = /^[一-鿿]$/.test(q) ? dictKanjiCard(q) : '';
+    return `${kc}<p class="muted tabnum" style="margin:0 2px;font-size:.82rem">${res.length} resultado${res.length > 1 ? 's' : ''}</p><div class="card d-list">${res.slice(0, dictUI.limit).map(dictRow).join('')}</div>${res.length > dictUI.limit ? `<button class="btn btn-ghost btn-block" data-act="dictMore">Ver mais</button>` : ''}`;
   }
   if (dictUI.theme) {
     const th = DICT_THEMES.find(t => t[0] === dictUI.theme);
-    const res = DICT.list.filter(e => e.tags.includes(dictUI.theme)).slice(0, 120);
+    let res = DICT.list.filter(e => e.tags.includes(dictUI.theme));
+    if (dictUI.theme === 'particulas') res.sort((a, b) => (a.pi ?? 99) - (b.pi ?? 99));
+    res = res.slice(0, 160);
     return `<div class="section-h" style="margin:0"><h2 style="font-size:1.05rem">${esc(th ? th[1] : '')}</h2><button class="link-btn" data-act="dictTheme" data-t="">Voltar</button></div><div class="card d-list">${res.map(dictRow).join('') || '<p class="muted">Nenhuma palavra neste tema ainda.</p>'}</div>`;
   }
   const d = dictState();
@@ -17473,6 +17772,7 @@ function viewDictionary() {
 }
 /* ficha da palavra (abre em janela, de qualquer lugar do app, inclusive durante uma lição) */
 function dictEntryHTML(e) {
+  if (e.particle) return dictParticleHTML(e);
   const d = dictState(), fav = !!d.fav[e.key], inNb = dictInNotebook(e), id = dictItemId(e);
   const kj = [...(e.kanji || '')].filter(ch => hasKanji(ch)).map(ch => ({ ch, k: DICT.kanji[ch] })).filter(x => x.k);
   const exs = e.ex.slice(0, 3).concat(dictAppExamples(e, 3 - Math.min(3, e.ex.length)));
@@ -17482,17 +17782,54 @@ function dictEntryHTML(e) {
   return `<div class="d-entry">
     <div class="d-head"><div class="d-head-t"><span class="d-big jp">${esc(e.jp)}</span>${e.kanji ? `<span class="d-read jp">${esc(e.kana)}</span>` : ''}<span class="d-ro">${esc(e.ro)}</span></div>
       <div class="d-head-b">${dictSnd(e.kana || e.jp, 'Ouvir a palavra', 'big')}<button class="btn btn-ghost btn-small d-snd" data-act="dictSaySlow" data-text="${esc(e.kana || e.jp)}">Devagar</button></div></div>
-    ${e.pos ? `<span class="chip nova d-poschip">${esc(DICT_POS[e.pos] || e.pos)}</span>` : ''}
-    <section><span class="eyebrow">Significados</span><ol class="d-means">${e.pt.map(p => `<li>${esc(p)}</li>`).join('')}</ol></section>
+    <div class="d-chiprow">${e.pos ? `<span class="chip nova d-poschip">${esc(DICT_POS[e.pos] || e.pos)}</span>` : ''}${e.tags.slice(0, 2).map(t => { const th = DICT_THEMES.find(x => x[0] === t); return th ? `<button class="chip d-themechip" data-act="dictTheme" data-t="${esc(t)}">${esc(th[1])}</button>` : ''; }).join('')}</div>
+    <section><span class="eyebrow">${e.pt.length > 1 ? e.pt.length + ' significados' : 'Significado'}</span><ol class="d-means ${e.pt.length > 1 ? '' : 'one'}">${e.pt.map(p => `<li>${esc(p)}</li>`).join('')}</ol>${e.pt.length > 1 ? '<p class="muted" style="margin:4px 0 0;font-size:.8rem">O sentido certo depende do contexto. Veja os exemplos.</p>' : ''}</section>
     ${e.notes.length || e.ctx.length ? `<section><span class="eyebrow">Uso e variações</span>${e.notes.concat(e.ctx).slice(0, 4).map(n => `<p class="d-note">${esc(n)}</p>`).join('')}</section>` : ''}
-    ${kj.length ? `<section><span class="eyebrow">Kanji</span><div class="d-kanji">${kj.map(x => `<button class="d-kj" data-act="dictTry" data-q="${esc(x.ch)}"><span class="jp">${esc(x.ch)}</span><span><b>${esc(x.k.m)}</b><small>${esc(x.k.r || '')}</small></span></button>`).join('')}</div></section>` : ''}
+    ${kj.length ? `<section><span class="eyebrow">Kanji</span><div class="d-kanji">${kj.map(x => `<button class="d-kj" data-act="dictTry" data-q="${esc(x.ch)}"><span class="jp">${esc(x.ch)}</span><span><b>${esc(x.k.m)}</b><small>${esc(x.k.r || '')}</small></span></button>`).join('')}</div>${kj.filter(x => DICT_KREAD[x.ch]).map(x => `<details class="d-kread"><summary>Leituras de <span class="jp">${esc(x.ch)}</span> em palavras reais</summary>${dictKreadHTML(x.ch)}</details>`).join('')}</section>` : ''}
+    ${dictSameHTML(e)}
     ${exHTML ? `<section><span class="eyebrow">Exemplos</span>${exHTML}</section>` : ''}
     ${related.length ? `<section><span class="eyebrow">Palavras relacionadas e expressões</span><div class="d-chips">${related.map(r => `<button class="d-chip" data-act="dictOpen" data-k="${esc(r.key)}"><span class="jp">${esc(r.jp)}</span><small>${esc(r.pt[0] || '')}</small></button>`).join('')}</div></section>` : ''}
-    ${e.srcs.length ? `<p class="muted" style="margin:0;font-size:.8rem">No Nihongo Quest: ${esc(e.srcs.slice(0, 2).join(' · '))}</p>` : ''}
+    ${e.srcs.length ? `<p class="muted" style="margin:0;font-size:.8rem">Onde aparece no Nihongo Quest: ${esc(e.srcs.slice(0, 4).join(' · '))}${e.srcs.length > 4 ? ' e mais ' + (e.srcs.length - 4) : ''}</p>` : ''}
     <div class="d-btns"><button class="btn ${fav ? 'btn-gold' : 'btn-ghost'}" data-act="dictFav" data-k="${esc(e.key)}" aria-pressed="${fav}">${DICT_STAR} ${fav ? 'Favorita' : 'Favoritar'}</button>
       ${id ? (inNb ? `<span class="btn btn-ghost d-done" aria-disabled="true">✓ No Caderno${status ? ' · ' + esc(status) : ''}</span>` : `<button class="btn btn-primary" data-act="dictSave" data-k="${esc(e.key)}">Adicionar ao Caderno e à Revisão</button>`) : ''}</div>
     <button class="btn btn-ghost btn-block" data-act="${P ? 'closeModal' : 'dictClose'}">Fechar</button></div>`;
 }
+/* 12.0: leituras de um kanji, sempre com palavras reais (nunca uma lista solta de leituras) */
+function dictKreadHTML(ch) {
+  return `<ul class="d-kr">${(DICT_KREAD[ch] || []).map(l => { const [kana, ro, mean, words] = l.split('|'); return `<li><b class="jp">${esc(kana)}</b>${ro && ro !== '—' ? ` <span class="ro">${esc(ro)}</span>` : ''} · ${esc(mean)}<small>${esc(words)}</small></li>`; }).join('')}</ul>`;
+}
+function dictKanjiCard(ch) {
+  const k = DICT.kanji[ch]; if (!k && !DICT_KREAD[ch]) return '';
+  return `<div class="card d-kcard"><div class="d-kc-top"><span class="jp d-kc-big">${esc(ch)}</span><div style="min-width:0"><span class="eyebrow">Kanji</span><b style="display:block">${esc(k ? k.m : '')}</b>${k && k.r ? `<small class="muted">${esc(k.r)}</small>` : ''}</div></div>${DICT_KREAD[ch] ? `<span class="eyebrow">Leituras em contexto</span>${dictKreadHTML(ch)}<p class="muted" style="margin:0;font-size:.8rem">A leitura depende da palavra. Aprenda cada leitura junto com uma palavra real.</p>` : ''}</div>`;
+}
+/* mesma escrita com outra leitura (角 かど × つの × かく) e mesmo som com outra escrita (橋 × 箸), úteis para ouvir */
+function dictSameHTML(e) {
+  const homo = e.kanji ? DICT.list.filter(x => x !== e && x.kanji === e.kanji && !x.particle) : [];
+  const phon = (DICT.byWord[e.reading] || []).filter(x => x !== e && x.kanji !== e.kanji && !homo.includes(x)).slice(0, 4);
+  const chip = (x, sub) => `<button class="d-chip" data-act="dictOpen" data-k="${esc(x.key)}"><span class="jp">${esc(x.jp)}</span><small>${esc(sub)}</small></button>`;
+  return (homo.length ? `<section><span class="eyebrow">Mesma escrita, outra leitura</span><div class="d-chips">${homo.map(x => chip(x, x.kana + ' · ' + (x.pt[0] || ''))).join('')}</div></section>` : '')
+    + (phon.length ? `<section><span class="eyebrow">Mesmo som, outra palavra</span><div class="d-chips">${phon.map(x => chip(x, x.pt[0] || '')).join('')}</div><p class="muted" style="margin:4px 0 0;font-size:.8rem">Na fala, o contexto (e às vezes a entonação) mostra qual é.</p></section>` : '');
+}
+/* 12.0: verbete de partícula — funções separadas, exemplos com áudio, comparação, erros comuns */
+function dictParticleHTML(e) {
+  const P = e.particle, d = dictState(), fav = !!d.fav[e.key], id = dictItemId(e), inNb = dictInNotebook(e);
+  const exHTML = x => `<div class="d-ex"><div class="d-ex-top"><span class="jp d-ex-jp">${esc(x[0])}</span>${dictSnd(NQK.hasKanji(x[0]) ? NQK.r2k(x[1]) : x[0], 'Ouvir o exemplo')}</div><span class="ro">${esc(x[1])}</span><span>${esc(x[2])}</span></div>`;
+  return `<div class="d-entry d-part">
+    <div class="d-head"><div class="d-head-t"><span class="d-big jp">${esc(P.p)}</span><span class="d-ro">${esc(P.ro)}</span></div>
+      <div class="d-head-b">${dictSnd(ITEM[id] ? ITEM[id].say : P.p, 'Ouvir a partícula', 'big')}</div></div>
+    <div class="d-chiprow"><span class="chip nova d-poschip">Partícula</span><button class="chip d-themechip" data-act="dictTheme" data-t="particulas">Todas as partículas</button></div>
+    <p class="d-note" style="margin:0">${esc(P.intro)}</p>
+    <section><span class="eyebrow">${P.fn.length > 1 ? P.fn.length + ' funções principais' : 'Função principal'}</span>
+      ${P.fn.map((f, i) => `<div class="d-fn"><b>${i + 1}. ${esc(f[0])}</b><p class="d-note">${esc(f[1])}</p>${f[2].map(exHTML).join('')}</div>`).join('')}</section>
+    ${P.cmp ? `<section><span class="eyebrow">Compare</span><p class="d-note">${esc(P.cmp)}</p></section>` : ''}
+    ${P.err ? `<section><span class="eyebrow">Erro comum</span><p class="d-note">${esc(P.err)}</p></section>` : ''}
+    ${P.note ? `<section><span class="eyebrow">Nota</span><p class="d-note">${esc(P.note)}</p></section>` : ''}
+    <p class="muted" style="margin:0;font-size:.8rem">Partículas não têm um significado fixo: a função muda com a frase. Comece pela primeira função e vá somando as outras.</p>
+    <div class="d-btns"><button class="btn ${fav ? 'btn-gold' : 'btn-ghost'}" data-act="dictFav" data-k="${esc(e.key)}" aria-pressed="${fav}">${DICT_STAR} ${fav ? 'Favorita' : 'Favoritar'}</button>
+      ${id ? (inNb ? `<span class="btn btn-ghost d-done" aria-disabled="true">✓ No Caderno</span>` : `<button class="btn btn-primary" data-act="dictSave" data-k="${esc(e.key)}">Adicionar ao Caderno e à Revisão</button>`) : ''}</div>
+    <button class="btn btn-ghost btn-block" data-act="${P_OPEN() ? 'closeModal' : 'dictClose'}">Fechar</button></div>`;
+}
+const P_OPEN = () => !!(typeof P !== 'undefined' && P);
 /* exemplos reais do app que contêm a palavra (frases de gramática e falas da Listening Academy) */
 function dictAppExamples(e, n) {
   if (n <= 0) return [];
@@ -17592,7 +17929,7 @@ const WORLD_PLACES = [
   { id: 'gakkou', jp: '学校', ro: 'gakkō', pt: 'Escola', name: 'Escola Hikari', color: '#7b52e0', icon: '学', host: 'yumi',
     desc: 'Colegas, professores, aulas e a hora mais esperada: o almoço.' },
   { id: 'machi', jp: '街', ro: 'machi', pt: 'Cidade', name: 'Rua comercial', color: '#e0861e', icon: '街', host: 'takeshi',
-    desc: 'Ruas, lojinhas, o posto policial e surpresas a cada esquina.' }
+    desc: 'Ruas, lojinhas de roupa, farmácia, o posto policial, um templo e surpresas a cada esquina.' }
 ];
 
 /* personagens: chat = usa o retrato do Nihongo Chat; look = retrato próprio */
@@ -17645,9 +17982,14 @@ const WORLD_CHARS = {
   imo: { name: 'Vendedor de batata-doce', jp: '焼き芋屋さん', role: 'Vendedor ambulante', place: 'machi', pitch: 0.7, bio: 'Passa cantando no outono e no inverno.', style: 'Casual e animado',
     look: { bg: '#a0522d', skin: '#f2c9a5', hair: '#2b2b2b', style: 'bald', top: '#4a4a8a', acc: 'headband' } },
   oldman: { name: 'Senhor de chapéu', jp: 'おじいさん', role: 'Morador', place: 'machi', pitch: 0.65, bio: 'Passeia pela rua comercial todas as tardes.', style: 'Educado',
-    look: { bg: '#5a7a5a', skin: '#f5d2b5', hair: '#e0e0e0', style: 'side', top: '#8a6a4a', acc: 'hat' } }
+    look: { bg: '#5a7a5a', skin: '#f5d2b5', hair: '#e0e0e0', style: 'side', top: '#8a6a4a', acc: 'hat' } },
+  aoi: { name: 'Aoi-san', jp: '葵さん', role: 'Vendedora da loja de roupas', place: 'machi', pitch: 1.2,
+    bio: 'Trabalha na lojinha de roupas da rua comercial. Sempre sabe qual cor combina com você.', likes: 'Moda de rua e cachecóis.', style: 'Educado de loja',
+    look: { bg: '#3fa7a0', skin: '#ffe2cc', hair: '#3a2418', style: 'bun', top: '#f2c14e', acc: 'none' } },
+  kobayashi: { name: 'Kobayashi-san', jp: '小林さん', role: 'Farmacêutica', place: 'machi', pitch: 1.0,
+    bio: 'Farmacêutica do bairro. Calma, explica tudo devagar.', likes: 'Chá de gengibre e plantas.', style: 'Educado e claro',
+    look: { bg: '#4f8a6a', skin: '#f5d2b5', hair: '#22224a', style: 'side', top: '#ffffff', acc: 'glasses' } }
 };
-
 /* palavras do mundo: 'escrita|kana|romaji|português|explicação simples|e (expressão)' */
 const WORLD_WORDS = {
   kore: 'これ|これ|kore|isto (perto de mim)|Use apontando para algo perto de você.',
@@ -17712,9 +18054,23 @@ const WORLD_WORDS = {
   shashin: '写真|しゃしん|shashin|foto|',
   kasa: '傘|かさ|kasa|guarda-chuva|',
   yakiimo: '焼き芋|やきいも|yakiimo|batata-doce assada|',
-  nanji: '何時|なんじ|nanji|que horas|“Ima nanji desu ka?” = que horas são?'
+  nanji: '何時|なんじ|nanji|que horas|“Ima nanji desu ka?” = que horas são?',
+  fuku: '服|ふく|fuku|roupa|',
+  shichaku: '試着してもいいですか|しちゃくしてもいいですか|shichaku shite mo ii desu ka|posso provar (a roupa)?|“Shichaku” = provar roupa. No provador, tire os sapatos.|e',
+  chiisai: '小さい|ちいさい|chiisai|pequeno|',
+  ookii: '大きい|おおきい|ōkii|grande|',
+  iro: '色|いろ|iro|cor|',
+  atama: '頭|あたま|atama|cabeça|Cuidado: “atama ga ii” = ser inteligente.',
+  itai: '痛い|いたい|itai|dói, dolorido|“Atama ga itai” = estou com dor de cabeça.',
+  netsu: '熱|ねつ|netsu|febre|“Netsu ga aru” = estar com febre.',
+  kusuri: '薬|くすり|kusuri|remédio|Remédio se “bebe”: kusuri o nomu.',
+  doubutsuen: '動物園|どうぶつえん|dōbutsuen|zoológico|',
+  zou: '象|ぞう|zō|elefante|',
+  kawaii: 'かわいい|かわいい|kawaii|fofo, bonitinho|',
+  tanoshii: '楽しい|たのしい|tanoshii|divertido|No passado: tanoshikatta (foi divertido).',
+  otera: 'お寺|おてら|otera|templo budista|',
+  shizuka: '静か|しずか|shizuka|silencioso, tranquilo|'
 };
-
 const WORLD_SCENES = [
   /* ================= コンビニ ================= */
   { id: 'k1', place: 'konbini', kind: 'missao', title: 'Comprar chá e um lanche', desc: 'Peça algo apontando e responda sobre a sacola.', chars: ['sato'], words: ['kore', 'kudasai', 'ikura', 'fukuro', 'daijoubu', 'okane'], nodes: {
@@ -18032,6 +18388,60 @@ const WORLD_SCENES = [
       ['30です。|sanjū desu.|É trinta.', 'x', 'bx', '“Sanjū” é trinta. Três horas é “sanji”.']] },
     bx: { s: 'oldman|はて…？|hate…?|Hum...?', n: 'O senhor coça a cabeça. Tente de novo.', back: 1 },
     c: { s: 'oldman|3時！/おやつの/時間だ。/ありがとう。|sanji! oyatsu no jikan da. arigatō.|Três horas! Hora do lanchinho. Obrigado.|さんじ！おやつのじかんだ。ありがとう。', tip: 'No Japão, 3 da tarde é a tradicional “hora do lanche” (oyatsu no jikan).', end: 'Você disse as horas para alguém. Pequena ajuda, grande japonês!' }
+  } },
+  { id: 'm5', place: 'machi', kind: 'missao', title: 'Provar uma camiseta', desc: 'Peça para provar, diga o tamanho e escolha a cor.', need: ['m1'], chars: ['aoi'], words: ['fuku', 'shichaku', 'chiisai', 'ookii', 'iro'], nodes: {
+    a: { n: 'Você entra numa lojinha de roupas na rua comercial.', s: 'aoi|いらっしゃいませ！/どうぞ、/ご覧ください。|irasshaimase! dōzo, goran kudasai.|Bem-vindo(a)! Fique à vontade para olhar.|いらっしゃいませ！どうぞ、ごらんください。', tip: 'Em lojas de roupa, a vendedora costuma deixar você olhar à vontade e só se aproxima quando você chama.', go: 'b' },
+    b: { n: 'Você gostou de uma camiseta azul e quer provar.', t: ['fuku', 'shichaku'], o: [
+      ['すみません、/試着しても/いいですか？|sumimasen, shichaku shite mo ii desu ka?|Com licença, posso provar?', 'g', 'c'],
+      ['これ、/着たいです。|kore, kitai desu.|Quero vestir isto.', 'k', 'c', 'Ela entende! Mas “shichaku shite mo ii desu ka?” é o jeito natural de pedir para provar.'],
+      ['これ、/食べても/いいですか？|kore, tabete mo ii desu ka?|Posso comer isto?', 'x', 'bx', '“Taberu” é comer! Para provar roupa, use “shichaku”.']] },
+    bx: { s: 'aoi|え…？/服は/食べられませんよ！|e…? fuku wa taberaremasen yo!|Hã...? Roupa não se come!|え…？ふくは、たべられませんよ！', n: 'Ela ri, sem entender.', back: 1 },
+    c: { s: 'aoi|はい、/どうぞ。/試着室は/あちらです。|hai, dōzo. shichakushitsu wa achira desu.|Claro. O provador é ali.|はい、どうぞ。しちゃくしつは、あちらです。', tip: 'No Japão, você tira os sapatos antes de entrar no provador.', go: 'd' },
+    d: { n: 'Você veste a camiseta... está apertada.', s: 'aoi|いかがですか？|ikaga desu ka?|Que tal?', t: ['chiisai', 'ookii'], o: [
+      ['ちょっと/小さいです。|chotto chiisai desu.|Está um pouco pequena.', 'g', 'e'],
+      ['大きいです！|ōkii desu!|Está grande!', 'x', 'dx', 'Ela está apertada, então é pequena: “chiisai”. “Ōkii” é grande.']] },
+    dx: { s: 'aoi|大きい…ですか？/ぴったりに/見えますけど…|ōkii… desu ka? pittari ni miemasu kedo…|Grande...? Parece bem justa...|おおきい…ですか？ぴったりに、みえますけど…', back: 1 },
+    e: { s: 'aoi|では、/Lサイズは/いかがですか？/色は/青と/白が/あります。|dewa, eru saizu wa ikaga desu ka? iro wa ao to shiro ga arimasu.|Então, que tal o tamanho G? Temos azul e branca.|では、エルサイズはいかがですか？いろは、あおと、しろがあります。', t: ['iro'], o: [
+      ['青を/お願いします。|ao o onegai shimasu.|A azul, por favor.', 'g', 'f'],
+      ['白を/お願いします。|shiro o onegai shimasu.|A branca, por favor.', 'g', 'f']] },
+    f: { s: 'aoi|ありがとうございます！/よく/お似合いですよ。|arigatō gozaimasu! yoku oniai desu yo.|Obrigada! Ficou muito bem em você.|ありがとうございます！よくおにあいですよ。', end: 'Você provou, trocou o tamanho e escolheu a cor. Compras de roupa em japonês!' }
+  } },
+  { id: 'm6', place: 'machi', kind: 'missao', title: 'Na farmácia', desc: 'Diga o que está sentindo e entenda como tomar o remédio.', need: ['m1'], chars: ['kobayashi'], words: ['atama', 'itai', 'netsu', 'kusuri'], nodes: {
+    a: { n: 'Você acordou com dor de cabeça e foi à farmácia do bairro (薬局, yakkyoku).', s: 'kobayashi|こんにちは。/どうしましたか？|konnichiwa. dō shimashita ka?|Olá. O que houve?', go: 'b' },
+    b: { t: ['atama', 'itai'], n: 'Explique o que você sente.', o: [
+      ['頭が/痛いです。|atama ga itai desu.|Estou com dor de cabeça.', 'g', 'c'],
+      ['お腹が/痛いです。|onaka ga itai desu.|Estou com dor de barriga.', 'k', 'b2', 'A frase está certa, mas a sua dor é na cabeça (atama).'],
+      ['頭が/いいです。|atama ga ii desu.|Eu sou inteligente.', 'x', 'bx', '“Atama ga ii” quer dizer “ser inteligente”! Dor é “itai”: atama ga itai desu.']] },
+    bx: { s: 'kobayashi|それは/よかったですね…？|sore wa yokatta desu ne…?|Que bom... para você?|それは、よかったですね…？', n: 'Ela não sabe se ri ou se ajuda.', back: 1 },
+    b2: { s: 'kobayashi|お腹ですか？|onaka desu ka?|A barriga?|おなかですか？', n: 'Você aponta para a cabeça e corrige.', go: 'c' },
+    c: { s: 'kobayashi|熱は/ありますか？|netsu wa arimasu ka?|Está com febre?|ねつは、ありますか？', t: ['netsu'], o: [
+      ['いいえ、/ありません。|iie, arimasen.|Não, não estou.', 'g', 'd'],
+      ['ちょっと/あります。|chotto arimasu.|Um pouco.', 'g', 'c2']] },
+    c2: { s: 'kobayashi|無理しないで、/ゆっくり/休んで/ください。|muri shinaide, yukkuri yasunde kudasai.|Não se esforce e descanse bem.|むりしないで、ゆっくりやすんでください。', go: 'd' },
+    d: { s: 'kobayashi|この/薬を/どうぞ。/一日/三回、/食後に/飲んで/ください。|kono kusuri o dōzo. ichinichi sankai, shokugo ni nonde kudasai.|Este remédio. Tome três vezes por dia, depois das refeições.|このくすりをどうぞ。いちにち、さんかい、しょくごに、のんでください。', t: ['kusuri'], tip: 'Em japonês, remédio se “bebe” (nomu), mesmo sendo comprimido.', go: 'e' },
+    e: { n: 'Ela repete a dose. Quantas vezes por dia?', p: { say: 'kobayashi|一日/三回です。|ichinichi sankai desu.|Três vezes por dia.|いちにち、さんかいです。', q: 'Quantas vezes por dia você deve tomar?', items: [['一回|ikkai|uma vez', 0], ['三回|sankai|três vezes', 1], ['五回|gokai|cinco vezes', 0]], go: 'f', miss: 'Ouça de novo: “san-kai”.' } },
+    f: { s: 'kobayashi|お大事に。|odaiji ni.|Melhoras!|おだいじに。', tip: '“Odaiji ni” é o que se diz a quem está doente: cuide-se, melhoras.', end: 'Você explicou o que sentia e entendeu como tomar o remédio.' }
+  } },
+  { id: 'g5', place: 'gakkou', kind: 'historia', title: 'Excursão ao zoológico', desc: 'Animais, emoções e um panda muito fofo.', need: ['g2'], chars: ['aiko', 'yumi', 'shota'], words: ['doubutsuen', 'zou', 'kawaii', 'tanoshii'], nodes: {
+    a: { n: 'Hoje a turma sai em excursão.', s: 'aiko|今日は/動物園に/行きます！|kyō wa dōbutsuen ni ikimasu!|Hoje vamos ao zoológico!|きょうは、どうぶつえんにいきます！', t: ['doubutsuen'], go: 'b' },
+    b: { n: 'Vocês param diante de um animal enorme, cinza, de tromba comprida.', s: 'yumi|見て！/大きい！|mite! ōkii!|Olha! Que grande!|みて！おおきい！', t: ['zou'], go: 'b2' },
+    b2: { n: 'O Shōta grita o nome do animal.', p: { say: 'shota|象だ！|zō da!|É um elefante!|ぞうだ！', q: 'Que animal o Shōta viu?', items: [['象|zō|elefante', 1], ['猿|saru|macaco', 0], ['熊|kuma|urso', 0], ['鳥|tori|pássaro', 0]], go: 'c', miss: 'Ouça de novo: “zō”.' } },
+    c: { s: 'yumi|あ、/パンダ！/かわいい〜！|a, panda! kawaii!|Ah, um panda! Que fofo!', t: ['kawaii'], o: [
+      ['本当に/かわいいね！|hontō ni kawaii ne!|Muito fofo mesmo!', 'g', 'd'],
+      ['こわいね！|kowai ne!|Que medo!', 'k', 'd', 'Pode ser sincero, mas o panda só está comendo bambu. “Kawaii” combina mais.'],
+      ['おいしそう！|oishisō!|Parece gostoso!', 'x', 'cx', '“Oishisō” é “parece gostoso”! Não se diz isso de um panda.']] },
+    cx: { s: 'shota|ははは！/パンダは/食べ物じゃないよ！|hahaha! panda wa tabemono ja nai yo!|Hahaha! Panda não é comida!|ははは！パンダは、たべものじゃないよ！', back: 1 },
+    d: { n: 'No ônibus de volta, a professora pergunta:', s: 'aiko|今日は/どうでしたか？|kyō wa dō deshita ka?|Como foi hoje?|きょうは、どうでしたか？', t: ['tanoshii'], o: [
+      ['とても/楽しかったです！|totemo tanoshikatta desu!|Foi muito divertido!', 'g', 'e'],
+      ['楽しいです！|tanoshii desu!|É divertido!', 'k', 'e', 'Funciona! Para algo que já passou, o natural é o passado: “tanoshikatta”.']] },
+    e: { s: 'aiko|よかったです。/また/来ましょうね。|yokatta desu. mata kimashō ne.|Que bom. Vamos voltar outra vez.|よかったです。また、きましょうね。', end: 'Animais, “kawaii” e “tanoshikatta”: um passeio inteiro em japonês!' }
+  } },
+  { id: 'v5', place: 'machi', kind: 'evento', title: 'O templo do bairro', desc: 'Um lugar tranquilo no fim da rua.', chars: ['oldman'], words: ['otera', 'shizuka'], nodes: {
+    a: { n: 'No fim da rua comercial há um pequeno templo. O senhor de chapéu está lá.', s: 'oldman|ここは/古い/お寺です。/静かでしょう？|koko wa furui otera desu. shizuka deshō?|Aqui é um templo antigo. Tranquilo, não é?|ここは、ふるいおてらです。しずかでしょう？', t: ['otera', 'shizuka'], o: [
+      ['はい、/とても/静かですね。|hai, totemo shizuka desu ne.|Sim, muito tranquilo.', 'g', 'b'],
+      ['きれいですね。|kirei desu ne.|É bonito, né?', 'g', 'b']] },
+    b: { s: 'oldman|お参りの/前に、/手と/口を/清めますよ。|omairi no mae ni, te to kuchi o kiyomemasu yo.|Antes de rezar, a gente purifica as mãos e a boca.|おまいりのまえに、てと、くちを、きよめますよ。', tip: 'Na entrada de templos e santuários há uma fonte (temizuya) para lavar as mãos e a boca antes de rezar.', o: [['ありがとうございます。|arigatō gozaimasu.|Obrigado(a).', 'g', 'c']] },
+    c: { s: 'oldman|いい/一日を。|ii ichinichi o.|Tenha um bom dia.|いい、いちにちを。', end: 'Você visitou o templo do bairro e aprendeu “otera” e “shizuka”.' }
   } }
 ];
 
@@ -18986,7 +19396,16 @@ const READ_COURSE = [
       '「え？ほんとう？」|「え？ほんとう？」|"e? hontou?"|“Hã? Sério?”|え=e=hã? (surpresa)/？=?=interrogação/ほんとう=hontou=verdade; sério?|',
       'ゴロゴロ|ゴロゴロ|gorogoro|(trovão ao longe)|ゴロゴロ=gorogoro=som de trovão; também “rolar à toa”|O mesmo som pode ter sentidos diferentes: o desenho mostra qual.',
       '「あっ！いくよ！」|「あっ！いくよ！」|"a! iku yo!"|“Ah! Lá vou eu!”|あっ=a=ah! (っ: corte brusco)/いく=iku=ir/よ=yo=partícula de ênfase: “viu!”|'],
-    tip: 'Em mangás, leia os balões da direita para a esquerda e de cima para baixo.' }
+    tip: 'Em mangás, leia os balões da direita para a esquerda e de cima para baixo.' },
+  { id: 'f8', title: 'Pequena leitura: um passeio no zoológico', emblem: '園', kind: 'story',
+    intro: ['Um texto curto com palavras da Academia de Vocabulário: animais, cores e emoções.',
+      'Repare como os adjetivos vêm antes do substantivo: 大きいぞう = elefante grande.'],
+    sentences: ['きょうはどうぶつえんにいきます。|きょうはどうぶつえんにいきます。|kyou wa doubutsuen ni ikimasu.|Hoje vou ao zoológico.|きょう=kyou=hoje/は=wa=tópico/どうぶつえん=doubutsuen=zoológico/に=ni=para (destino)/いきます=ikimasu=ir|',
+      '大きいぞうがいます。|おおきいぞうがいます。|ookii zou ga imasu.|Tem um elefante grande.|大きい=ookii=grande/ぞう=zou=elefante/が=ga=sujeito/います=imasu=existir (seres vivos)|Animal é ser vivo: います.',
+      'パンダはかわいいです。|パンダはかわいいです。|panda wa kawaii desu.|O panda é fofo.|パンダ=panda=panda (katakana)/は=wa=tópico/かわいい=kawaii=fofo/です=desu=é|',
+      '私はあおいシャツをかいます。|わたしはあおいシャツをかいます。|watashi wa aoi shatsu o kaimasu.|Eu compro uma camisa azul.|私=watashi=eu/は=wa=tópico/あおい=aoi=azul/シャツ=shatsu=camisa/を=o=objeto/かいます=kaimasu=comprar|',
+      'とてもたのしいです。|とてもたのしいです。|totemo tanoshii desu.|É muito divertido.|とても=totemo=muito/たのしい=tanoshii=divertido/です=desu=é|'],
+    tip: 'Encontrou uma palavra nova? Toque nela no Dicionário ou estude na Academia de Vocabulário.' }
   ]
 }
 ];
@@ -19870,6 +20289,7 @@ setTimeout(() => { try { const r = rdState(); if (S.profile.onboarded && !r.news
 const NQ_SITE = 'https://harrylima007.github.io/Nihongo-Quest/';
 const NQ_REPO = 'https://github.com/HarryLima007/Nihongo-Quest';
 const NQ_HISTORY = [
+  ['12.0.0', '2026-11-21', 'Expansão de vocabulário: Academia de Vocabulário com 20 categorias e 631 palavras, Dicionário 2.0 com vários sentidos, leituras de kanji em contexto, 14 partículas e busca mais inteligente, e novas situações no Mundo; esquema 12.'],
   ['11.0.0', '2026-11-21', 'Adventure Mode RPG: o Vale Asahi em Kotoba no Kuni, com exploração, NPCs, missões, baús, equipamentos e batalhas por turnos em que o poder das palavras (言霊) usa só o vocabulário que você já estudou; esquema 11.'],
   ['10.0.0', '2026-11-21', 'Integration & Expansion: “Sua jornada” no Início, palavras unificadas entre as áreas (Caderno e Revisão sem duplicar), área Sobre o Nihongo Quest, aviso de direitos autorais (NOTICE) e base para o Adventure Mode; esquema 10.'],
   ['9.0.0', '2026-11-21', 'Leitura Japonesa: hiragana, katakana, palavras, 25 kanji em contexto e frases, com áudio, romaji progressivo e Caderno de caracteres.'],
@@ -20065,7 +20485,7 @@ Object.assign(ACT, {
   nqDict: el => dictOpenWord(el.dataset.jp)
 });
 /* novidade da 10.0: aviso único para quem já usava o app */
-setTimeout(() => { try { const j = S.journey; if (S.profile.onboarded && j && j.seenVersion !== APP_VERSION) { const old = j.seenVersion || S.migratedFrom10 || S.migratedFrom11; j.seenVersion = APP_VERSION; save(); if (old) toast('冒', 'Novo na 11.0: Adventure Mode! Abra pelo Início ou pelo Mundo e viva uma aventura usando o seu japonês.'); } } catch (e) {} }, 5200);
+setTimeout(() => { try { const j = S.journey; if (S.profile.onboarded && j && j.seenVersion !== APP_VERSION) { const old = j.seenVersion || S.migratedFrom10 || S.migratedFrom11 || S.migratedFrom12; j.seenVersion = APP_VERSION; save(); if (old) toast('語', 'Novo na 12.0: Academia de Vocabulário com 631 palavras, Dicionário 2.0 com partículas e novas situações no Mundo! Abra Academia → Palavras.'); } } catch (e) {} }, 5200);
 
 /* ==========================================================
    Nihongo Quest 11.0 — ADVENTURE MODE (dados)
@@ -21429,6 +21849,1409 @@ ACHIEVEMENTS.push(
   { id: 'rpg_kappa', icon: '橋', name: 'A ponte está livre', desc: 'Vença o kappa guardião da ponte no Adventure Mode.', test: s => !!(s.rpg && s.rpg.flags && s.rpg.flags.boss_kappa) },
   { id: 'rpg_oni', icon: '光', name: 'As palavras voltaram', desc: 'Vença o Oni do Silêncio e salve o Vale Asahi.', test: s => !!(s.rpg && s.rpg.flags && s.rpg.flags.boss_oni) },
   { id: 'rpg_explorer', icon: '✦', name: 'Olhos de explorador', desc: 'Encontre os 6 lugares especiais do Vale Asahi.', test: s => !!(s.rpg && s.rpg.spots && Object.keys(s.rpg.spots).length >= 6) }
+);
+
+/* ==========================================================
+   Nihongo Quest 12.0 — ACADEMIA DE VOCABULÁRIO (dados)
+   Categorias → lições pequenas (5 a 10 palavras). Cada palavra é uma linha:
+     'kanji|kana|romaji|significados|classe|nota|exemplo jp|romaji do exemplo|tradução do exemplo'
+   - kanji vazio = palavra escrita só em kana (o kana é a escrita).
+   - significados: “;” separa sentidos diferentes (o Dicionário mostra cada um em separado).
+   - classe: subst, verbo, adj-i, adj-na, adv, expr, pron, num, cont, part, interj (vazio = sem classe).
+   - nota, exemplo: opcionais. Exemplo só quando ajuda (contexto, sentido, uso).
+   - O áudio é a voz japonesa do aparelho: lê o kana da palavra; no exemplo com kanji, a leitura vem do romaji.
+   Ids: categoria e lição nunca mudam; o item de cada palavra é 'vc:' + escrita (+ '・' + kana quando há kanji).
+   Uma palavra que já existe em outra área (mesma escrita e sentido) é a MESMA palavra para o Caderno e a
+   Revisão (palavras unificadas da 10.0) e entra no mesmo verbete do Dicionário: não é contada como nova.
+   Verificado em tests/vocab-content.js (romaji × kana, leituras de kanji com kuromoji, duplicatas).
+   ========================================================== */
+const VOCAB_CATS = [
+{ id: 'formas', title: 'Formas e geometria', jp: 'かたち', emblem: '形', color: '#3d7be0', theme: 'formas',
+  desc: 'Formas, linhas e medidas para descrever as coisas: quadrado, triângulo, redondo, tamanho.',
+  lessons: [
+  { id: 'vfo1', title: 'Formas básicas', words: [
+    '形|かたち|katachi|forma; formato|subst||この クッキーは ほしの 形です。|kono kukkii wa hoshi no katachi desu.|Este biscoito tem forma de estrela.',
+    '丸|まる|maru|círculo; bolinha; marca de “certo” (○)|subst|Nas provas e formulários japoneses, ○ (maru) marca o certo e × (batsu) o errado.|こたえに 丸を つけて ください。|kotae ni maru o tsukete kudasai.|Marque a resposta com um círculo.',
+    '丸い|まるい|marui|redondo|adj-i||丸い テーブル|marui teeburu|uma mesa redonda',
+    '四角|しかく|shikaku|quadrado; quadrilátero|subst|Literalmente “quatro cantos” (四 quatro + 角 canto). Serve para quadrado e retângulo no dia a dia.|この はこは 四角です。|kono hako wa shikaku desu.|Esta caixa é quadrada.',
+    '四角い|しかくい|shikakui|quadrado; retangular (forma)|adj-i|Adjetivo de 四角: 四角い まど = janela quadrada.',
+    '三角|さんかく|sankaku|triângulo|subst|“Três cantos”. Em geometria também se diz 三角形 (sankakkei).|おにぎりは 三角が おおいです。|onigiri wa sankaku ga ooi desu.|Os onigiris costumam ser triangulares.',
+    'ハート|ハート|haato|coração (formato)|subst|O formato ♡. O órgão é 心臓 (shinzou) e o “coração” dos sentimentos é 心 (kokoro).'
+  ] },
+  { id: 'vfo2', title: 'Pontos, linhas e cantos', words: [
+    '点|てん|ten|ponto; nota (de prova)|subst||テストで 百点を とった！|tesuto de hyakuten o totta!|Tirei nota cem na prova!',
+    '線|せん|sen|linha; traço|subst||ここに 線を ひいて ください。|koko ni sen o hiite kudasai.|Trace uma linha aqui.',
+    '直線|ちょくせん|chokusen|linha reta|subst',
+    '曲線|きょくせん|kyokusen|linha curva|subst',
+    '角|かど|kado|canto; esquina|subst|Leitura かど: o canto de uma mesa, a esquina de uma rua. O mesmo kanji se lê つの (chifre) e かく (ângulo).|つぎの 角を 右に まがって ください。|tsugi no kado o migi ni magatte kudasai.|Vire à direita na próxima esquina.',
+    '角|かく|kaku|ângulo|subst|Leitura かく: usada na geometria (o ângulo A = 角A) e dentro de palavras como 三角, 四角 e 角度.',
+    '角度|かくど|kakudo|ângulo (medida, em graus)|subst',
+    '真ん中|まんなか|mannaka|meio; centro|subst||へやの 真ん中に テーブルが あります。|heya no mannaka ni teeburu ga arimasu.|No meio do quarto há uma mesa.'
+  ] },
+  { id: 'vfo3', title: 'Figuras da geometria', words: [
+    '円|えん|en|círculo (geometria); iene (moeda)|subst|O mesmo kanji é a moeda japonesa: 百円 (hyakuen) = cem ienes. No dia a dia, “círculo” costuma ser 丸.',
+    '正方形|せいほうけい|seihoukei|quadrado (figura geométrica)|subst|Termo de geometria. Na conversa, diz-se 四角.',
+    '長方形|ちょうほうけい|chouhoukei|retângulo|subst',
+    '三角形|さんかくけい|sankakukei|triângulo (figura geométrica)|subst|Também se pronuncia さんかっけい (sankakkei).',
+    '球|きゅう|kyuu|esfera|subst',
+    '立方体|りっぽうたい|rippoutai|cubo|subst',
+    '星形|ほしがた|hoshigata|forma de estrela|subst',
+    '平ら|たいら|taira|plano; liso (sem relevo)|adj-na||平らな みち|taira na michi|um caminho plano'
+  ] },
+  { id: 'vfo4', title: 'Medidas e tamanho', words: [
+    '大きさ|おおきさ|ookisa|tamanho|subst|大きい (grande) + さ vira substantivo: “o tamanho”. O mesmo vale para 長さ, 高さ e 重さ.|くつの 大きさは どれぐらいですか。|kutsu no ookisa wa doregurai desu ka.|Qual é o tamanho do sapato?',
+    '長さ|ながさ|nagasa|comprimento|subst',
+    '高さ|たかさ|takasa|altura|subst',
+    '重さ|おもさ|omosa|peso|subst',
+    '太い|ふとい|futoi|grosso|adj-i||太い ペン|futoi pen|uma caneta grossa',
+    '細い|ほそい|hosoi|fino; estreito|adj-i||細い みち|hosoi michi|uma rua estreita',
+    '厚い|あつい|atsui|grosso (espessura de livro, parede)|adj-i|Mesmo som de 暑い (quente, clima) e 熱い (quente, ao toque). O contexto mostra qual é.',
+    '薄い|うすい|usui|fino (espessura); fraco, ralo (chá, cor)|adj-i'
+  ] }
+  ] },
+
+{ id: 'animais', title: 'Animais', jp: 'どうぶつ', emblem: '犬', color: '#d9822b', theme: 'animais',
+  desc: 'Bichos de casa, da fazenda, da selva e do mar, e as partes do corpo dos animais.',
+  lessons: [
+  { id: 'van1', title: 'Animais de casa', words: [
+    '犬|いぬ|inu|cachorro|subst||犬が ほえて いる。|inu ga hoete iru.|O cachorro está latindo.',
+    '猫|ねこ|neko|gato|subst||猫が ねて いる。|neko ga nete iru.|O gato está dormindo.',
+    '鳥|とり|tori|pássaro; ave; frango (carne)|subst|Como comida, 鳥 (ou 鶏) é frango: やきとり = espetinho de frango.',
+    '魚|さかな|sakana|peixe|subst',
+    '|うさぎ|usagi|coelho|subst|O kanji 兎 existe, mas quase sempre se escreve em kana.',
+    '|ハムスター|hamusutaa|hamster|subst',
+    '金魚|きんぎょ|kingyo|peixinho-dourado|subst|金 (ouro) + 魚 (peixe). Pescar 金魚 é brincadeira clássica dos festivais de verão.',
+    '動物|どうぶつ|doubutsu|animal|subst||どんな 動物が すきですか。|donna doubutsu ga suki desu ka.|De que animais você gosta?'
+  ] },
+  { id: 'van2', title: 'Na fazenda', words: [
+    '牛|うし|ushi|vaca; boi|subst|A carne é 牛肉 (gyuuniku).',
+    '豚|ぶた|buta|porco|subst|A carne é 豚肉 (butaniku).',
+    '馬|うま|uma|cavalo|subst',
+    '鶏|にわとり|niwatori|galinha; galo|subst|Literalmente “pássaro do quintal” (庭 niwa + 鳥 tori).|鶏が たまごを うんだ。|niwatori ga tamago o unda.|A galinha botou um ovo.',
+    '羊|ひつじ|hitsuji|ovelha; carneiro|subst',
+    '山羊|やぎ|yagi|cabra; bode|subst|Leitura especial: os dois kanji (montanha + carneiro) se leem juntos やぎ.',
+    '|アヒル|ahiru|pato (doméstico)|subst'
+  ] },
+  { id: 'van3', title: 'Animais selvagens', words: [
+    '|ライオン|raion|leão|subst',
+    '虎|とら|tora|tigre|subst',
+    '象|ぞう|zou|elefante|subst||象の はなは ながい。|zou no hana wa nagai.|A tromba do elefante é comprida.',
+    '猿|さる|saru|macaco|subst',
+    '熊|くま|kuma|urso|subst',
+    '|キリン|kirin|girafa|subst',
+    '|パンダ|panda|panda|subst',
+    '狐|きつね|kitsune|raposa|subst|No folclore, a raposa é mensageira dos santuários de Inari e aparece muito em animes.',
+    '狸|たぬき|tanuki|tanuki (cão-guaxinim)|subst|Animal real do Japão, famoso no folclore por se transformar.'
+  ] },
+  { id: 'van4', title: 'Bichos pequenos', words: [
+    '|ねずみ|nezumi|rato; camundongo|subst|O kanji 鼠 existe, mas é raro. O rato é o primeiro animal do zodíaco japonês.',
+    '蛙|かえる|kaeru|sapo; rã|subst|Mesmo som de 帰る (voltar para casa): por isso amuletos de sapo desejam “voltar em segurança”.',
+    '亀|かめ|kame|tartaruga; jabuti|subst',
+    '蛇|へび|hebi|cobra|subst',
+    '虫|むし|mushi|inseto; bichinho|subst',
+    '蝶|ちょう|chou|borboleta|subst|Também se diz ちょうちょ (chouchou), mais infantil.',
+    '蜂|はち|hachi|abelha; vespa|subst|Mesmo som de 八 (oito).',
+    '蚊|か|ka|mosquito|subst|Mesmo som da partícula か: o contexto mostra a diferença.',
+    '蜘蛛|くも|kumo|aranha|subst|Mesmo som de 雲 (nuvem). Na fala, a entonação ajuda.'
+  ] },
+  { id: 'van5', title: 'No mar e no céu', words: [
+    '鯨|くじら|kujira|baleia|subst',
+    '|イルカ|iruka|golfinho|subst',
+    '鮫|さめ|same|tubarão|subst',
+    '|タコ|tako|polvo|subst|Em kanji, 蛸. たこやき = bolinho de polvo.',
+    '蟹|かに|kani|caranguejo|subst',
+    '|カラス|karasu|corvo|subst|Em kanji, 烏. Muito comum nas cidades japonesas.',
+    '鳩|はと|hato|pombo|subst',
+    '|ペンギン|pengin|pinguim|subst'
+  ] },
+  { id: 'van6', title: 'Partes dos animais', words: [
+    '角|つの|tsuno|chifre|subst|Leitura つの: o chifre de animais e de oni (ogros). Não confundir com 角 かど (canto) e 角 かく (ângulo).|鬼には 角が あります。|oni ni wa tsuno ga arimasu.|Os oni têm chifres.',
+    '尻尾|しっぽ|shippo|cauda; rabo|subst||犬が 尻尾を ふって いる。|inu ga shippo o futte iru.|O cachorro está abanando o rabo.',
+    '羽|はね|hane|asa (de inseto, ave); pena|subst|Pode ser a asa ou uma pena, conforme o contexto. Para asas grandes e poéticas (ou de avião), usa-se 翼 (tsubasa).',
+    '翼|つばさ|tsubasa|asa (de ave, avião; poético)|subst',
+    '毛|け|ke|pelo; cabelo (do corpo)|subst',
+    '爪|つめ|tsume|unha; garra|subst',
+    '牙|きば|kiba|presa (dente grande); canino|subst',
+    '鳴く|なく|naku|cantar, miar, latir (som de animal)|verbo|Para animais. Mesmo som de 泣く (chorar), que é para pessoas.|とりが 鳴いて いる。|tori ga naite iru.|Os pássaros estão cantando.',
+    '飼う|かう|kau|criar, ter (animal de estimação)|verbo|Mesmo som de 買う (comprar).|猫を 飼って います。|neko o katte imasu.|Tenho um gato.',
+    '|ペット|petto|animal de estimação|subst'
+  ] }
+  ] },
+
+{ id: 'roupas', title: 'Roupas e acessórios', jp: 'ふく', emblem: '服', color: '#c2499b', theme: 'roupas',
+  desc: 'O que vestir, calçar e usar, e os verbos certos para cada peça.',
+  lessons: [
+  { id: 'vro1', title: 'Roupas do dia a dia', words: [
+    '服|ふく|fuku|roupa|subst||あたらしい 服を かいました。|atarashii fuku o kaimashita.|Comprei uma roupa nova.',
+    '|シャツ|shatsu|camisa|subst',
+    'Tシャツ|ティーシャツ|tiishatsu|camiseta|subst|Lê-se “tii-shatsu”, como a letra T em inglês.',
+    '|ズボン|zubon|calça|subst|Também se diz パンツ (pantsu), que em alguns contextos significa “cueca/calcinha”.',
+    '|スカート|sukaato|saia|subst',
+    '|ワンピース|wanpiisu|vestido|subst|Do inglês “one-piece”. É o nome do vestido inteiriço (e de um anime famoso).',
+    '上着|うわぎ|uwagi|casaco; jaqueta; blusa de cima|subst',
+    '|コート|kooto|casaco; sobretudo|subst'
+  ] },
+  { id: 'vro2', title: 'Pés, mãos e cabeça', words: [
+    '靴|くつ|kutsu|sapato; calçado|subst|No Japão, tira-se o sapato na entrada (玄関) das casas.|ここで 靴を ぬいで ください。|koko de kutsu o nuide kudasai.|Tire os sapatos aqui, por favor.',
+    '靴下|くつした|kutsushita|meia|subst|靴 (sapato) + 下 (embaixo).',
+    '帽子|ぼうし|boushi|chapéu; boné|subst',
+    '手袋|てぶくろ|tebukuro|luva|subst|手 (mão) + 袋 (saco).',
+    '|マフラー|mafuraa|cachecol|subst',
+    '|ネクタイ|nekutai|gravata|subst',
+    '|ベルト|beruto|cinto|subst',
+    '|サンダル|sandaru|sandália; chinelo|subst'
+  ] },
+  { id: 'vro3', title: 'Acessórios', words: [
+    '指輪|ゆびわ|yubiwa|anel|subst|指 (dedo) + 輪 (argola).',
+    '眼鏡|めがね|megane|óculos|subst',
+    '時計|とけい|tokei|relógio|subst',
+    '|かばん|kaban|bolsa; mochila; pasta|subst',
+    '|ポケット|poketto|bolso|subst',
+    '|ボタン|botan|botão|subst',
+    '|ネックレス|nekkuresu|colar|subst',
+    '|リボン|ribon|laço; fita|subst'
+  ] },
+  { id: 'vro4', title: 'Roupas especiais', words: [
+    '着物|きもの|kimono|quimono|subst|Roupa tradicional de seda, usada em cerimônias. 着る (vestir) + 物 (coisa).',
+    '浴衣|ゆかた|yukata|yukata (quimono leve de algodão)|subst|Usado em festivais de verão e em fontes termais.',
+    '制服|せいふく|seifuku|uniforme|subst||がっこうの 制服は あおいです。|gakkou no seifuku wa aoi desu.|O uniforme da escola é azul.',
+    '|パジャマ|pajama|pijama|subst',
+    '水着|みずぎ|mizugi|roupa de banho; maiô; sunga|subst',
+    '下着|したぎ|shitagi|roupa íntima|subst'
+  ] },
+  { id: 'vro5', title: 'Vestir, calçar, tirar', words: [
+    '着る|きる|kiru|vestir (camisa, casaco, vestido)|verbo|Para roupas da cintura para cima ou o corpo inteiro. Calça, saia e sapato usam 履く.|コートを 着て ください。さむいですよ。|kooto o kite kudasai. samui desu yo.|Vista o casaco. Está frio.',
+    '履く|はく|haku|calçar; vestir (calça, saia, meia)|verbo|Para o que se veste nas pernas e nos pés.|くつを 履きます。|kutsu o hakimasu.|Calço os sapatos.',
+    '被る|かぶる|kaburu|pôr (chapéu, boné)|verbo|Para o que vai na cabeça.',
+    '脱ぐ|ぬぐ|nugu|tirar (roupa, sapato)|verbo|Serve para qualquer peça.',
+    '付ける|つける|tsukeru|pôr (acessório); prender; anexar|verbo|Usado com anéis, colares, relógios e também com “acender” (luz) em outros contextos.',
+    '似合う|にあう|niau|ficar bem (em alguém)|verbo||その 服、よく 似合って いますね。|sono fuku, yoku niatte imasu ne.|Essa roupa fica muito bem em você.'
+  ] }
+  ] },
+
+{ id: 'casa', title: 'Casa e mobília', jp: 'いえ', emblem: '家', color: '#7a5bd6', theme: 'casa',
+  desc: 'Cômodos, partes da casa, móveis, eletrodomésticos e a vida de quem mora.',
+  lessons: [
+  { id: 'vca1', title: 'Os cômodos', words: [
+    '家|いえ|ie|casa; lar|subst|Também se lê うち (uchi), mais pessoal: “minha casa, minha família”.',
+    '部屋|へや|heya|quarto; cômodo; sala|subst|Leitura especial da palavra inteira.|わたしの 部屋は 二かいです。|watashi no heya wa nikai desu.|Meu quarto fica no andar de cima.',
+    '台所|だいどころ|daidokoro|cozinha|subst|Também se diz キッチン (kitchin).',
+    'お風呂|おふろ|ofuro|banho; banheira|subst|No Japão, toma-se banho de chuveiro antes e depois se relaxa na banheira.|お風呂に はいります。|ofuro ni hairimasu.|Vou tomar banho (de banheira).',
+    '|トイレ|toire|banheiro (vaso sanitário)|subst',
+    '玄関|げんかん|genkan|entrada da casa (onde se tiram os sapatos)|subst',
+    '庭|にわ|niwa|jardim; quintal|subst',
+    '居間|いま|ima|sala de estar|subst|Mesmo som de 今 (agora). Também se diz リビング (ribingu).'
+  ] },
+  { id: 'vca2', title: 'Partes da casa', words: [
+    '壁|かべ|kabe|parede; muro|subst||壁に えが かけて あります。|kabe ni e ga kakete arimasu.|Há um quadro pendurado na parede.',
+    '床|ゆか|yuka|chão; piso|subst',
+    '天井|てんじょう|tenjou|teto (de dentro)|subst',
+    '屋根|やね|yane|telhado|subst',
+    '窓|まど|mado|janela|subst',
+    '|ドア|doa|porta|subst',
+    '階段|かいだん|kaidan|escada|subst',
+    '二階|にかい|nikai|segundo andar (andar de cima)|subst|No Japão, o térreo é o 一階 (ikkai, 1º andar). Então 二階 é o primeiro andar acima do térreo.'
+  ] },
+  { id: 'vca3', title: 'Móveis', words: [
+    '机|つくえ|tsukue|escrivaninha; mesa de estudo|subst|Mesa para estudar ou trabalhar. A mesa de refeições costuma ser テーブル.|机の 上に ほんが あります。|tsukue no ue ni hon ga arimasu.|Há um livro em cima da escrivaninha.',
+    '椅子|いす|isu|cadeira|subst',
+    '|テーブル|teeburu|mesa|subst',
+    '|ベッド|beddo|cama|subst',
+    '布団|ふとん|futon|futon (colchão e coberta)|subst|Fica dobrado no 押し入れ durante o dia.',
+    '本棚|ほんだな|hondana|estante de livros|subst',
+    '棚|たな|tana|prateleira|subst',
+    '|ソファ|sofa|sofá|subst',
+    '|カーテン|kaaten|cortina|subst'
+  ] },
+  { id: 'vca4', title: 'Eletrodomésticos', words: [
+    '冷蔵庫|れいぞうこ|reizouko|geladeira|subst||冷蔵庫に ジュースが あるよ。|reizouko ni juusu ga aru yo.|Tem suco na geladeira.',
+    '電気|でんき|denki|eletricidade; luz (lâmpada acesa)|subst|“Acender a luz” = 電気を つける; “apagar” = 電気を けす.|電気を けして ください。|denki o keshite kudasai.|Apague a luz, por favor.',
+    '電子レンジ|でんしレンジ|denshi renji|micro-ondas|subst',
+    '洗濯機|せんたくき|sentakuki|máquina de lavar roupa|subst',
+    '掃除機|そうじき|soujiki|aspirador de pó|subst',
+    '|エアコン|eakon|ar-condicionado|subst',
+    '|テレビ|terebi|televisão|subst',
+    '|シャワー|shawaa|chuveiro; ducha|subst',
+    '押し入れ|おしいれ|oshiire|armário embutido tradicional (para futon)|subst|Armário de portas de correr dos quartos japoneses. Guarda futons e cobertores.'
+  ] },
+  { id: 'vca5', title: 'Morar', words: [
+    '|アパート|apaato|apartamento (prédio pequeno, aluguel)|subst|Prédio baixo, geralmente de 2 andares. Cuidado: マンション não é “mansão”.',
+    '|マンション|manshon|apartamento (prédio de condomínio)|subst|Falso amigo: no Japão, マンション é um prédio de apartamentos de concreto, não uma mansão.',
+    '住む|すむ|sumu|morar; viver (em um lugar)|verbo||どこに 住んで いますか。|doko ni sunde imasu ka.|Onde você mora?',
+    '掃除|そうじ|souji|limpeza (faxina)|subst|そうじする = limpar, fazer faxina.',
+    '洗濯|せんたく|sentaku|lavar roupa; lavagem de roupa|subst',
+    '引っ越し|ひっこし|hikkoshi|mudança (de casa)|subst',
+    '鍵|かぎ|kagi|chave; fechadura|subst||鍵を わすれた！|kagi o wasureta!|Esqueci a chave!'
+  ] }
+  ] },
+
+{ id: 'corpo', title: 'Corpo humano', jp: 'からだ', emblem: '体', color: '#e0565b', theme: 'corpo',
+  desc: 'Partes do corpo e as palavras para dizer o que dói no médico ou na farmácia.',
+  lessons: [
+  { id: 'vco1', title: 'Cabeça e rosto', words: [
+    '体|からだ|karada|corpo|subst',
+    '頭|あたま|atama|cabeça|subst|頭が いい = inteligente (literalmente, “cabeça boa”).',
+    '顔|かお|kao|rosto|subst',
+    '目|め|me|olho|subst',
+    '耳|みみ|mimi|orelha; ouvido|subst',
+    '鼻|はな|hana|nariz|subst|Mesmo som de 花 (flor).',
+    '口|くち|kuchi|boca|subst',
+    '歯|は|ha|dente|subst|Escova de dentes = 歯ブラシ (haburashi). Mesmo som de 葉 (folha).|歯を みがきます。|ha o migakimasu.|Escovo os dentes.'
+  ] },
+  { id: 'vco2', title: 'Tronco e braços', words: [
+    '首|くび|kubi|pescoço|subst',
+    '喉|のど|nodo|garganta|subst|喉が かわいた = estou com sede (literalmente, “a garganta secou”).|喉が いたいです。|nodo ga itai desu.|Estou com dor de garganta.',
+    '肩|かた|kata|ombro|subst',
+    '腕|うで|ude|braço|subst',
+    '手|て|te|mão|subst',
+    '指|ゆび|yubi|dedo|subst',
+    '背中|せなか|senaka|costas|subst',
+    'お腹|おなか|onaka|barriga; estômago|subst|お腹が すいた = estou com fome.'
+  ] },
+  { id: 'vco3', title: 'Pernas e por dentro', words: [
+    '足|あし|ashi|pé; perna|subst|あし pode ser o pé ou a perna inteira, conforme o contexto.',
+    '膝|ひざ|hiza|joelho|subst',
+    '髪|かみ|kami|cabelo|subst|Mesmo som de 紙 (papel) e 神 (deus).',
+    '胸|むね|mune|peito|subst',
+    '心臓|しんぞう|shinzou|coração (órgão)|subst',
+    '血|ち|chi|sangue|subst',
+    '骨|ほね|hone|osso|subst',
+    '舌|した|shita|língua (órgão)|subst|Mesmo som de 下 (embaixo).'
+  ] },
+  { id: 'vco4', title: 'Saúde', words: [
+    '痛い|いたい|itai|dolorido; “ai!”, está doendo|adj-i|Sozinho, いたい！ é o “ai!” de quando algo dói.|あたまが 痛いです。|atama ga itai desu.|Estou com dor de cabeça.',
+    '熱|ねつ|netsu|febre; calor (físico)|subst||熱が あります。|netsu ga arimasu.|Estou com febre.',
+    '風邪|かぜ|kaze|resfriado; gripe leve|subst|Mesmo som de 風 (vento).|風邪を ひきました。|kaze o hikimashita.|Peguei um resfriado.',
+    '咳|せき|seki|tosse|subst',
+    '薬|くすり|kusuri|remédio|subst',
+    '病気|びょうき|byouki|doença; estar doente|subst',
+    '怪我|けが|kega|ferimento; machucado|subst',
+    '元気|げんき|genki|saudável; disposto; animado|adj-na'
+  ] }
+  ] },
+
+{ id: 'emocoes', title: 'Emoções e estados', jp: 'きもち', emblem: '心', color: '#e8744f', theme: 'sentimentos',
+  desc: 'Como você se sente: alegria, medo, nervosismo e as onomatopeias que os animes usam o tempo todo.',
+  lessons: [
+  { id: 'vem1', title: 'Sentimentos básicos', words: [
+    '嬉しい|うれしい|ureshii|feliz; contente (com algo que aconteceu)|adj-i|Alegria por um acontecimento: うれしい！ = que bom!, fiquei feliz!|プレゼント、嬉しい！|purezento, ureshii!|Um presente, que alegria!',
+    '悲しい|かなしい|kanashii|triste|adj-i',
+    '楽しい|たのしい|tanoshii|divertido; agradável|adj-i|Para atividades e momentos: 楽しかった！ = foi divertido!',
+    '怖い|こわい|kowai|assustador; estar com medo|adj-i|Serve para a coisa (filme assustador) e para o medo que você sente.|この えいがは 怖い。|kono eiga wa kowai.|Este filme dá medo.',
+    '寂しい|さびしい|sabishii|solitário; sentir falta|adj-i|Também se pronuncia さみしい (samishii).',
+    '恥ずかしい|はずかしい|hazukashii|envergonhado; vergonhoso; tímido|adj-i',
+    '眠い|ねむい|nemui|com sono|adj-i'
+  ] },
+  { id: 'vem2', title: 'Reações', words: [
+    '怒る|おこる|okoru|ficar bravo; bronquear|verbo|おこって いる = está bravo. おこられた = levei bronca.|先生が 怒って いる。|sensei ga okotte iru.|O professor está bravo.',
+    '驚く|おどろく|odoroku|surpreender-se; assustar-se|verbo||その ニュースに 驚きました。|sono nyuusu ni odorokimashita.|Fiquei surpreso com essa notícia.',
+    '泣く|なく|naku|chorar|verbo|Para pessoas. Mesmo som de 鳴く (som de animal).',
+    '笑う|わらう|warau|rir; sorrir|verbo',
+    '喜ぶ|よろこぶ|yorokobu|alegrar-se; ficar contente|verbo',
+    '困る|こまる|komaru|ficar em apuros; não saber o que fazer|verbo|こまった… = e agora?, que enrascada.',
+    '疲れる|つかれる|tsukareru|cansar-se|verbo|つかれた！ = cansei!, estou cansado.'
+  ] },
+  { id: 'vem3', title: 'Por dentro', words: [
+    '心配|しんぱい|shinpai|preocupação; preocupar-se|subst|心配する = preocupar-se. 心配しないで = não se preocupe.|心配しないで。だいじょうぶ。|shinpai shinaide. daijoubu.|Não se preocupe. Está tudo bem.',
+    '緊張|きんちょう|kinchou|nervosismo; tensão|subst|緊張する = ficar nervoso (antes de uma prova, de falar em público).|テストの まえは 緊張する。|tesuto no mae wa kinchou suru.|Fico nervoso antes da prova.',
+    '安心|あんしん|anshin|alívio; tranquilidade|subst',
+    '気持ち|きもち|kimochi|sentimento; sensação|subst|気持ちいい = que sensação boa.',
+    '心|こころ|kokoro|coração (sentimentos); mente|subst|O coração das emoções. O órgão é 心臓 (shinzou).',
+    '好き|すき|suki|gostar; querido|adj-na|Gramaticalmente é um adjetivo: 猫が 好きです = gosto de gatos.',
+    '嫌い|きらい|kirai|não gostar; detestar|adj-na',
+    '大好き|だいすき|daisuki|adorar; gostar muito|adj-na'
+  ] },
+  { id: 'vem4', title: 'Onomatopeias de emoção', words: [
+    '|わくわく|wakuwaku|empolgação; ansiedade boa|adv|O frio na barriga bom, de quem espera algo legal.|あしたの まつり、わくわくする！|ashita no matsuri, wakuwaku suru!|Tô empolgado com o festival de amanhã!',
+    '|どきどき|dokidoki|coração acelerado (nervoso, paixão)|adv|Em mangás, aparece em katakana: ドキドキ.',
+    '|いらいら|iraira|irritação; impaciência|adv',
+    '|がっかり|gakkari|decepção; desânimo|adv|がっかりした = fiquei decepcionado.',
+    '|びっくり|bikkuri|susto; surpresa|adv|びっくりした！ = que susto!',
+    '|ほっと|hotto|alívio (suspiro de alívio)|adv|ほっとした = fiquei aliviado.',
+    '|にこにこ|nikoniko|sorridente; sorrindo|adv'
+  ] }
+  ] },
+
+{ id: 'lugares', title: 'Lugares', jp: 'ばしょ', emblem: '館', color: '#2f9e8f', theme: 'lugares',
+  desc: 'Museu, templo, farmácia, praia: os lugares para passear, resolver coisas e viajar.',
+  lessons: [
+  { id: 'vlu1', title: 'Passeios', words: [
+    '博物館|はくぶつかん|hakubutsukan|museu|subst|館 (kan) = prédio, edifício público. Aparece em vários lugares desta lição.|日曜日に 博物館へ いきます。|nichiyoubi ni hakubutsukan e ikimasu.|No domingo vou ao museu.',
+    '美術館|びじゅつかん|bijutsukan|museu de arte|subst',
+    '図書館|としょかん|toshokan|biblioteca|subst',
+    '公園|こうえん|kouen|parque|subst',
+    '動物園|どうぶつえん|doubutsuen|zoológico|subst|動物 (animal) + 園 (jardim).',
+    '水族館|すいぞくかん|suizokukan|aquário (lugar)|subst',
+    '映画館|えいがかん|eigakan|cinema|subst'
+  ] },
+  { id: 'vlu2', title: 'Resolver coisas', words: [
+    '寺|てら|tera|templo budista|subst|Com o prefixo de respeito: お寺 (otera). Nos nomes, vira 〜寺 (-ji): 金閣寺 (Kinkakuji).',
+    '神社|じんじゃ|jinja|santuário xintoísta|subst|Tem o portal 鳥居 (torii) na entrada. Templo (お寺) é budista; santuário (神社) é xintoísta.',
+    '病院|びょういん|byouin|hospital; clínica|subst|Não confunda com 美容院 (biyouin), salão de beleza.',
+    '薬局|やっきょく|yakkyoku|farmácia|subst|Também se vê ドラッグストア (doraggusutoa), farmácia que vende de tudo.|この ちかくに 薬局は ありますか。|kono chikaku ni yakkyoku wa arimasu ka.|Tem uma farmácia aqui perto?',
+    '銀行|ぎんこう|ginkou|banco|subst',
+    '郵便局|ゆうびんきょく|yuubinkyoku|correio (agência)|subst',
+    '交番|こうばん|kouban|posto policial (de bairro)|subst'
+  ] },
+  { id: 'vlu3', title: 'Comprar e viajar', words: [
+    '|ホテル|hoteru|hotel|subst',
+    '空港|くうこう|kuukou|aeroporto|subst',
+    '|デパート|depaato|loja de departamentos|subst',
+    '|スーパー|suupaa|supermercado|subst|Abreviação de スーパーマーケット.',
+    '本屋|ほんや|hon\'ya|livraria|subst|〜屋 (ya) = loja de ~: 本屋 (livros), パン屋 (pão).',
+    'パン屋|パンや|pan\'ya|padaria|subst|パン (pão) + 屋 (loja).',
+    '喫茶店|きっさてん|kissaten|cafeteria (estilo tradicional)|subst',
+    '店|みせ|mise|loja|subst'
+  ] },
+  { id: 'vlu4', title: 'Natureza e viagem', words: [
+    '海|うみ|umi|mar|subst||夏は 海で およぎたい。|natsu wa umi de oyogitai.|No verão quero nadar no mar.',
+    '浜辺|はまべ|hamabe|praia (a areia à beira-mar)|subst|Na fala, “ir à praia” costuma ser 海に いく (ir ao mar).',
+    '島|しま|shima|ilha|subst',
+    '湖|みずうみ|mizuumi|lago|subst',
+    '温泉|おんせん|onsen|fonte termal|subst',
+    '田舎|いなか|inaka|interior; campo; cidade natal|subst|Leitura especial da palavra inteira.',
+    '都会|とかい|tokai|cidade grande|subst'
+  ] }
+  ] },
+
+{ id: 'comida', title: 'Comida e ingredientes', jp: 'たべもの', emblem: '食', color: '#e09a1e', theme: 'comida',
+  desc: 'Refeições, temperos, frutas, legumes e como descrever o sabor.',
+  lessons: [
+  { id: 'vcm1', title: 'Pratos do dia a dia', words: [
+    '|スープ|suupu|sopa|subst',
+    '味噌汁|みそしる|misoshiru|sopa de missô|subst|Acompanha quase toda refeição japonesa.',
+    '弁当|べんとう|bentou|marmita; bentô|subst|Com o prefixo educado: お弁当 (obentou).',
+    '|カレー|karee|curry (com arroz)|subst',
+    '|サラダ|sarada|salada|subst',
+    '|うどん|udon|udon (macarrão grosso)|subst',
+    '|そば|soba|soba (macarrão de trigo-sarraceno)|subst|Mesmo som de そば “ao lado, perto”.',
+    '食べ物|たべもの|tabemono|comida; alimento|subst||すきな 食べ物は なんですか。|suki na tabemono wa nan desu ka.|Qual é a sua comida favorita?',
+    '飲み物|のみもの|nomimono|bebida|subst'
+  ] },
+  { id: 'vcm2', title: 'Temperos e ingredientes', words: [
+    '砂糖|さとう|satou|açúcar|subst|Mesmo som do sobrenome 佐藤 (Satō), o mais comum do Japão.|コーヒーに 砂糖を いれますか。|koohii ni satou o iremasu ka.|Você põe açúcar no café?',
+    '塩|しお|shio|sal|subst',
+    '醤油|しょうゆ|shouyu|molho de soja (shoyu)|subst',
+    '油|あぶら|abura|óleo|subst',
+    '米|こめ|kome|arroz (cru, o grão)|subst|Cru é 米 (kome); cozido, ご飯 (gohan).',
+    '小麦粉|こむぎこ|komugiko|farinha de trigo|subst',
+    '|バター|bataa|manteiga|subst',
+    '|チーズ|chiizu|queijo|subst'
+  ] },
+  { id: 'vcm3', title: 'Frutas', words: [
+    '|オレンジ|orenji|laranja (fruta)|subst',
+    '|バナナ|banana|banana|subst',
+    '苺|いちご|ichigo|morango|subst|Quase sempre escrito em kana: いちご.',
+    '|ぶどう|budou|uva|subst',
+    '桃|もも|momo|pêssego|subst',
+    '|スイカ|suika|melancia|subst',
+    '|みかん|mikan|tangerina (mexerica)|subst|A fruta símbolo do inverno japonês.'
+  ] },
+  { id: 'vcm4', title: 'Legumes e verduras', words: [
+    '人参|にんじん|ninjin|cenoura|subst',
+    '玉ねぎ|たまねぎ|tamanegi|cebola|subst',
+    '|じゃがいも|jagaimo|batata|subst',
+    '|トマト|tomato|tomate|subst',
+    '|キャベツ|kyabetsu|repolho|subst',
+    '|きのこ|kinoko|cogumelo|subst',
+    '大根|だいこん|daikon|nabo japonês (daikon)|subst'
+  ] },
+  { id: 'vcm5', title: 'Sabores', words: [
+    '甘い|あまい|amai|doce (sabor)|adj-i||この ケーキ、甘い！|kono keeki, amai!|Este bolo é doce!',
+    '辛い|からい|karai|picante; apimentado|adj-i|O mesmo kanji se lê つらい (tsurai), “duro, sofrido”. Na comida, é からい.',
+    '|しょっぱい|shoppai|salgado (sabor)|adj-i',
+    '酸っぱい|すっぱい|suppai|azedo|adj-i',
+    '苦い|にがい|nigai|amargo|adj-i',
+    '熱い|あつい|atsui|quente (ao toque, comida, bebida)|adj-i|Para coisas quentes. O tempo quente é 暑い (mesmo som).|この スープ、熱い！|kono suupu, atsui!|Esta sopa está quente!',
+    '冷たい|つめたい|tsumetai|gelado; frio (ao toque)|adj-i|Para coisas frias. O tempo frio é 寒い (samui).',
+    '味|あじ|aji|sabor; gosto|subst'
+  ] },
+  { id: 'vcm6', title: 'Doces e bebidas', words: [
+    'お菓子|おかし|okashi|doce; salgadinho; guloseima|subst',
+    '|ケーキ|keeki|bolo|subst',
+    '|アイス|aisu|sorvete|subst|Abreviação de アイスクリーム.',
+    '|チョコレート|chokoreeto|chocolate|subst',
+    '紅茶|こうちゃ|koucha|chá preto|subst|Chá verde é お茶 ou 緑茶 (ryokucha).',
+    'お酒|おさけ|osake|bebida alcoólica; saquê|subst'
+  ] }
+  ] },
+
+{ id: 'objetos', title: 'Objetos do dia a dia', jp: 'もの', emblem: '物', color: '#5f7a8a', theme: 'casa',
+  desc: 'Papel, caixa, chave, guarda-chuva, utensílios de cozinha e ferramentas de casa.',
+  lessons: [
+  { id: 'vob1', title: 'Na mochila', words: [
+    '紙|かみ|kami|papel|subst|Mesmo som de 髪 (cabelo) e 神 (deus).|紙に なまえを かいて ください。|kami ni namae o kaite kudasai.|Escreva seu nome no papel.',
+    '箱|はこ|hako|caixa|subst',
+    '新聞|しんぶん|shinbun|jornal|subst|新 (novo) + 聞 (ouvir): “notícias novas”.',
+    '傘|かさ|kasa|guarda-chuva|subst||あめだから、傘を もって いこう。|ame dakara, kasa o motte ikou.|Está chovendo, vamos levar o guarda-chuva.',
+    '財布|さいふ|saifu|carteira|subst',
+    '携帯|けいたい|keitai|celular|subst|Abreviação de 携帯電話 (keitai denwa). Hoje também se diz スマホ.',
+    '|スマホ|sumaho|smartphone|subst|Abreviação de スマートフォン.',
+    '本|ほん|hon|livro|subst'
+  ] },
+  { id: 'vob2', title: 'Papelaria', words: [
+    '鉛筆|えんぴつ|enpitsu|lápis|subst',
+    '|ペン|pen|caneta|subst',
+    '消しゴム|けしゴム|keshigomu|borracha (de apagar)|subst|消す (apagar) + ゴム (borracha).',
+    '|ノート|nooto|caderno|subst',
+    '|はさみ|hasami|tesoura|subst',
+    '|のり|nori|cola|subst|Mesmo som de 海苔 (nori), a alga da comida.',
+    '定規|じょうぎ|jougi|régua|subst',
+    '封筒|ふうとう|fuutou|envelope|subst'
+  ] },
+  { id: 'vob3', title: 'Na cozinha', words: [
+    '皿|さら|sara|prato|subst|Com prefixo: お皿 (osara).',
+    '茶碗|ちゃわん|chawan|tigela (de arroz)|subst',
+    '|コップ|koppu|copo|subst',
+    '箸|はし|hashi|hashi (palitinhos)|subst|Mesmo som de 橋 (ponte). Com prefixo: お箸.',
+    '|スプーン|supuun|colher|subst',
+    '|フォーク|fooku|garfo|subst',
+    '|ナイフ|naifu|faca|subst',
+    '鍋|なべ|nabe|panela; ensopado de panela|subst'
+  ] },
+  { id: 'vob4', title: 'Coisas de casa', words: [
+    '道具|どうぐ|dougu|ferramenta; utensílio|subst',
+    '電池|でんち|denchi|pilha; bateria|subst',
+    '電球|でんきゅう|denkyuu|lâmpada|subst',
+    '鏡|かがみ|kagami|espelho|subst',
+    '石鹸|せっけん|sekken|sabonete; sabão|subst',
+    '|タオル|taoru|toalha|subst',
+    '歯ブラシ|はブラシ|haburashi|escova de dentes|subst',
+    '|ゴミ|gomi|lixo|subst|No Japão, o lixo é separado: 燃える ゴミ (queimável) e 燃えない ゴミ (não queimável).',
+    '袋|ふくろ|fukuro|sacola; saco|subst|Cuidado: ふくろう (com o “o” longo) é coruja!'
+  ] }
+  ] },
+
+{ id: 'escola', title: 'Escola e rotina', jp: 'がっこう', emblem: '学', color: '#6c43dd', theme: 'escola',
+  desc: 'Sala de aula, matérias, provas, férias e os verbos de quem estuda.',
+  lessons: [
+  { id: 'ves1', title: 'Na sala de aula', words: [
+    '学生|がくせい|gakusei|estudante|subst|Em geral, estudante universitário. Alunos do fundamental e médio costumam ser 生徒 (seito).|わたしは 学生です。|watashi wa gakusei desu.|Eu sou estudante.',
+    '生徒|せいと|seito|aluno (ensino fundamental e médio)|subst',
+    '先生|せんせい|sensei|professor(a); médico(a) (forma de tratamento)|subst|Também se usa para médicos, advogados e autores de mangá.',
+    '教室|きょうしつ|kyoushitsu|sala de aula|subst',
+    '黒板|こくばん|kokuban|quadro-negro; lousa|subst|黒 (preto) + 板 (placa).',
+    '宿題|しゅくだい|shukudai|lição de casa; dever|subst',
+    '試験|しけん|shiken|prova; exame|subst',
+    '|テスト|tesuto|teste; prova|subst'
+  ] },
+  { id: 'ves2', title: 'Matérias', words: [
+    '数学|すうがく|suugaku|matemática|subst',
+    '国語|こくご|kokugo|língua japonesa (matéria escolar)|subst|Nas escolas japonesas, “língua nacional” é o japonês.',
+    '英語|えいご|eigo|inglês|subst',
+    '歴史|れきし|rekishi|história (matéria)|subst',
+    '理科|りか|rika|ciências (matéria)|subst',
+    '体育|たいいく|taiiku|educação física|subst',
+    '音楽|おんがく|ongaku|música|subst',
+    '美術|びじゅつ|bijutsu|artes (matéria)|subst'
+  ] },
+  { id: 'ves3', title: 'Rotina e férias', words: [
+    '休み|やすみ|yasumi|descanso; folga; férias (curtas); feriado|subst|Muito comum: 今日は 休みです = hoje é folga. お休み = boa noite, ao ir dormir (casual).|あしたは 休みです。|ashita wa yasumi desu.|Amanhã é folga.',
+    '休暇|きゅうか|kyuuka|férias; licença (do trabalho, formal)|subst|Mais formal que 休み. Usado para férias de trabalho.',
+    '夏休み|なつやすみ|natsuyasumi|férias de verão|subst',
+    '授業|じゅぎょう|jugyou|aula|subst',
+    '部活|ぶかつ|bukatsu|atividade de clube (escolar)|subst|Abreviação de 部活動. Clube de futebol, de música, de mangá...',
+    '給食|きゅうしょく|kyuushoku|merenda escolar|subst',
+    '遅刻|ちこく|chikoku|atraso (chegar atrasado)|subst',
+    '卒業|そつぎょう|sotsugyou|formatura; conclusão do curso|subst'
+  ] },
+  { id: 'ves4', title: 'Aprender', words: [
+    '勉強|べんきょう|benkyou|estudo; estudar (com する)|subst||まいにち 日本語を 勉強して います。|mainichi nihongo o benkyou shite imasu.|Estudo japonês todos os dias.',
+    '教える|おしえる|oshieru|ensinar; contar (informação)|verbo',
+    '習う|ならう|narau|aprender (com alguém, em aulas)|verbo',
+    '覚える|おぼえる|oboeru|memorizar; lembrar-se|verbo',
+    '忘れる|わすれる|wasureru|esquecer|verbo',
+    '答える|こたえる|kotaeru|responder|verbo',
+    '質問|しつもん|shitsumon|pergunta|subst|質問が あります = tenho uma pergunta.',
+    '意味|いみ|imi|significado|subst|どういう 意味ですか = o que significa?'
+  ] }
+  ] },
+
+{ id: 'adjetivos', title: 'Adjetivos e descrições', jp: 'けいようし', emblem: '大', color: '#c4692a', theme: 'descricao',
+  desc: 'Pares de opostos e palavras para descrever pessoas, coisas e lugares.',
+  lessons: [
+  { id: 'vad1', title: 'Rápido, forte, pesado', words: [
+    '速い|はやい|hayai|rápido (velocidade)|adj-i|Mesmo som de 早い (cedo).',
+    '遅い|おそい|osoi|lento; tarde; atrasado|adj-i',
+    '強い|つよい|tsuyoi|forte|adj-i',
+    '弱い|よわい|yowai|fraco|adj-i',
+    '重い|おもい|omoi|pesado|adj-i',
+    '軽い|かるい|karui|leve|adj-i',
+    '低い|ひくい|hikui|baixo (altura)|adj-i|O contrário de 高い (alto).'
+  ] },
+  { id: 'vad2', title: 'Espaço e luz', words: [
+    '広い|ひろい|hiroi|amplo; espaçoso; largo|adj-i',
+    '狭い|せまい|semai|apertado; estreito; pequeno (espaço)|adj-i',
+    '明るい|あかるい|akarui|claro (iluminado); alegre (pessoa)|adj-i',
+    '暗い|くらい|kurai|escuro; sombrio (pessoa)|adj-i',
+    '近い|ちかい|chikai|perto; próximo|adj-i',
+    '遠い|とおい|tooi|longe; distante|adj-i',
+    '深い|ふかい|fukai|profundo; fundo|adj-i'
+  ] },
+  { id: 'vad3', title: 'Fácil, difícil, perigoso', words: [
+    '易しい|やさしい|yasashii|fácil (questão, texto)|adj-i|Mesmo som de 優しい (gentil). Escritos diferentes, sentidos diferentes.',
+    '優しい|やさしい|yasashii|gentil; bondoso|adj-i|Para pessoas: 優しい 人 = uma pessoa gentil.',
+    '難しい|むずかしい|muzukashii|difícil|adj-i',
+    '簡単|かんたん|kantan|simples; fácil|adj-na',
+    '危ない|あぶない|abunai|perigoso; “cuidado!”|adj-i|Sozinho, あぶない！ é um grito de aviso: cuidado!',
+    '大切|たいせつ|taisetsu|importante; precioso|adj-na',
+    '便利|べんり|benri|prático; conveniente|adj-na',
+    '有名|ゆうめい|yuumei|famoso|adj-na'
+  ] },
+  { id: 'vad4', title: 'Pessoas e lugares', words: [
+    '若い|わかい|wakai|jovem|adj-i',
+    '静か|しずか|shizuka|silencioso; calmo|adj-na',
+    '賑やか|にぎやか|nigiyaka|animado; movimentado|adj-na',
+    '汚い|きたない|kitanai|sujo|adj-i',
+    '|つまらない|tsumaranai|chato; sem graça|adj-i',
+    '忙しい|いそがしい|isogashii|ocupado|adj-i',
+    '暇|ひま|hima|livre (sem nada para fazer); tempo livre|adj-na|ひまですか？ = está livre?',
+    '素敵|すてき|suteki|lindo; encantador; maravilhoso|adj-na'
+  ] }
+  ] },
+
+{ id: 'adverbios', title: 'Advérbios', jp: 'ふくし', emblem: '副', color: '#4a8f3a', theme: 'adverbios',
+  desc: 'Sempre, às vezes, nunca, ainda, logo, talvez: as palavrinhas que dão sentido às frases.',
+  lessons: [
+  { id: 'vav1', title: 'Com que frequência?', words: [
+    '|いつも|itsumo|sempre|adv||いつも ありがとう。|itsumo arigatou.|Obrigado por tudo (sempre).',
+    '時々|ときどき|tokidoki|às vezes|adv|々 repete o kanji anterior: 時々 = 時時.',
+    '|よく|yoku|frequentemente; bem|adv|Dois sentidos: よく いく (vou sempre) e よく できた (ficou bem feito).',
+    '|たまに|tamani|de vez em quando|adv',
+    '毎日|まいにち|mainichi|todo dia; diariamente|adv',
+    '全然|ぜんぜん|zenzen|nem um pouco; de jeito nenhum (com negativa)|adv|Vem com verbo ou adjetivo negativo: 全然 わからない = não entendo nada.|全然 わからない。|zenzen wakaranai.|Não entendo nada.',
+    '|あまり|amari|não muito (com negativa)|adv|あまり すきじゃない = não gosto muito.',
+    '一度も|いちども|ichido mo|nunca; nem uma vez (com negativa)|adv|O japonês não tem uma palavra só para “nunca”: diz-se 一度も + negativa.|日本に 一度も いった ことが ない。|nihon ni ichido mo itta koto ga nai.|Nunca fui ao Japão.'
+  ] },
+  { id: 'vav2', title: 'Quando?', words: [
+    '|もう|mou|já; mais (com quantidade)|adv|もう たべた = já comi. もう ひとつ = mais um.',
+    '|まだ|mada|ainda; ainda não (com negativa)|adv|まだです = ainda não.',
+    '|すぐ|sugu|logo; imediatamente|adv||すぐ いきます！|sugu ikimasu!|Já vou!',
+    '後で|あとで|ato de|depois; mais tarde|adv',
+    '|さっき|sakki|agora há pouco|adv',
+    '|そろそろ|sorosoro|daqui a pouco; já está na hora|adv|そろそろ かえります = já vou indo.',
+    '先に|さきに|saki ni|antes; primeiro (na frente)|adv|お先に = com licença, vou na frente.',
+    '今|いま|ima|agora|subst'
+  ] },
+  { id: 'vav3', title: 'Quanto?', words: [
+    '|とても|totemo|muito|adv',
+    '|すごく|sugoku|muito; demais (casual)|adv',
+    '|ちょっと|chotto|um pouco; um momento|adv|ちょっと… sozinho é um jeito educado de recusar.',
+    '少し|すこし|sukoshi|um pouco|adv',
+    '|もっと|motto|mais|adv',
+    '一番|いちばん|ichiban|o mais; número um|adv',
+    '本当に|ほんとうに|hontou ni|realmente; de verdade|adv',
+    '大体|だいたい|daitai|mais ou menos; quase tudo|adv'
+  ] },
+  { id: 'vav4', title: 'Outros advérbios', words: [
+    '|また|mata|de novo; outra vez|adv|また ね = até a próxima.',
+    '多分|たぶん|tabun|talvez; provavelmente|adv',
+    '|きっと|kitto|com certeza; certamente|adv',
+    '一緒に|いっしょに|issho ni|juntos|adv||一緒に いこう！|issho ni ikou!|Vamos juntos!',
+    '|ゆっくり|yukkuri|devagar; com calma|adv|ゆっくり して ください = fique à vontade.',
+    '早く|はやく|hayaku|cedo; rápido|adv',
+    '特に|とくに|toku ni|especialmente|adv',
+    '|やっと|yatto|finalmente (depois de esforço)|adv',
+    '|だけ|dake|só; apenas|part|Vem depois da palavra: ひとつ だけ = só um.'
+  ] }
+  ] },
+
+{ id: 'cores', title: 'Cores', jp: 'いろ', emblem: '色', color: '#d14b8f', theme: 'cores',
+  desc: 'As cores como substantivo e como adjetivo, do vermelho ao prateado.',
+  lessons: [
+  { id: 'vcr1', title: 'Cores principais', words: [
+    '色|いろ|iro|cor|subst||なに 色が すきですか。|nani iro ga suki desu ka.|De que cor você gosta?',
+    '赤|あか|aka|vermelho|subst',
+    '青|あお|ao|azul; verde (sinal de trânsito, vegetação)|subst|Tradicionalmente 青 cobre azul e alguns verdes: o sinal verde do semáforo é 青.',
+    '黄色|きいろ|kiiro|amarelo|subst',
+    '緑|みどり|midori|verde|subst',
+    '白|しろ|shiro|branco|subst|Mesmo som de 城 (castelo).',
+    '黒|くろ|kuro|preto|subst'
+  ] },
+  { id: 'vcr2', title: 'Mais cores', words: [
+    '茶色|ちゃいろ|chairo|marrom|subst|“Cor de chá”.',
+    '灰色|はいいろ|haiiro|cinza|subst|“Cor de cinza (de fogueira)”. Também se diz グレー (guree).',
+    'オレンジ色|オレンジいろ|orenjiiro|laranja (cor)|subst',
+    '|ピンク|pinku|rosa (cor)|subst',
+    '紫|むらさき|murasaki|roxo; violeta|subst',
+    '金色|きんいろ|kin\'iro|dourado|subst',
+    '銀色|ぎんいろ|gin\'iro|prateado|subst'
+  ] },
+  { id: 'vcr3', title: 'Cores como adjetivo', words: [
+    '赤い|あかい|akai|vermelho (adjetivo)|adj-i|Só algumas cores viram adjetivo -i: 赤い, 青い, 白い, 黒い, 黄色い, 茶色い.|赤い くるま|akai kuruma|um carro vermelho',
+    '青い|あおい|aoi|azul (adjetivo)|adj-i',
+    '白い|しろい|shiroi|branco (adjetivo)|adj-i',
+    '黒い|くろい|kuroi|preto (adjetivo)|adj-i',
+    '黄色い|きいろい|kiiroi|amarelo (adjetivo)|adj-i',
+    '茶色い|ちゃいろい|chairoi|marrom (adjetivo)|adj-i'
+  ] }
+  ] },
+
+{ id: 'pessoas', title: 'Pessoas e família', jp: 'ひと', emblem: '人', color: '#b8583a', theme: 'familia',
+  desc: 'Família (a minha e a dos outros), pessoas e relações do dia a dia.',
+  lessons: [
+  { id: 'vpe1', title: 'Minha família', words: [
+    '家族|かぞく|kazoku|família|subst',
+    '父|ちち|chichi|(meu) pai|subst|Ao falar do próprio pai para outras pessoas. O pai de outra pessoa (ou chamar o seu) é お父さん.',
+    '母|はは|haha|(minha) mãe|subst|Ao falar da própria mãe para outras pessoas. A mãe de outra pessoa é お母さん.',
+    'お父さん|おとうさん|otousan|pai (de outra pessoa; ao chamar o próprio)|subst',
+    'お母さん|おかあさん|okaasan|mãe (de outra pessoa; ao chamar a própria)|subst',
+    '兄|あに|ani|(meu) irmão mais velho|subst|O irmão mais velho de outra pessoa é お兄さん (oniisan).',
+    '姉|あね|ane|(minha) irmã mais velha|subst|A de outra pessoa é お姉さん (oneesan).',
+    '弟|おとうと|otouto|irmão mais novo|subst',
+    '妹|いもうと|imouto|irmã mais nova|subst'
+  ] },
+  { id: 'vpe2', title: 'Família completa', words: [
+    '息子|むすこ|musuko|filho|subst',
+    '娘|むすめ|musume|filha; moça|subst',
+    '夫|おっと|otto|(meu) marido|subst',
+    '妻|つま|tsuma|(minha) esposa|subst',
+    '赤ちゃん|あかちゃん|akachan|bebê|subst|赤 (vermelho) + ちゃん: o bebê “vermelhinho” recém-nascido.',
+    '祖父|そふ|sofu|(meu) avô|subst|O avô de outra pessoa (ou um senhor idoso) é おじいさん.',
+    '祖母|そぼ|sobo|(minha) avó|subst|A avó de outra pessoa (ou uma senhora idosa) é おばあさん.',
+    '両親|りょうしん|ryoushin|pais (pai e mãe)|subst',
+    '兄弟|きょうだい|kyoudai|irmãos|subst'
+  ] },
+  { id: 'vpe3', title: 'Pessoas', words: [
+    '人|ひと|hito|pessoa|subst',
+    '男の人|おとこのひと|otoko no hito|homem|subst',
+    '女の人|おんなのひと|onna no hito|mulher|subst',
+    '子供|こども|kodomo|criança; filho(s)|subst',
+    '大人|おとな|otona|adulto|subst|Leitura especial: 大 (grande) + 人 (pessoa) = おとな.',
+    '友達|ともだち|tomodachi|amigo(a)|subst',
+    '恋人|こいびと|koibito|namorado(a); amor|subst',
+    '彼氏|かれし|kareshi|namorado|subst',
+    '彼女|かのじょ|kanojo|ela; namorada|subst|Dois sentidos: “ela” e “namorada”. O contexto mostra qual.'
+  ] },
+  { id: 'vpe4', title: 'Relações', words: [
+    '先輩|せんぱい|senpai|veterano(a) (na escola, no trabalho)|subst|Quem entrou antes. Muito comum em animes: “senpai!”.',
+    '後輩|こうはい|kouhai|calouro(a); novato(a)|subst',
+    '仲間|なかま|nakama|companheiro(a); parceiro(a) de equipe|subst|A palavra favorita dos animes de aventura: os amigos que lutam juntos.',
+    '隣|となり|tonari|vizinho (ao lado); do lado|subst',
+    '近所|きんじょ|kinjo|vizinhança; arredores|subst',
+    'お客さん|おきゃくさん|okyakusan|cliente; visita|subst',
+    '自分|じぶん|jibun|si mesmo; a própria pessoa|pron'
+  ] }
+  ] },
+
+{ id: 'profissoes', title: 'Profissões', jp: 'しごと', emblem: '職', color: '#3b6ea8', theme: 'profissoes',
+  desc: 'Profissões comuns, o mundo do trabalho e as profissões de anime e mangá.',
+  lessons: [
+  { id: 'vpr1', title: 'Profissões comuns', words: [
+    '医者|いしゃ|isha|médico(a)|subst|Ao chamar o médico, usa-se 先生 (sensei).',
+    '看護師|かんごし|kangoshi|enfermeiro(a)|subst',
+    '警察官|けいさつかん|keisatsukan|policial|subst|Na fala, おまわりさん é o jeito simpático de chamar o policial.',
+    '会社員|かいしゃいん|kaishain|funcionário(a) de empresa|subst',
+    '店員|てんいん|ten\'in|atendente; balconista|subst',
+    '運転手|うんてんしゅ|untenshu|motorista|subst',
+    '消防士|しょうぼうし|shouboushi|bombeiro(a)|subst',
+    '弁護士|べんごし|bengoshi|advogado(a)|subst'
+  ] },
+  { id: 'vpr2', title: 'Arte e mais', words: [
+    '料理人|りょうりにん|ryourinin|cozinheiro(a)|subst|Em restaurantes, o chef costuma ser chamado de シェフ ou 板前 (itamae, cozinha japonesa).',
+    '歌手|かしゅ|kashu|cantor(a)|subst',
+    '漫画家|まんがか|mangaka|mangaká (autor de mangá)|subst',
+    '声優|せいゆう|seiyuu|dublador(a) (de anime e jogos)|subst',
+    '農家|のうか|nouka|agricultor(a); família de agricultores|subst',
+    '|エンジニア|enjinia|engenheiro(a)|subst',
+    '|パイロット|pairotto|piloto (de avião)|subst'
+  ] },
+  { id: 'vpr3', title: 'O trabalho', words: [
+    '仕事|しごと|shigoto|trabalho; emprego|subst||お仕事は なんですか。|oshigoto wa nan desu ka.|Qual é a sua profissão?',
+    '会社|かいしゃ|kaisha|empresa|subst',
+    '働く|はたらく|hataraku|trabalhar|verbo',
+    '|アルバイト|arubaito|bico; trabalho de meio período|subst|Do alemão “Arbeit”. Abreviado: バイト.',
+    '社長|しゃちょう|shachou|presidente (de empresa); dono|subst',
+    '給料|きゅうりょう|kyuuryou|salário|subst'
+  ] }
+  ] },
+
+{ id: 'cidade', title: 'Cidade e transporte', jp: 'まち', emblem: '車', color: '#2f6fb0', theme: 'transporte',
+  desc: 'Meios de transporte, ruas, semáforos e como pedir e entender direções.',
+  lessons: [
+  { id: 'vci1', title: 'Transportes', words: [
+    '電車|でんしゃ|densha|trem|subst',
+    '地下鉄|ちかてつ|chikatetsu|metrô|subst|地下 (subterrâneo) + 鉄 (ferro, ferrovia).',
+    '|バス|basu|ônibus|subst',
+    '|タクシー|takushii|táxi|subst',
+    '自転車|じてんしゃ|jitensha|bicicleta|subst',
+    '車|くるま|kuruma|carro|subst',
+    '飛行機|ひこうき|hikouki|avião|subst',
+    '船|ふね|fune|navio; barco|subst'
+  ] },
+  { id: 'vci2', title: 'Na rua', words: [
+    '道|みち|michi|caminho; rua; estrada|subst',
+    '信号|しんごう|shingou|semáforo|subst||信号が 青に なった。|shingou ga ao ni natta.|O semáforo ficou verde.',
+    '交差点|こうさてん|kousaten|cruzamento|subst',
+    '横断歩道|おうだんほどう|oudanhodou|faixa de pedestres|subst',
+    '橋|はし|hashi|ponte|subst|Mesmo som de 箸 (hashi). A entonação muda: はし (ponte) sobe no final.',
+    '建物|たてもの|tatemono|prédio; construção|subst',
+    '|ビル|biru|edifício (prédio comercial)|subst|De “building”. Não é “conta” (bill).',
+    '駐車場|ちゅうしゃじょう|chuushajou|estacionamento|subst'
+  ] },
+  { id: 'vci3', title: 'Direções', words: [
+    '右|みぎ|migi|direita|subst',
+    '左|ひだり|hidari|esquerda|subst',
+    '|まっすぐ|massugu|reto; em frente|adv||まっすぐ いって ください。|massugu itte kudasai.|Siga em frente, por favor.',
+    '地図|ちず|chizu|mapa|subst',
+    '切符|きっぷ|kippu|bilhete; passagem|subst',
+    '乗る|のる|noru|embarcar; pegar (condução); andar de|verbo|Usa に: 電車に 乗る = pegar o trem.',
+    '降りる|おりる|oriru|descer (da condução)|verbo',
+    '乗り換え|のりかえ|norikae|baldeação (troca de linha)|subst'
+  ] }
+  ] },
+
+{ id: 'natureza', title: 'Natureza e clima', jp: 'しぜん', emblem: '天', color: '#2a9d5c', theme: 'natureza',
+  desc: 'O tempo, as estações e a natureza: do arco-íris ao tufão.',
+  lessons: [
+  { id: 'vna1', title: 'Como está o tempo?', words: [
+    '天気|てんき|tenki|tempo (clima do dia); bom tempo|subst||今日は いい 天気ですね。|kyou wa ii tenki desu ne.|Que tempo bom hoje, né?',
+    '晴れ|はれ|hare|céu limpo; tempo bom|subst',
+    '雨|あめ|ame|chuva|subst|Mesmo som de 飴 (bala, doce).',
+    '雪|ゆき|yuki|neve|subst',
+    '曇り|くもり|kumori|nublado|subst',
+    '風|かぜ|kaze|vento|subst|Mesmo som de 風邪 (resfriado).',
+    '雷|かみなり|kaminari|trovão; raio|subst',
+    '台風|たいふう|taifuu|tufão|subst'
+  ] },
+  { id: 'vna2', title: 'Calor e frio', words: [
+    '暑い|あつい|atsui|quente (clima, dia)|adj-i|Para o tempo. Coisas quentes ao toque são 熱い (mesmo som).|今日は 暑い！|kyou wa atsui!|Hoje está quente!',
+    '寒い|さむい|samui|frio (clima, dia)|adj-i',
+    '暖かい|あたたかい|atatakai|morno; agradável (temperatura)|adj-i',
+    '涼しい|すずしい|suzushii|fresco; agradavelmente frio|adj-i',
+    '天気予報|てんきよほう|tenkiyohou|previsão do tempo|subst',
+    '気温|きおん|kion|temperatura (do ar)|subst',
+    '虹|にじ|niji|arco-íris|subst'
+  ] },
+  { id: 'vna3', title: 'Céu e terra', words: [
+    '空|そら|sora|céu|subst',
+    '太陽|たいよう|taiyou|sol|subst',
+    '月|つき|tsuki|lua; mês|subst',
+    '星|ほし|hoshi|estrela|subst',
+    '石|いし|ishi|pedra|subst',
+    '草|くさ|kusa|grama; mato|subst|Na internet japonesa, 草 (ou www) quer dizer “risos”.',
+    '葉|は|ha|folha|subst|Também se diz 葉っぱ (happa).',
+    '森|もり|mori|floresta; bosque|subst'
+  ] },
+  { id: 'vna4', title: 'Estações do ano', words: [
+    '春|はる|haru|primavera|subst',
+    '夏|なつ|natsu|verão|subst',
+    '秋|あき|aki|outono|subst',
+    '冬|ふゆ|fuyu|inverno|subst',
+    '季節|きせつ|kisetsu|estação do ano|subst',
+    '桜|さくら|sakura|cerejeira; flor de cerejeira|subst',
+    '紅葉|こうよう|kouyou|folhas coloridas de outono|subst|Também se lê もみじ (momiji), que é também o nome do bordo japonês.'
+  ] }
+  ] },
+
+{ id: 'anime', title: 'Anime, jogos e diversão', jp: 'アニメ', emblem: '遊', color: '#8a3fd1', theme: 'anime',
+  desc: 'As palavras que mais aparecem em animes, jogos e músicas: herói, vilão, batalha, sonho, promessa.',
+  lessons: [
+  { id: 'vat1', title: 'Personagens', words: [
+    '漫画|まんが|manga|mangá; história em quadrinhos|subst',
+    '|アニメ|anime|anime; desenho animado|subst',
+    '|ゲーム|geemu|jogo; videogame|subst',
+    '映画|えいが|eiga|filme|subst',
+    '主人公|しゅじんこう|shujinkou|protagonista|subst',
+    '悪役|あくやく|akuyaku|vilão|subst|悪 (mal) + 役 (papel).',
+    '敵|てき|teki|inimigo|subst',
+    '味方|みかた|mikata|aliado; do mesmo lado|subst'
+  ] },
+  { id: 'vat2', title: 'Frases de batalha', words: [
+    '戦い|たたかい|tatakai|batalha; luta|subst',
+    '勝つ|かつ|katsu|vencer; ganhar|verbo||ぜったいに 勝つ！|zettai ni katsu!|Eu vou vencer, com certeza!',
+    '負ける|まける|makeru|perder (uma disputa)|verbo',
+    '力|ちから|chikara|força; poder|subst',
+    '夢|ゆめ|yume|sonho|subst',
+    '約束|やくそく|yakusoku|promessa; compromisso marcado|subst||約束だよ！|yakusoku da yo!|É uma promessa!',
+    '運命|うんめい|unmei|destino|subst',
+    '必殺技|ひっさつわざ|hissatsuwaza|golpe especial; golpe final|subst'
+  ] },
+  { id: 'vat3', title: 'Diversão', words: [
+    '趣味|しゅみ|shumi|hobby; passatempo|subst||趣味は ゲームです。|shumi wa geemu desu.|Meu hobby é videogame.',
+    '歌|うた|uta|canção; música cantada|subst',
+    '歌う|うたう|utau|cantar|verbo',
+    '踊る|おどる|odoru|dançar|verbo',
+    '声|こえ|koe|voz|subst',
+    '話|はなし|hanashi|história; conversa; assunto|subst',
+    '物語|ものがたり|monogatari|narrativa; conto|subst',
+    '続き|つづき|tsuzuki|continuação|subst|Em animes: つづく = continua.',
+    '最終回|さいしゅうかい|saishuukai|último episódio|subst'
+  ] }
+  ] },
+
+{ id: 'verbos', title: 'Verbos do dia a dia', jp: 'どうし', emblem: '行', color: '#d24a3c', theme: 'acoes',
+  desc: 'Sentar, correr, esperar, procurar, encontrar: os verbos que você vai ouvir todos os dias.',
+  lessons: [
+  { id: 'vve1', title: 'Corpo em movimento', words: [
+    '座る|すわる|suwaru|sentar-se|verbo|Usa に: いすに 座る = sentar na cadeira.|どうぞ、座って ください。|douzo, suwatte kudasai.|Por favor, sente-se.',
+    '立つ|たつ|tatsu|ficar de pé; levantar-se|verbo',
+    '歩く|あるく|aruku|andar; caminhar|verbo',
+    '走る|はしる|hashiru|correr|verbo',
+    '起きる|おきる|okiru|acordar; levantar (da cama)|verbo',
+    '寝る|ねる|neru|dormir; deitar-se|verbo',
+    '入る|はいる|hairu|entrar|verbo',
+    '出る|でる|deru|sair|verbo'
+  ] },
+  { id: 'vve2', title: 'Mãos à obra', words: [
+    '待つ|まつ|matsu|esperar|verbo|ちょっと 待って！ = espera um pouco!',
+    '開ける|あける|akeru|abrir|verbo',
+    '閉める|しめる|shimeru|fechar|verbo',
+    '使う|つかう|tsukau|usar|verbo',
+    '作る|つくる|tsukuru|fazer; preparar; criar|verbo',
+    '洗う|あらう|arau|lavar|verbo',
+    '持つ|もつ|motsu|segurar; carregar; ter|verbo',
+    '置く|おく|oku|colocar; pôr; deixar|verbo'
+  ] },
+  { id: 'vve3', title: 'Procurar e encontrar', words: [
+    '探す|さがす|sagasu|procurar|verbo||かぎを 探して いる。|kagi o sagashite iru.|Estou procurando a chave.',
+    '見つける|みつける|mitsukeru|encontrar; achar|verbo',
+    '買う|かう|kau|comprar|verbo|Mesmo som de 飼う (criar animal).',
+    '売る|うる|uru|vender|verbo',
+    '会う|あう|au|encontrar-se (com alguém)|verbo|Usa に: 友達に 会う = encontrar um amigo.',
+    '始まる|はじまる|hajimaru|começar|verbo',
+    '終わる|おわる|owaru|terminar; acabar|verbo',
+    '分かる|わかる|wakaru|entender; saber|verbo'
+  ] }
+  ] },
+
+{ id: 'aventura', title: 'Aventura e fantasia', jp: 'ぼうけん', emblem: '剣', color: '#9c3b3b', theme: 'aventura',
+  desc: 'Espadas, magias, monstros e tesouros: o vocabulário dos RPGs, que também aparece no Adventure Mode.',
+  lessons: [
+  { id: 'vaf1', title: 'Armas e equipamentos', words: [
+    '剣|けん|ken|espada|subst|Também se lê つるぎ (tsurugi), mais poético.',
+    '盾|たて|tate|escudo|subst',
+    '鎧|よろい|yoroi|armadura|subst',
+    '弓|ゆみ|yumi|arco (arma)|subst',
+    '矢|や|ya|flecha|subst',
+    '杖|つえ|tsue|cajado; bengala|subst',
+    '宝箱|たからばこ|takarabako|baú do tesouro|subst',
+    '宝|たから|takara|tesouro|subst'
+  ] },
+  { id: 'vaf2', title: 'Heróis e monstros', words: [
+    '勇者|ゆうしゃ|yuusha|herói (de aventura)|subst',
+    '魔法|まほう|mahou|magia|subst',
+    '魔王|まおう|maou|rei demônio; lorde das trevas|subst',
+    '竜|りゅう|ryuu|dragão|subst|Também se diz ドラゴン (doragon).',
+    '鬼|おに|oni|ogro; demônio (oni)|subst',
+    '幽霊|ゆうれい|yuurei|fantasma|subst',
+    '怪物|かいぶつ|kaibutsu|monstro|subst|Em jogos, também モンスター.',
+    '呪文|じゅもん|jumon|feitiço; encantamento|subst'
+  ] },
+  { id: 'vaf3', title: 'Lugares e materiais', words: [
+    '冒険|ぼうけん|bouken|aventura|subst',
+    '旅|たび|tabi|viagem; jornada|subst',
+    '洞窟|どうくつ|doukutsu|caverna|subst',
+    '城|しろ|shiro|castelo|subst|Mesmo som de 白 (branco).',
+    '村|むら|mura|vila; aldeia|subst',
+    '鉄|てつ|tetsu|ferro|subst',
+    '宝石|ほうせき|houseki|pedra preciosa; joia|subst',
+    '薬草|やくそう|yakusou|erva medicinal|subst'
+  ] },
+  { id: 'vaf4', title: 'Verbos de ação', words: [
+    '戦う|たたかう|tatakau|lutar; batalhar|verbo||いっしょに 戦おう！|issho ni tatakaou!|Vamos lutar juntos!',
+    '守る|まもる|mamoru|proteger; cumprir (promessa)|verbo',
+    '倒す|たおす|taosu|derrotar; derrubar|verbo',
+    '逃げる|にげる|nigeru|fugir|verbo|逃げろ！ = fuja!',
+    '助ける|たすける|tasukeru|ajudar; salvar|verbo|助けて！ = socorro!',
+    '攻撃|こうげき|kougeki|ataque|subst',
+    '回復|かいふく|kaifuku|recuperação (de vida, energia)|subst'
+  ] }
+  ] }
+];
+/* nome de cada classe gramatical nos cartões da Academia de Vocabulário (o Dicionário usa DICT_POS) */
+const VOCAB_POS = { subst: 'substantivo', verbo: 'verbo', 'adj-i': 'adjetivo -i', 'adj-na': 'adjetivo -na', adv: 'advérbio', expr: 'expressão', pron: 'pronome', num: 'número', cont: 'contador', part: 'partícula', interj: 'interjeição' };
+
+/* ==========================================================
+   Nihongo Quest 12.0 — ACADEMIA DE VOCABULÁRIO (motor e interface)
+   - Quinta aba da Academia (“Palavras”). Categorias (VOCAB_CATS, vocab-data.js) → lições de 5 a 10 palavras.
+   - Ciclo de cada lição: A. Descobrir (cartão por palavra: escrita, kana, romaji, significado, classe, tema,
+     áudio normal / devagar / 3×) → B. Escutar (ouvir sem ler, revelar depois) → C. Compreender (nota e
+     exemplo no próprio cartão, só quando ajudam) → D. Praticar (exercícios variados) → E. Revisar
+     (Revisão de sempre, com prioridade para o que você erra).
+   - Regras: só cobra palavras já apresentadas (a lição atual + lições aprovadas). Alternativas também vêm só
+     dessas palavras. Aprovação com VC_PASS%. XP só na primeira aprovação de cada lição e de cada avaliação
+     de categoria; treinos de revisão dão no máximo VC_XP_DAY por dia (sem farming).
+   - Itens: 'vc:<escrita>' (+ '・kana' quando há kanji) no S.items de sempre (Caderno, Revisão, SRS).
+     A mesma palavra de outra área é unificada (nqSiblings, 10.0): nada duplica no Caderno nem na Revisão.
+   - Separação: nada aqui marca lição da Academia, da Listening Academy ou da Leitura como feita
+     (itemSource() devolve 'outro' para estes itens).
+   ========================================================== */
+const VC_CAT = { id: 'vc', title: 'Academia de Vocabulário' };
+const VC_PASS = 80;
+const VC_XP_DAY = 20;
+const VC_C = {}, VC_L = {}, VC_W = {};
+const VC_LESSONS = [];
+const vcHasKanji = s => /[一-鿿々]/.test(s || '');
+const vcHira = s => String(s || '').replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
+VOCAB_CATS.forEach((c, ci) => {
+  VC_C[c.id] = c; c.index = ci;
+  c.lessons.forEach((L, i) => {
+    Object.assign(L, { vcat: c, index: i, kind: 'vocab', vc: true, cat: VC_CAT, items: [] });
+    VC_L[L.id] = L; VC_LESSONS.push(L);
+    L.W = L.words.map(line => {
+      const [write, kana, ro, pt, pos, note, ej, er, ep] = line.split('|');
+      const jp = write || kana;
+      const id = 'vc:' + (write && write !== kana ? write + '・' + kana : kana);
+      const senses = pt.split(';').map(x => x.trim()).filter(Boolean);
+      const ex = ej ? { jp: ej, ro: er || '', pt: ep || '', say: vcHasKanji(ej) ? NQK.r2k(er) : ej } : null;
+      let it = ITEM[id];
+      if (!it) {
+        it = { k: id.slice(3), id, jp, write: write || '', kana, say: kana, ro, pt: senses.join(' / '), senses, pos: pos || '', tag: c.theme, note: note || '', ex, kanji: vcHasKanji(jp) ? jp : '', group: pos === 'expr' || pos === 'interj' ? 'expressao' : 'palavra', lesson: L };
+        ITEM[id] = it; L.items.push(it);
+      }
+      VC_W[id] = it;
+      return it;
+    });
+  });
+});
+
+/* ---------- estado ---------- */
+function defaultVocab() { return { v: 1, lessons: {}, exams: {}, opened: {}, listen: false, log: [], xp: { d: '', n: 0 }, news: 0 }; }
+function vcState() {
+  if (!isPlainObj(S.vocab)) S.vocab = defaultVocab();
+  const v = S.vocab;
+  ['lessons', 'exams', 'opened'].forEach(k => { if (!isPlainObj(v[k])) v[k] = {}; });
+  if (!Array.isArray(v.log)) v.log = [];
+  if (!isPlainObj(v.xp)) v.xp = { d: '', n: 0 };
+  return v;
+}
+const vcPassed = id => { const x = vcState().lessons[id]; return !!(x && x.passed); };
+const vcExamPassed = cid => { const x = vcState().exams[cid]; return !!(x && x.passed); };
+function vcLessonUnlocked(L) { return L.index === 0 || vcPassed(L.vcat.lessons[L.index - 1].id) || vcExamPassed(L.vcat.id); }
+function vcExamUnlocked(c) { return c.lessons.every(L => vcPassed(L.id)); }
+function vcCatProgress(c) { const d = c.lessons.filter(L => vcPassed(L.id)).length; return { done: d, total: c.lessons.length, exam: vcExamPassed(c.id), pct: Math.round((d + (vcExamPassed(c.id) ? 1 : 0)) / (c.lessons.length + 1) * 100) }; }
+/* palavras já apresentadas (podem ser cobradas e servir de alternativa): lições aprovadas + a atual */
+function vcKnown(cur) {
+  const out = [], seen = new Set();
+  const push = it => { if (!seen.has(it.id)) { seen.add(it.id); out.push(it); } };
+  if (cur) cur.W.forEach(push);
+  VC_LESSONS.forEach(L => { if (vcPassed(L.id) || vcExamPassed(L.vcat.id)) L.W.forEach(push); });
+  return out;
+}
+function vcStats() {
+  const total = new Set(VC_LESSONS.flatMap(L => L.W.map(w => w.id))).size;
+  const learned = new Set(VC_LESSONS.filter(L => vcPassed(L.id)).flatMap(L => L.W.map(w => w.id))).size;
+  return { total, learned, lessons: VC_LESSONS.filter(L => vcPassed(L.id)).length, cats: VOCAB_CATS.filter(c => vcExamPassed(c.id)).length };
+}
+function vcNext() {
+  for (const c of VOCAB_CATS) { const L = c.lessons.find(L => !vcPassed(L.id) && vcLessonUnlocked(L)); if (L && c.lessons.some(x => vcPassed(x.id) || vcState().opened[x.id])) return L; }
+  for (const c of VOCAB_CATS) { const L = c.lessons.find(L => !vcPassed(L.id) && vcLessonUnlocked(L)); if (L) return L; }
+  return null;
+}
+function vcXP(n) {
+  const v = vcState(), d = dayKey();
+  if (v.xp.d !== d) v.xp = { d, n: 0 };
+  const g = Math.max(0, Math.min(n, VC_XP_DAY - v.xp.n));
+  v.xp.n += g; if (g) addXP(g, true);
+  return g;
+}
+const vcPtMain = it => it.senses ? it.senses[0] : String(it.pt).split(/\s*[;/]\s*/)[0];
+
+/* ---------- áudio ---------- */
+function vcSay(text, slow, times = 1) {
+  if (!text) return Promise.resolve(false);
+  const opt = slow ? { rate: 0.6 } : {};
+  if (times <= 1) return speak(text, opt);
+  const my = ++AUDIO.token;
+  return (async () => {
+    for (let i = 0; i < times; i++) {
+      if (AUDIO.token !== my) return false;
+      AUDIO.token = my - 1;
+      const ok = await speak(text, opt);
+      if (!ok || AUDIO.token !== my) return false;
+      if (!window.__NQ_FAST) await new Promise(r => setTimeout(r, 450));
+    }
+    return true;
+  })();
+}
+const vcAudioBtns = (text, big) => AUDIO.supported && text ? `<div class="rd-audio">
+  <button class="btn ${big ? 'btn-primary' : 'btn-ghost'} btn-small" data-act="vcSay" data-text="${esc(text)}">${IC.sound.replace('<svg', '<svg width="18" height="18"')} Ouvir</button>
+  <button class="btn btn-ghost btn-small" data-act="vcSaySlow" data-text="${esc(text)}">Devagar</button>
+  <button class="btn btn-ghost btn-small" data-act="vcSay3" data-text="${esc(text)}">${IC.repeat.replace('<svg', '<svg width="16" height="16"')} 3×</button></div>` : '';
+const vcSnd = (text, label) => AUDIO.supported && text ? `<button class="icon-btn" data-act="vcSay" data-text="${esc(text)}" aria-label="${esc(label || 'Ouvir')}">${IC.sound}</button>` : '';
+
+/* ==========================================================
+   EXERCÍCIOS — q = { t, prompt, big, bigCls, ro, ctx, say, audio (ouvir sem ver), opts:[{t, sub, ok, jp}],
+   ans, explain, itemId, skill } · t: ouvir, ouvirjp, ver, pt2jp, ler, frase, parecidos, montar, pares
+   ========================================================== */
+function vcKanaDist(a, b) {
+  a = [...vcHira(a)]; b = [...vcHira(b)];
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+/* alternativas: mesma lição e mesma categoria primeiro; nunca o mesmo texto da resposta */
+function vcPick(w, pool, key, n = 3, near) {
+  const val = x => key === 'pt' ? vcPtMain(x) : x[key];
+  const seen = new Set([val(w)]), out = [];
+  let cands = shuffle(pool.filter(x => x !== w));
+  if (near) cands.sort((a, b) => vcKanaDist(a.kana, w.kana) - vcKanaDist(b.kana, w.kana));
+  else cands.sort((a, b) => (b.lesson === w.lesson) - (a.lesson === w.lesson) || (b.lesson.vcat === w.lesson.vcat) - (a.lesson.vcat === w.lesson.vcat));
+  for (const x of cands) { if (out.length >= n) break; const v = val(x); if (!v || seen.has(v) || (key === 'pt' && x.kana === w.kana && x.jp === w.jp)) continue; seen.add(v); out.push(x); }
+  return out;
+}
+const vcExplain = w => w.jp + (w.write && w.write !== w.kana ? ' (' + w.kana + ')' : '') + ' = ' + w.ro + ' — ' + w.pt + '.' + (w.note ? ' ' + w.note : '');
+const vcOptJp = (x, w) => ({ t: x.jp, sub: x.ro, ok: x === w, jp: true });
+const vcOptPt = (x, w) => ({ t: vcPtMain(x), ok: x === w });
+function vcMora(kana) { const out = []; for (const ch of String(kana)) { if (/[ゃゅょぁぃぅぇぉャュョァィゥェォー]/.test(ch) && out.length) out[out.length - 1] += ch; else out.push(ch); } return out; }
+function vcExampleHas(w) { return !!(w.ex && w.ex.jp && (w.ex.jp.includes(w.jp) || w.ex.jp.includes(w.kana))); }
+function vcQ(w, type, pool) {
+  const base = { itemId: w.id, explain: vcExplain(w), say: w.say, skill: 'vocabulario' };
+  const ptPool = pool.filter(x => vcPtMain(x) !== vcPtMain(w));
+  if (type === 'ouvir') return { ...base, t: 'ouvir', skill: 'audicao', audio: true, prompt: 'Ouça. O que significa?', opts: shuffle([w, ...vcPick(w, ptPool, 'pt')]).map(x => vcOptPt(x, w)), ans: vcPtMain(w) };
+  if (type === 'ouvirjp') return { ...base, t: 'ouvirjp', skill: 'audicao', audio: true, prompt: 'Ouça. Qual palavra foi dita?', opts: shuffle([w, ...vcPick(w, pool, 'jp')]).map(x => vcOptJp(x, w)), ans: w.jp + ' (' + w.ro + ')' };
+  if (type === 'parecidos') {
+    const d = vcPick(w, pool, 'kana', 3, true);
+    return { ...base, t: 'parecidos', skill: 'audicao', audio: true, tag: 'Sons parecidos', prompt: 'Preste atenção: qual destas você ouviu?', opts: shuffle([w, ...d]).map(x => ({ t: x.jp, sub: x.ro, ok: x === w, jp: true })), ans: w.jp + ' (' + w.ro + ')', explain: vcExplain(w) + (d[0] ? ' Compare: ' + d.map(x => x.jp + ' (' + x.ro + ')').join(', ') + '.' : '') };
+  }
+  if (type === 'pt2jp') return { ...base, t: 'pt2jp', prompt: 'Como se diz em japonês?', big: vcPtMain(w), bigCls: 'pt', opts: shuffle([w, ...vcPick(w, pool, 'jp')]).map(x => vcOptJp(x, w)), ans: w.jp + ' (' + w.ro + ')' };
+  if (type === 'ler') return { ...base, t: 'ler', skill: 'leitura', prompt: 'Como se lê esta palavra?', big: w.jp, noRo: true, opts: shuffle([w, ...vcPick(w, pool, 'ro')]).map(x => ({ t: x.ro, ok: x === w })), ans: w.ro, grid: true };
+  if (type === 'frase' && vcExampleHas(w)) {
+    const key = w.ex.jp.includes(w.jp) ? w.jp : w.kana;
+    return { ...base, t: 'frase', tag: 'Na frase', prompt: 'Qual palavra completa a frase?', big: w.ex.jp.replace(key, '＿＿'), bigCls: 'fill', ctx: w.ex.pt, sayAfter: w.ex.say, opts: shuffle([w, ...vcPick(w, pool, 'jp')]).map(x => vcOptJp(x, w)), ans: w.jp + ' (' + w.ro + ')', explain: w.ex.jp + ' (' + w.ex.ro + ') = ' + w.ex.pt };
+  }
+  if (type === 'montar') {
+    const tiles = vcMora(w.kana);
+    if (tiles.length >= 2 && tiles.length <= 5 && /^[ぁ-ゖァ-ヺー]+$/.test(w.kana)) {
+      const extra = shuffle(pool.filter(x => x !== w).flatMap(x => vcMora(x.kana)).filter(m => !tiles.includes(m) && /^[ぁ-ゖァ-ヺー]+$/.test(m))).slice(0, 2);
+      return { ...base, t: 'montar', tag: 'Monte a palavra', prompt: 'Ouça e monte a palavra em kana', ctx: vcPtMain(w), tiles, bank: shuffle(tiles.concat(extra)).map(t => ({ t })), ans: w.kana + ' (' + w.ro + ')' };
+    }
+  }
+  // ver: japonês → português
+  return { ...base, t: 'ver', prompt: 'O que significa?', big: w.jp, ro: w.ro, opts: shuffle([w, ...vcPick(w, ptPool, 'pt')]).map(x => vcOptPt(x, w)), ans: vcPtMain(w) };
+}
+function vcPairs(ws) {
+  ws = ws.slice(0, 4);
+  return { t: 'pares', prompt: 'Ligue cada palavra ao significado', items: ws.map(w => w.id), L: shuffle(ws.map((w, i) => ({ i, t: w.jp, sub: w.ro }))), R: shuffle(ws.map((w, i) => ({ i, t: vcPtMain(w) }))), ans: ws.map(w => w.jp + ' = ' + vcPtMain(w)).join(' · '), explain: '', skill: 'vocabulario' };
+}
+const VC_TYPES = ['ouvir', 'ver', 'ouvirjp', 'pt2jp', 'frase', 'ler', 'parecidos', 'montar'];
+function vcBuild(words, pool, n) {
+  const ws = shuffle(words).slice(0, n);
+  let types = shuffle(VC_TYPES);
+  if (!AUDIO.supported) types = types.filter(t => !['ouvir', 'ouvirjp', 'parecidos', 'montar'].includes(t));
+  const qs = ws.map((w, i) => {
+    let t = types[i % types.length];
+    if (t === 'frase' && !vcExampleHas(w)) t = AUDIO.supported ? 'ouvir' : 'ver';
+    if (t === 'ler' && w.ro.length < 3) t = 'ver';
+    return vcQ(w, t, pool);
+  });
+  if (words.length >= 4) qs.splice(Math.min(3, qs.length), 0, vcPairs(shuffle(words)));
+  return qs;
+}
+function vcBuildLesson(L) { return vcBuild(L.W, vcKnown(L), Math.min(9, L.W.length)); }
+function vcBuildExam(c) { const ws = c.lessons.flatMap(L => L.W); return vcBuild(ws, vcKnown(null).concat(ws), 12); }
+/* revisão: palavras da Academia de Vocabulário já vistas, primeiro as que você erra e as atrasadas */
+function vcReviewIds() {
+  const now = Date.now();
+  return seenItems().filter(id => id.startsWith('vc:')).sort((a, b) => {
+    const ra = S.items[a], rb = S.items[b], sc = r => (r.lastOk === false ? 100 : 0) + (r.w || 0) * 5 + (r.c + r.w > 0 && r.due <= now ? 20 : 0) - (r.box || 0) * 3;
+    return sc(rb) - sc(ra) + (Math.random() - .5);
+  });
+}
+function vcBuildReview() { const ws = vcReviewIds().slice(0, 10).map(id => ITEM[id]); return ws.length < 3 ? [] : vcBuild(ws, vcKnown(null).concat(ws), 10); }
+
+/* ==========================================================
+   TELAS
+   ========================================================== */
+const VCUI = { cat: null };
+function vcLessonRow(L) {
+  const done = vcPassed(L.id), open = vcLessonUnlocked(L), rec = vcState().lessons[L.id];
+  return `<button class="rd-lrow ${done ? 'done' : ''} ${open ? '' : 'locked'}" data-act="vcLesson" data-id="${L.id}" ${open ? '' : 'aria-disabled="true"'}><span class="rd-lem jp">${esc(L.W[0].jp.length <= 2 ? L.W[0].jp : L.vcat.emblem)}</span><span class="grow"><b>${esc(L.title)}</b><small>${L.W.length} palavras · ${esc(L.W.slice(0, 3).map(w => w.jp).join('、'))}…</small></span><span class="rd-lst">${done ? '✓' + (rec && rec.best != null ? ' ' + rec.best + '%' : '') : open ? '›' : IC.lock}</span></button>`;
+}
+function viewVocabCat(c) {
+  const p = vcCatProgress(c), eo = vcExamUnlocked(c), ep = vcExamPassed(c.id);
+  return `<div class="wrap vc-wrap"><div class="page-title"><div style="min-width:0"><button class="link-btn" style="padding:0" data-act="vcCat" data-id="">← Todas as categorias</button><span class="jp" style="display:block">${esc(c.jp)}</span><h1>${esc(c.title)}</h1></div></div>
+    <p class="muted" style="margin:0">${esc(c.desc)}</p>
+    <div class="rd-stage" style="--sc:${c.color};margin-top:12px"><div class="rd-stbody" style="padding-top:12px">
+      <span class="rd-stbar" style="margin:0 2px 4px"><i style="width:${p.pct}%"></i></span>
+      <p class="muted tabnum" style="margin:0 2px 4px;font-size:.85rem">${p.done} de ${p.total} lições${ep ? ' · avaliação aprovada' : ''}</p>
+      ${c.lessons.map(vcLessonRow).join('')}
+      <button class="rd-exam ${ep ? 'done' : ''}" data-act="vcExam" data-id="${c.id}" ${eo || ep ? '' : 'aria-disabled="true"'}><span class="rd-lem jp">試</span><span class="grow" style="text-align:left"><b>Avaliação da categoria</b><small>${ep ? 'Aprovada · ' + (vcState().exams[c.id].best || 0) + '%' : eo ? 'Todas as palavras da categoria · mínimo ' + VC_PASS + '%' : 'Conclua todas as lições para liberar'}</small></span><span class="rd-lst">${ep ? '✓' : eo ? '›' : IC.lock}</span></button>
+    </div></div>
+    <div class="vc-links"><button class="btn btn-ghost btn-small" data-act="dictTheme" data-t="${esc(c.theme)}"><span class="jp" style="font-weight:800">辞</span> Ver no Dicionário</button><button class="btn btn-ghost btn-small" data-act="vcReview">${IC.repeat.replace('<svg', '<svg width="16" height="16"')} Revisar palavras</button></div></div>`;
+}
+function viewVocab() {
+  vcState();
+  if (VCUI.cat && VC_C[VCUI.cat]) return viewVocabCat(VC_C[VCUI.cat]);
+  const st = vcStats(), nx = vcNext(), rv = vcReviewIds().length;
+  const cards = VOCAB_CATS.map(c => {
+    const p = vcCatProgress(c), complete = p.done === p.total;
+    return `<button class="vc-cat ${complete ? 'done' : ''}" style="--sc:${c.color}" data-act="vcCat" data-id="${c.id}"><span class="vc-cem jp">${esc(c.emblem)}</span><span class="vc-ct">${esc(c.title)}</span><span class="vc-cs tabnum">${complete ? (p.exam ? '✓ concluída' : '✓ lições feitas') : p.done + '/' + p.total + ' lições'}</span><span class="rd-stbar"><i style="width:${p.pct}%"></i></span></button>`;
+  }).join('');
+  return `<div class="wrap vc-wrap"><div class="page-title"><div><span class="jp">たんご</span><h1>Academia de Vocabulário</h1></div></div>
+    <div class="vc-hero"><div class="vc-hero-in"><span class="vc-hero-ic jp">語</span><div style="min-width:0"><b>${st.learned} de ${st.total} palavras aprendidas</b><small>${VOCAB_CATS.length} categorias · lições de 5 a 10 palavras · descobrir, escutar, entender, praticar e revisar</small></div></div>
+      ${nx ? `<button class="btn btn-gold btn-block" data-act="vcLesson" data-id="${nx.id}">${vcState().opened[nx.id] ? 'Continuar' : 'Começar'}: ${esc(nx.vcat.title)} · ${esc(nx.title)}</button>` : '<p style="margin:0">Você concluiu todas as lições! Revise para manter as palavras vivas.</p>'}</div>
+    <div class="vc-links"><button class="btn btn-ghost btn-small" data-act="vcReview" ${rv >= 3 ? '' : 'disabled'}>${IC.repeat.replace('<svg', '<svg width="16" height="16"')} Revisar${rv ? ' (' + rv + ')' : ''}</button><button class="btn btn-ghost btn-small" data-act="gotoDict"><span class="jp" style="font-weight:800">辞</span> Dicionário</button><button class="btn btn-ghost btn-small" data-act="dictTheme" data-t="particulas"><span class="jp" style="font-weight:800">は</span> Partículas</button><button class="btn btn-ghost btn-small" data-act="nav" data-view="caderno"><span class="jp" style="font-weight:800">帳</span> Caderno</button></div>
+    <div class="vc-opts"><button class="filter ${vcState().listen ? 'on' : ''}" data-act="vcListen" aria-pressed="${vcState().listen}">${IC.headphones.replace('<svg', '<svg width="16" height="16"')} Ouvir primeiro</button><span class="muted" style="font-size:.8rem">${vcState().listen ? 'A escrita e a tradução aparecem depois que você ouve.' : 'Ative para ouvir cada palavra antes de ver a escrita.'}</span></div>
+    <div class="vc-grid">${cards}</div>
+    <p class="muted" style="margin:14px 2px 0;font-size:.82rem">Todas as categorias estão abertas: escolha por onde começar. Dentro de cada categoria, as lições abrem em ordem. As palavras estudadas entram no Caderno, na Revisão e no Adventure Mode.</p></div>`;
+}
+
+/* ---------- painel da lição (usa o mesmo layout da Leitura) ---------- */
+let VV = null;
+function vcOpenPane() { stopAudio(); closeModal(); $('#player').hidden = false; document.body.style.overflow = 'hidden'; }
+function vcClose() { stopAudio(); VV = null; $('#player').hidden = true; $('#player').innerHTML = ''; document.body.style.overflow = ''; render(); setTimeout(flushPending, 200); }
+function vcStartLesson(id, toQuiz) {
+  const L = VC_L[id]; if (!L) return;
+  if (!vcLessonUnlocked(L)) { toast('鍵', 'Conclua antes a lição anterior desta categoria.'); return; }
+  const v = vcState(); if (!v.opened[L.id]) { v.opened[L.id] = Date.now(); save(); }
+  vcOpenPane();
+  VV = { kind: 'lesson', L, c: L.vcat, cards: [{ k: 'intro' }].concat(L.W.map(w => ({ k: 'word', w })), [{ k: 'listen' }]), ci: 0, heard: {}, rev: {}, mode: 'learn' };
+  if (toQuiz) vcBeginQuiz(); else vcRender();
+}
+function vcStartQuiz(kind, title, qs, extra) {
+  if (!qs.length) { toast('!', 'Estude algumas palavras primeiro: a revisão usa só o que você já viu.'); return; }
+  vcOpenPane();
+  VV = Object.assign({ kind, title, L: null, mode: 'quiz', qs, qi: 0, sel: null, answered: false, score: 0, wrong: [], heard: {}, rev: {}, built: [], pairs: null }, extra || {});
+  vcRender();
+}
+function vcBeginQuiz() { Object.assign(VV, { mode: 'quiz', qs: vcBuildLesson(VV.L), gain: 0, qi: 0, sel: null, answered: false, score: 0, wrong: [], built: [], pairs: null, _spoke: false }); vcRender(); }
+function vcHeadHTML() {
+  const c = VV.c, title = VV.L ? VV.L.title : VV.title;
+  const prog = VV.mode === 'learn' ? (VV.ci + 1) / VV.cards.length : VV.mode === 'quiz' ? VV.qi / VV.qs.length : 1;
+  const stage = VV.mode === 'learn' ? (VV.cards[VV.ci].k === 'listen' ? 'Escutar' : VV.cards[VV.ci].k === 'intro' ? 'Lição' : 'Descobrir') : VV.mode === 'quiz' ? (VV.kind === 'lesson' ? 'Praticar' : VV.kind === 'exam' ? 'Avaliação' : 'Revisão') : 'Resultado';
+  return `<header class="rd-head" style="--sc:${c ? c.color : '#3553d1'}"><button class="icon-btn" data-act="vcClose" aria-label="Sair">${IC.back}</button>
+    <div class="grow" style="min-width:0"><small class="eyebrow">${esc(c ? c.title : 'Academia de Vocabulário')} · ${stage}</small><b class="rd-htitle">${esc(title)}</b>
+    <span class="rd-hbar"><i style="width:${Math.round(prog * 100)}%"></i></span></div></header>`;
+}
+function vcNeedListen(key, say) { return vcState().listen && say && AUDIO.supported && !audioBlocked() && !VV.heard[key]; }
+const vcGate = (key, say) => `<button class="rd-gate" data-act="vcHear" data-k="${esc(key)}" data-text="${esc(say)}">${IC.headphones.replace('<svg', '<svg width="28" height="28"')}<b>Ouça primeiro</b><small>Toque para ouvir; depois a palavra aparece.</small></button>`;
+function vcRoLine(ro, key) { return S.settings.romaji || VV.rev[key] ? `<span class="rd-ro">${esc(ro)}</span>` : `<button class="rd-reveal" data-act="vcRev" data-k="${esc(key)}">Mostrar romaji</button>`; }
+function vcCardHTML(card, i) {
+  const L = VV.L;
+  if (card.k === 'intro') return `<div class="card rd-card"><span class="rd-cem jp" style="color:${L.vcat.color}">${esc(L.vcat.emblem)}</span><h2>${esc(L.title)}</h2>
+    <p>${L.W.length} palavras de <b>${esc(L.vcat.title)}</b>. Para cada uma: ouça, veja a escrita e o significado e, quando houver, um exemplo. Depois, escute todas sem ler e pratique.</p>
+    <div class="vc-chips">${L.W.map(w => `<span class="chip nova jp">${esc(w.jp)}</span>`).join('')}</div>
+    <div class="rd-tip"><b>Dica</b> Toque em “Devagar” para ouvir cada som com calma. Repetir em voz alta ajuda a memorizar.</div>
+    <p class="muted" style="margin:0;font-size:.85rem">Aprovação com ${VC_PASS}% de acertos. As palavras já entram no Caderno e na Revisão enquanto você estuda.</p></div>`;
+  if (card.k === 'word') {
+    const w = card.w, key = 'w' + i;
+    markSeen(w.id);
+    const gate = vcNeedListen(key, w.say);
+    const head = gate ? vcGate(key, w.say) : `<div class="rd-big jp word">${esc(w.jp)}</div>${w.write && w.write !== w.kana ? `<span class="jp vc-kana">${esc(w.kana)}</span>` : ''}${vcRoLine(w.ro, key)}`;
+    return `<div class="card rd-card"><div class="vc-tags">${w.pos ? `<span class="chip nova">${esc(VOCAB_POS[w.pos] || w.pos)}</span>` : ''}<span class="chip" style="background:color-mix(in srgb, ${L.vcat.color} 16%, var(--surface));color:var(--text)">${esc(L.vcat.title)}</span></div>
+      <div class="rd-charbox">${head}</div>${vcAudioBtns(w.say, true)}
+      ${gate ? '' : `<div class="rd-sec"><span class="eyebrow">${w.senses.length > 1 ? 'Significados' : 'Significado'}</span>${w.senses.length > 1 ? `<ol class="vc-senses">${w.senses.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : `<p class="vc-pt">${esc(w.senses[0])}</p>`}</div>
+      ${w.note ? `<div class="rd-tip"><b>Entenda</b> ${esc(w.note)}</div>` : ''}
+      ${w.ex ? `<div class="rd-sec"><span class="eyebrow">Exemplo</span><div class="vc-ex"><div class="vc-ex-top"><span class="jp vc-ex-jp">${esc(w.ex.jp)}</span>${vcSnd(w.ex.say, 'Ouvir o exemplo')}</div>${vcRoLine(w.ex.ro, key + 'e')}<span>${esc(w.ex.pt)}</span></div></div>` : ''}`}
+      <div class="rd-btns"><button class="btn btn-ghost btn-small" data-act="vcDict" data-id="${esc(w.id)}"><span class="jp" style="font-weight:800">辞</span> Dicionário</button><span class="btn btn-ghost btn-small d-done" aria-disabled="true">✓ No Caderno</span></div></div>`;
+  }
+  if (card.k === 'listen') {
+    const showJp = !!VV.rev.allJp, showPt = !!VV.rev.allPt;
+    return `<div class="card rd-card"><h2>Escute sem ler</h2><p class="muted">Toque em cada número para ouvir. Tente lembrar a palavra e o significado antes de revelar.</p>
+      ${AUDIO.supported ? `<button class="btn btn-primary btn-small" style="align-self:flex-start" data-act="vcPlayAll">${IC.play.replace('<svg', '<svg width="16" height="16"')} Ouvir todas</button>` : ''}
+      <div class="filters" role="group" aria-label="Mostrar"><button class="filter ${showJp ? 'on' : ''}" data-act="vcRev" data-k="allJp">Mostrar escrita</button><button class="filter ${showPt ? 'on' : ''}" data-act="vcRev" data-k="allPt">Mostrar tradução</button></div>
+      <div class="vc-listen">${L.W.map((w, j) => { const r = VV.rev['l' + j]; return `<div class="vc-lrow"><button class="vc-num" data-act="vcSay" data-text="${esc(w.say)}" aria-label="Ouvir palavra ${j + 1}">${j + 1}</button><div class="grow" style="min-width:0">${showJp || r ? `<span class="jp vc-ljp">${esc(w.jp)}</span> <span class="muted" style="font-size:.85rem">${esc(w.ro)}</span>` : '<span class="muted">• • •</span>'}${showPt || r ? `<small class="rd-wpt">${esc(vcPtMain(w))}</small>` : ''}</div>${!(showJp && showPt) && !r ? `<button class="rd-reveal" data-act="vcRev" data-k="l${j}">Revelar</button>` : ''}</div>`; }).join('')}</div></div>`;
+  }
+  return '';
+}
+function vcQHTML() {
+  const q = VV.qs[VV.qi], key = 'q' + VV.qi;
+  let h = `<div class="rd-q"><span class="mode-tag">${VV.kind === 'exam' ? 'Avaliação' : VV.kind === 'lesson' ? 'Praticar' : 'Revisão'}${q.tag ? ' · ' + esc(q.tag) : ''}</span><div class="q-prompt">${esc(q.prompt)}</div>`;
+  if (q.audio || q.t === 'montar') h += `<div class="rd-listen"><button class="play-big" data-act="vcQSay" aria-label="Ouvir">${IC.play}<span>Ouvir</span></button><div class="audio-ctrls"><button class="btn btn-ghost btn-small" data-act="vcQSay">${IC.repeat.replace('<svg', '<svg width="18" height="18"')} Repetir</button><button class="btn btn-ghost btn-small" data-act="vcQSlow">Devagar</button></div></div>`;
+  if (q.big) {
+    const roShown = q.ro && !q.noRo && (S.settings.romaji || VV.rev[key] || VV.answered);
+    h += `<div class="q-card"><span class="${q.bigCls === 'fill' ? 'fill-sentence jp' : 'rd-qbig ' + (q.bigCls || '') + (q.bigCls === 'pt' ? '' : ' jp')}">${esc(q.big)}</span>${roShown ? `<span class="ro">${esc(q.ro)}</span>` : q.ro && !q.noRo ? `<button class="rd-reveal" data-act="vcRev" data-k="${key}">Mostrar romaji</button>` : ''}${q.ctx ? `<span class="ctx">${esc(q.ctx)}</span>` : ''}${(q.bigCls !== 'pt' && q.bigCls !== 'fill' && q.t !== 'ler') || VV.answered ? vcSnd(VV.answered && q.sayAfter ? q.sayAfter : q.say) : ''}</div>`;
+  } else if (q.ctx && q.t !== 'montar') h += `<div class="q-card"><span class="ctx">${esc(q.ctx)}</span></div>`;
+  if (q.t === 'montar') {
+    h += `<div class="q-card"><span class="ctx">Significado</span><b style="font-size:1.15rem">${esc(q.ctx)}</b></div>`;
+    h += `<div class="answer-line ${VV.built.length ? '' : 'empty'}">${VV.built.map(i => `<button class="tile" data-act="vcUnbuild" data-i="${i}" ${VV.answered ? 'disabled' : ''}><span class="t-jp kana">${esc(q.bank[i].t)}</span></button>`).join('')}</div><div class="bank">${q.bank.map((b, i) => `<button class="tile ${VV.built.includes(i) ? 'used' : ''}" data-act="vcBuild" data-i="${i}" ${VV.answered || VV.built.includes(i) ? 'disabled' : ''}><span class="t-jp kana">${esc(b.t)}</span></button>`).join('')}</div>`;
+  } else if (q.t === 'pares') {
+    const M = VV.pairs || (VV.pairs = { l: null, r: null, done: [], miss: new Set() });
+    const col = (arr, side) => arr.map(o => { const d = M.done.includes(o.i), s = M[side] === o.i; return `<button class="opt ${d ? 'right gone' : s ? 'sel' : ''}" data-act="vcPair" data-side="${side}" data-i="${o.i}" ${d || VV.answered ? 'disabled' : ''}><span class="${side === 'l' ? 'o-jp' : ''}">${esc(o.t)}</span>${side === 'l' && o.sub && S.settings.romaji ? `<span class="o-ro">${esc(o.sub)}</span>` : ''}</button>`; }).join('');
+    h += `<div class="match"><div class="col">${col(q.L, 'l')}</div><div class="col">${col(q.R, 'r')}</div></div>`;
+  } else {
+    h += `<div class="opts ${q.grid ? 'grid' : ''}">${q.opts.map((o, i) => { let cls = 'opt'; if (VV.answered) { if (o.ok) cls += ' right'; else if (i === VV.sel) cls += ' wrong'; } else if (i === VV.sel) cls += ' sel'; return `<button class="${cls}" data-act="vcOpt" data-i="${i}" ${VV.answered ? 'disabled' : ''}>${o.jp ? `<span class="o-jp">${esc(o.t)}</span>` : `<span>${esc(o.t)}</span>`}${o.sub && (S.settings.romaji && !q.audio || VV.answered) ? `<span class="o-ro">${esc(o.sub)}</span>` : ''}</button>`; }).join('')}</div>`;
+  }
+  return h + '</div>';
+}
+function vcFootHTML() {
+  if (VV.mode === 'learn') {
+    const last = VV.ci >= VV.cards.length - 1;
+    return `<div class="rd-nav">${VV.ci > 0 ? '<button class="btn btn-ghost" data-act="vcPrev">Anterior</button>' : '<span></span>'}${last ? '<button class="btn btn-gold" data-act="vcQuiz">Praticar</button>' : '<button class="btn btn-primary" data-act="vcNext">Próximo</button>'}</div>`;
+  }
+  if (VV.mode === 'quiz') {
+    const q = VV.qs[VV.qi];
+    if (q.t === 'pares' && !VV.answered) return `<p class="muted" style="margin:0;text-align:center">Toque em um item de cada coluna para formar o par.</p>`;
+    if (!VV.answered) return `<button class="btn btn-primary btn-block" data-act="vcCheck" ${(q.t === 'montar' ? VV.built.length : VV.sel !== null) ? '' : 'disabled'}>Verificar</button>`;
+    return `<div class="fb ${VV.lastOk ? 'ok' : 'bad'}">${mascot(VV.lastOk ? 'happy' : 'sad', 50, 'hop')}<div class="fb-text"><h3>${VV.lastOk ? pick(['Isso!', 'Muito bem!', 'Certo!', 'すごい！']) : 'Quase!'}</h3>${!VV.lastOk ? `<p class="answer">Resposta certa: ${esc(q.ans)}</p>` : ''}<p>${esc(q.explain || '')}</p></div></div><button class="btn ${VV.lastOk ? 'btn-ok' : 'btn-bad'} btn-block" data-act="vcNextQ">Continuar</button>`;
+  }
+  return '';
+}
+function vcResultHTML() {
+  const pct = VV.pct, passed = VV.passed, needs = VV.kind === 'lesson' || VV.kind === 'exam';
+  const title = VV.kind === 'lesson' ? (passed ? 'Lição concluída!' : 'Quase lá!') : VV.kind === 'exam' ? (passed ? 'Categoria dominada!' : 'Ainda não foi desta vez') : 'Revisão concluída';
+  return `<div class="rd-result">${mascot(passed || !needs ? 'happy' : 'sad', 96)}<h2>${title}</h2>
+    <div class="rd-score tabnum">${pct}%</div><p class="muted" style="margin:0">${VV.score} de ${VV.qs.length} certas${needs ? ' · mínimo ' + VC_PASS + '%' : ''}</p>
+    ${VV.gain ? `<p class="rd-xp">+${VV.gain} XP</p>` : needs && passed ? '<p class="muted" style="margin:0">O XP desta etapa já foi ganho na primeira aprovação.</p>' : ''}
+    ${VV.msg ? `<p>${esc(VV.msg)}</p>` : ''}
+    ${VV.wrong.length ? `<div class="card rd-wrongs"><span class="eyebrow">Para rever (já estão na Revisão)</span>${VV.wrong.slice(0, 6).map(q => `<p><b>${esc(q.ans)}</b><br><span class="muted">${esc(q.explain || '')}</span></p>`).join('')}</div>` : ''}
+    <div class="rd-btns">${VV.kind === 'lesson' ? `<button class="btn btn-ghost" data-act="vcRedo">Rever as palavras</button><button class="btn ${passed ? 'btn-ghost' : 'btn-gold'}" data-act="vcRetry">${passed ? 'Praticar de novo' : 'Tentar de novo'}</button>` : `<button class="btn btn-ghost" data-act="vcRetry">${VV.kind === 'exam' ? 'Refazer' : 'Mais uma revisão'}</button>`}
+    ${VV.next ? `<button class="btn btn-primary" data-act="vcLesson" data-id="${VV.next.id}">Próxima: ${esc(VV.next.title)}</button>` : VV.examNext ? `<button class="btn btn-primary" data-act="vcExam" data-id="${VV.examNext.id}">Fazer a avaliação da categoria</button>` : ''}<button class="btn ${VV.next || VV.examNext ? 'btn-ghost' : 'btn-primary'}" data-act="vcClose">Voltar</button></div></div>`;
+}
+function vcRender() {
+  if (!VV) return;
+  let body = VV.mode === 'learn' ? vcCardHTML(VV.cards[VV.ci], VV.ci) : VV.mode === 'quiz' ? vcQHTML() : vcResultHTML();
+  $('#player').innerHTML = `<div class="rd-pane vc-pane">${vcHeadHTML()}<div class="rd-body" id="vcBody">${body}</div>${VV.mode === 'result' ? '' : `<footer class="rd-foot">${vcFootHTML()}</footer>`}</div>`;
+  if (!VV.keep) { const b = $('#vcBody'); if (b) b.scrollTop = 0; } VV.keep = false;
+  if (S.settings.sound !== false && AUDIO.supported && !audioBlocked() && !VV._spoke) {
+    VV._spoke = true;
+    if (VV.mode === 'quiz' && !VV.answered) { const q = VV.qs[VV.qi]; if (q.audio || q.t === 'montar') setTimeout(() => vcSay(q.say), 150); }
+    if (VV.mode === 'learn' && !vcState().listen) { const c = VV.cards[VV.ci]; if (c.k === 'word') setTimeout(() => vcSay(c.w.say), 150); }
+  }
+}
+function vcAnswer(ok) {
+  const q = VV.qs[VV.qi];
+  VV.answered = true; VV.lastOk = ok;
+  if (ok) VV.score++; else VV.wrong.push(q);
+  if (q.t === 'pares') q.items.forEach((id, i) => recordAnswer(id, !VV.pairs.miss.has(i), 'vocab', 'vocabulario'));
+  else recordAnswer(q.itemId, ok, 'vocab', q.skill || 'vocabulario');
+  sfx(ok ? 'ok' : 'bad');
+  if (VV.kind === 'review' && ok) VV.gain = (VV.gain || 0) + vcXP(1);
+  vcRender();
+}
+function vcCheck() {
+  const q = VV.qs[VV.qi]; if (VV.answered) return;
+  if (q.t === 'montar') { if (!VV.built.length) return; vcAnswer(VV.built.map(i => q.bank[i].t).join('') === q.tiles.join('')); }
+  else { if (VV.sel === null) return; vcAnswer(!!q.opts[VV.sel].ok); }
+}
+function vcFinish() {
+  const v = vcState();
+  const pct = VV.qs.length ? Math.round(VV.score / VV.qs.length * 100) : 0;
+  Object.assign(VV, { pct, passed: pct >= VC_PASS, mode: 'result', gain: VV.gain || 0, msg: '', next: null, examNext: null });
+  touchStudy();
+  if (VV.kind === 'lesson') {
+    const L = VV.L, rec = v.lessons[L.id] || (v.lessons[L.id] = { passed: false, best: 0, attempts: 0 });
+    const first = VV.passed && !rec.passed;
+    rec.attempts++; rec.best = Math.max(rec.best || 0, pct); rec.last = Date.now();
+    if (VV.passed) {
+      rec.passed = true; if (!rec.at) rec.at = Date.now();
+      L.W.forEach(w => markSeen(w.id));
+      const nx = L.vcat.lessons[L.index + 1]; VV.next = nx || null;
+      if (!nx) { VV.msg = 'Você concluiu todas as lições de ' + L.vcat.title + '. A avaliação da categoria está liberada.'; if (!vcExamPassed(L.vcat.id)) VV.examNext = L.vcat; }
+    } else VV.msg = 'Reveja as palavras e tente de novo. As que você errou já estão na Revisão.';
+    if (first) { VV.gain = 15 + (pct === 100 ? 5 : 0); addXP(VV.gain); addCoins(3); }
+    v.log.unshift({ t: Date.now(), id: L.id, pct, ok: VV.passed });
+  } else if (VV.kind === 'exam') {
+    const c = VV.c, rec = v.exams[c.id] || (v.exams[c.id] = { passed: false, best: 0, attempts: 0 });
+    const first = VV.passed && !rec.passed;
+    rec.attempts++; rec.best = Math.max(rec.best || 0, pct); rec.last = Date.now();
+    if (VV.passed) { rec.passed = true; if (!rec.at) rec.at = Date.now(); VV.msg = 'Todas as palavras de ' + c.title + ' estão na sua Revisão. Volte de vez em quando para mantê-las vivas.'; }
+    else VV.msg = 'Revise as lições desta categoria e tente de novo quando quiser.';
+    if (first) { VV.gain = 30; addXP(30); addCoins(10); }
+    v.log.unshift({ t: Date.now(), id: 'prova:' + c.id, pct, ok: VV.passed });
+  } else v.log.unshift({ t: Date.now(), id: 'revisao', pct, ok: true });
+  v.log = v.log.slice(0, 40);
+  if (VV.passed || !['lesson', 'exam'].includes(VV.kind)) { try { if (typeof confetti === 'function' && (VV.passed)) confetti(); } catch (e) {} }
+  save(); checkAchievements();
+  vcRender();
+}
+function vcStartExam(cid) {
+  const c = VC_C[cid]; if (!c) return;
+  if (!vcExamUnlocked(c) && !vcExamPassed(c.id)) { toast('鍵', 'Conclua todas as lições desta categoria primeiro.'); return; }
+  vcStartQuiz('exam', 'Avaliação: ' + c.title, vcBuildExam(c), { c });
+}
+function vcStartReview() { vcStartQuiz('review', 'Revisão de vocabulário', vcBuildReview(), { c: null }); }
+
+Object.assign(ACT, {
+  vcCat: el => { VCUI.cat = el.dataset.id || null; S.settings.academyMode = 'vc'; if (view !== 'academia') go('academia'); else render(); window.scrollTo(0, 0); },
+  vcLesson: el => vcStartLesson(el.dataset.id),
+  vcExam: el => vcStartExam(el.dataset.id),
+  vcReview: () => vcStartReview(),
+  vcListen: () => { const v = vcState(); v.listen = !v.listen; save(); render(); },
+  vcClose: () => vcClose(),
+  vcNext: () => { if (VV.ci < VV.cards.length - 1) { VV.ci++; VV._spoke = false; vcRender(); } },
+  vcPrev: () => { if (VV.ci > 0) { VV.ci--; VV._spoke = true; vcRender(); } },
+  vcQuiz: () => vcBeginQuiz(),
+  vcRedo: () => { if (!VV.L) return; vcStartLesson(VV.L.id); },
+  vcRetry: () => { if (VV.kind === 'lesson') vcBeginQuiz(); else if (VV.kind === 'exam') vcStartExam(VV.c.id); else vcStartReview(); },
+  vcSay: el => vcSay(el.dataset.text),
+  vcSaySlow: el => vcSay(el.dataset.text, true),
+  vcSay3: el => vcSay(el.dataset.text, false, 3),
+  vcHear: el => { VV.heard[el.dataset.k] = true; vcSay(el.dataset.text); VV.keep = true; vcRender(); },
+  vcRev: el => { VV.rev[el.dataset.k] = !VV.rev[el.dataset.k]; VV.keep = true; vcRender(); },
+  vcPlayAll: () => { if (VV && VV.L) speakSeq(VV.L.W.map(w => ({ say: w.say, jp: w.jp }))); },
+  vcDict: el => { const it = VC_W[el.dataset.id]; if (!it) return; dictBuild(); const e = DICT.list.find(x => x.items.includes(it.id)); if (e) dictOpen(e); else dictOpenWord(it.write || it.kana); },
+  vcQSay: () => { const q = VV.qs[VV.qi]; vcSay(q.say); },
+  vcQSlow: () => { const q = VV.qs[VV.qi]; vcSay(q.say, true); },
+  vcOpt: el => { if (VV.answered) return; VV.sel = +el.dataset.i; VV.keep = true; vcRender(); },
+  vcBuild: el => { if (VV.answered) return; const i = +el.dataset.i; if (!VV.built.includes(i)) VV.built.push(i); VV.keep = true; vcRender(); },
+  vcUnbuild: el => { if (VV.answered) return; VV.built = VV.built.filter(i => i !== +el.dataset.i); VV.keep = true; vcRender(); },
+  vcPair: el => {
+    const q = VV.qs[VV.qi], M = VV.pairs; if (VV.answered || !M) return;
+    const side = el.dataset.side, i = +el.dataset.i; M[side] = i;
+    if (M.l != null && M.r != null) {
+      if (M.l === M.r) { M.done.push(M.l); sfx('ok'); } else { M.miss.add(M.l); M.miss.add(M.r); sfx('bad'); }
+      M.l = M.r = null;
+      if (M.done.length === q.items.length) return vcAnswer(M.miss.size === 0);
+    }
+    VV.keep = true; vcRender();
+  },
+  vcCheck: () => vcCheck(),
+  vcNextQ: () => { stopAudio(); VV.qi++; VV.sel = null; VV.answered = false; VV.built = []; VV.pairs = null; VV._spoke = false; if (VV.qi >= VV.qs.length) vcFinish(); else vcRender(); },
+  gotoVocab: () => { VCUI.cat = null; S.settings.academyMode = 'vc'; go('academia'); }
+});
+
+/* ---------- integrações com as telas existentes ---------- */
+/* Academia: quinta aba “Palavras” (Academia · Palavras · Listening · Leitura · Treinos) */
+const _vcAcadRoot = viewAcademyRoot;
+viewAcademyRoot = function () {
+  const mode = ['aud', 'la', 'rd', 'vc'].includes(S.settings.academyMode) ? S.settings.academyMode : 'trad';
+  const b = (m, ic, txt) => `<button role="tab" aria-selected="${mode === m}" class="${mode === m ? 'on' : ''}" data-act="acadMode" data-mode="${m}">${ic}<span>${txt}</span></button>`;
+  const sw = `<div class="wrap"><div class="mode-switch five" role="tablist">${b('trad', IC.academy, 'Academia')}${b('vc', '<span class="jp rd-swic" aria-hidden="true">語</span>', 'Palavras')}${b('la', IC.headphones, 'Listening')}${b('rd', '<span class="jp rd-swic" aria-hidden="true">あ</span>', 'Leitura')}${b('aud', IC.wave, 'Treinos')}</div></div>`;
+  if (mode === 'vc') return sw + viewVocab();
+  return _vcAcadRoot().replace(/^<div class="wrap"><div class="mode-switch four"[\s\S]*?<\/div><\/div>/, sw);
+};
+VIEWS.push('vocabulario');
+const _vcRender = render;
+render = function () {
+  if (view === 'vocabulario') { S.settings.academyMode = 'vc'; view = 'academia'; try { history.replaceState(null, '', '#academia'); } catch (e) {} }
+  _vcRender();
+};
+/* Revisão: perguntas da Revisão de sempre para palavras da Academia de Vocabulário (visual e auditiva) */
+const _vcGenItemQ = genItemQ;
+/* partículas salvas do Dicionário: “qual é uma função desta partícula?” (sem pares que se confundem, como に × へ) */
+const VC_PCONF = { 'に': ['へ'], 'へ': ['に'], 'で': ['から'], 'から': ['で'], 'か': ['の'], 'の': ['か'] };
+function vcParticleQ(it) {
+  const P = it.particle, right = pick(P.pt);
+  const others = shuffle(DICT_PARTICLES.filter(x => x !== P && !(VC_PCONF[P.p] || []).includes(x.p))).slice(0, 3);
+  return { type: 'mc', itemId: it.id, prompt: 'Qual é uma das funções desta partícula?', big: P.p, ro: P.ro, say: it.say, options: shuffle([{ label: right, plain: true, correct: true }].concat(others.map(x => ({ label: x.pt[0], plain: true, correct: false })))), answerText: right, explain: P.p + ' (' + P.ro + '): ' + P.pt.join('; ') + '.' };
+}
+genItemQ = function (it, forceType) {
+  if (it && it.particle) return vcParticleQ(it);
+  if (it && it.lesson && it.lesson.vc) {
+    const pool = vcKnown(null).concat(it.lesson.W);
+    if (AUDIO.supported && !forceType && Math.random() < .4) return genListenQ(it, 'word', S.listening.level, pool.filter(x => x !== it && vcPtMain(x) !== vcPtMain(it)).map(x => ({ ...x, pt: vcPtMain(x) })).concat([it]));
+    const t = forceType === 'pt2jp' || (!forceType && Math.random() < .35) ? 'pt2jp' : !forceType && Math.random() < .3 && it.ro.length >= 3 ? 'ler' : 'ver';
+    const q = vcQ(it, t, pool);
+    return { type: 'mc', itemId: it.id, prompt: q.prompt, big: q.big || '', bigClass: q.bigCls === 'pt' ? 'pt' : '', ro: q.ro || '', noRomaji: !!q.noRo, say: it.say, grid: !!q.grid, options: q.opts.map(o => ({ label: o.t, sub: o.jp ? o.sub : '', plain: !o.jp, correct: !!o.ok })), answerText: q.ans, explain: q.explain };
+  }
+  return _vcGenItemQ(it, forceType);
+};
+const _vcOrigin = originOf;
+originOf = function (it) { return it && it.lesson && it.lesson.vc ? 'Academia de Vocabulário · ' + it.lesson.vcat.title : _vcOrigin(it); };
+const _vcReview = viewReview;
+viewReview = function () {
+  const h = _vcReview(), n = vcReviewIds().length;
+  if (n < 3) return h;
+  const card = `<section class="section"><div class="card mascot-tip vc-revcard" style="align-items:center"><span class="mod-ic big jp" style="font-size:1.3rem">語</span><div style="min-width:0" class="grow"><b>Vocabulário</b><span class="muted" style="display:block;font-size:.85rem">${n} palavras da Academia de Vocabulário · ouvir e reconhecer, com prioridade para o que você erra.</span></div><button class="btn btn-primary btn-small" data-act="vcReview">Revisar</button></div></section>`;
+  return h.replace(/(<section class="section")/, card + '$1');
+};
+const _vcFlush = flushPending;
+flushPending = function () { if (VV) return; _vcFlush(); };
+/* Início: o bloco “Sua jornada” ganha a Academia de Vocabulário logo depois da Academia */
+const _vcTiles = nqJourneyTiles;
+nqJourneyTiles = function () {
+  const st = vcStats();
+  const tile = `<button class="nq-tile" data-act="gotoVocab"><span class="nq-ic jp">語</span><span class="nq-tn">Vocabulário</span><span class="nq-ts">${st.learned}/${st.total}</span></button>`;
+  return _vcTiles().replace(/(<\/button>)/, '$1' + tile);
+};
+ACHIEVEMENTS.push(
+  { id: 'vc_first', icon: '語', name: 'Primeiras palavras', desc: 'Conclua a primeira lição da Academia de Vocabulário.', test: s => !!(s.vocab && Object.values(s.vocab.lessons || {}).some(x => x && x.passed)) },
+  { id: 'vc_cat', icon: '冠', name: 'Categoria dominada', desc: 'Passe na avaliação de uma categoria de vocabulário.', test: s => !!(s.vocab && Object.values(s.vocab.exams || {}).some(x => x && x.passed)) },
+  { id: 'vc_100', icon: '百', name: 'Cem palavras', desc: 'Aprenda 100 palavras na Academia de Vocabulário.', test: s => !!(s.vocab && VC_LESSONS.filter(L => s.vocab.lessons[L.id] && s.vocab.lessons[L.id].passed).reduce((n, L) => n + L.W.length, 0) >= 100) }
 );
 
 /* ==========================================================

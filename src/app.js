@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '11.0.0';
-const SCHEMA_VERSION = 11;
+const APP_VERSION = '12.0.0';
+const SCHEMA_VERSION = 12;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -61,7 +61,8 @@ function defaultState() {
     world: defaultWorld(),
     read: defaultRead(),
     journey: defaultJourney(),
-    rpg: defaultRpg()
+    rpg: defaultRpg(),
+    vocab: defaultVocab()
   };
 }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
@@ -174,6 +175,13 @@ const MIGRATIONS = {
     if (!isPlainObj(s.rpg)) s.rpg = defaultRpg();
     s.migratedFrom11 = { schema: 10, at: Date.now() };
     return s;
+  },
+  11: s => { // 11.0 -> 12.0: só ACRESCENTA a Academia de Vocabulário (S.vocab: lições, avaliações, opções). XP, moedas, níveis,
+    // conquistas, histórico, Caderno, Revisão, Chat, Dicionário, Mundo, Leitura, Academia, Listening e Adventure Mode ficam intactos.
+    // Idempotente: se S.vocab já existe (save importado de novo, por exemplo), nada muda.
+    if (!isPlainObj(s.vocab)) s.vocab = defaultVocab();
+    if (!s.migratedFrom12) s.migratedFrom12 = { schema: 11, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -216,6 +224,9 @@ function normalize(data) {
   if (!Array.isArray(s.read.log)) s.read.log = [];
   if (!isPlainObj(s.rpg)) s.rpg = defaultRpg();
   ['hero', 'equip', 'inv', 'spells', 'quests', 'flags', 'opened', 'spots', 'gather', 'signs', 'visited', 'kills', 'taught', 'words', 'stats', 'opt'].forEach(k => { if (!isPlainObj(s.rpg[k])) s.rpg[k] = defaultRpg()[k]; });
+  if (!isPlainObj(s.vocab)) s.vocab = defaultVocab();
+  ['lessons', 'exams', 'opened'].forEach(k => { if (!isPlainObj(s.vocab[k])) s.vocab[k] = {}; });
+  if (!Array.isArray(s.vocab.log)) s.vocab.log = [];
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;

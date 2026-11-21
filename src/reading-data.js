@@ -501,7 +501,16 @@ const READ_COURSE = [
       '「え？ほんとう？」|「え？ほんとう？」|"e? hontou?"|“Hã? Sério?”|え=e=hã? (surpresa)/？=?=interrogação/ほんとう=hontou=verdade; sério?|',
       'ゴロゴロ|ゴロゴロ|gorogoro|(trovão ao longe)|ゴロゴロ=gorogoro=som de trovão; também “rolar à toa”|O mesmo som pode ter sentidos diferentes: o desenho mostra qual.',
       '「あっ！いくよ！」|「あっ！いくよ！」|"a! iku yo!"|“Ah! Lá vou eu!”|あっ=a=ah! (っ: corte brusco)/いく=iku=ir/よ=yo=partícula de ênfase: “viu!”|'],
-    tip: 'Em mangás, leia os balões da direita para a esquerda e de cima para baixo.' }
+    tip: 'Em mangás, leia os balões da direita para a esquerda e de cima para baixo.' },
+  { id: 'f8', title: 'Pequena leitura: um passeio no zoológico', emblem: '園', kind: 'story',
+    intro: ['Um texto curto com palavras da Academia de Vocabulário: animais, cores e emoções.',
+      'Repare como os adjetivos vêm antes do substantivo: 大きいぞう = elefante grande.'],
+    sentences: ['きょうはどうぶつえんにいきます。|きょうはどうぶつえんにいきます。|kyou wa doubutsuen ni ikimasu.|Hoje vou ao zoológico.|きょう=kyou=hoje/は=wa=tópico/どうぶつえん=doubutsuen=zoológico/に=ni=para (destino)/いきます=ikimasu=ir|',
+      '大きいぞうがいます。|おおきいぞうがいます。|ookii zou ga imasu.|Tem um elefante grande.|大きい=ookii=grande/ぞう=zou=elefante/が=ga=sujeito/います=imasu=existir (seres vivos)|Animal é ser vivo: います.',
+      'パンダはかわいいです。|パンダはかわいいです。|panda wa kawaii desu.|O panda é fofo.|パンダ=panda=panda (katakana)/は=wa=tópico/かわいい=kawaii=fofo/です=desu=é|',
+      '私はあおいシャツをかいます。|わたしはあおいシャツをかいます。|watashi wa aoi shatsu o kaimasu.|Eu compro uma camisa azul.|私=watashi=eu/は=wa=tópico/あおい=aoi=azul/シャツ=shatsu=camisa/を=o=objeto/かいます=kaimasu=comprar|',
+      'とてもたのしいです。|とてもたのしいです。|totemo tanoshii desu.|É muito divertido.|とても=totemo=muito/たのしい=tanoshii=divertido/です=desu=é|'],
+    tip: 'Encontrou uma palavra nova? Toque nela no Dicionário ou estude na Academia de Vocabulário.' }
   ]
 }
 ];

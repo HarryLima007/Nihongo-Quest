@@ -206,7 +206,7 @@ async function doLesson(page, id, correctFn = () => true) {
   await page.evaluate(() => { __NQ.suspendSave(); localStorage.setItem('nihongoQuest:save', JSON.stringify({ xp: '250', completed: { c1l1: true }, profile: { name: 'Antigo', onboarded: true } })); });
   await page.reload();
   const mig = await page.evaluate(() => ({ v: __NQ.S.schemaVersion, xp: __NQ.S.xp, l: __NQ.S.lessons.c1l1 && __NQ.S.lessons.c1l1.passed, streak: typeof __NQ.S.streak.freezes, backup: !!localStorage.getItem('nihongoQuest:backup') }));
-  ok(mig.v === 11 && mig.xp === 250 && mig.l && mig.streak === 'number' && mig.backup, 'save antigo migrado ' + JSON.stringify(mig));
+  ok(mig.v === 12 && mig.xp === 250 && mig.l && mig.streak === 'number' && mig.backup, 'save antigo migrado ' + JSON.stringify(mig));
   await page.evaluate(() => { __NQ.suspendSave(); localStorage.setItem('nihongoQuest:save', '{quebrado'); });
   await page.reload();
   ok(await page.isVisible('#nameInput') && await page.evaluate(() => Object.keys(localStorage).some(k => k.includes('corrompido'))), 'save corrompido guardado e app abre');

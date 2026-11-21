@@ -336,6 +336,14 @@ const TALK = (function () {
           ex: { k: 'yn', on: { yes: ['わかる〜！ いやされるよね。|wakaru~! iyasareru yo ne.|Te entendo! Eles acalmam a gente, né.'], ilike: ['わかる〜！ いやされるよね。|wakaru~! iyasareru yo ne.|Te entendo! Eles acalmam a gente, né.'], no: ['そっか！ ひとそれぞれ だもんね。|sokka! hito sorezore da mon ne.|Ah, tá! Cada um é cada um.'], some: ['ちょっと？（笑） モチに あったら すきに なるよ！|chotto? (wara) Mochi ni attara suki ni naru yo!|Um pouco? (risos) Quando conhecer a Mochi, vai gostar!'] },
             sugg: ['うん、すき！|un, suki!|Gosto, sim!|c4l6', 'いぬが すき！|inu ga suki!|Gosto de cachorro!|c4l6', 'ううん。|uun.|Não muito.|'] } }
       ] },
+      { id: 'zoo', steps: [
+        { say: ['きのう どうぶつえんに いったよ！|kinou doubutsuen ni itta yo!|Ontem fui ao zoológico!', 'パンダが ほんとに かわいかった〜！|panda ga honto ni kawaikatta~!|O panda era fofo demais!'],
+          ex: { k: 'open', on: { praise: [['でしょ〜！ ずっと たけを たべてたの（笑）|desho~! zutto take o tabeteta no (wara)|Né?! Ficou comendo bambu o tempo todo (risos)', '#excited']], ack: ['ぞうも すごく おおきかったよ！|zou mo sugoku ookikatta yo!|O elefante também era enorme!'], surprise: ['ほんと！ はじめて みたの！|honto! hajimete mita no!|Sério! Foi a primeira vez que vi!'], laugh: ['えへへ、たのしかった〜！|ehehe, tanoshikatta~!|Hehe, foi muito divertido!'] },
+            back: 'ぞうも きりんも いたよ！|zou mo kirin mo ita yo!|Tinha elefante e girafa também!', any: ['たのしかった〜！|tanoshikatta~!|Foi muito divertido!'], sugg: ['かわいい！|kawaii!|Que fofo!|chat:kawaii', 'いいね！|ii ne!|Que legal!|'] } },
+        { say: '{name}は なんの どうぶつが すき？|{name} wa nan no doubutsu ga suki?|De qual animal você gosta?',
+          ex: { k: 'yn', on: { yes: ['いいね〜！ わたしは やっぱり パンダ！|ii ne~! watashi wa yappari panda!|Legal! Eu, com certeza, o panda!'], ilike: ['いいね〜！ わたしは やっぱり パンダ！|ii ne~! watashi wa yappari panda!|Legal! Eu, com certeza, o panda!'], no: ['そっか！ わたしは パンダが すき！|sokka! watashi wa panda ga suki!|Entendi! Eu gosto de panda!'] },
+            sugg: ['いぬが すき！|inu ga suki!|Gosto de cachorro!|', 'ねこが すき！|neko ga suki!|Gosto de gato!|', 'ぞうが すき！|zou ga suki!|Gosto de elefante!|'] } }
+      ] },
       { id: 'karaoke', steps: [
         { say: ['きのう カラオケで 3じかん うたっちゃった！|kinou karaoke de sanjikan utacchatta!|Ontem cantei 3 horas no karaokê!'],
           ex: { k: 'open', on: { surprise: [['ほんと！ のどが いたい〜（笑）|honto! nodo ga itai~ (wara)|Sério! Tô com a garganta doendo (risos)', '#laugh']], praise: ['えへへ、たのしかった〜！|ehehe, tanoshikatta~!|Hehe, foi muito divertido!'], laugh: ['わらわないで〜！（笑）|warawanaide~! (wara)|Não ri! (risos)'], ack: ['のどが いたい〜（笑） でも たのしかった！|nodo ga itai~ (wara). demo tanoshikatta!|A garganta tá doendo (risos), mas foi divertido!'] },
