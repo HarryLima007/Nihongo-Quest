@@ -2,7 +2,9 @@
 
 Academia gamificada de japonês para brasileiros, do zero ao nível proficiente. Todo o conteúdo e a interface estão em português.
 
-**Versão atual:** v9.0.0
+**Versão atual:** v10.0.0
+
+Criado por **Harry Lima**. © 2026 Harry Lima. Todos os direitos reservados (veja [NOTICE](NOTICE)).
 
 ## O que tem no app
 
@@ -20,6 +22,16 @@ Cada item traz japonês, romaji e português, com notas sobre nuances e exceçõ
 A **revisão** separa o que foi só apresentado do que foi dominado (acertos em dias diferentes), guarda os erros recorrentes, mostra estatísticas por habilidade e os assuntos mais fracos, e oferece revisão de vencidos, mais difíceis, por ala, por lição, pontos fracos e teste de conhecimento.
 
 A **Academia Auditiva** tem treinos de palavras, sons (pares mínimos), frases, expressões, “Responder certo” (ouvir uma fala e escolher a reação adequada), o Detetive dos Animes e o Laboratório de Diálogos (22 conversas originais, incluindo telefonema de negócios, recusa indireta e dialeto de Kansai). A voz usa o próprio navegador (Web Speech), em três velocidades e no modo “Bem devagar”.
+
+## Integration & Expansion (10.0)
+
+- **Sua jornada** no Início: as oito áreas (Academia, Listening, Leitura, Mundo, Chat, Dicionário, Caderno e Revisão) em um só bloco, cada uma com seu progresso, no lugar da pilha de cartões “Novo”.
+- **Palavras unificadas:** a mesma palavra estudada em áreas diferentes (por exemplo, こんにちは na Academia, na Leitura e no Dicionário) aparece **uma vez** no Caderno (com “também em…”), conta uma vez nas revisões pendentes e aparece no máximo uma vez por sessão de revisão. Acertar a palavra em uma área adia a revisão dela nas outras, sem mexer em acertos nem em domínio. Homógrafos com outro sentido (もう “já” × もう “poxa!”) e caracteres isolados não se juntam.
+- Mundo, Leitura e Dicionário reconhecem palavras já estudadas em qualquer área: “✓ No Caderno”, sem criar entradas repetidas. Cada palavra do Caderno tem atalho para o Dicionário (辞).
+- **Sobre o Nihongo Quest** (Perfil → Sobre, rodapé do Início ou `#sobre`): nome oficial, criador, propósito, site e repositório, histórico de versões, créditos e direitos autorais.
+- Arquivo [`NOTICE`](NOTICE): todos os direitos reservados sobre os materiais originais, créditos honestos de terceiros. Não há licença de uso livre.
+- Base para o Adventure Mode (11.0): `nqKnownWords`, `nqLearnerLevel` e `nqRewardOnce` em `src/journey.js` (veja [`docs/RPG-11-PREP.md`](docs/RPG-11-PREP.md)). O RPG ainda não existe.
+- Esquema 10: saves da 9.0 são migrados só acrescentando `S.journey`, com cópia `nihongoQuest:backup:schema9`.
 
 ## Leitura Japonesa (9.0)
 
@@ -134,11 +146,13 @@ O site é publicado direto da branch `Root`, pasta raiz (`/`). Um merge em `Root
 | Pasta / arquivo | O que é |
 | --- | --- |
 | `index.html` | Página inicial do site, redireciona para o app |
-| `nihongo-quest.html` | O app pronto (v9.0.0), gerado a partir de `src/` |
-| `src/` | Código-fonte: `content.js` (lições da v1), `content2.js` (pacotes de áudio, pronúncia e diálogos da 2.0), `content3.js` (2.1: Hiragana, Katakana, Kanji), `content4.js` (2.1: Vocabulário, Gramática, Construção de Frases), `content5.js` (2.1: Japonês Falado, Formalidade, Animes e expansão auditiva), `content6.js` a `content26.js` (3.0: alas novas dos quatro estágios; `src/kit.js` traz os atalhos de autoria), `content27.js` (3.0: expansão auditiva), `finalize.js` (ordem das alas e estágios), `manifest.json` (ordem dos arquivos no build), `app.js` (núcleo), `audio.js` (voz, escuta e modos auditivos), `chat-data.js` (4.0: personagens, assuntos, expressões e desafios do Nihongo Chat), `chat-core.js` (4.0: motor do chat: normalização de romaji/kana/kanji, avaliação das respostas, cenas, dicas, XP, iniciativa e adaptador para backend futuro), `chat-talk-data.js` (5.0: falas, assuntos e personalidades da conversa livre), `chat-talk.js` (5.0: motor da conversa livre por contexto e intenção), `chat-stickers.js` (5.0: figurinhas originais em SVG), `chat-ui.js` (telas do chat no estilo mensageiro), `listening-data.js` (6.0: conteúdo da Listening Academy), `listening.js` (6.0: motor de áudio, exercícios, telas e integrações da Listening Academy), `listening-voice.js` (7.0: conversão romaji/kana e o japonês falado das perguntas e alternativas), `dict-data.js` (7.0: palavras extras, classes gramaticais e kanji do dicionário), `dictionary.js` (7.0: índice, pesquisa, fichas, áudio, favoritos e integrações do dicionário), `world-data.js` (8.0: lugares, personagens, palavras e situações do Living Japanese World), `world.js` (8.0: mapa, cenas, áudio e integrações do mundo), `reading-data.js` (9.0: curso de leitura), `reading.js` (9.0: aulas, exercícios, provas, Caderno de caracteres e integrações da leitura), `boot.js` (inicialização), `style.css`, `shell.html` |
+| `nihongo-quest.html` | O app pronto (v10.0.0), gerado a partir de `src/` |
+| `NOTICE` | Direitos autorais e créditos de terceiros |
+| `docs/` | `RPG-11-PREP.md`: preparação para o Adventure Mode |
+| `src/` | Código-fonte: `content.js` (lições da v1), `content2.js` (pacotes de áudio, pronúncia e diálogos da 2.0), `content3.js` (2.1: Hiragana, Katakana, Kanji), `content4.js` (2.1: Vocabulário, Gramática, Construção de Frases), `content5.js` (2.1: Japonês Falado, Formalidade, Animes e expansão auditiva), `content6.js` a `content26.js` (3.0: alas novas dos quatro estágios; `src/kit.js` traz os atalhos de autoria), `content27.js` (3.0: expansão auditiva), `finalize.js` (ordem das alas e estágios), `manifest.json` (ordem dos arquivos no build), `app.js` (núcleo), `audio.js` (voz, escuta e modos auditivos), `chat-data.js` (4.0: personagens, assuntos, expressões e desafios do Nihongo Chat), `chat-core.js` (4.0: motor do chat: normalização de romaji/kana/kanji, avaliação das respostas, cenas, dicas, XP, iniciativa e adaptador para backend futuro), `chat-talk-data.js` (5.0: falas, assuntos e personalidades da conversa livre), `chat-talk.js` (5.0: motor da conversa livre por contexto e intenção), `chat-stickers.js` (5.0: figurinhas originais em SVG), `chat-ui.js` (telas do chat no estilo mensageiro), `listening-data.js` (6.0: conteúdo da Listening Academy), `listening.js` (6.0: motor de áudio, exercícios, telas e integrações da Listening Academy), `listening-voice.js` (7.0: conversão romaji/kana e o japonês falado das perguntas e alternativas), `dict-data.js` (7.0: palavras extras, classes gramaticais e kanji do dicionário), `dictionary.js` (7.0: índice, pesquisa, fichas, áudio, favoritos e integrações do dicionário), `world-data.js` (8.0: lugares, personagens, palavras e situações do Living Japanese World), `world.js` (8.0: mapa, cenas, áudio e integrações do mundo), `reading-data.js` (9.0: curso de leitura), `reading.js` (9.0: aulas, exercícios, provas, Caderno de caracteres e integrações da leitura), `journey.js` (10.0: Sua jornada, palavras unificadas, Sobre e base para a 11.0), `boot.js` (inicialização), `style.css`, `shell.html` |
 | `src/build.py` | Junta o código-fonte e gera `dist/nihongo-quest.html` |
-| `tests/` | `content.js` valida o conteúdo sem navegador (ids estáveis, exercícios, duplicatas). Testes com Playwright: `e2e.js` (v1), `e2e2.js` (v2 e migração do save da v1), `e2e3.js` (2.1: save real da 2.0, alas novas, todas as lições), `e2e4.js` (3.0: migração dos saves da 2.0 e 2.1, estágios, pré-requisitos, todas as perguntas, revisões, cópias de segurança, Responder certo), `e2e5.js` (4.0: Nihongo Chat: migração do save real da 3.0, desbloqueio, personagens bloqueados, respostas equivalentes, classificação dos erros, conteúdo novo antes de ser cobrado, romaji/tradução, áudio, histórico, iniciativa, XP sem farm, revisão, todos os assuntos de ponta a ponta e telas de 320px), `e2e6.js` (5.0: caso “watashi mo” no save real da 4.0, respostas curtas pelo contexto, romaji/kana/kanji, não reconhecida ≠ erro, digitação e ordem, figurinhas e emojis, desafios, Revisão/Caderno, mensagens espontâneas e 320px), `e2e7.js` (6.0: migração do save real da 5.0, Listening Academy de ponta a ponta, áudio, velocidades, pausa, revelação gradual, desbloqueio, Revisão/Caderno/XP, 320px e os casos obrigatórios do chat no fluxo real), `e2e8.js` (7.0: migração do save real da 6.0, isolamento do currículo nas avaliações, perguntas e alternativas faladas, feedback com áudio, dicionário e telas de 320px), `e2e9.js` (8.0: migração do save real da 7.0, mapa, conversas, mal-entendidos, áudio, escuta, Dicionário/Caderno/Revisão, XP sem farm, isolamento do currículo, todas as situações de ponta a ponta e 360px), `e2e10.js` (9.0: migração do save real da 8.0, Leitura Japonesa de ponta a ponta, todas as 49 lições, romaji, ouvir primeiro, Dicionário/Caderno/Revisão, XP sem farm, isolamento do currículo e 360px), `reading-content.js` (9.0, node + kuromoji: alfabetos completos, romaji, leituras de kanji e frases, progressão sem caracteres não estudados). `readings.js` confere as leituras dos kanji com o dicionário kuromoji |
-| `backup/` | A versão 1.0.0 original |
+| `tests/` | `content.js` valida o conteúdo sem navegador (ids estáveis, exercícios, duplicatas). Testes com Playwright: `e2e.js` (v1), `e2e2.js` (v2 e migração do save da v1), `e2e3.js` (2.1: save real da 2.0, alas novas, todas as lições), `e2e4.js` (3.0: migração dos saves da 2.0 e 2.1, estágios, pré-requisitos, todas as perguntas, revisões, cópias de segurança, Responder certo), `e2e5.js` (4.0: Nihongo Chat: migração do save real da 3.0, desbloqueio, personagens bloqueados, respostas equivalentes, classificação dos erros, conteúdo novo antes de ser cobrado, romaji/tradução, áudio, histórico, iniciativa, XP sem farm, revisão, todos os assuntos de ponta a ponta e telas de 320px), `e2e6.js` (5.0: caso “watashi mo” no save real da 4.0, respostas curtas pelo contexto, romaji/kana/kanji, não reconhecida ≠ erro, digitação e ordem, figurinhas e emojis, desafios, Revisão/Caderno, mensagens espontâneas e 320px), `e2e7.js` (6.0: migração do save real da 5.0, Listening Academy de ponta a ponta, áudio, velocidades, pausa, revelação gradual, desbloqueio, Revisão/Caderno/XP, 320px e os casos obrigatórios do chat no fluxo real), `e2e8.js` (7.0: migração do save real da 6.0, isolamento do currículo nas avaliações, perguntas e alternativas faladas, feedback com áudio, dicionário e telas de 320px), `e2e9.js` (8.0: migração do save real da 7.0, mapa, conversas, mal-entendidos, áudio, escuta, Dicionário/Caderno/Revisão, XP sem farm, isolamento do currículo, todas as situações de ponta a ponta e 360px), `e2e10.js` (9.0: migração do save real da 8.0, Leitura Japonesa de ponta a ponta, todas as 49 lições, romaji, ouvir primeiro, Dicionário/Caderno/Revisão, XP sem farm, isolamento do currículo e 360px), `e2e11.js` (10.0: migração do save real da 9.0, Sua jornada, Sobre e links oficiais, palavras unificadas no Caderno/Dicionário/Mundo/Leitura/Revisão, XP e recompensas únicas, base da 11.0 e 360px), `reading-content.js` (9.0, node + kuromoji: alfabetos completos, romaji, leituras de kanji e frases, progressão sem caracteres não estudados). `readings.js` confere as leituras dos kanji com o dicionário kuromoji |
+| `backup/` | Cópias completas das versões 1.0.0, 8.0.0 e 9.0.0 |
 
 ## Como adicionar conteúdo
 
@@ -167,10 +181,15 @@ node tests/e2e5.js
 node tests/e2e6.js
 node tests/e2e7.js
 node tests/e2e8.js
+node tests/e2e9.js
+node tests/e2e10.js
+node tests/e2e11.js
+node tests/reading-content.js
 ```
 
 ## Histórico de versões
 
+- **10.0.0** — Integration & Expansion: Sua jornada, palavras unificadas (Caderno e Revisão sem duplicar), área Sobre, NOTICE e base para o Adventure Mode; esquema 10.
 - **9.0.0** — Leitura Japonesa: hiragana, katakana, palavras, 25 kanji em contexto e frases, com áudio, romaji progressivo, Caderno de caracteres e integrações; esquema 9.
 - **8.0.0** — Living Japanese World: mapa de Hikari-machi com konbini, restaurante, estação, escola e rua comercial; 18 personagens, 24 situações, 63 palavras em contexto, áudio por personagem, esquema 8.
 - **7.0.0** — Dicionário japonês-português, perguntas e alternativas faladas na Listening Academy, avaliações isoladas por currículo (corrige perguntas de outras áreas nas avaliações de números), esquema 7.

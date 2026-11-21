@@ -46,7 +46,7 @@ const night = `(() => { const R = Date; const off = new R(2026, 10, 20, 23, 10).
   const page = await mk();
   const raw = await loadSave(page, V50);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 9 && S.appVersion === '9.0.0', '5.0: migrado para o esquema 6 (versão 6.0.0)');
+  ok(S.schemaVersion === 10 && S.appVersion === '10.0.0', '5.0: migrado para o esquema 6 (versão 6.0.0)');
   ok(await page.evaluate(() => localStorage.getItem('nihongoQuest:backup:schema5')) === raw, '5.0: cópia de segurança do save antigo (backup:schema5) antes da migração');
   same(S.lessons, V50.lessons, '5.0: progresso da Academia preservado');
   same(S.catExams, V50.catExams, '5.0: avaliações preservadas');
@@ -56,7 +56,7 @@ const night = `(() => { const R = Date; const off = new R(2026, 10, 20, 23, 10).
   same(S.chat, V50.chat, '5.0: Nihongo Chat inteiro preservado (conversas, personagens, figurinhas, fatos, desafios)');
   same(S.listening, V50.listening, '5.0: estatísticas da Academia Auditiva preservadas');
   ok(S.lacad && S.lacad.v === 1 && Object.keys(S.lacad.lessons).length === 0, '5.0: Listening Academy adicionada vazia');
-  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 9, 'save regravado no esquema 8');
+  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 10, 'save regravado no esquema 8');
 
   /* ---------- 2. Listening Academy: estrutura e desbloqueio ---------- */
   await openLA(page);
