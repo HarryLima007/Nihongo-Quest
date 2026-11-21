@@ -49,6 +49,8 @@
     "reading-data.js",
     "reading.js",
     "journey.js",
+    "rpg-data.js",
+    "rpg.js",
     "boot.js"
   ]
 }

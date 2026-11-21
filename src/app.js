@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '10.0.0';
-const SCHEMA_VERSION = 10;
+const APP_VERSION = '11.0.0';
+const SCHEMA_VERSION = 11;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -60,7 +60,8 @@ function defaultState() {
     dict: defaultDict(),
     world: defaultWorld(),
     read: defaultRead(),
-    journey: defaultJourney()
+    journey: defaultJourney(),
+    rpg: defaultRpg()
   };
 }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
@@ -167,6 +168,12 @@ const MIGRATIONS = {
     if (!isPlainObj(s.journey)) s.journey = defaultJourney();
     s.migratedFrom10 = { schema: 9, at: Date.now() };
     return s;
+  },
+  10: s => { // 10.0 -> 11.0: só ACRESCENTA o Adventure Mode (S.rpg: herói, inventário, missões, mapa). XP, moedas, níveis,
+    // conquistas, histórico, Caderno, Revisão, Chat, Dicionário, Mundo, Leitura, Academia e Listening ficam intactos.
+    if (!isPlainObj(s.rpg)) s.rpg = defaultRpg();
+    s.migratedFrom11 = { schema: 10, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -207,6 +214,8 @@ function normalize(data) {
   if (!isPlainObj(s.read)) s.read = defaultRead();
   ['lessons', 'exams', 'opened'].forEach(k => { if (!isPlainObj(s.read[k])) s.read[k] = {}; });
   if (!Array.isArray(s.read.log)) s.read.log = [];
+  if (!isPlainObj(s.rpg)) s.rpg = defaultRpg();
+  ['hero', 'equip', 'inv', 'spells', 'quests', 'flags', 'opened', 'spots', 'gather', 'signs', 'visited', 'kills', 'taught', 'words', 'stats', 'opt'].forEach(k => { if (!isPlainObj(s.rpg[k])) s.rpg[k] = defaultRpg()[k]; });
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;

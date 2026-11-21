@@ -1,5 +1,7 @@
 # Preparação para o Adventure Mode RPG (11.0.0)
 
+> **Atualização 11.0.0:** o Adventure Mode foi implementado seguindo estas regras. Veja [`ADVENTURE-MODE-11.md`](ADVENTURE-MODE-11.md). Uma diferença: o RPG tem EXP de aventura própria (nível do herói), separada do XP de estudo, e usa `nqRewardOnce` só para as recompensas únicas de missões e chefes. Ele não chama `recordAnswer`, para não mexer no SRS.
+
 A 10.0 **não** implementa o RPG. Ela só deixa pronto o mínimo para ele se apoiar no que já existe, sem criar um segundo sistema de XP, de palavras ou de inventário. O código fica em `src/journey.js`.
 
 ## O que já existe para o RPG usar

@@ -1,0 +1,1474 @@
+{
+ "items": {
+  "total": 3851,
+  "bySrc": {
+   "Academia": {
+    "total": 2559,
+    "caractere": 137,
+    "palavra": 1185,
+    "expressao": 20,
+    "frase": 1217
+   },
+   "Academia Auditiva": {
+    "total": 188,
+    "caractere": 0,
+    "palavra": 86,
+    "expressao": 29,
+    "frase": 73
+   },
+   "Chat": {
+    "total": 52,
+    "caractere": 0,
+    "palavra": 0,
+    "expressao": 51,
+    "frase": 1
+   },
+   "Listening Academy": {
+    "total": 65,
+    "caractere": 0,
+    "palavra": 40,
+    "expressao": 15,
+    "frase": 10
+   },
+   "Dicionário (extras)": {
+    "total": 253,
+    "caractere": 0,
+    "palavra": 235,
+    "expressao": 18,
+    "frase": 0
+   },
+   "Mundo": {
+    "total": 63,
+    "caractere": 0,
+    "palavra": 50,
+    "expressao": 13,
+    "frase": 0
+   },
+   "Leitura": {
+    "total": 614,
+    "caractere": 227,
+    "palavra": 375,
+    "expressao": 12,
+    "frase": 0
+   },
+   "Adventure Mode": {
+    "total": 57,
+    "caractere": 0,
+    "palavra": 57,
+    "expressao": 0,
+    "frase": 0
+   }
+  },
+  "kinds": {
+   "caractere": 364,
+   "palavra": 2028,
+   "expressao": 158,
+   "frase": 1301
+  }
+ },
+ "unique": {
+  "lexRecords": 2186,
+  "uniqueSpellings": 1826,
+  "uniqueWordSenses": 1830,
+  "words": 1720,
+  "expressions": 131,
+  "phrases": 1299,
+  "phraseRecords": 1301,
+  "duplicateRecords": 360
+ },
+ "divergentReadings": {
+  "n": 6,
+  "sample": [
+   {
+    "jp": "ごちそうさまでした",
+    "ro": [
+     "gochisousama deshita",
+     "gochisōsama deshita"
+    ],
+    "src": [
+     "Academia",
+     "Mundo"
+    ],
+    "ids": [
+     "c1l4:gochisousama",
+     "world:gochisousama"
+    ]
+   },
+   {
+    "jp": "年",
+    "ro": [
+     "nen",
+     "toshi"
+    ],
+    "src": [
+     "Academia",
+     "Dicionário (extras)",
+     "Leitura"
+    ],
+    "ids": [
+     "c7l3:nen",
+     "dict:とし",
+     "rd:w:年"
+    ]
+   },
+   {
+    "jp": "何",
+    "ro": [
+     "nani",
+     "nani?",
+     "nani / nan"
+    ],
+    "src": [
+     "Academia",
+     "Academia Auditiva",
+     "Mundo"
+    ],
+    "ids": [
+     "c7l3:nani",
+     "aud-expr:nani",
+     "world:nani"
+    ]
+   },
+   {
+    "jp": "間",
+    "ro": [
+     "aida",
+     "ma"
+    ],
+    "src": [
+     "Academia"
+    ],
+    "ids": [
+     "c17l2:aida",
+     "c29l3:ma"
+    ]
+   },
+   {
+    "jp": "自己紹介",
+    "ro": [
+     "jikoshoukai",
+     "jiko shōkai"
+    ],
+    "src": [
+     "Academia",
+     "Mundo"
+    ],
+    "ids": [
+     "c22l3:jikoshoukai",
+     "world:jikoshoukai"
+    ]
+   },
+   {
+    "jp": "どうぞ",
+    "ro": [
+     "douzo",
+     "dōzo"
+    ],
+    "src": [
+     "Academia Auditiva",
+     "Mundo"
+    ],
+    "ids": [
+     "aud-expr:douzo",
+     "world:douzo"
+    ]
+   }
+  ]
+ },
+ "homographs": 4,
+ "onlyIn": {
+  "Academia": 978,
+  "Academia Auditiva": 83,
+  "Chat": 40,
+  "Listening Academy": 39,
+  "Dicionário (extras)": 86,
+  "Mundo": 33,
+  "Leitura": 233,
+  "Adventure Mode": 35
+ },
+ "multiArea": 299,
+ "chars": {
+  "hiraganaTaught": 74,
+  "katakanaTaught": 79,
+  "kanjiAsItems": 240,
+  "kanjiInDictKanjiTable": 278,
+  "kanjiUsedInContent": 1150,
+  "readingKanji": 26
+ },
+ "attrs": {
+  "total": 3851,
+  "romaji": 3825,
+  "pt": 3851,
+  "kanaReading": 3796,
+  "ttsOnly": 28,
+  "example": 1130,
+  "note": 2018,
+  "alt": 208,
+  "withKanji": 2270
+ },
+ "dict": {
+  "entries": 1597,
+  "extras": 253,
+  "extrasOnly": 35,
+  "fromApp": 1562,
+  "multiSource": 246,
+  "withExample": 950,
+  "withNotes": 881,
+  "withPos": 544,
+  "withKanji": 1118,
+  "multiMeaning": 276,
+  "kanjiMultiReading": 3,
+  "pos": {
+   "num": 22,
+   "(sem classe)": 1053,
+   "expr": 115,
+   "interj": 2,
+   "adj-na": 9,
+   "pron": 13,
+   "subst": 134,
+   "adj-i": 45,
+   "verbo": 85,
+   "kanji": 106,
+   "cont": 6,
+   "adv": 7
+  },
+  "tags": {
+   "Cumprimentos": 224,
+   "Comida e bebida": 37,
+   "Animais": 19,
+   "Família e pessoas": 25,
+   "Tempo e datas": 61,
+   "Lugares": 22,
+   "Escola": 30,
+   "Casa e objetos": 42,
+   "Corpo e saúde": 42,
+   "Natureza e clima": 21,
+   "Cores": 11,
+   "Transporte": 12,
+   "Sentimentos": 36,
+   "Verbos do dia a dia": 89,
+   "Adjetivos": 42,
+   "Números": 28,
+   "Anime e cultura pop": 86,
+   "(sem tema)": 804
+  }
+ },
+ "notInDict": {
+  "phrasesByRule": 1301,
+  "charsByRule": 364,
+  "words": 2,
+  "expressions": 0,
+  "withoutAnyEntry": 2,
+  "sample": [
+   {
+    "id": "c28l4:nito",
+    "jp": "二兎を追う者は一兎をも得ず",
+    "ro": "nito o ou mono wa itto o mo ezu",
+    "pt": "quem tudo quer, nada tem",
+    "src": "Academia",
+    "kind": "vocab",
+    "sameSpellingEntry": ""
+   },
+   {
+    "id": "c34l4:gomeifuku",
+    "jp": "ご冥福をお祈りいたします",
+    "ro": "gomeifuku o oinori itashimasu",
+    "pt": "rezo pelo descanso da alma",
+    "src": "Academia",
+    "kind": "vocab",
+    "sameSpellingEntry": ""
+   }
+  ],
+  "bySrc": {
+   "Academia": 2
+  },
+  "rpgWords": 34,
+  "genderMarked": 18,
+  "hyphenated": 45
+ },
+ "searchSelf": {
+  "entries": 1597,
+  "missKana": 0,
+  "missKanji": 0,
+  "missRomaji": 0,
+  "missPt": 1,
+  "sample": {
+   "kana": [],
+   "kanji": [],
+   "ro": [],
+   "pt": [
+    "っす → です descontraído"
+   ]
+  }
+ },
+ "searchTests": [
+  {
+   "q": "quadrado",
+   "kind": "pt",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "chifre",
+   "kind": "pt",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "shikaku",
+   "kind": "romaji",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "しかく",
+   "kind": "kana",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "四角",
+   "kind": "kanji",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "tsuno",
+   "kind": "romaji",
+   "n": 2,
+   "top": [
+    "鬼滅の刃 · kimetsu no yaiba · A lâmina que destrói demônios (Demon Slayer)",
+    "夏のセール · natsu no seeru · liquidação de verão"
+   ]
+  },
+  {
+   "q": "つの",
+   "kind": "kana",
+   "n": 2,
+   "top": [
+    "鬼滅の刃 · kimetsu no yaiba · A lâmina que destrói demônios (Demon Slayer)",
+    "夏のセール · natsu no seeru · liquidação de verão"
+   ]
+  },
+  {
+   "q": "角",
+   "kind": "kanji",
+   "n": 1,
+   "top": [
+    "角 · kado · esquina, canto"
+   ]
+  },
+  {
+   "q": "gato",
+   "kind": "pt",
+   "n": 4,
+   "top": [
+    "猫 · neko · gato",
+    "犬猿の仲 · ken'en no naka · como cão e gato (se odeiam)",
+    "ありがとう · arigatou · Obrigado(a)"
+   ]
+  },
+  {
+   "q": "GATO",
+   "kind": "pt",
+   "n": 4,
+   "top": [
+    "猫 · neko · gato",
+    "犬猿の仲 · ken'en no naka · como cão e gato (se odeiam)",
+    "ありがとう · arigatou · Obrigado(a)"
+   ]
+  },
+  {
+   "q": "  gato  ",
+   "kind": "pt",
+   "n": 4,
+   "top": [
+    "猫 · neko · gato",
+    "犬猿の仲 · ken'en no naka · como cão e gato (se odeiam)",
+    "ありがとう · arigatou · Obrigado(a)"
+   ]
+  },
+  {
+   "q": "gatos",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "猫 · neko · gato",
+    "犬猿の仲 · ken'en no naka · como cão e gato (se odeiam)"
+   ]
+  },
+  {
+   "q": "o gato",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "猫 · neko · gato",
+    "犬猿の仲 · ken'en no naka · como cão e gato (se odeiam)"
+   ]
+  },
+  {
+   "q": "neko",
+   "kind": "romaji",
+   "n": 3,
+   "top": [
+    "猫 · neko · gato",
+    "猫舌 · nekojita · quem não aguenta comida quente",
+    "猫の手も借りたい · neko no te mo karitai · estar ocupadíssimo"
+   ]
+  },
+  {
+   "q": "ねこ",
+   "kind": "kana",
+   "n": 3,
+   "top": [
+    "猫 · neko · gato",
+    "猫舌 · nekojita · quem não aguenta comida quente",
+    "猫の手も借りたい · neko no te mo karitai · estar ocupadíssimo"
+   ]
+  },
+  {
+   "q": "ネコ",
+   "kind": "kana",
+   "n": 3,
+   "top": [
+    "猫 · neko · gato",
+    "猫舌 · nekojita · quem não aguenta comida quente",
+    "猫の手も借りたい · neko no te mo karitai · estar ocupadíssimo"
+   ]
+  },
+  {
+   "q": "猫",
+   "kind": "kanji",
+   "n": 3,
+   "top": [
+    "猫 · neko · gato",
+    "猫舌 · nekojita · quem não aguenta comida quente",
+    "猫の手も借りたい · neko no te mo karitai · estar ocupadíssimo"
+   ]
+  },
+  {
+   "q": "cachorro",
+   "kind": "pt",
+   "n": 1,
+   "top": [
+    "犬 · inu · cachorro"
+   ]
+  },
+  {
+   "q": "inu",
+   "kind": "romaji",
+   "n": 2,
+   "top": [
+    "犬 · inu · cachorro",
+    "蛇足 · dasoku · algo desnecessário, acréscimo inútil"
+   ]
+  },
+  {
+   "q": "いぬ",
+   "kind": "kana",
+   "n": 1,
+   "top": [
+    "犬 · inu · cachorro"
+   ]
+  },
+  {
+   "q": "犬",
+   "kind": "kanji",
+   "n": 2,
+   "top": [
+    "犬 · inu · cachorro",
+    "犬猿の仲 · ken'en no naka · como cão e gato (se odeiam)"
+   ]
+  },
+  {
+   "q": "obrigado",
+   "kind": "pt",
+   "n": 9,
+   "top": [
+    "ありがとう · arigatou · Obrigado(a)",
+    "すみません · sumimasen · Com licença; Desculpe",
+    "お疲れ様 · otsukaresama · Bom trabalho!; Obrigado pelo esforço."
+   ]
+  },
+  {
+   "q": "obrigada",
+   "kind": "pt",
+   "n": 3,
+   "top": [
+    "ありがとう · arigatou · Obrigado(a)",
+    "けっこうです · kekkou desu · não, obrigado(a) (recusa educada)",
+    "ありがとうございます · arigatou gozaimasu · Muito obrigado(a)"
+   ]
+  },
+  {
+   "q": "arigatou",
+   "kind": "romaji",
+   "n": 2,
+   "top": [
+    "ありがとう · arigatou · Obrigado(a)",
+    "ありがとうございます · arigatou gozaimasu · Muito obrigado(a)"
+   ]
+  },
+  {
+   "q": "arigato",
+   "kind": "romaji",
+   "n": 2,
+   "top": [
+    "ありがとう · arigatou · Obrigado(a)",
+    "ありがとうございます · arigatou gozaimasu · Muito obrigado(a)"
+   ]
+  },
+  {
+   "q": "arigatō",
+   "kind": "romaji",
+   "n": 2,
+   "top": [
+    "ありがとう · arigatou · Obrigado(a)",
+    "ありがとうございます · arigatou gozaimasu · Muito obrigado(a)"
+   ]
+  },
+  {
+   "q": "ありがとう",
+   "kind": "kana",
+   "n": 2,
+   "top": [
+    "ありがとう · arigatou · Obrigado(a)",
+    "ありがとうございます · arigatou gozaimasu · Muito obrigado(a)"
+   ]
+  },
+  {
+   "q": "família",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "家族 · kazoku · família",
+    "ファミレス · famiresu · restaurante familiar"
+   ]
+  },
+  {
+   "q": "familia",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "家族 · kazoku · família",
+    "ファミレス · famiresu · restaurante familiar"
+   ]
+  },
+  {
+   "q": "maçã",
+   "kind": "pt",
+   "n": 7,
+   "top": [
+    "りんご · ringo · maçã",
+    "まあ · maa · bem…; enfim…",
+    "接近 · sekkin · aproximação"
+   ]
+  },
+  {
+   "q": "maca",
+   "kind": "pt",
+   "n": 7,
+   "top": [
+    "りんご · ringo · maçã",
+    "まあ · maa · bem…; enfim…",
+    "接近 · sekkin · aproximação"
+   ]
+  },
+  {
+   "q": "água",
+   "kind": "pt",
+   "n": 3,
+   "top": [
+    "水 · mizu · água",
+    "お水 · omizu · água; água (educado)",
+    "少々お待ちください · shoushou omachi kudasai · Aguarde um momento, por favor."
+   ]
+  },
+  {
+   "q": "agua",
+   "kind": "pt",
+   "n": 3,
+   "top": [
+    "水 · mizu · água",
+    "お水 · omizu · água; água (educado)",
+    "少々お待ちください · shoushou omachi kudasai · Aguarde um momento, por favor."
+   ]
+  },
+  {
+   "q": "mizu",
+   "kind": "romaji",
+   "n": 2,
+   "top": [
+    "水 · mizu · água",
+    "お水 · omizu · água; água (educado)"
+   ]
+  },
+  {
+   "q": "水",
+   "kind": "kanji",
+   "n": 5,
+   "top": [
+    "水 · mizu · água",
+    "水曜日 · suiyoubi · quarta-feira",
+    "お水 · omizu · água; água (educado)"
+   ]
+  },
+  {
+   "q": "estação",
+   "kind": "pt",
+   "n": 4,
+   "top": [
+    "駅 · eki · estação (de trem); estação",
+    "季 · ki · estação",
+    "五月雨 · samidare · chuva da estação chuvosa"
+   ]
+  },
+  {
+   "q": "eki",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "駅 · eki · estação (de trem); estação"
+   ]
+  },
+  {
+   "q": "えき",
+   "kind": "kana",
+   "n": 2,
+   "top": [
+    "駅 · eki · estação (de trem); estação",
+    "免疫 · men'eki · imunidade"
+   ]
+  },
+  {
+   "q": "駅",
+   "kind": "kanji",
+   "n": 2,
+   "top": [
+    "駅 · eki · estação (de trem); estação",
+    "無人駅 · mujineki · estação sem funcionários"
+   ]
+  },
+  {
+   "q": "café",
+   "kind": "pt",
+   "n": 3,
+   "top": [
+    "コーヒー · koohii · café",
+    "カフェ · kafe · café (lugar)",
+    "朝ご飯 · asagohan · café da manhã"
+   ]
+  },
+  {
+   "q": "koohii",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "コーヒー · koohii · café"
+   ]
+  },
+  {
+   "q": "kōhī",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "コーヒー · koohii · café"
+   ]
+  },
+  {
+   "q": "kohi",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "コーヒー · koohii · café"
+   ]
+  },
+  {
+   "q": "コーヒー",
+   "kind": "kana",
+   "n": 1,
+   "top": [
+    "コーヒー · koohii · café"
+   ]
+  },
+  {
+   "q": "こーひー",
+   "kind": "kana",
+   "n": 1,
+   "top": [
+    "コーヒー · koohii · café"
+   ]
+  },
+  {
+   "q": "vermelho",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "赤い · akai · vermelho",
+    "赤 · aka · vermelho"
+   ]
+  },
+  {
+   "q": "aka",
+   "kind": "romaji",
+   "n": 4,
+   "top": [
+    "赤 · aka · vermelho",
+    "赤い · akai · vermelho",
+    "赤字 · akaji · prejuízo, déficit"
+   ]
+  },
+  {
+   "q": "akai",
+   "kind": "romaji",
+   "n": 5,
+   "top": [
+    "赤い · akai · vermelho",
+    "高い · takai · caro; alto",
+    "社会 · shakai · sociedade"
+   ]
+  },
+  {
+   "q": "赤い",
+   "kind": "kanji",
+   "n": 1,
+   "top": [
+    "赤い · akai · vermelho"
+   ]
+  },
+  {
+   "q": "あかい",
+   "kind": "kana",
+   "n": 1,
+   "top": [
+    "赤い · akai · vermelho"
+   ]
+  },
+  {
+   "q": "olho",
+   "kind": "pt",
+   "n": 6,
+   "top": [
+    "目 · me · olho",
+    "写輪眼 · sharingan · olho da roda que copia",
+    "目が高い · me ga takai · ter bom gosto, olho bom"
+   ]
+  },
+  {
+   "q": "me",
+   "kind": "romaji",
+   "n": 32,
+   "top": [
+    "目 · me · olho",
+    "確か · tashika · se não me engano; certo",
+    "くれる · kureru? · você me dá?; pode me dar?"
+   ]
+  },
+  {
+   "q": "目",
+   "kind": "kanji",
+   "n": 12,
+   "top": [
+    "目 · me · olho",
+    "目的 · mokuteki · objetivo, propósito",
+    "目立つ · medatsu · chamar atenção, destacar-se"
+   ]
+  },
+  {
+   "q": "trem",
+   "kind": "pt",
+   "n": 11,
+   "top": [
+    "電車 · densha · trem",
+    "練 · ren · treinar, polir",
+    "駅 · eki · estação (de trem); estação"
+   ]
+  },
+  {
+   "q": "densha",
+   "kind": "romaji",
+   "n": 2,
+   "top": [
+    "電車 · densha · trem",
+    "でんしゃを おります · densha o orimasu · descer do trem"
+   ]
+  },
+  {
+   "q": "電車",
+   "kind": "kanji",
+   "n": 1,
+   "top": [
+    "電車 · densha · trem"
+   ]
+  },
+  {
+   "q": "segunda-feira",
+   "kind": "pt",
+   "n": 1,
+   "top": [
+    "月曜日 · getsuyoubi · segunda-feira"
+   ]
+  },
+  {
+   "q": "segunda feira",
+   "kind": "pt",
+   "n": 1,
+   "top": [
+    "月曜日 · getsuyoubi · segunda-feira"
+   ]
+  },
+  {
+   "q": "getsuyoubi",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "月曜日 · getsuyoubi · segunda-feira"
+   ]
+  },
+  {
+   "q": "月曜日",
+   "kind": "kanji",
+   "n": 1,
+   "top": [
+    "月曜日 · getsuyoubi · segunda-feira"
+   ]
+  },
+  {
+   "q": "comer",
+   "kind": "pt",
+   "n": 8,
+   "top": [
+    "食べる · taberu · comer",
+    "食べます · tabemasu · comer (como; vou comer)",
+    "熱い · atsui · quente (ao tocar ou comer)"
+   ]
+  },
+  {
+   "q": "taberu",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "食べる · taberu · comer"
+   ]
+  },
+  {
+   "q": "食べる",
+   "kind": "kanji",
+   "n": 1,
+   "top": [
+    "食べる · taberu · comer"
+   ]
+  },
+  {
+   "q": "たべる",
+   "kind": "kana",
+   "n": 1,
+   "top": [
+    "食べる · taberu · comer"
+   ]
+  },
+  {
+   "q": "tabemasu",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "食べます · tabemasu · comer (como; vou comer)"
+   ]
+  },
+  {
+   "q": "bonito",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "綺麗 · kirei · bonito; limpo",
+    "花より団子 · hana yori dango · preferir o útil ao bonito"
+   ]
+  },
+  {
+   "q": "kirei",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "綺麗 · kirei · bonito; limpo"
+   ]
+  },
+  {
+   "q": "きれい",
+   "kind": "kana",
+   "n": 1,
+   "top": [
+    "綺麗 · kirei · bonito; limpo"
+   ]
+  },
+  {
+   "q": "devagar",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "ゆっくり · yukkuri · devagar; com calma",
+    "急がば回れ · isogaba maware · devagar se vai ao longe"
+   ]
+  },
+  {
+   "q": "yukkuri",
+   "kind": "romaji",
+   "n": 2,
+   "top": [
+    "ゆっくり · yukkuri · devagar; com calma",
+    "シュークリーム · shuukuriimu · bomba de creme"
+   ]
+  },
+  {
+   "q": "bom dia",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "おはよう · ohayou · Bom dia (informal); bom dia",
+    "おはようございます · ohayou gozaimasu · Bom dia"
+   ]
+  },
+  {
+   "q": "ohayou",
+   "kind": "romaji",
+   "n": 2,
+   "top": [
+    "おはよう · ohayou · Bom dia (informal); bom dia",
+    "おはようございます · ohayou gozaimasu · Bom dia"
+   ]
+  },
+  {
+   "q": "ohayō gozaimasu",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "おはようございます · ohayou gozaimasu · Bom dia"
+   ]
+  },
+  {
+   "q": "konnichiwa",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "こんにちは · konnichiwa · Olá; Boa tarde"
+   ]
+  },
+  {
+   "q": "konnichiha",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "こんにちは · konnichiwa · Olá; Boa tarde"
+   ]
+  },
+  {
+   "q": "konnitiwa",
+   "kind": "romaji",
+   "n": 1,
+   "top": [
+    "こんにちは · konnichiwa · Olá; Boa tarde"
+   ]
+  },
+  {
+   "q": "Tóquio",
+   "kind": "pt",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "toukyou",
+   "kind": "romaji",
+   "n": 4,
+   "top": [
+    "所 · tokoro · lugar",
+    "チョコレート · chokoreeto · chocolate",
+    "男 · otoko · homem; masculino"
+   ]
+  },
+  {
+   "q": "tokyo",
+   "kind": "romaji",
+   "n": 4,
+   "top": [
+    "所 · tokoro · lugar",
+    "チョコレート · chokoreeto · chocolate",
+    "男 · otoko · homem; masculino"
+   ]
+  },
+  {
+   "q": "東京",
+   "kind": "kanji",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "shinbun",
+   "kind": "romaji",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "shimbun",
+   "kind": "romaji",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "ramen",
+   "kind": "romaji",
+   "n": 3,
+   "top": [
+    "ラーメン · raamen · lámen",
+    "性格 · seikaku · personalidade, temperamento",
+    "はなぢ · hanaji · sangramento no nariz"
+   ]
+  },
+  {
+   "q": "lámen",
+   "kind": "pt",
+   "n": 5,
+   "top": [
+    "ラーメン · raamen · lámen",
+    "残念 · zannen · uma pena, lamentável; que pena (残念)",
+    "国会 · kokkai · parlamento (Dieta)"
+   ]
+  },
+  {
+   "q": "triângulo",
+   "kind": "pt",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "círculo",
+   "kind": "pt",
+   "n": 1,
+   "top": [
+    "円 · en · iene; círculo"
+   ]
+  },
+  {
+   "q": "rabo",
+   "kind": "pt",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "asa",
+   "kind": "pt",
+   "n": 4,
+   "top": [
+    "朝 · asa · manhã",
+    "野菜 · yasai · verduras, legumes; verdura",
+    "易しい · yasashii · fácil; gentil"
+   ]
+  },
+  {
+   "q": "espada",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "剣 · ken · espada",
+    "刀 · katana · espada japonesa"
+   ]
+  },
+  {
+   "q": "escudo",
+   "kind": "pt",
+   "n": 0,
+   "top": []
+  },
+  {
+   "q": "camisa",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "シャツ · shatsu · camisa",
+    "シャツを きます · shatsu o kimasu · vestir uma camisa"
+   ]
+  },
+  {
+   "q": "sapato",
+   "kind": "pt",
+   "n": 2,
+   "top": [
+    "玄関 · genkan · entrada da casa (onde se tiram os sapatos)",
+    "くつを はきます · kutsu o hakimasu · calçar os sapatos"
+   ]
+  },
+  {
+   "q": "kutsu",
+   "kind": "romaji",
+   "n": 3,
+   "top": [
+    "靴下 · kutsushita · meia",
+    "くつを はきます · kutsu o hakimasu · calçar os sapatos",
+    "いくつ · ikutsu · quantos (objetos); quantos anos"
+   ]
+  },
+  {
+   "q": "é",
+   "kind": "pt",
+   "n": 3,
+   "top": [
+    "絵 · e · desenho, pintura",
+    "英 · ei · Inglaterra; excelente",
+    "映 · ei · projetar, refletir"
+   ]
+  },
+  {
+   "q": "ki",
+   "kind": "romaji",
+   "n": 48,
+   "top": [
+    "木 · ki · árvore, madeira; árvore",
+    "気 · ki · espírito, energia, ânimo",
+    "季 · ki · estação"
+   ]
+  },
+  {
+   "q": "は",
+   "kind": "kana",
+   "n": 53,
+   "top": [
+    "八 · hachi · 8 (oito)",
+    "母 · haha · minha mãe; mãe",
+    "半 · han · meia (30 minutos); metade, meia"
+   ]
+  },
+  {
+   "q": "partícula",
+   "kind": "pt",
+   "n": 0,
+   "top": []
+  }
+ ],
+ "categories": [
+  {
+   "cat": "Números e quantidades",
+   "ref": 20,
+   "inDict": 18,
+   "onlyOutsideDict": [
+    "primeiro"
+   ],
+   "missing": [
+    "tudo"
+   ]
+  },
+  {
+   "cat": "Cumprimentos e expressões",
+   "ref": 20,
+   "inDict": 20,
+   "onlyOutsideDict": [],
+   "missing": []
+  },
+  {
+   "cat": "Pessoas e família",
+   "ref": 22,
+   "inDict": 18,
+   "onlyOutsideDict": [],
+   "missing": [
+    "filha",
+    "aluno",
+    "esposa",
+    "bebê"
+   ]
+  },
+  {
+   "cat": "Animais",
+   "ref": 25,
+   "inDict": 12,
+   "onlyOutsideDict": [
+    "raposa"
+   ],
+   "missing": [
+    "galinha",
+    "rato",
+    "macaco",
+    "leão",
+    "tigre",
+    "elefante",
+    "sapo",
+    "tartaruga",
+    "borboleta",
+    "chifre",
+    "rabo",
+    "asa"
+   ]
+  },
+  {
+   "cat": "Comida e bebidas",
+   "ref": 25,
+   "inDict": 22,
+   "onlyOutsideDict": [],
+   "missing": [
+    "laranja",
+    "sopa",
+    "açúcar"
+   ]
+  },
+  {
+   "cat": "Objetos do cotidiano",
+   "ref": 20,
+   "inDict": 17,
+   "onlyOutsideDict": [],
+   "missing": [
+    "papel",
+    "caixa",
+    "jornal"
+   ]
+  },
+  {
+   "cat": "Casa e móveis",
+   "ref": 20,
+   "inDict": 13,
+   "onlyOutsideDict": [],
+   "missing": [
+    "geladeira",
+    "parede",
+    "chão",
+    "lâmpada",
+    "armário",
+    "chuveiro",
+    "apartamento"
+   ]
+  },
+  {
+   "cat": "Escola e estudo",
+   "ref": 20,
+   "inDict": 17,
+   "onlyOutsideDict": [],
+   "missing": [
+    "aluno",
+    "lousa",
+    "férias"
+   ]
+  },
+  {
+   "cat": "Lugares e estabelecimentos",
+   "ref": 20,
+   "inDict": 16,
+   "onlyOutsideDict": [],
+   "missing": [
+    "museu",
+    "templo",
+    "farmácia",
+    "praia"
+   ]
+  },
+  {
+   "cat": "Cidade e transporte",
+   "ref": 20,
+   "inDict": 19,
+   "onlyOutsideDict": [],
+   "missing": [
+    "semáforo"
+   ]
+  },
+  {
+   "cat": "Natureza e clima",
+   "ref": 20,
+   "inDict": 19,
+   "onlyOutsideDict": [],
+   "missing": [
+    "calor"
+   ]
+  },
+  {
+   "cat": "Cores",
+   "ref": 12,
+   "inDict": 10,
+   "onlyOutsideDict": [],
+   "missing": [
+    "laranja",
+    "cinza"
+   ]
+  },
+  {
+   "cat": "Formas",
+   "ref": 12,
+   "inDict": 4,
+   "onlyOutsideDict": [],
+   "missing": [
+    "quadrado",
+    "triângulo",
+    "retângulo",
+    "redondo",
+    "forma",
+    "ponto",
+    "quadrado (forma)",
+    "cubo"
+   ]
+  },
+  {
+   "cat": "Tempo, dias e datas",
+   "ref": 20,
+   "inDict": 19,
+   "onlyOutsideDict": [],
+   "missing": [
+    "todo dia"
+   ]
+  },
+  {
+   "cat": "Corpo humano",
+   "ref": 20,
+   "inDict": 15,
+   "onlyOutsideDict": [],
+   "missing": [
+    "braço",
+    "dente",
+    "dedo",
+    "garganta",
+    "ombro"
+   ]
+  },
+  {
+   "cat": "Roupas e acessórios",
+   "ref": 18,
+   "inDict": 10,
+   "onlyOutsideDict": [],
+   "missing": [
+    "calça",
+    "vestido",
+    "sapato",
+    "chapéu",
+    "anel",
+    "quimono",
+    "luva",
+    "cachecol"
+   ]
+  },
+  {
+   "cat": "Verbos comuns",
+   "ref": 25,
+   "inDict": 24,
+   "onlyOutsideDict": [],
+   "missing": [
+    "sentar"
+   ]
+  },
+  {
+   "cat": "Adjetivos",
+   "ref": 22,
+   "inDict": 19,
+   "onlyOutsideDict": [],
+   "missing": [
+    "lento",
+    "baixo",
+    "fraco"
+   ]
+  },
+  {
+   "cat": "Advérbios",
+   "ref": 15,
+   "inDict": 8,
+   "onlyOutsideDict": [],
+   "missing": [
+    "às vezes",
+    "nunca",
+    "logo",
+    "talvez",
+    "de novo",
+    "também",
+    "só"
+   ]
+  },
+  {
+   "cat": "Emoções e estados",
+   "ref": 15,
+   "inDict": 10,
+   "onlyOutsideDict": [],
+   "missing": [
+    "bravo",
+    "surpreso",
+    "animado",
+    "preocupado",
+    "nervoso"
+   ]
+  },
+  {
+   "cat": "Anime, jogos e entretenimento",
+   "ref": 15,
+   "inDict": 13,
+   "onlyOutsideDict": [],
+   "missing": [
+    "vilão",
+    "batalha"
+   ]
+  }
+ ],
+ "particles": {
+  "total": 14,
+  "inDict": 0,
+  "list": [
+   "は",
+   "が",
+   "を",
+   "に",
+   "で",
+   "へ",
+   "と",
+   "の",
+   "も",
+   "か",
+   "から",
+   "まで",
+   "よ",
+   "ね"
+  ]
+ },
+ "areas": {
+  "academia": {
+   "lessons": 349,
+   "wings": 35,
+   "items": 2559,
+   "exercises": 1351,
+   "byKind": {
+    "number": 20,
+    "vocab": 920,
+    "kana": 137,
+    "kanaword": 265,
+    "grammar": 1217
+   }
+  },
+  "auditiva": {
+   "packs": 5,
+   "items": 188,
+   "dialogs": 22,
+   "dialogLines": 99
+  },
+  "listening": {
+   "lessons": 28,
+   "cats": 5,
+   "items": 65,
+   "exercisesAuthored": 193,
+   "dialogs": 18,
+   "dialogLines": 84
+  },
+  "leitura": {
+   "lessons": 49,
+   "stages": 5,
+   "hira": 104,
+   "kata": 97,
+   "kanji": 26,
+   "words": 387
+  },
+  "mundo": {
+   "places": 5,
+   "scenes": 24,
+   "chars": 18,
+   "words": 63,
+   "lines": 240
+  },
+  "chat": {
+   "chars": 4,
+   "scenes": 34,
+   "packItems": 52,
+   "talkChars": 4
+  },
+  "rpg": {
+   "words": 57,
+   "areas": 6,
+   "quests": 10
+  }
+ }
+}

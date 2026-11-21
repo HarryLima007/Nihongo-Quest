@@ -94,6 +94,7 @@ function dictBuild() {
     e.rank = i;
     e.jp = e.kanji || e.kana;
     e.k = { ro: KANA.phon(e.ro || KANA.toRomaji(e.kana)), roRaw: dNorm(e.ro).replace(/[^a-z]/g, ''), kana: e.reading, pt: e.pt.map(p => dNorm(p).replace(/\((a|o|as|os|es)\)/g, '').replace(/\s+/g, ' ').trim()), ptWords: e.pt.flatMap(p => dNorm(p).split(/[^a-z0-9à-ú]+/).filter(Boolean)) };
+    e.k.ptAlt = dictPtAlt(e.pt); e.k.ptWords.push(...e.k.ptAlt.flatMap(p => p.split(' ')).filter(w => w && !e.k.ptWords.includes(w)));
   });
 }
 function dictTagFromTitle(t) {
@@ -124,7 +125,8 @@ function dictSearch(q) {
       if (s) out.push([s, e]);
     });
   } else {
-    const n = dNorm(q), ph = KANA.phon(n), raw = n.replace(/[^a-z]/g, ''), kana = KANA.toKana(n);
+    const n = dNorm(q).replace(/\s+/g, ' '), ph = KANA.phon(n), raw = n.replace(/[^a-z]/g, ''), kana = KANA.toKana(n);
+    const ptQ = dictPtQueries(n);
     DICT.list.forEach(e => {
       let s = 0;
       // romaji (grafias diferentes: ou/oo/ō, shi/si, tsu/tu, n'…)
@@ -135,18 +137,45 @@ function dictSearch(q) {
       else if (ph.length >= 4 && e.k.ro.includes(ph)) s = 30;
       // português (sem acento, palavra inteira vale mais)
       let p = 0;
-      if (e.k.pt.some(x => x === n || x.replace(/^(o|a|os|as|um|uma) /, '') === n)) p = 98;
-      else if (e.k.pt.some(x => x.split(/\s*\(/)[0].trim() === n)) p = 92;
-      else if (n.length >= 2 && e.k.ptWords.includes(n)) p = 80;
-      else if (n.length >= 3 && e.k.ptWords.some(w => w.startsWith(n))) p = 58;
-      else if (n.length >= 4 && e.k.pt.some(x => x.includes(n))) p = 34;
-      if (p && e.pos === 'kanji') p -= 12; // palavras antes de kanji isolados
-      if (p && e.k.pt[0] && (e.k.pt[0] === n || e.k.pt[0].split(/\s*\(/)[0].trim() === n)) p += 3; // sentido principal
+      ptQ.forEach(([v, pen]) => { const x = dictPtScore(e, v); if (x) p = Math.max(p, x - pen); });
       s = Math.max(s, p);
       if (s) out.push([s, e]);
     });
   }
   return out.sort((a, b) => b[0] - a[0] || (a[1].jp.length - b[1].jp.length) || a[1].rank - b[1].rank).map(x => x[1]);
+}
+
+/* 11.0 — correções da busca em português (comprovadas na investigação de conteúdo):
+   - “obrigada” não achava “Obrigado(a)”: o marcador de gênero era apagado sem guardar a forma feminina;
+   - “segunda feira” (sem hífen) não achava “segunda-feira”;
+   - “o gato” (com artigo) e “gatos” (plural) não achavam “gato”. */
+function dictPtAlt(pts) {
+  const out = [];
+  pts.forEach(p => {
+    const d = dNorm(p).replace(/\s+/g, ' ').trim();
+    const fem = d.replace(/([a-z]+)o\(a\)/g, '$1a').replace(/([a-z]+)os\(as\)/g, '$1as').replace(/\((a|o|as|os|es)\)/g, '').trim();
+    [fem, d.replace(/\((a|o|as|os|es)\)/g, '').replace(/-/g, ' ').replace(/\s+/g, ' ').trim(), fem.replace(/-/g, ' ')].forEach(v => { if (v && !out.includes(v)) out.push(v); });
+  });
+  return out;
+}
+function dictPtQueries(n) {
+  const q = [[n, 0]], add = (v, pen) => { v = v.trim(); if (v.length >= 2 && !q.some(x => x[0] === v)) q.push([v, pen]); };
+  const noArt = n.replace(/^(o|a|os|as|um|uma|uns|umas) /, '');
+  add(noArt, 1); add(n.replace(/-/g, ' '), 0); add(noArt.replace(/-/g, ' '), 1);
+  [noArt, noArt.replace(/-/g, ' ')].forEach(v => { if (v.length > 3 && !/\s/.test(v)) { if (/oes$/.test(v)) add(v.replace(/oes$/, 'ao'), 4); if (/ais$/.test(v)) add(v.replace(/ais$/, 'al'), 4); if (/es$/.test(v)) add(v.slice(0, -2), 4); if (/s$/.test(v)) add(v.slice(0, -1), 4); } });
+  return q;
+}
+function dictPtScore(e, n) {
+  let p = 0;
+  if (e.k.pt.some(x => x === n || x.replace(/^(o|a|os|as|um|uma) /, '') === n)) p = 98;
+  else if (e.k.ptAlt.some(x => x === n || x.replace(/^(o|a|os|as|um|uma) /, '') === n)) p = 97;
+  else if (e.k.pt.some(x => x.split(/\s*\(/)[0].trim() === n)) p = 92;
+  else if (n.length >= 2 && e.k.ptWords.includes(n)) p = 80;
+  else if (n.length >= 3 && e.k.ptWords.some(w => w.startsWith(n))) p = 58;
+  else if (n.length >= 4 && (e.k.pt.some(x => x.includes(n)) || e.k.ptAlt.some(x => x.includes(n)))) p = 34;
+  if (p && e.pos === 'kanji') p -= 12; // palavras antes de kanji isolados
+  if (p && e.k.pt[0] && (e.k.pt[0] === n || e.k.pt[0].split(/\s*\(/)[0].trim() === n)) p += 3; // sentido principal
+  return p;
 }
 
 /* ---------- áudio ---------- */
