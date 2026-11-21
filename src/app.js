@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '8.0.0';
-const SCHEMA_VERSION = 8;
+const APP_VERSION = '9.0.0';
+const SCHEMA_VERSION = 9;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -58,7 +58,8 @@ function defaultState() {
     chat: defaultChat(),
     lacad: defaultLacad(),
     dict: defaultDict(),
-    world: defaultWorld()
+    world: defaultWorld(),
+    read: defaultRead()
   };
 }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
@@ -68,6 +69,9 @@ function defaultDict() { return { v: 1, fav: {}, recent: [] }; }
 /* 8.0: Living Japanese World (visitas, situações vividas, personagens encontrados, palavras descobertas, opções de leitura/voz).
    XP vai para S.xp; palavras salvas vão para S.items (Caderno/Revisão), como o resto do app. */
 function defaultWorld() { return { v: 1, visits: {}, scenes: {}, met: {}, words: {}, speed: 'normal', opt: { ro: true, pt: true, listen: false }, intro: 0, news: 0 }; }
+/* 9.0: Japanese Reading (lições e provas de leitura, opções de romaji/áudio, histórico). Caracteres, kanji e palavras
+   estudados vão para S.items (Caderno/Revisão), como o resto do app. */
+function defaultRead() { return { v: 1, lessons: {}, exams: {}, opened: {}, log: [], ro: 'sempre', listen: false, speed: 'normal', xp: { d: '', n: 0 }, news: 0 }; }
 function defaultListening() {
   const ac = () => ({ a: 0, c: 0 });
   return {
@@ -148,6 +152,12 @@ const MIGRATIONS = {
     if (!isPlainObj(s.world)) s.world = defaultWorld();
     s.migratedFrom8 = { schema: 7, at: Date.now() };
     return s;
+  },
+  8: s => { // 8.0 -> 9.0: só ACRESCENTA a Leitura Japonesa. XP, níveis, conquistas, histórico, Caderno, Revisão, Chat,
+    // Dicionário, Living Japanese World e progresso da Academia e da Listening Academy ficam intactos.
+    if (!isPlainObj(s.read)) s.read = defaultRead();
+    s.migratedFrom9 = { schema: 8, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -185,6 +195,9 @@ function normalize(data) {
   if (!isPlainObj(s.world)) s.world = defaultWorld();
   ['visits', 'scenes', 'met', 'words'].forEach(k => { if (!isPlainObj(s.world[k])) s.world[k] = {}; });
   if (!isPlainObj(s.world.opt)) s.world.opt = defaultWorld().opt;
+  if (!isPlainObj(s.read)) s.read = defaultRead();
+  ['lessons', 'exams', 'opened'].forEach(k => { if (!isPlainObj(s.read[k])) s.read[k] = {}; });
+  if (!Array.isArray(s.read.log)) s.read.log = [];
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;

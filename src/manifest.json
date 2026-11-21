@@ -46,6 +46,8 @@
     "dictionary.js",
     "world-data.js",
     "world.js",
+    "reading-data.js",
+    "reading.js",
     "boot.js"
   ]
 }
