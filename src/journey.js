@@ -10,6 +10,7 @@
 const NQ_SITE = 'https://harrylima007.github.io/Nihongo-Quest/';
 const NQ_REPO = 'https://github.com/HarryLima007/Nihongo-Quest';
 const NQ_HISTORY = [
+  ['13.0.0', '2026-11-21', 'Learning Intelligence: Central de Aprendizagem (apresentado, estudado, lembrado e dominado em todas as áreas), Revisão inteligente 2.0, Painel de progresso por habilidade, avaliações com estimativa de nível inspirada no JLPT, prática de fala e formas conjugadas no Dicionário; esquema 13.'],
   ['12.0.0', '2026-11-21', 'Expansão de vocabulário: Academia de Vocabulário com 20 categorias e 631 palavras, Dicionário 2.0 com vários sentidos, leituras de kanji em contexto, 14 partículas e busca mais inteligente, e novas situações no Mundo; esquema 12.'],
   ['11.0.0', '2026-11-21', 'Adventure Mode RPG: o Vale Asahi em Kotoba no Kuni, com exploração, NPCs, missões, baús, equipamentos e batalhas por turnos em que o poder das palavras (言霊) usa só o vocabulário que você já estudou; esquema 11.'],
   ['10.0.0', '2026-11-21', 'Integration & Expansion: “Sua jornada” no Início, palavras unificadas entre as áreas (Caderno e Revisão sem duplicar), área Sobre o Nihongo Quest, aviso de direitos autorais (NOTICE) e base para o Adventure Mode; esquema 10.'],
@@ -206,4 +207,4 @@ Object.assign(ACT, {
   nqDict: el => dictOpenWord(el.dataset.jp)
 });
 /* novidade da 10.0: aviso único para quem já usava o app */
-setTimeout(() => { try { const j = S.journey; if (S.profile.onboarded && j && j.seenVersion !== APP_VERSION) { const old = j.seenVersion || S.migratedFrom10 || S.migratedFrom11 || S.migratedFrom12; j.seenVersion = APP_VERSION; save(); if (old) toast('語', 'Novo na 12.0: Academia de Vocabulário com 631 palavras, Dicionário 2.0 com partículas e novas situações no Mundo! Abra Academia → Palavras.'); } } catch (e) {} }, 5200);
+setTimeout(() => { try { const j = S.journey; if (S.profile.onboarded && j && j.seenVersion !== APP_VERSION) { const old = j.seenVersion || S.migratedFrom10 || S.migratedFrom11 || S.migratedFrom12 || S.migratedFrom13; j.seenVersion = APP_VERSION; save(); if (old) toast('績', 'Novo na 13.0: “Seu professor” no Início, Revisão inteligente e o Painel de progresso com o seu domínio real. Abra Revisão → Meu progresso.'); } } catch (e) {} }, 5200);
