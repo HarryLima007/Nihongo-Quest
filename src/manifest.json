@@ -53,6 +53,7 @@
     "rpg.js",
     "vocab-data.js",
     "vocab.js",
+    "learn.js",
     "boot.js"
   ]
 }

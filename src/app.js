@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '12.0.0';
-const SCHEMA_VERSION = 12;
+const APP_VERSION = '13.0.0';
+const SCHEMA_VERSION = 13;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -62,9 +62,15 @@ function defaultState() {
     read: defaultRead(),
     journey: defaultJourney(),
     rpg: defaultRpg(),
-    vocab: defaultVocab()
+    vocab: defaultVocab(),
+    learn: defaultLearn()
   };
 }
+/* 13.0: Central de Aprendizagem. Só ACRESCENTA: histórico curto por item (h: dia*2+acerto), áreas onde cada conteúdo
+   apareceu (x), formato da última pergunta (f), desempenho diário por habilidade (days), fotos diárias (snaps),
+   avaliações (assess), provas de etapa (stageEx), avaliação inicial (placement) e prática de fala (speak).
+   S.items, o SRS, o XP e todo o resto continuam onde estavam. bf = histórico antigo já aproveitado. */
+function defaultLearn() { return { v: 1, h: {}, x: {}, f: {}, days: {}, snaps: {}, assess: [], stageEx: {}, placement: null, speak: { n: 0, ok: 0 }, bf: 0 }; }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
 function defaultLacad() { return { v: 1, lessons: {}, exams: {}, words: {}, dialogs: {}, speed: 1, stats: { a: 0, c: 0, ms: 0, byCat: {}, byType: {} } }; }
 /* 7.0: Dicionário (favoritos e recentes; salvar no Caderno usa S.items, como o resto do app) */
@@ -182,6 +188,14 @@ const MIGRATIONS = {
     if (!isPlainObj(s.vocab)) s.vocab = defaultVocab();
     if (!s.migratedFrom12) s.migratedFrom12 = { schema: 11, at: Date.now() };
     return s;
+  },
+  12: s => { // 12.0 -> 13.0: só ACRESCENTA a Central de Aprendizagem (S.learn). XP, moedas, níveis, conquistas, histórico,
+    // Caderno, Revisão (S.items/SRS), Chat, Dicionário, Mundo, Leitura, Academias, Listening e Adventure Mode ficam intactos.
+    // O histórico curto é reconstruído do S.history na primeira abertura (learn.js), quando todos os itens já existem.
+    // Reversível: apagar S.learn devolve exatamente o save da 12.0. Idempotente: se S.learn já existe, nada muda.
+    if (!isPlainObj(s.learn)) s.learn = defaultLearn();
+    if (!s.migratedFrom13) s.migratedFrom13 = { schema: 12, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -227,6 +241,9 @@ function normalize(data) {
   if (!isPlainObj(s.vocab)) s.vocab = defaultVocab();
   ['lessons', 'exams', 'opened'].forEach(k => { if (!isPlainObj(s.vocab[k])) s.vocab[k] = {}; });
   if (!Array.isArray(s.vocab.log)) s.vocab.log = [];
+  if (!isPlainObj(s.learn)) s.learn = defaultLearn();
+  ['h', 'x', 'f', 'days', 'snaps', 'stageEx', 'speak'].forEach(k => { if (!isPlainObj(s.learn[k])) s.learn[k] = defaultLearn()[k]; });
+  if (!Array.isArray(s.learn.assess)) s.learn.assess = [];
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;
