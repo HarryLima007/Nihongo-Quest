@@ -44,6 +44,8 @@
     "listening.js",
     "dict-data.js",
     "dictionary.js",
+    "world-data.js",
+    "world.js",
     "boot.js"
   ]
 }
