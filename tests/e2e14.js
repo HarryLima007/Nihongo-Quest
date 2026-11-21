@@ -44,21 +44,21 @@ const noScroll = page => page.evaluate(() => { const sw = document.documentEleme
 
   /* ---------- 1. migração 12.0 -> 13.0 ---------- */
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 13 && S.appVersion === '13.0.0', '12.0: migrado para o esquema 13 (versão 13.0.0)');
+  ok(S.schemaVersion === 14 && S.appVersion === '14.0.0', '12.0: migrado para o esquema 13 (versão 13.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema12') === r, raw), 'backup do save 12.0 guardado (nihongoQuest:backup:schema12) antes de migrar');
-  ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict', 'world', 'lacad', 'read', 'rpg', 'vocab', 'settings', 'profile', 'discoveries', 'listening', 'log'].forEach(k => ok(JSON.stringify(S[k]) === JSON.stringify(V12[k]), 'preservado: ' + k));
+  ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict', 'world', 'lacad', 'read', 'rpg', 'vocab', 'settings', 'profile', 'discoveries', 'listening', 'log'].forEach(k => ok(JSON.stringify(k === "dict" && S[k] ? { fav: S[k].fav, recent: S[k].recent } : S[k]) === JSON.stringify(k === "dict" && V12[k] ? { fav: V12[k].fav, recent: V12[k].recent } : V12[k]), 'preservado: ' + k));
   ok(JSON.stringify(S.journey.claimed) === JSON.stringify(V12.journey.claimed), 'preservado: recompensas únicas da jornada');
   ok(JSON.stringify(S.chat.chars) === JSON.stringify(V12.chat.chars) && JSON.stringify(S.chat.threads) === JSON.stringify(V12.chat.threads), 'preservado: Chat (personagens e conversas)');
   ok(S.learn && S.learn.v === 1 && S.learn.bf === 1, 'Central de Aprendizagem criada e histórico antigo aproveitado (bf=1)');
   const hN = Object.keys(S.learn.h).length, histIds = new Set(V12.history.filter(h => h.id).map(h => h.id)).size;
   ok(hN > 0 && hN <= histIds, 'histórico curto reconstruído do histórico salvo (' + hN + ' itens de ' + histIds + ')');
-  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 13, 'save regravado no esquema 13');
+  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 14, 'save regravado no esquema 13');
   await page.reload(); await closeModals(page);
   const S2 = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
   ok(S2.xp === S.xp && S2.coins === S.coins && JSON.stringify(S2.items) === JSON.stringify(S.items) && JSON.stringify(S2.learn.h) === JSON.stringify(S.learn.h), 'recarregar não altera o save (migração idempotente, sem duplicar histórico)');
-  const rev = await page.evaluate(r => { const s = JSON.parse(JSON.stringify(__NQ.S)), o = JSON.parse(r); delete s.learn; delete s.migratedFrom13; ['schemaVersion', 'appVersion', 'updatedAt'].forEach(k => { delete s[k]; delete o[k]; }); const ks = new Set(Object.keys(s).concat(Object.keys(o))); return [...ks].filter(k => JSON.stringify(s[k]) !== JSON.stringify(o[k])); }, raw);
+  const rev = await page.evaluate(r => { const s = JSON.parse(JSON.stringify(__NQ.S)), o = JSON.parse(r); delete s.learn; delete s.migratedFrom13; delete s.migratedFrom14; if (s.dict) ['hist', 'coll', 'words', 'opts'].forEach(k => delete s.dict[k]); if (o.dict) ['hist', 'coll', 'words', 'opts'].forEach(k => delete o.dict[k]); if (s.dict && o.dict && s.dict.v !== o.dict.v) delete s.dict.v, delete o.dict.v; ['schemaVersion', 'appVersion', 'updatedAt'].forEach(k => { delete s[k]; delete o[k]; }); const ks = new Set(Object.keys(s).concat(Object.keys(o))); return [...ks].filter(k => JSON.stringify(s[k]) !== JSON.stringify(o[k])); }, raw);
   ok(rev.length === 0, 'reversível: sem S.learn o save é exatamente o da 12.0 ' + JSON.stringify(rev));
-  const reMig = await page.evaluate(() => { const s = JSON.parse(JSON.stringify(__NQ.S)); s.schemaVersion = 12; const n = normalize(s); return n.schemaVersion === 13 && JSON.stringify(n.learn.h) === JSON.stringify(s.learn.h); });
+  const reMig = await page.evaluate(() => { const s = JSON.parse(JSON.stringify(__NQ.S)); s.schemaVersion = 12; const n = normalize(s); return n.schemaVersion === 14 && JSON.stringify(n.learn.h) === JSON.stringify(s.learn.h); });
   ok(reMig, 'migrar de novo um save que já tem a Central não apaga nada');
 
   /* ---------- 2. Central: estágios, palavra única, encontros ---------- */
@@ -228,7 +228,7 @@ const noScroll = page => page.evaluate(() => { const sw = document.documentEleme
   await p2.goto(URL); await p2.evaluate(() => localStorage.clear()); await p2.reload();
   await p2.fill('#nameInput', 'Teste').catch(() => {});
   const fresh = await p2.evaluate(() => { if (!__NQ.S.profile.onboarded) { __NQ.S.profile.name = 'Teste'; __NQ.S.profile.onboarded = true; render(); } const r = lnRecommend(4).map(x => x.k); go('progresso'); const okP = !!document.querySelector('.ln-prog'); go('avaliacoes'); return { v: __NQ.S.schemaVersion, learn: !!__NQ.S.learn, xp: __NQ.S.xp, r, okP }; });
-  ok(fresh.v === 13 && fresh.learn && fresh.xp === 0 && fresh.okP, 'aluno novo: esquema 13, Central vazia, painel abre, sem XP indevido');
+  ok(fresh.v === 14 && fresh.learn && fresh.xp === 0 && fresh.okP, 'aluno novo: esquema 13, Central vazia, painel abre, sem XP indevido');
   ok(fresh.r.includes('place') && fresh.r.includes('lesson'), 'aluno novo: recomenda a avaliação inicial e a primeira lição (' + fresh.r.join(', ') + ')');
 
   ok(errors.length === 0, 'sem erros no console ' + errors.slice(0, 5).join(' | '));

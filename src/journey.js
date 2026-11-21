@@ -10,6 +10,7 @@
 const NQ_SITE = 'https://harrylima007.github.io/Nihongo-Quest/';
 const NQ_REPO = 'https://github.com/HarryLima007/Nihongo-Quest';
 const NQ_HISTORY = [
+  ['14.0.0', '2026-11-21', 'Dicionário completo: Dicionário Geral japonês-português com 217 mil entradas do JMdict, 13 mil kanji do KANJIDIC2 com ordem dos traços (KanjiVG), 32 mil frases de exemplo (Tatoeba), acento tonal, busca por português, romaji, kana, kanji e inglês com tolerância a erros, reconhecimento de conjugações em cadeia, análise de frases, 34 partículas e estruturas novas, coleções, histórico, comparação e uso offline; esquema 14.'],
   ['13.0.0', '2026-11-21', 'Learning Intelligence: Central de Aprendizagem (apresentado, estudado, lembrado e dominado em todas as áreas), Revisão inteligente 2.0, Painel de progresso por habilidade, avaliações com estimativa de nível inspirada no JLPT, prática de fala e formas conjugadas no Dicionário; esquema 13.'],
   ['12.0.0', '2026-11-21', 'Expansão de vocabulário: Academia de Vocabulário com 20 categorias e 631 palavras, Dicionário 2.0 com vários sentidos, leituras de kanji em contexto, 14 partículas e busca mais inteligente, e novas situações no Mundo; esquema 12.'],
   ['11.0.0', '2026-11-21', 'Adventure Mode RPG: o Vale Asahi em Kotoba no Kuni, com exploração, NPCs, missões, baús, equipamentos e batalhas por turnos em que o poder das palavras (言霊) usa só o vocabulário que você já estudou; esquema 11.'],
@@ -179,6 +180,7 @@ function viewAbout() {
       <p><b>Assistência de IA:</b> parte do código e do conteúdo foi produzida com o Claude Code (Anthropic), sob a direção e a revisão do criador.</p>
       <p><b>Personagens, mascote Hikari, figurinhas e ilustrações:</b> desenhos em SVG feitos para o projeto.</p>
       <p><b>Voz:</b> síntese de voz do próprio aparelho (Web Speech API). As vozes pertencem ao sistema ou ao navegador de quem usa e não são distribuídas pelo app.</p>
+      <p><b>Dados do Dicionário Geral</b> (pasta dict/, sob as licenças originais, não sob o aviso de direitos do Nihongo Quest): JMdict, KANJIDIC2 e KRADFILE, propriedade do Electronic Dictionary Research and Development Group (EDRDG), conforme a licença do Grupo (CC BY-SA 4.0, edrdg.org/edrdg/licence.html); frases do Tatoeba (CC BY 2.0 FR, com o crédito de cada autor); ordem dos traços do KanjiVG (Ulrich Apel e colaboradores, CC BY-SA 3.0, kanjivg.tagaini.net); acento tonal do Kanjium (Uros O., CC BY-SA 4.0); níveis JLPT de kanji de Jonathan Waller (CC BY, tanos.co.uk/jlpt); kanji parecidos de Lars Yencken (CC BY 3.0). As traduções para o português feitas pelo projeto a partir desses dados seguem a licença CC BY-SA 4.0. Detalhes em dict/v1/LICENSE.md.</p>
       <p><b>Fontes:</b> M PLUS Rounded 1c e Nunito, carregadas do Google Fonts, sob a SIL Open Font License 1.1, de seus respectivos autores.</p>
       <p><b>Hospedagem:</b> GitHub Pages.</p>
       <p><b>Ferramentas de desenvolvimento</b> (não fazem parte do app publicado): Playwright e kuromoji.js (Apache 2.0, com o dicionário IPADIC), usados só nos testes automáticos, e Python para gerar o arquivo final.</p>
@@ -207,4 +209,4 @@ Object.assign(ACT, {
   nqDict: el => dictOpenWord(el.dataset.jp)
 });
 /* novidade da 10.0: aviso único para quem já usava o app */
-setTimeout(() => { try { const j = S.journey; if (S.profile.onboarded && j && j.seenVersion !== APP_VERSION) { const old = j.seenVersion || S.migratedFrom10 || S.migratedFrom11 || S.migratedFrom12 || S.migratedFrom13; j.seenVersion = APP_VERSION; save(); if (old) toast('績', 'Novo na 13.0: “Seu professor” no Início, Revisão inteligente e o Painel de progresso com o seu domínio real. Abra Revisão → Meu progresso.'); } } catch (e) {} }, 5200);
+setTimeout(() => { try { const j = S.journey; if (S.profile.onboarded && j && j.seenVersion !== APP_VERSION) { const old = j.seenVersion || S.migratedFrom10 || S.migratedFrom11 || S.migratedFrom12 || S.migratedFrom13 || S.migratedFrom14; j.seenVersion = APP_VERSION; save(); if (old) toast('辞', 'Novo na 14.0: Dicionário Geral com mais de 200 mil palavras, kanji com ordem dos traços, conjugações e análise de frases. Abra Caderno → Dicionário.'); } } catch (e) {} }, 5200);
