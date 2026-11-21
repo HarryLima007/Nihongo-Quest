@@ -684,6 +684,83 @@ button.conv:hover { background: var(--surface-2); }
 .la-word-pt { font-size: 1.05rem; }
 @media (max-width: 380px) { .la-speed button { min-width: 44px; padding-inline: 6px; } .mode-switch.three button { font-size: .82rem; } .mode-switch.three button svg { display: none; } }
 
+/* ==========================================================
+   7.0 — Listening Academy: pergunta falada, alternativas com voz, feedback
+   ========================================================== */
+.la-q { display: flex; align-items: flex-start; gap: 10px; }
+.la-q .q-prompt { flex: 1; min-width: 0; }
+.la-qbtn { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px 7px 10px; border-radius: 999px; background: color-mix(in srgb, var(--violet) 12%, var(--surface)); color: var(--violet); font-weight: 800; font-size: .82rem; border: 2px solid transparent; }
+.la-qbtn svg { width: 18px; height: 18px; }
+.la-qbtn.playing, .la-ans .icon-btn.playing, .d-snd.playing { border-color: currentColor; animation: la-pulse 1s ease-in-out infinite; }
+@keyframes la-pulse { 50% { transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { .la-qbtn.playing, .la-ans .icon-btn.playing, .d-snd.playing { animation: none; } }
+.la-qjp { display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border-radius: 12px; background: var(--surface-2); font-size: .92rem; }
+.la-opt-tip { margin: 0; font-size: .8rem; text-align: center; }
+.la-opt.has-snd { position: relative; padding-right: 44px; }
+.la-osnd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); display: grid; place-items: center; }
+.la-osnd svg { width: 18px; height: 18px; }
+.la-opt.speaking .la-osnd { color: var(--royal); animation: la-pulse 1s ease-in-out infinite; }
+.la-opt.speaking:not(.sel):not(.right):not(.wrong) { border-color: color-mix(in srgb, var(--royal) 45%, var(--line)); }
+.la-opt[aria-disabled="true"] { cursor: default; }
+.la-ans { display: flex; align-items: center; gap: 10px; margin: 6px 0; padding: 10px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); text-align: left; }
+.la-ans-t { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.la-ans-jp { font-size: 1.15rem; font-weight: 700; overflow-wrap: anywhere; }
+.la-dict { font-family: var(--f-display); font-weight: 800; font-size: 1rem; color: var(--violet); }
+
+/* ==========================================================
+   7.0 — Dicionário
+   ========================================================== */
+.d-tabs { margin-left: auto; }
+.d-search { position: relative; }
+.d-search .search { padding-right: 44px; font-size: 1rem; }
+.d-clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 10px; font-size: 1.4rem; line-height: 1; color: var(--muted); }
+.d-try { padding: 0 2px; font-size: inherit; }
+.d-list { padding: 4px 12px; }
+.d-row { display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--line); }
+.d-row:last-child { border-bottom: 0; }
+.d-main { flex: 1; min-width: 0; text-align: left; display: flex; flex-direction: column; gap: 1px; padding: 11px 0; background: none; color: inherit; }
+.d-jp { font-size: 1.3rem; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; }
+.d-sub { font-size: .82rem; color: var(--muted); font-weight: 600; }
+.d-pos { color: var(--violet); }
+.d-pt { font-size: .95rem; font-weight: 700; overflow-wrap: anywhere; }
+.d-acts { display: flex; align-items: center; gap: 4px; flex: none; }
+.d-fav { color: var(--gold); display: grid; place-items: center; width: 24px; }
+.d-wod-in { display: flex; align-items: center; gap: 10px; }
+.d-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.d-chip { display: inline-flex; flex-direction: column; align-items: flex-start; padding: 7px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); max-width: 100%; text-align: left; }
+.d-chip .jp { font-weight: 700; font-size: 1.05rem; }
+.d-chip small { color: var(--muted); font-size: .74rem; font-weight: 700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.d-themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.d-theme { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); font-weight: 800; font-size: .88rem; text-align: left; }
+.d-theme .jp { width: 32px; height: 32px; flex: none; border-radius: 10px; display: grid; place-items: center; background: var(--surface-2); color: var(--violet); font-size: 1.05rem; }
+.d-sheet { gap: 12px; }
+.d-entry { display: flex; flex-direction: column; gap: 14px; }
+.d-entry section { display: flex; flex-direction: column; gap: 6px; }
+.d-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.d-head-t { display: flex; flex-direction: column; min-width: 0; }
+.d-big { font-size: 2.4rem; font-weight: 800; line-height: 1.15; overflow-wrap: anywhere; }
+.d-read { font-size: 1.05rem; color: var(--violet); font-weight: 700; }
+.d-ro { font-size: .95rem; color: var(--muted); font-weight: 700; }
+.d-head-b { display: flex; align-items: center; gap: 8px; }
+.icon-btn.big { width: 52px; height: 52px; border-radius: 16px; }
+.icon-btn.big svg { width: 26px; height: 26px; }
+.d-poschip { align-self: flex-start; }
+.d-means { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 3px; font-weight: 700; }
+.d-note { margin: 0; font-size: .9rem; color: var(--muted); }
+.d-kanji { display: flex; flex-direction: column; gap: 6px; }
+.d-kj { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); text-align: left; }
+.d-kj > .jp { font-size: 1.8rem; font-weight: 800; width: 40px; text-align: center; flex: none; }
+.d-kj > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+.d-kj small { color: var(--muted); font-weight: 700; }
+.d-ex { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.d-ex-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.d-ex-jp { font-weight: 700; font-size: 1.05rem; overflow-wrap: anywhere; }
+.d-segs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.d-seg { padding: 5px 10px; border-radius: 10px; background: var(--surface-2); font-family: var(--f-display); font-weight: 700; font-size: .92rem; border: 2px solid transparent; color: var(--text); }
+.d-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.d-btns .btn { flex: 1 1 160px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.d-done { color: var(--ok); }
+
 </style>
 <div class="app" id="app"><main id="view"></main></div>
 <nav class="tabbar" id="tabbar" aria-label="Navegação principal"><div class="tabbar-in">
@@ -9786,8 +9863,8 @@ const NQK = (function () {
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '6.0.0';
-const SCHEMA_VERSION = 6;
+const APP_VERSION = '7.0.0';
+const SCHEMA_VERSION = 7;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -9840,11 +9917,14 @@ function defaultState() {
     discoveries: {},
     exStats: {}, skills: {}, log: {}, tests: [],
     chat: defaultChat(),
-    lacad: defaultLacad()
+    lacad: defaultLacad(),
+    dict: defaultDict()
   };
 }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
 function defaultLacad() { return { v: 1, lessons: {}, exams: {}, words: {}, dialogs: {}, speed: 1, stats: { a: 0, c: 0, ms: 0, byCat: {}, byType: {} } }; }
+/* 7.0: Dicionário (favoritos e recentes; salvar no Caderno usa S.items, como o resto do app) */
+function defaultDict() { return { v: 1, fav: {}, recent: [] }; }
 function defaultListening() {
   const ac = () => ({ a: 0, c: 0 });
   return {
@@ -9912,6 +9992,13 @@ const MIGRATIONS = {
     if (!isPlainObj(s.lacad)) s.lacad = defaultLacad();
     s.migratedFrom6 = { schema: 5, at: Date.now() };
     return s;
+  },
+  6: s => { // 6.0 -> 7.0: só ACRESCENTA o Dicionário. XP, níveis, conquistas, histórico, Caderno, Revisão, Chat e
+    // progresso da Academia e da Listening Academy ficam intactos. (S.lacad.taught é reconstruído das lições já
+    // feitas na primeira vez que a Listening Academy é aberta.)
+    if (!isPlainObj(s.dict)) s.dict = defaultDict();
+    s.migratedFrom7 = { schema: 6, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -9943,6 +10030,9 @@ function normalize(data) {
   if (!isPlainObj(s.lacad)) s.lacad = defaultLacad();
   ['lessons', 'exams', 'words', 'dialogs'].forEach(k => { if (!isPlainObj(s.lacad[k])) s.lacad[k] = {}; });
   if (!isPlainObj(s.lacad.stats)) s.lacad.stats = defaultLacad().stats;
+  if (!isPlainObj(s.dict)) s.dict = defaultDict();
+  if (!isPlainObj(s.dict.fav)) s.dict.fav = {};
+  if (!Array.isArray(s.dict.recent)) s.dict.recent = [];
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;
@@ -10219,9 +10309,12 @@ function genNumQ() {
 function poolFor(item, n, field) {
   const same = item.lesson.items.filter(x => x !== item);
   const kind = item.lesson.kind;
-  let others = ALL_LESSONS.filter(l => l !== item.lesson && l.kind === kind).flatMap(l => l.items);
+  // 7.0: alternativas vêm primeiro da mesma ala e das etapas anteriores; conteúdo futuro só como último recurso
+  const pos = ALL_LESSONS.indexOf(item.lesson), sameKind = ALL_LESSONS.filter(l => l !== item.lesson && l.kind === kind);
+  const near = sameKind.filter(l => l.cat === item.lesson.cat), past = sameKind.filter(l => l.cat !== item.lesson.cat && (pos < 0 || ALL_LESSONS.indexOf(l) < pos)), rest = sameKind.filter(l => !near.includes(l) && !past.includes(l));
+  const others = shuffle(near.flatMap(l => l.items)).concat(shuffle(past.flatMap(l => l.items)), shuffle(rest.flatMap(l => l.items)));
   const seen = new Set([item[field]]); const out = [];
-  for (const x of shuffle(same).concat(shuffle(others))) { if (out.length >= n) break; if (seen.has(x[field])) continue; seen.add(x[field]); out.push(x); }
+  for (const x of shuffle(same).concat(others)) { if (out.length >= n) break; if (seen.has(x[field])) continue; seen.add(x[field]); out.push(x); }
   return out;
 }
 function explainItem(it) { return it.jp + ' (' + it.ro + ') = ' + it.pt + '. ' + (it.note || ''); }
@@ -10266,11 +10359,38 @@ function authoredQ(ex, lesson) {
   }
   return null;
 }
-function reviewPool(excludeLesson) {
-  // itens de lições anteriores, priorizando os mais errados
-  return seenItems().map(id => ITEM[id]).filter(it => it.lesson !== excludeLesson)
+/* ---------- 7.0: CURRÍCULO — de onde cada avaliação pode tirar perguntas ----------
+   Regra única para todas as avaliações (Academia e Listening Academy):
+   uma avaliação só cobra conteúdo do CURRÍCULO daquela etapa. "Visto" (S.items.seen) NÃO é
+   currículo: o Chat, o Caderno, o Dicionário, a Revisão e a própria Listening Academy marcam
+   palavras como vistas, e isso alimenta a Revisão, nunca as avaliações.
+   - Fonte de um item: 'academia' (lições de CATS), 'auditiva' (pacotes 2.0), 'listening' (6.0),
+     'chat', 'dicionario'. Só itens 'academia' podem aparecer como revisão dentro de uma avaliação.
+   - Escopo de uma lição L: as lições ANTERIORES da mesma ala (mesma progressão), já aprovadas.
+     Nada de alas futuras, de outras alas ou de outras áreas do app. */
+const ACADEMY_LESSONS = new Set(ALL_LESSONS);
+function itemSource(it) {
+  if (!it || !it.lesson) return 'outro';
+  if (ACADEMY_LESSONS.has(it.lesson)) return 'academia';
+  if (it.lesson.la) return 'listening';
+  if (it.lesson.id === 'chat') return 'chat';
+  if (it.lesson.id === 'dict') return 'dicionario';
+  if (AUDIO_PACKS.includes(it.lesson)) return 'auditiva';
+  return 'outro';
+}
+function curriculumScope(L) {
+  if (!L || !ACADEMY_LESSONS.has(L)) return [];
+  return L.cat.lessons.slice(0, L.index).filter(l => lessonPassed(l.id));
+}
+function reviewPool(L) {
+  // revisão DENTRO da avaliação: só itens já estudados das lições anteriores desta mesma ala
+  const scope = curriculumScope(L);
+  return scope.flatMap(l => l.items).filter(it => itemSource(it) === 'academia' && S.items[it.id] && S.items[it.id].seen)
     .sort((a, b) => ((S.items[b.id].w - S.items[b.id].c * .3) - (S.items[a.id].w - S.items[a.id].c * .3)) + (Math.random() - .5));
 }
+/* itens que podem servir de alternativa (distratores): conteúdo de curso, nunca Chat ou Dicionário */
+let _curItems = null;
+function curriculumItems() { return _curItems || (_curItems = Object.values(ITEM).filter(it => ['academia', 'auditiva', 'listening'].includes(itemSource(it)))); }
 /* 2.1: perguntas de áudio dentro das lições da Academia (não em kana nem kanji) */
 function lessonCanListen(L) { return !L.noListen && ['vocab', 'grammar', 'kanaword'].includes(L.kind) && L.cat && L.cat.id !== 'c7'; }
 function lessonListenQs(L, n) {
@@ -11278,7 +11398,7 @@ function sayOf(it) { return it.say || it.jp; }
 function ptDistractors(it, pool, n = 3) {
   const seen = new Set([it.pt]), out = [];
   const g = groupOf(it);
-  const cands = shuffle(pool.filter(x => groupOf(x) === g)).concat(shuffle(pool), shuffle(Object.values(ITEM).filter(x => groupOf(x) === g)));
+  const cands = shuffle(pool.filter(x => groupOf(x) === g)).concat(shuffle(pool), shuffle(curriculumItems().filter(x => groupOf(x) === g)));
   for (const x of cands) { if (out.length >= n) break; if (x === it || seen.has(x.pt)) continue; seen.add(x.pt); out.push(x); }
   return out;
 }
@@ -11671,7 +11791,7 @@ function viewNotebook() {
       <div class="nb-meta"><span class="chip nova">${GROUP_LABEL[g]}</span><span>${esc(originOf(it))}</span><span>· desde ${new Date(r.seen).toLocaleDateString('pt-BR')}</span>${r.c + r.w ? `<span class="tabnum">· ${r.c} acerto${r.c === 1 ? '' : 's'}, ${r.w} erro${r.w === 1 ? '' : 's'}</span>` : ''}${g === 'anime' ? `<button class="link-btn" style="padding:0" data-act="discOpen" data-id="${it.id}">Ver descoberta</button>` : ''}</div></div>`;
   };
   // agrupa pela origem, mantendo a ordem do conteúdo
-  const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK]);
+  const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK], typeof DICT_LESSON !== 'undefined' ? [DICT_LESSON] : []);
   let groups;
   if (nb.t === 'dificeis') groups = entries.length ? `<section class="section"><div class="card">${entries.map(entryHTML).join('')}</div></section>` : '';
   else groups = order.map(l => { const list = entries.filter(it => it.lesson === l); return list.length ? `<section class="section"><div class="section-h"><h2 style="font-size:1rem">${esc(l.kind === 'audio' || l.id === 'chat' ? originOf(list[0]) : l.title)}</h2><span class="muted" style="font-size:.8rem">${esc(l.cat.title)}</span></div><div class="card">${list.map(entryHTML).join('')}</div></section>` : ''; }).join('');
@@ -15327,6 +15447,315 @@ const LA_CATS = [
 ];
 
 /* ==========================================================
+   Nihongo Quest 7.0 — VOZ DAS PERGUNTAS E DAS ALTERNATIVAS
+   Cada pergunta da Listening Academy tem uma versão falada em japonês e
+   cada alternativa tem a sua pronúncia. Aqui ficam:
+   - KANA: conversão romaji → kana e kana → romaji (usada também pelo Dicionário);
+   - LA_QJP: a pergunta falada de cada tipo de exercício;
+   - LA_JP: a versão japonesa das perguntas e alternativas escritas em português
+     nas lições (comp, gist, mean, line). Chave = o texto em português, exatamente.
+   Para conteúdo novo: acrescente aqui o japonês de cada alternativa em português.
+   O teste tests/e2e8.js falha se alguma alternativa ficar sem áudio.
+   ========================================================== */
+const KANA = (() => {
+  const T = {
+    kya: 'きゃ', kyu: 'きゅ', kyo: 'きょ', sha: 'しゃ', shu: 'しゅ', she: 'しぇ', sho: 'しょ', cha: 'ちゃ', chu: 'ちゅ', che: 'ちぇ', cho: 'ちょ',
+    nya: 'にゃ', nyu: 'にゅ', nyo: 'にょ', hya: 'ひゃ', hyu: 'ひゅ', hyo: 'ひょ', mya: 'みゃ', myu: 'みゅ', myo: 'みょ', rya: 'りゃ', ryu: 'りゅ', ryo: 'りょ',
+    gya: 'ぎゃ', gyu: 'ぎゅ', gyo: 'ぎょ', ja: 'じゃ', ju: 'じゅ', je: 'じぇ', jo: 'じょ', bya: 'びゃ', byu: 'びゅ', byo: 'びょ', pya: 'ぴゃ', pyu: 'ぴゅ', pyo: 'ぴょ',
+    sya: 'しゃ', syu: 'しゅ', syo: 'しょ', tya: 'ちゃ', tyu: 'ちゅ', tyo: 'ちょ', zya: 'じゃ', zyu: 'じゅ', zyo: 'じょ', jya: 'じゃ', jyu: 'じゅ', jyo: 'じょ',
+    shi: 'し', chi: 'ち', tsu: 'つ', fa: 'ふぁ', fi: 'ふぃ', fe: 'ふぇ', fo: 'ふぉ', ti: 'てぃ', di: 'でぃ', tu: 'つ', si: 'し', zi: 'じ', hu: 'ふ',
+    ka: 'か', ki: 'き', ku: 'く', ke: 'け', ko: 'こ', sa: 'さ', su: 'す', se: 'せ', so: 'そ', ta: 'た', te: 'て', to: 'と',
+    na: 'な', ni: 'に', nu: 'ぬ', ne: 'ね', no: 'の', ha: 'は', hi: 'ひ', fu: 'ふ', he: 'へ', ho: 'ほ', ma: 'ま', mi: 'み', mu: 'む', me: 'め', mo: 'も',
+    ya: 'や', yu: 'ゆ', yo: 'よ', ra: 'ら', ri: 'り', ru: 'る', re: 'れ', ro: 'ろ', wa: 'わ', wo: 'を', ga: 'が', gi: 'ぎ', gu: 'ぐ', ge: 'げ', go: 'ご',
+    za: 'ざ', ji: 'じ', zu: 'ず', ze: 'ぜ', zo: 'ぞ', da: 'だ', de: 'で', do: 'ど', ba: 'ば', bi: 'び', bu: 'ぶ', be: 'べ', bo: 'ぼ', pa: 'ぱ', pi: 'ぴ', pu: 'ぷ', pe: 'ぺ', po: 'ぽ',
+    va: 'ゔぁ', vi: 'ゔぃ', vu: 'ゔ', ve: 'ゔぇ', vo: 'ゔぉ', a: 'あ', i: 'い', u: 'う', e: 'え', o: 'お'
+  };
+  const R = {}; Object.keys(T).sort((a, b) => b.length - a.length).forEach(k => { if (!R[T[k]] || /^(shi|chi|tsu|fu|ji|sha|shu|sho|cha|chu|cho|ja|ju|jo)$/.test(k)) R[T[k]] = k; });
+  const strip = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '');
+  /* romaji → hiragana (aceita macron, ō, ou, oo, n', nn, consoante dobrada) */
+  function toKana(ro) {
+    let s = strip(ro).toLowerCase().replace(/ā/g, 'aa').replace(/[^a-z'\-\s]/g, '');
+    let out = '', i = 0;
+    while (i < s.length) {
+      const c = s[i];
+      if (c === ' ' || c === '-') { out += c === '-' ? 'ー' : ''; i++; continue; }
+      if (c === "'") { i++; continue; }
+      if (c === 'n' && (s[i + 1] === "'" || s[i + 1] === 'n' && !'aiueoy'.includes(s[i + 2] || '') || !s[i + 1] || !'aiueoy'.includes(s[i + 1]))) { out += 'ん'; i += s[i + 1] === "'" || (s[i + 1] === 'n' && !'aiueoy'.includes(s[i + 2] || '')) ? 2 : 1; continue; }
+      if (c === 'm' && 'bpm'.includes(s[i + 1] || '') ) { out += 'ん'; i++; continue; }
+      if (c === s[i + 1] && !'aiueon'.includes(c)) { out += 'っ'; i++; continue; }
+      if (c === 't' && s[i + 1] === 'c' && s[i + 2] === 'h') { out += 'っ'; i++; continue; }
+      let hit = false;
+      for (const L of [3, 2, 1]) { const k = s.substr(i, L); if (T[k]) { out += T[k]; i += L; hit = true; break; } }
+      if (!hit) i++;
+    }
+    return out;
+  }
+  const kata2hira = s => String(s || '').replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+  /* kana → romaji (Hepburn simples; ー alonga a vogal anterior) */
+  function toRomaji(kana) {
+    const s = kata2hira(kana); let out = '';
+    for (let i = 0; i < s.length; i++) {
+      const two = s.substr(i, 2);
+      if (/[ゃゅょぁぃぅぇぉ]/.test(s[i + 1] || '') && R[two]) { out += R[two]; i++; continue; }
+      const ch = s[i];
+      if (ch === 'っ') { const nx = R[s.substr(i + 1, /[ゃゅょ]/.test(s[i + 2] || '') ? 2 : 1)] || ''; out += nx.startsWith('ch') ? 't' : nx[0] || ''; continue; }
+      if (ch === 'ん') { out += /[aiueoy]/.test((R[s[i + 1]] || '')[0] || '') ? "n'" : 'n'; continue; }
+      if (ch === 'ー') { out += out.slice(-1); continue; }
+      out += R[ch] || (/[\s　]/.test(ch) ? ' ' : /[a-z0-9]/i.test(ch) ? ch.toLowerCase() : '');
+    }
+    return out;
+  }
+  /* chave fonética para comparar grafias diferentes: ou/oo/ō → o, uu → u, shi/si, tsu/tu, n' … */
+  function phon(s) {
+    let r = strip(s).toLowerCase();
+    if (/[぀-ヿ]/.test(r)) r = toRomaji(r);
+    return r.replace(/[^a-z]/g, '').replace(/sh/g, 's').replace(/ch/g, 't').replace(/ts/g, 't').replace(/j/g, 'z').replace(/f/g, 'h').replace(/(.)\1+/g, '$1').replace(/ou/g, 'o').replace(/ei/g, 'e').replace(/y(?=[aiueo])/g, '');
+  }
+  return { toKana, toRomaji, kata2hira, phon, strip };
+})();
+
+/* pergunta falada de cada tipo (Aiko-sensei lê): japonês | romaji | português */
+const LA_QJP = {
+  id: 'いまの ことばは どういう いみですか。|ima no kotoba wa dou iu imi desu ka?|O que significa a palavra que você ouviu?',
+  rec: 'どれを ききましたか。|dore o kikimashita ka?|Qual destas você ouviu?',
+  mean: 'なんと いいましたか。|nan to iimashita ka?|O que a pessoa disse?',
+  spot: 'どの ことばが ありましたか。|dono kotoba ga arimashita ka?|Qual palavra apareceu?',
+  order: 'きいた じゅんばんに ならべて ください。|kiita junban ni narabete kudasai.|Monte na ordem em que você ouviu.',
+  tf: 'ほんとう ですか、うそ ですか。|hontou desu ka, uso desu ka?|Verdadeiro ou falso?',
+  intent: 'この ひとは なにを していますか。|kono hito wa nani o shite imasu ka?|O que esta pessoa está fazendo?',
+  reply: 'なんと こたえますか。|nan to kotaemasu ka?|Como você responde?',
+  comp: 'しつもんです。|shitsumon desu.|Pergunta:',
+  gist: 'どんな はなし ですか。|donna hanashi desu ka?|Sobre o que é a conversa?',
+  line: 'この セリフは どういう いみですか。|kono serifu wa dou iu imi desu ka?|O que significa esta fala?',
+  reg: 'どんな はなしかた ですか。|donna hanashikata desu ka?|Como a pessoa está falando?'
+};
+/* alternativas fixas */
+const LA_TF_JP = { Verdadeiro: 'ほんとう|hontou', Falso: 'うそ|uso' };
+const LA_INTENT_JP = { pergunta: 'しつもん|shitsumon', agradecimento: 'おれい|orei', convite: 'さそい|sasoi', recusa: 'ことわり|kotowari', pedido: 'おねがい|onegai', desculpa: 'おわび|owabi', cumprimento: 'あいさつ|aisatsu', despedida: 'わかれの あいさつ|wakare no aisatsu', oferta: 'すすめる|susumeru' };
+const LA_REG_JP = { casual: 'タメぐち（カジュアル）|tameguchi (kajuaru)', educado: 'ていねいご|teineigo', formal: 'けいご|keigo' };
+
+/* japonês das perguntas e alternativas escritas em português (comp, gist, mean, line) */
+const LA_JP = {
+  // perguntas de compreensão
+  'Como se chama o rapaz?': 'おとこの この なまえは なんですか。|otoko no ko no namae wa nan desu ka?',
+  'Como a Yumi está?': 'ゆみさんは どうですか。|Yumi-san wa dou desu ka?',
+  'Do que os dois gostam?': 'ふたりは なにが すきですか。|futari wa nani ga suki desu ka?',
+  'Que horas são?': 'いま なんじですか。|ima nanji desu ka?',
+  'O que o Ren propôs?': 'れんくんは なにを ていあん しましたか。|Ren-kun wa nani o teian shimashita ka?',
+  'De onde o Haruto veio?': 'はるとくんは どこから きましたか。|Haruto-kun wa doko kara kimashita ka?',
+  'Como a Yumi reage?': 'ゆみさんは どう はんのう しますか。|Yumi-san wa dou hannou shimasu ka?',
+  'O que o Ren comprou?': 'れんくんは なにを かいましたか。|Ren-kun wa nani o kaimashita ka?',
+  'Quando eles vão jogar?': 'いつ あそびますか。|itsu asobimasu ka?',
+  'Por que a Yumi pede desculpas?': 'ゆみさんは どうして あやまりますか。|Yumi-san wa doushite ayamarimasu ka?',
+  'Quando é a prova?': 'テストは いつですか。|tesuto wa itsu desu ka?',
+  'Quantas pessoas são?': 'なんにん ですか。|nannin desu ka?',
+  'O que o Ren pediu?': 'れんくんは なにを ちゅうもん しましたか。|Ren-kun wa nani o chuumon shimashita ka?',
+  'O que eles vão beber?': 'なにを のみますか。|nani o nomimasu ka?',
+  'O que a professora quer comprar?': 'せんせいは なにを かいたいですか。|sensei wa nani o kaitai desu ka?',
+  'Quanto custa?': 'いくら ですか。|ikura desu ka?',
+  'Qual é o hobby do Haruto?': 'はるとくんの しゅみは なんですか。|Haruto-kun no shumi wa nan desu ka?',
+  'Que músicas a Yumi mais canta?': 'ゆみさんは どんな うたを よく うたいますか。|Yumi-san wa donna uta o yoku utaimasu ka?',
+  'A que horas o Ren costuma acordar?': 'れんくんは いつも なんじに おきますか。|Ren-kun wa itsumo nanji ni okimasu ka?',
+  'O que aconteceu hoje?': 'きょう なにが ありましたか。|kyou nani ga arimashita ka?',
+  'Sobre quais assuntos eles falam?': 'なんの はなしを していますか。|nan no hanashi o shite imasu ka?',
+  'Que expressão o Ren usa para mudar de assunto?': 'れんくんは わだいを かえる とき、なんと いいますか。|Ren-kun wa wadai o kaeru toki, nan to iimasu ka?',
+  'Como foi a prova da Yumi?': 'ゆみさんの テストは どうでしたか。|Yumi-san no tesuto wa dou deshita ka?',
+  'Quando a Yumi está livre?': 'ゆみさんは いつ ひまですか。|Yumi-san wa itsu hima desu ka?',
+  'Por que ela não pode no sábado?': 'どうして どようびは だめですか。|doushite doyoubi wa dame desu ka?',
+  'O que eles vão fazer?': 'なにを しますか。|nani o shimasu ka?',
+  'Para que serve えーと na fala da Yumi?': 'ゆみさんの 「えーと」は なんの ためですか。|Yumi-san no "eeto" wa nan no tame desu ka?',
+  'O que acontece na conversa?': 'かいわで なにが おきますか。|kaiwa de nani ga okimasu ka?',
+  'Por que o primeiro produto não tem desconto?': 'どうして ひとつめは ねびき できませんか。|doushite hitotsume wa nebiki dekimasen ka?',
+  'O que o Ren decide?': 'れんくんは どう しますか。|Ren-kun wa dou shimasu ka?',
+  'O que as três pessoas dizem?': '三にんは なんと いっていますか。|sannin wa nan to itte imasu ka?',
+  'Qual é o plano?': 'よていは なんですか。|yotei wa nan desu ka?',
+  'Por que a professora não pode ir mais cedo?': 'せんせいは どうして はやく いけませんか。|sensei wa doushite hayaku ikemasen ka?',
+  'Onde e quando eles se encontram?': 'いつ どこで あいますか。|itsu doko de aimasu ka?',
+  'Como o Ren fala com a professora?': 'れんくんは せんせいに どう はなしますか。|Ren-kun wa sensei ni dou hanashimasu ka?',
+  'Por que a Yumi ligou?': 'ゆみさんは どうして でんわ しましたか。|Yumi-san wa doushite denwa shimashita ka?',
+  'A que horas eles vão se encontrar?': 'なんじに あいますか。|nanji ni aimasu ka?',
+  'Onde eles vão se encontrar?': 'どこで あいますか。|doko de aimasu ka?',
+  'O que らしい indica na fala da Yumi?': 'ゆみさんの 「らしい」は なにを あらわしますか。|Yumi-san no "rashii" wa nani o arawashimasu ka?',
+  // alternativas
+  'Bom apetite!': 'いただきます！|itadakimasu!',
+  'Até amanhã!': 'また あした！|mata ashita!',
+  'Com licença.': 'しつれいします。|shitsurei shimasu.',
+  'Bom dia!': 'おはよう！|ohayou!',
+  'Obrigado!': 'ありがとう！|arigatou!',
+  'Quero chá, por favor.': 'おちゃを ください。|ocha o kudasai.',
+  'Onde fica a água?': 'みずは どこですか。|mizu wa doko desu ka?',
+  'A água está gelada.': 'みずが つめたいです。|mizu ga tsumetai desu.',
+  'Mais devagar, por favor.': 'ゆっくり おねがいします。|yukkuri onegai shimasu.',
+  'Muito obrigado.': 'どうも ありがとう ございます。|doumo arigatou gozaimasu.',
+  'Até a próxima.': 'また こんど。|mata kondo.',
+  'Isto é um livro.': 'これは ほんです。|kore wa hon desu.',
+  'Onde é aqui?': 'ここは どこですか。|koko wa doko desu ka?',
+  'Quem é ela?': 'あの ひとは だれですか。|ano hito wa dare desu ka?',
+  'Não entendi.': 'わかりません。|wakarimasen.',
+  'Não sei.': 'しりません。|shirimasen.',
+  'Você entendeu?': 'わかりましたか。|wakarimashita ka?',
+  'Está com fome?': 'おなかが すきましたか。|onaka ga sukimashita ka?',
+  'Está cansada?': 'つかれましたか。|tsukaremashita ka?',
+  'Vai sair?': 'でかけますか。|dekakemasu ka?',
+  'De onde você é?': 'どこから きましたか。|doko kara kimashita ka?',
+  'Quantos anos você tem?': 'なんさい ですか。|nansai desu ka?',
+  'O que você faz?': 'おしごとは なんですか。|oshigoto wa nan desu ka?',
+  'Haruto': 'はると|Haruto',
+  'Yumi': 'ゆみ|Yumi',
+  'Ren': 'れん|Ren',
+  'Um pouco cansada': 'ちょっと つかれています|chotto tsukarete imasu',
+  'Muito animada': 'とても げんき|totemo genki',
+  'Com fome': 'おなかが すいています|onaka ga suite imasu',
+  'Está cansado?': 'つかれた？|tsukareta?',
+  'O que você quer comer?': 'なにが たべたいですか。|nani ga tabetai desu ka?',
+  'Onde você mora?': 'どこに すんでいますか。|doko ni sunde imasu ka?',
+  'O que é isto?': 'これは なんですか。|kore wa nan desu ka?',
+  'Lámen': 'ラーメン|raamen',
+  'Games': 'ゲーム|geemu',
+  'Anime': 'アニメ|anime',
+  'Quando você vai?': 'いつ いきますか。|itsu ikimasu ka?',
+  'Com quem você vai?': 'だれと いきますか。|dare to ikimasu ka?',
+  'O que você vai comer?': 'なにを たべますか。|nani o tabemasu ka?',
+  'Três horas': '三じ|sanji',
+  'Duas horas': '二じ|niji',
+  'Dez horas': '十じ|juuji',
+  'Ir ao karaokê amanhã': 'あした カラオケに いく|ashita karaoke ni iku',
+  'Estudar juntos hoje': 'きょう いっしょに べんきょうする|kyou issho ni benkyou suru',
+  'Comer lámen agora': 'いま ラーメンを たべる|ima raamen o taberu',
+  'Do Brasil': 'ブラジルから|Burajiru kara',
+  'Do Japão': 'にほんから|Nihon kara',
+  'De Portugal': 'ポルトガルから|Porutogaru kara',
+  'Fica impressionada': 'すごいと おもう|sugoi to omou',
+  'Fica triste': 'かなしくなる|kanashiku naru',
+  'Não entende': 'わからない|wakaranai',
+  'Eu também sou do Brasil.': 'わたしも ブラジルから きました。|watashi mo Burajiru kara kimashita.',
+  'Até amanhã, pessoal.': 'みんな、また あした。|minna, mata ashita.',
+  'Desculpem o atraso.': 'おくれて すみません。|okurete sumimasen.',
+  'Um jogo novo': 'あたらしい ゲーム|atarashii geemu',
+  'Um mangá': 'まんが|manga',
+  'Um lámen': 'ラーメン ひとつ|raamen hitotsu',
+  'No sábado': 'どようびに|doyoubi ni',
+  'Hoje': 'きょう|kyou',
+  'Na segunda': 'げつようびに|getsuyoubi ni',
+  'Eu não gosto de jogos.': 'ゲームは すきじゃない。|geemu wa suki ja nai.',
+  'Onde você comprou?': 'どこで かったの？|doko de katta no?',
+  'Quanto custou?': 'いくら だった？|ikura datta?',
+  'Esqueceu a lição de casa': 'しゅくだいを わすれた|shukudai o wasureta',
+  'Chegou atrasada': 'ちこく した|chikoku shita',
+  'Perdeu a prova': 'テストを うけなかった|tesuto o ukenakatta',
+  'Sexta da semana que vem': 'らいしゅうの きんようび|raishuu no kin\'youbi',
+  'Amanhã': 'あした|ashita',
+  'Esta segunda': 'こんしゅうの げつようび|konshuu no getsuyoubi',
+  'Ótimo, você fez tudo certo.': 'よく できました。ぜんぶ できましたね。|yoku dekimashita. zenbu dekimashita ne.',
+  'A prova é amanhã.': 'テストは あしたです。|tesuto wa ashita desu.',
+  'Vá para casa agora.': 'いま うちに かえって ください。|ima uchi ni kaette kudasai.',
+  'Duas': 'ふたり|futari',
+  'Uma': 'ひとり|hitori',
+  'Três': 'さんにん|sannin',
+  'Dois lámens': 'ラーメン ふたつ|raamen futatsu',
+  'Um lámen e um chá': 'ラーメン ひとつと おちゃ ひとつ|raamen hitotsu to ocha hitotsu',
+  'Dois chás': 'おちゃ ふたつ|ocha futatsu',
+  'Água': 'おみず|omizu',
+  'Chá': 'おちゃ|ocha',
+  'Suco': 'ジュース|juusu',
+  'Um guarda-chuva': 'かさ|kasa',
+  'Uma sacola': 'ふくろ|fukuro',
+  'Um livro': 'ほん|hon',
+  'Mil ienes': 'せんえん|sen\'en',
+  'Cem ienes': 'ひゃくえん|hyakuen',
+  'Dez mil ienes': 'いちまんえん|ichiman\'en',
+  'Volte sempre.': 'また おこし ください。|mata okoshi kudasai.',
+  'Esse acabou.': 'それは うりきれです。|sore wa urikire desu.',
+  'Quer pagar com cartão?': 'カードで おしはらいですか。|kaado de oshiharai desu ka?',
+  'Futebol e games': 'サッカーと ゲーム|sakkaa to geemu',
+  'Karaokê': 'カラオケ|karaoke',
+  'Ler livros': 'ほんを よむ こと|hon o yomu koto',
+  'De anime': 'アニメの うた|anime no uta',
+  'De rock': 'ロック|rokku',
+  'Músicas antigas': 'むかしの うた|mukashi no uta',
+  'Eu não gosto de música.': 'おんがくは すきじゃない。|ongaku wa suki ja nai.',
+  'Vamos agora?': 'いま いこうか。|ima ikou ka?',
+  'Às sete': '七じに|shichiji ni',
+  'Às seis': '六じに|rokuji ni',
+  'Às oito': '八じに|hachiji ni',
+  'Ele perdeu a hora': 'ねぼう した|nebou shita',
+  'Ele acordou cedo': 'はやく おきた|hayaku okita',
+  'Ele faltou à aula': 'じゅぎょうを やすんだ|jugyou o yasunda',
+  'Comi muito, estou cheio.': 'たくさん たべて、おなかが いっぱいです。|takusan tabete, onaka ga ippai desu.',
+  'Vou comer depois da aula.': 'じゅぎょうの あとで たべます。|jugyou no ato de tabemasu.',
+  'Não gosto de café da manhã.': 'あさごはんは すきじゃないです。|asagohan wa suki ja nai desu.',
+  'Um anime e a prova': 'アニメと テスト|anime to tesuto',
+  'Um jogo e um restaurante': 'ゲームと レストラン|geemu to resutoran',
+  'O clima e as férias': 'てんきと やすみ|tenki to yasumi',
+  'そういえば (sou ieba)': 'そういえば|sou ieba',
+  'だよね (da yo ne)': 'だよね|da yo ne',
+  'わかる (wakaru)': 'わかる|wakaru',
+  'Mais ou menos; matemática foi difícil': 'まあまあ。すうがくが むずかしかった|maa maa. suugaku ga muzukashikatta',
+  'Ótima': 'すごく よかった|sugoku yokatta',
+  'Ela não fez a prova': 'テストを うけなかった|tesuto o ukenakatta',
+  'Não vi, estava ocupada.': 'みてない。いそがしかった。|mitenai. isogashikatta.',
+  'O final foi chato.': 'さいごは つまらなかった。|saigo wa tsumaranakatta.',
+  'Não gosto desse anime.': 'その アニメは すきじゃない。|sono anime wa suki ja nai.',
+  'No domingo': 'にちようびに|nichiyoubi ni',
+  'O fim de semana todo': 'しゅうまつ ずっと|shuumatsu zutto',
+  'Tem trabalho (バイト)': 'バイトが ある|baito ga aru',
+  'Tem prova': 'テストが ある|tesuto ga aru',
+  'Vai viajar': 'りょこうに いく|ryokou ni iku',
+  'Ver um filme': 'えいがを みる|eiga o miru',
+  'Ir ao karaokê': 'カラオケに いく|karaoke ni iku',
+  'Estudar': 'べんきょうする|benkyou suru',
+  'Ganhar tempo enquanto pensa': 'かんがえる じかんを つくる|kangaeru jikan o tsukuru',
+  'Recusar o convite': 'さそいを ことわる|sasoi o kotowaru',
+  'Mostrar surpresa': 'おどろきを あらわす|odoroki o arawasu',
+  'Ren pede desconto: no primeiro não dá, no segundo sim': 'れんくんが ねびきを たのむ。ひとつめは だめ、ふたつめは オーケー|Ren-kun ga nebiki o tanomu. hitotsume wa dame, futatsume wa ookee',
+  'Ren devolve um produto com defeito': 'れんくんが こわれた しょうひんを かえす|Ren-kun ga kowareta shouhin o kaesu',
+  'Takeshi oferece um emprego ao Ren': 'たけしさんが れんくんに しごとを すすめる|Takeshi-san ga Ren-kun ni shigoto o susumeru',
+  'Já está em promoção': 'もう セール ちゅう|mou seeru chuu',
+  'Acabou o estoque': 'ざいこが ない|zaiko ga nai',
+  'É muito barato': 'とても やすい|totemo yasui',
+  'Levar o segundo produto': 'ふたつめを かう|futatsume o kau',
+  'Não comprar nada': 'なにも かわない|nani mo kawanai',
+  'Voltar outro dia': 'また こんど くる|mata kondo kuru',
+  'Que não pode tirar foto ali': 'そこで しゃしんを とっては いけない|soko de shashin o totte wa ikenai',
+  'Que a foto ficou bonita': 'しゃしんが きれいに とれた|shashin ga kirei ni toreta',
+  'Que querem tirar uma foto juntos': 'いっしょに しゃしんを とりたい|issho ni shashin o toritai',
+  'Está fechado.': 'しまっています。|shimatte imasu.',
+  'Pode entrar.': 'どうぞ、はいって ください。|douzo, haitte kudasai.',
+  'Ir ao festival no sábado à noite': 'どようびの よる、おまつりに いく|doyoubi no yoru, omatsuri ni iku',
+  'Estudar na casa da professora': 'せんせいの いえで べんきょうする|sensei no ie de benkyou suru',
+  'Ver fogos no domingo de manhã': 'にちようびの あさ、はなびを みる|nichiyoubi no asa, hanabi o miru',
+  'Trabalha até a tarde': 'ゆうがたまで しごと|yuugata made shigoto',
+  'Tem outro compromisso à noite': 'よるは ほかの ようじが ある|yoru wa hoka no youji ga aru',
+  'Está doente': 'びょうき|byouki',
+  'Às seis, na estação': '六じに えきで|rokuji ni eki de',
+  'Às sete, na escola': '七じに がっこうで|shichiji ni gakkou de',
+  'Ao meio-dia, no festival': 'おひるに おまつりで|ohiru ni omatsuri de',
+  'Educado, mas descontraído (〜っす)': 'ていねいだけど くだけた はなしかた（〜っす）|teinei dakedo kudaketa hanashikata (~ssu)',
+  'Com keigo de atendimento': 'せっきゃくの けいご|sekkyaku no keigo',
+  'Totalmente casual, como com amigos': 'ともだちと はなす ような タメぐち|tomodachi to hanasu you na tameguchi',
+  'Que pena, não vou poder.': 'ざんねん、いけないんだ。|zannen, ikenai n da.',
+  'Estou muito cansada.': 'すごく つかれた。|sugoku tsukareta.',
+  'Vou pensar e respondo depois.': 'かんがえて、あとで へんじ するね。|kangaete, ato de henji suru ne.',
+  'Para mudar o horário do filme por causa da chuva': 'あめだから えいがの じかんを かえるため|ame dakara eiga no jikan o kaeru tame',
+  'Para cancelar o filme': 'えいがを キャンセル するため|eiga o kyanseru suru tame',
+  'Para convidar o Ren pela primeira vez': 'はじめて れんくんを さそうため|hajimete Ren-kun o sasou tame',
+  'Às duas da tarde': 'ごご 二じに|gogo niji ni',
+  'Às seis da tarde': 'ゆうがた 六じに|yuugata rokuji ni',
+  'Ao meio-dia': 'おひるに|ohiru ni',
+  'Na frente do cinema': 'えいがかんの まえで|eigakan no mae de',
+  'Na estação': 'えきで|eki de',
+  'Na casa da Yumi': 'ゆみさんの いえで|Yumi-san no ie de',
+  'Ela ouviu dizer (previsão), não tem certeza': 'てんきよほうで きいた。たしかでは ない|tenki yohou de kiita. tashika de wa nai',
+  'Ela tem certeza absoluta': 'ぜったいに そうだと おもっている|zettai ni sou da to omotte iru',
+  'Ela gosta de chuva': 'あめが すき|ame ga suki',
+  'Alô, o Ren está em casa?': 'もしもし、れんくんは いますか。|moshimoshi, Ren-kun wa imasu ka?',
+  'Oi, Ren, cheguei!': 'れん、ついたよ！|Ren, tsuita yo!',
+  'Ren, você está atrasado?': 'れん、おくれてる？|Ren, okureteru?'
+};
+/* pronúncia de uma alternativa: { jp, ro } ou null */
+function laJpFor(pt) { const v = LA_JP[pt]; if (!v) return null; const [jp, ro] = v.split('|'); return { jp, ro }; }
+
+/* ==========================================================
    Nihongo Quest 6.0 — LISTENING ACADEMY
    Área de compreensão auditiva: 5 categorias progressivas, lições com
    exercícios variados, "ouvir primeiro" e revelação gradual (japonês,
@@ -15390,6 +15819,9 @@ function laState() {
   if (!isPlainObj(a.stats.byCat)) a.stats.byCat = {};
   if (!isPlainObj(a.stats.byType)) a.stats.byType = {};
   if (!LA_SPEEDS.includes(a.speed)) a.speed = 1;
+  /* 7.0: palavras que a PRÓPRIA Listening Academy já ensinou (separado do "visto" geral, que o Chat,
+     o Caderno e o Dicionário também marcam). Saves da 6.0: reconstruído das lições já feitas. */
+  if (!isPlainObj(a.taught)) { a.taught = {}; Object.keys(a.lessons).forEach(id => { const L = LA_LESSON[id]; if (L) L.wordRefs.forEach(w => { a.taught[w.id] = a.lessons[id].at || Date.now(); }); }); }
   return a;
 }
 
@@ -15478,8 +15910,12 @@ async function laPlay(lines, from = 0, mode = 'all') {
 function laPause() { if (LA.state !== 'playing') return; LA.state = 'paused'; const keep = LA.idx; AUDIO.token++; laStopFile(); try { if (AUDIO.supported) speechSynthesis.cancel(); } catch (e) {} LA.idx = keep; laSync(); }
 function laStop() { AUDIO.token++; laStopFile(); try { if (AUDIO.supported) speechSynthesis.cancel(); } catch (e) {} LA.state = 'idle'; LA.idx = 0; laSync(); }
 function laSync() {
-  const playing = LA.state === 'playing';
-  document.body.classList.toggle('is-playing', playing);
+  const any = LA.state === 'playing', q = P && P.kind === 'lacad' && P.qs ? P.qs[P.i] : null;
+  const playing = any && !['q', 'opt', 'ans'].includes(LA.mode);
+  document.body.classList.toggle('is-playing', any);
+  document.querySelectorAll('.la-qbtn').forEach(b => b.classList.toggle('playing', any && LA.mode === 'q'));
+  document.querySelectorAll('.la-opt').forEach(b => b.classList.toggle('speaking', any && LA.mode === 'opt' && +b.dataset.i === LA.optI && q && LA.lines[0] === (q.options[LA.optI] || {}).say));
+  document.querySelectorAll('.la-ans .icon-btn').forEach(b => b.classList.toggle('playing', any && LA.mode === 'ans'));
   document.querySelectorAll('[data-la-toggle]').forEach(b => {
     b.innerHTML = (playing ? IC.pause : IC.play) + `<span>${playing ? 'Pausar' : LA.state === 'paused' ? 'Continuar' : 'Ouvir'}</span>`;
     b.setAttribute('aria-label', playing ? 'Pausar o áudio' : LA.state === 'paused' ? 'Continuar o áudio' : 'Ouvir o áudio');
@@ -15523,12 +15959,20 @@ function laTextHTML(l, show, big) {
    ========================================================== */
 function laLine(sp, s) { const t = laTL(s); return { sp, jp: t.jp, ro: t.ro, pt: t.pt, say: t.jp, audio: t.audio }; }
 function laDialog(L, ex) { return (ex.d || L.d || []).map(([sp, s]) => laLine(sp, s)); }
+/* 7.0: alternativas de significado só do currículo da Listening Academy até esta lição:
+   a própria lição, as lições anteriores da categoria e as categorias anteriores. Nunca Chat,
+   Caderno, Dicionário, histórico ou categorias futuras. */
+function laScopeLessons(L) {
+  const c = L.cat;
+  return LA_CATS.slice(0, c.index).flatMap(x => x.lessons).concat(c.lessons.slice(0, L.index + 1));
+}
 function laPtPool(L, not) {
   const out = [], seen = new Set([not]);
-  const add = pt => { if (pt && !seen.has(pt)) { seen.add(pt); out.push(pt); } };
-  shuffle(L.wordRefs).forEach(r => add(ITEM[r.id].pt));
-  shuffle(L.cat.lessons.flatMap(l => l.wordRefs)).forEach(r => add(ITEM[r.id].pt));
-  shuffle(LA_LESSONS.flatMap(l => l.wordRefs)).forEach(r => add(ITEM[r.id].pt));
+  const add = it => { if (it && it.pt && !seen.has(it.pt)) { seen.add(it.pt); out.push(it); } };
+  const earlier = laScopeLessons(L).filter(l => l !== L);
+  shuffle(L.wordRefs).forEach(r => add(ITEM[r.id]));
+  shuffle(earlier.filter(l => l.cat === L.cat).flatMap(l => l.wordRefs)).forEach(r => add(ITEM[r.id]));
+  shuffle(earlier.filter(l => l.cat !== L.cat).flatMap(l => l.wordRefs)).forEach(r => add(ITEM[r.id]));
   return out;
 }
 /* palavras da lição presentes no áudio (para a revisão e o caderno) */
@@ -15541,44 +15985,62 @@ function laBuildQ(ex, L, n) {
   if (ex.t === 'id') {
     const it = laWord(L, ex.w); if (!it) return null;
     const line = { sp, jp: it.jp, ro: it.ro, pt: it.pt, say: it.say || it.jp };
-    q = { ...base, prompt: 'O que significa a palavra que você ouviu?', lines: [line], options: opts(it.pt, laPtPool(L, it.pt).slice(0, 3)), ans: it.pt, items: [it.id] };
+    const pool = laPtPool(L, it.pt).slice(0, 3);
+    q = { ...base, prompt: 'O que significa a palavra que você ouviu?', lines: [line], options: shuffle([{ label: it.pt, correct: true, say: laSayOf(it) }].concat(pool.map(w => ({ label: w.pt, correct: false, say: laSayOf(w) })))), ans: it.pt, items: [it.id], answer: line };
   } else if (ex.t === 'rec') {
     const s = laLine(sp, ex.s), alts = ex.alts.map(laTL);
-    q = { ...base, prompt: 'Qual destas você ouviu?', lines: [s], roOpts: true, options: shuffle([{ label: s.ro, sub: s.jp, correct: true }].concat(alts.map(a => ({ label: a.ro, sub: a.jp, correct: false })))), ans: s.ro };
+    q = { ...base, prompt: 'Qual destas você ouviu?', lines: [s], roOpts: true, options: shuffle([{ label: s.ro, sub: s.jp, correct: true, say: s }].concat(alts.map(a => ({ label: a.ro, sub: a.jp, correct: false, say: a })))), ans: s.ro, answer: s };
   } else if (ex.t === 'mean') {
     const s = laLine(sp, ex.s);
-    q = { ...base, prompt: 'O que a pessoa disse?', lines: [s], options: opts(s.pt, ex.alts), ans: s.pt };
+    q = { ...base, prompt: 'O que a pessoa disse?', lines: [s], options: laOpts(s.pt, ex.alts, s), ans: s.pt, answer: s };
   } else if (ex.t === 'spot') {
     const s = laLine(sp, ex.s);
-    q = { ...base, prompt: ex.prompt || 'Qual destas palavras aparece no áudio?', lines: [s], options: opts(ex.ans, ex.alts), ans: ex.ans };
+    const w = laSpotWord(L, ex.ans);
+    q = { ...base, prompt: ex.prompt || 'Qual destas palavras aparece no áudio?', lines: [s], options: shuffle([ex.ans].concat(ex.alts).map((r, i) => ({ label: r, correct: i === 0, say: laSpotWord(L, r) }))), ans: ex.ans, answer: { jp: w.jp, ro: ex.ans, pt: w.pt || s.pt } };
   } else if (ex.t === 'order') {
     const s = laLine(sp, ex.s), parts = ex.parts.map(p => { const [jp, ro] = p.split('|'); return { jp, ro }; });
-    q = { ...base, prompt: 'Ouça e monte a frase na ordem em que foi dita.', lines: [s], parts, bank: shuffle(parts.map((p, i) => ({ ...p, i }))), answer: parts.map((_, i) => i), ans: parts.map(p => p.ro).join(' ') };
+    q = { ...base, prompt: 'Ouça e monte a frase na ordem em que foi dita.', lines: [s], parts, bank: shuffle(parts.map((p, i) => ({ ...p, i }))), answer: parts.map((_, i) => i), ans: parts.map(p => p.ro).join(' '), answer: s };
     if (q.bank.every((b, i) => b.i === i) && parts.length > 1) q.bank.push(q.bank.shift());
   } else if (ex.t === 'tf') {
     const lines = ex.s ? [laLine(sp, ex.s)] : laDialog(L, ex);
-    q = { ...base, prompt: 'Ouça e responda: verdadeiro ou falso?', claim: ex.claim, lines, tf: true, options: [{ label: 'Verdadeiro', correct: !!ex.ans }, { label: 'Falso', correct: !ex.ans }], ans: ex.ans ? 'Verdadeiro' : 'Falso' };
+    q = { ...base, prompt: 'Ouça e responda: verdadeiro ou falso?', claim: ex.claim, lines, tf: true, options: [{ label: 'Verdadeiro', correct: !!ex.ans, say: laPair(LA_TF_JP.Verdadeiro) }, { label: 'Falso', correct: !ex.ans, say: laPair(LA_TF_JP.Falso) }], ans: ex.ans ? 'Verdadeiro' : 'Falso', answer: lines.length === 1 ? lines[0] : null };
   } else if (ex.t === 'intent') {
     const s = laLine(sp, ex.s), others = shuffle(Object.keys(LA_INTENTS).filter(k => k !== ex.ans)).slice(0, 3);
-    q = { ...base, prompt: 'O que a pessoa está fazendo?', lines: [s], options: opts(LA_INTENTS[ex.ans], others.map(k => LA_INTENTS[k])), ans: LA_INTENTS[ex.ans] };
+    q = { ...base, prompt: 'O que a pessoa está fazendo?', lines: [s], options: shuffle([ex.ans].concat(others).map((k, i) => ({ label: LA_INTENTS[k], correct: i === 0, say: laPair(LA_INTENT_JP[k]) }))), ans: LA_INTENTS[ex.ans], answer: s };
   } else if (ex.t === 'reply') {
     const s = laLine(sp, ex.s), ok = laTL(ex.ok), bad = ex.bad.map(laTL);
-    q = { ...base, prompt: 'Ouça. Qual é a melhor resposta?', lines: [s], roOpts: true, replyOpts: true, options: shuffle([{ label: ok.ro, sub: ok.jp, pt: ok.pt, correct: true }].concat(bad.map(b => ({ label: b.ro, sub: b.jp, pt: b.pt, correct: false })))), ans: ok.ro + ' (' + ok.pt + ')' };
+    q = { ...base, prompt: 'Ouça. Qual é a melhor resposta?', lines: [s], roOpts: true, replyOpts: true, options: shuffle([{ label: ok.ro, sub: ok.jp, pt: ok.pt, correct: true, say: ok }].concat(bad.map(b => ({ label: b.ro, sub: b.jp, pt: b.pt, correct: false, say: b })))), ans: ok.ro + ' (' + ok.pt + ')', answer: ok };
   } else if (ex.t === 'comp' || ex.t === 'gist') {
     const lines = laDialog(L, ex);
-    q = { ...base, prompt: ex.q, lines, options: shuffle(ex.opts.map((o, i) => ({ label: o, correct: i === ex.ans }))), ans: ex.opts[ex.ans] };
+    const a = laJpFor(ex.opts[ex.ans]);
+    q = { ...base, prompt: ex.q, qjp: laJpFor(ex.q), lines, options: shuffle(ex.opts.map((o, i) => ({ label: o, correct: i === ex.ans, say: laJpFor(o) }))), ans: ex.opts[ex.ans], answer: a ? { ...a, pt: ex.opts[ex.ans] } : null };
   } else if (ex.t === 'line') {
     const dl = laDialog(L, ex), l = dl[ex.i]; if (!l) return null;
-    q = { ...base, prompt: 'Ouça esta fala do diálogo (' + laWho(l.sp).name + '). O que ela significa?', lines: [l], options: opts(l.pt, ex.alts), ans: l.pt };
+    q = { ...base, prompt: 'Ouça esta fala do diálogo (' + laWho(l.sp).name + '). O que ela significa?', lines: [l], options: laOpts(l.pt, ex.alts, l), ans: l.pt, answer: l };
   } else if (ex.t === 'reg') {
     const s = laLine(sp, ex.s);
-    q = { ...base, prompt: 'Como a pessoa está falando?', lines: [s], fixed: true, options: LA_REG.map(([k, t, d]) => ({ label: t, sub: d, correct: k === ex.ans })), ans: LA_REG.find(r => r[0] === ex.ans)[1], why: (ex.why ? ex.why + ' ' : '') + LA_REG_WHY[ex.ans] };
+    q = { ...base, prompt: 'Como a pessoa está falando?', lines: [s], fixed: true, options: LA_REG.map(([k, t, d]) => ({ label: t, sub: d, correct: k === ex.ans, say: laPair(LA_REG_JP[k]) })), answer: s, ans: LA_REG.find(r => r[0] === ex.ans)[1], why: (ex.why ? ex.why + ' ' : '') + LA_REG_WHY[ex.ans] };
   }
   if (!q) return null;
+  // 7.0: pergunta falada em japonês (Aiko-sensei) e voz de cada alternativa
+  const qj = q.qjp ? { jp: q.qjp.jp, ro: q.qjp.ro, pt: ex.q } : laPair(LA_QJP[ex.t]);
+  q.qline = qj ? { sp: 'aiko', jp: qj.jp, ro: qj.ro, pt: qj.pt || q.prompt, say: qj.jp } : null;
+  (q.options || []).forEach(o => { if (o.say) o.say = { sp: q.lines[0] ? q.lines[0].sp : sp, jp: o.say.jp, ro: o.say.ro, say: o.say.say || o.say.jp }; });
+  q.optHint = ['id', 'rec', 'mean', 'line'].includes(ex.t); // aqui o áudio da alternativa certa repete o áudio da pergunta
   if (!q.items.length) q.items = laItemsIn(L, q.lines.map(l => l.jp).join(' ')).slice(0, 2);
   q.noPre = L.lv >= 5; // nível 5: menos apoio visual antes da resposta
   return q;
 }
+/* helpers de voz das alternativas */
+function laPair(v) { if (!v) return null; const [jp, ro, pt] = String(v).split('|'); return { jp, ro, pt }; }
+function laSayOf(it) { return it ? { jp: it.say || it.jp, ro: it.ro, pt: it.pt } : null; }
+function laOpts(right, wrong, rightLine) { return shuffle([{ label: right, correct: true, say: rightLine }].concat(wrong.map(w => ({ label: w, correct: false, say: laJpFor(w) })))); }
+function laSpotWord(L, ro) {
+  const norm = x => String(x || '').toLowerCase().replace(/[^a-z]/g, '');
+  const hit = L.wordRefs.map(r => ITEM[r.id]).concat(LA_LESSONS.flatMap(l => l.wordRefs.map(r => ITEM[r.id]))).find(it => norm(it.ro) === norm(ro));
+  return hit ? { jp: hit.say || hit.jp, ro: hit.ro, pt: hit.pt } : { jp: KANA.toKana(ro), ro, pt: '' };
+}
+function laDictBtn(jp) { return jp && typeof dictOpenWord === 'function' ? `<button class="icon-btn la-dict" data-act="laDict" data-q="${esc(jp)}" aria-label="Ver no dicionário">辞</button>` : ''; }
 function laBuildLesson(L) { return L.ex.map((ex, i) => laBuildQ(ex, L, i)).filter(Boolean); }
 function laBuildExam(c) {
   const per = Math.max(2, Math.ceil(10 / c.lessons.length));
@@ -15611,7 +16073,7 @@ function laRender() {
 function laRenderIntro() {
   const L = P.L, r = laState().lessons[L.id];
   const sps = [...new Set([L.sp].concat((L.d || []).map(x => x[0]), L.ex.map(e => e.sp).filter(Boolean)))].filter(Boolean);
-  const nNew = L.wordRefs.filter(w => !(S.items[w.id] && S.items[w.id].seen)).length;
+  const nNew = L.wordRefs.filter(w => !laState().taught[w.id]).length;
   const body = `<span class="mode-tag">Listening Academy · ${esc(L.cat.title)} · Nível ${L.lv}: ${esc(LA_LEVELS[L.lv])}</span>
     <h1 style="font-size:1.45rem">${esc(L.title)}</h1>${L.situ ? `<p class="muted" style="margin:0">${esc(L.situ)}</p>` : ''}
     <div class="theory-card"><p>${esc(L.intro)}</p></div>
@@ -15623,7 +16085,7 @@ function laRenderIntro() {
 /* palavras novas: identificadas, explicadas, com romaji, escrita e áudio; vão para o Caderno e a Revisão */
 function laRenderLearn() {
   const L = P.L, list = P.learn;
-  const cards = list.map(w => { const it = ITEM[w.id]; return `<div class="card la-word"><div class="la-word-top"><span class="chip k-new">Nova</span><button class="icon-btn" data-act="laSayWord" data-id="${esc(it.id)}" aria-label="Ouvir ${esc(it.ro)}">${IC.sound}</button></div>
+  const cards = list.map(w => { const it = ITEM[w.id]; return `<div class="card la-word"><div class="la-word-top"><span class="chip k-new">Nova</span><span class="row-btns" style="gap:6px">${laDictBtn(it.jp)}<button class="icon-btn" data-act="laSayWord" data-id="${esc(it.id)}" aria-label="Ouvir ${esc(it.ro)}">${IC.sound}</button></span></div>
     <span class="jp la-word-jp">${esc(it.jp)}</span><span class="la-word-ro">${esc(it.ro)}</span><span class="la-word-pt">${esc(it.pt)}</span>${it.note ? `<span class="muted" style="font-size:.88rem">${esc(it.note)}</span>` : ''}</div>`; }).join('');
   const known = L.wordRefs.filter(w => !list.includes(w));
   const body = `<span class="mode-tag">Palavras novas · ${list.length}</span><h2>Antes de ouvir</h2>
@@ -15645,15 +16107,21 @@ function laOptHTML(o, i, q) {
   // opções em romaji: a escrita japonesa só aparece se o aluno revelou o japonês (ou depois da resposta)
   const sub = q.roOpts ? ((P.show.jp || P.answered) && o.sub ? `<span class="o-ro jp">${esc(o.sub)}</span>` : '') : o.sub ? `<span class="o-ro">${esc(o.sub)}</span>` : '';
   const pt = q.replyOpts && P.answered && o.pt ? `<span class="o-ro">${esc(o.pt)}</span>` : '';
-  return `<button class="${cls}" data-act="laOpt" data-i="${i}" ${P.answered ? 'disabled' : ''}><span>${esc(o.label)}</span>${sub}${pt}</button>`;
+  // 7.0: tocar numa alternativa seleciona e toca a pronúncia; depois da resposta, só toca (para comparar)
+  const snd = o.say ? `<span class="la-osnd" aria-hidden="true">${IC.sound}</span>` : '';
+  return `<button class="${cls} ${o.say ? 'has-snd' : ''}" data-act="laOpt" data-i="${i}" ${P.answered ? 'aria-disabled="true"' : ''} aria-label="${esc(o.label)}${o.say ? ' (toca a pronúncia)' : ''}">${snd}<span>${esc(o.label)}</span>${sub}${pt}</button>`;
 }
 function laRenderQ() {
   const q = P.qs[P.i], isExam = P.mode === 'exam';
   const show = P.answered ? P.show : { jp: P.show.jp && !q.noPre, ro: P.show.ro && !q.noPre, pt: false };
-  let body = `<span class="mode-tag ${isExam ? '' : 'rev'}">${isExam ? 'Avaliação' : 'Listening'} · ${esc(LA_TYPE[q.t] || '')}</span><div class="q-prompt">${esc(q.prompt)}</div>`;
+  let body = `<span class="mode-tag ${isExam ? '' : 'rev'}">${isExam ? 'Avaliação' : 'Listening'} · ${esc(LA_TYPE[q.t] || '')}</span>`;
+  // 7.0: a pergunta também é falada em japonês; o texto japonês da pergunta aparece só se o aluno revelar
+  if (q.qline) body += `<div class="la-q"><button class="la-qbtn" data-act="laQ" aria-label="Ouvir a pergunta em japonês">${IC.sound}<span>Pergunta</span></button><div class="q-prompt">${esc(q.prompt)}</div></div>${show.jp || show.ro ? `<div class="la-qjp">${show.jp ? `<span class="jp">${esc(q.qline.jp)}</span>` : ''}${show.ro ? `<span class="ro">${esc(q.qline.ro)}</span>` : ''}</div>` : ''}`;
+  else body += `<div class="q-prompt">${esc(q.prompt)}</div>`;
   if (q.claim) body += `<div class="q-card la-claim"><span class="ctx">Afirmação</span><b>${esc(q.claim)}</b></div>`;
   body += laAudioCard(q, show);
   // ouvir primeiro: antes da resposta, só japonês e romaji (como dica); a tradução vem depois
+  if (!P.answered && q.options && q.options.some(o => o.say)) body += `<p class="muted la-opt-tip">Toque numa alternativa para ouvi-la${q.optHint ? ' (aqui, ouvir as alternativas conta como dica)' : ''}. Nada é corrigido até você tocar em Verificar.</p>`;
   if (!P.answered && !q.noPre) body += `<div class="reveal-row"><button class="link-btn" data-act="laShow" data-k="jp">${P.show.jp ? 'Esconder japonês' : 'Ver japonês'}</button><button class="link-btn" data-act="laShow" data-k="ro">${P.show.ro ? 'Esconder romaji' : 'Ver romaji'}</button></div>${P.hinted ? '<p class="muted" style="margin:0;font-size:.8rem;text-align:center">Com dica, a resposta vale menos XP, mas conta como acerto.</p>' : ''}`;
   else if (!P.answered) body += `<p class="muted" style="margin:0;font-size:.85rem;text-align:center">Nível 5: ouça com atenção; o texto aparece depois da resposta.</p>`;
   let canCheck = P.sel !== null;
@@ -15667,7 +16135,9 @@ function laRenderQ() {
   else {
     const ok = P.lastOk; footCls = ok ? 'ok' : 'bad';
     const tg = (k, t) => `<button class="filter ${P.show[k] ? 'on' : ''}" data-act="laShow" data-k="${k}" aria-pressed="${!!P.show[k]}">${t}</button>`;
-    foot = `<div class="fb">${mascot(ok ? 'happy' : 'sad', 50, 'hop')}<div class="fb-text"><h3>${esc(P.fbTitle)}</h3>${!ok ? `<p class="answer">Resposta certa: ${esc(q.ans)}</p>` : ''}${q.why ? `<p>${esc(q.why)}</p>` : ''}
+    const A = q.answer;
+    const card = A ? `<div class="la-ans"><button class="icon-btn" data-act="laAns" aria-label="Ouvir a resposta certa">${IC.sound}</button><div class="la-ans-t">${A.jp ? `<span class="jp la-ans-jp">${esc(A.jp)}</span>` : ''}${A.ro ? `<span class="ro">${esc(A.ro)}</span>` : ''}${A.pt ? `<span class="la-pt">${esc(A.pt)}</span>` : ''}</div>${laDictBtn(A.jp)}</div>` : '';
+    foot = `<div class="fb">${mascot(ok ? 'happy' : 'sad', 50, 'hop')}<div class="fb-text"><h3>${esc(P.fbTitle)}</h3>${!ok ? `<p class="answer">Resposta certa: ${esc(q.ans)}</p>` : ''}${card}${q.why ? `<p>${esc(q.why)}</p>` : ''}
       <div class="la-reveal"><span class="eyebrow">Revelar</span><div class="filters">${tg('jp', 'Japonês')}${tg('ro', 'Romaji')}${tg('pt', 'Tradução')}<button class="filter" data-act="laShowAll">Tudo</button></div></div></div></div>
       <button class="btn ${ok ? 'btn-ok' : 'btn-bad'} btn-block" data-act="laNextQ">Continuar</button>`;
   }
@@ -15694,6 +16164,8 @@ function laCheck() {
   save();
   P.keepScroll = true; renderPlayer();
   const f = $('.p-foot .btn'); if (f) f.focus({ preventScroll: true });
+  // 7.0: feedback que ensina: toca a resposta certa uma vez (o aluno pode repetir)
+  const A = q.answer; if (A && A.jp && !audioBlocked()) setTimeout(() => { if (P && P.kind === 'lacad' && P.qs && P.qs[P.i] === q && P.answered) laPlay([{ sp: (q.lines[0] || {}).sp || 'aiko', jp: A.jp, say: A.jp }], 0, 'ans'); }, 700);
 }
 function laNextQ() {
   laStop();
@@ -15746,7 +16218,16 @@ function laRenderResult() {
 function laAfterRender() {
   if (!P || P.kind !== 'lacad' || P.phase !== 'q' || P.answered) { laSync(); return; }
   const q = P.qs[P.i];
-  if (P.autoplayed !== P.i && (!audioBlocked() || q.lines.some(l => l.audio))) { P.autoplayed = P.i; setTimeout(() => { if (P && P.kind === 'lacad' && P.qs && P.qs[P.i] === q && !P.answered && LA.state === 'idle') laPlay(q.lines, 0, 'all'); }, 350); }
+  const still = () => P && P.kind === 'lacad' && P.qs && P.qs[P.i] === q && !P.answered;
+  if (P.autoplayed !== P.i && (!audioBlocked() || q.lines.some(l => l.audio))) {
+    P.autoplayed = P.i;
+    // 7.0: primeiro a pergunta em japonês, depois o áudio do exercício
+    setTimeout(async () => {
+      if (!still() || LA.state !== 'idle') return;
+      if (q.qline && !audioBlocked()) { const ok = await laPlay([q.qline], 0, 'q'); if (!ok || !still() || LA.state !== 'idle') return; await new Promise(r => setTimeout(r, 300)); if (!still() || LA.state !== 'idle') return; }
+      laPlay(q.lines, 0, 'all');
+    }, 350);
+  }
   laSync();
 }
 const _laRenderPlayer = renderPlayer;
@@ -15856,13 +16337,14 @@ Object.assign(ACT, {
   },
   laGo: el => laStart(el.dataset.id, 'lesson'),
   laExamOpen: el => { const c = LA_CAT[el.dataset.id]; if (!c) return; if (!laExamUnlocked(c)) { toast('鍵', laCatUnlocked(c) ? 'Conclua todas as lições da categoria para liberar a avaliação.' : laReqText(c)); return; } laStart(c.id, 'exam'); },
-  laBegin: () => { const L = P.L; const fresh = L.wordRefs.filter(w => !(S.items[w.id] && S.items[w.id].seen)); if (fresh.length) { P.learn = fresh; P.phase = 'learn'; fresh.forEach(w => markSeen(w.id)); renderPlayer(); } else { laSetupQs(laBuildLesson(L)); renderPlayer(); } },
+  // 7.0: "novas" = ainda não ensinadas PELA Listening Academy (ter visto no Chat/Dicionário não conta)
+  laBegin: () => { const L = P.L, a = laState(); const fresh = L.wordRefs.filter(w => !a.taught[w.id]); if (fresh.length) { P.learn = fresh; P.phase = 'learn'; fresh.forEach(w => { markSeen(w.id); a.taught[w.id] = Date.now(); }); save(); renderPlayer(); } else { laSetupQs(laBuildLesson(L)); renderPlayer(); } },
   laToQs: () => { laStop(); laSetupQs(laBuildLesson(P.L)); renderPlayer(); },
   laExamGo: () => { laSetupQs(laBuildExam(P.C)); renderPlayer(); },
   laSayWord: el => { const it = ITEM[el.dataset.id]; if (it) laPlay([{ sp: P.L.sp, jp: it.jp, say: it.say || it.jp }], 0, 'one'); },
   laToggle: () => {
     const q = P && P.qs && P.qs[P.i]; if (!q) return;
-    if (LA.state === 'playing') laPause();
+    if (LA.state === 'playing' && LA.lines === q.lines) laPause();
     else if (LA.state === 'paused' && LA.lines === q.lines) laPlay(q.lines, LA.idx, LA.mode === 'one' ? 'one' : 'all');
     else laPlay(q.lines, 0, 'all');
   },
@@ -15876,7 +16358,16 @@ Object.assign(ACT, {
   },
   laShow: el => { const k = el.dataset.k; P.show[k] = !P.show[k]; if (!P.answered && P.show[k]) P.hinted = true; P.keepScroll = true; renderPlayer(); },
   laShowAll: () => { P.show = { jp: true, ro: true, pt: true }; P.keepScroll = true; renderPlayer(); },
-  laOpt: el => { if (P.answered) return; P.sel = +el.dataset.i; P.keepScroll = true; renderPlayer(); },
+  laOpt: el => {
+    const q = P.qs[P.i], i = +el.dataset.i, o = q.options[i]; if (!o) return;
+    const play = () => { if (o.say && !audioBlocked()) { LA.optI = i; laPlay([o.say], 0, 'opt'); } };
+    if (P.answered) return play(); // depois da resposta: só ouvir, sem mudar nada
+    if (o.say && q.optHint && !audioBlocked()) P.hinted = true;
+    P.sel = i; P.keepScroll = true; renderPlayer(); play();
+  },
+  laQ: () => { const q = P.qs[P.i]; if (q && q.qline) laPlay([q.qline], 0, 'q'); },
+  laAns: () => { const q = P.qs[P.i], A = q && q.answer; if (A && A.jp) laPlay([{ sp: (q.lines[0] || {}).sp || 'aiko', jp: A.jp, say: A.jp }], 0, 'ans'); },
+  laDict: el => dictOpenWord(el.dataset.q),
   laBuild: el => { if (P.answered) return; const i = +el.dataset.i; if (!P.built.includes(i)) P.built.push(i); P.keepScroll = true; renderPlayer(); },
   laUnbuild: el => { if (P.answered) return; P.built = P.built.filter(x => x !== +el.dataset.i); P.keepScroll = true; renderPlayer(); },
   laCheck: () => laCheck(),
@@ -15890,6 +16381,640 @@ Object.assign(ACT, {
 
 /* novidade da 6.0: aviso único para quem já usava o app */
 setTimeout(() => { try { if (S.profile.onboarded && S.lacad && !S.lacad.news) { S.lacad.news = Date.now(); save(); toast('聴', 'Novo na 6.0: Listening Academy! Abra Academia → Listening para treinar o ouvido.'); } } catch (e) {} }, 1200);
+
+/* ==========================================================
+   Nihongo Quest 7.0 — DICIONÁRIO: dados complementares
+   O dicionário junta automaticamente TODAS as palavras do app (Academia,
+   Academia Auditiva, Listening Academy e Chat), sem duplicar. Aqui ficam
+   palavras comuns extras, a classe gramatical e os kanji com seus significados.
+   Formato de DICT_EXTRA: 'kanji|kana|romaji|significados (; separa sentidos)|classe|tema|exemplo jp|romaji|tradução'
+   - kanji vazio para palavras escritas só em kana; exemplo é opcional.
+   - classe: subst, verbo, adj-i, adj-na, adv, expr, pron, num, cont, part, interj
+   - Se a palavra já existe no app (mesma leitura), os dados são mesclados na entrada existente.
+   ========================================================== */
+const DICT_POS = { subst: 'Substantivo', verbo: 'Verbo', 'adj-i': 'Adjetivo -i', 'adj-na': 'Adjetivo -na', adv: 'Advérbio', expr: 'Expressão', pron: 'Pronome', num: 'Número', cont: 'Contador', part: 'Partícula', interj: 'Interjeição', kanji: 'Kanji' };
+const DICT_THEMES = [
+  ['cumprimentos', 'Cumprimentos', '挨'], ['comida', 'Comida e bebida', '食'], ['animais', 'Animais', '犬'], ['familia', 'Família e pessoas', '家'],
+  ['tempo', 'Tempo e datas', '時'], ['lugares', 'Lugares', '町'], ['escola', 'Escola', '学'], ['casa', 'Casa e objetos', '物'],
+  ['corpo', 'Corpo e saúde', '体'], ['natureza', 'Natureza e clima', '山'], ['cores', 'Cores', '色'], ['transporte', 'Transporte', '車'],
+  ['sentimentos', 'Sentimentos', '心'], ['acoes', 'Verbos do dia a dia', '動'], ['descricao', 'Adjetivos', '大'], ['numeros', 'Números', '数'], ['anime', 'Anime e cultura pop', '漫']
+];
+const DICT_EXTRA = [
+  // cumprimentos e expressões
+  '|こんにちは|konnichiwa|olá; boa tarde|expr|cumprimentos|せんせい、こんにちは。|sensei, konnichiwa.|Olá, professor(a).',
+  '|おはよう|ohayou|bom dia (informal)|expr|cumprimentos|おはよう！きょうも がんばろう。|ohayou! kyou mo ganbarou.|Bom dia! Vamos nos esforçar hoje também.',
+  '|こんばんは|konbanwa|boa noite (ao encontrar alguém)|expr|cumprimentos',
+  '|ありがとう|arigatou|obrigado(a)|expr|cumprimentos|てつだって くれて ありがとう。|tetsudatte kurete arigatou.|Obrigado por me ajudar.',
+  '|すみません|sumimasen|com licença; desculpe; obrigado (por um incômodo)|expr|cumprimentos|すみません、えきは どこですか。|sumimasen, eki wa doko desu ka?|Com licença, onde fica a estação?',
+  '|ごめんなさい|gomen nasai|desculpe; me perdoe|expr|cumprimentos',
+  '|さようなら|sayounara|adeus; tchau (mais formal ou longa despedida)|expr|cumprimentos',
+  '|じゃあね|jaa ne|até mais; tchau (casual)|expr|cumprimentos',
+  '|おやすみなさい|oyasumi nasai|boa noite (ao dormir)|expr|cumprimentos',
+  '|いただきます|itadakimasu|bom apetite (antes de comer)|expr|cumprimentos|いただきます！|itadakimasu!|Vamos comer! (agradecendo a comida)',
+  '|ごちそうさま|gochisousama|obrigado pela refeição (depois de comer)|expr|cumprimentos',
+  '|はじめまして|hajimemashite|muito prazer (primeiro encontro)|expr|cumprimentos|はじめまして、ハリーです。|hajimemashite, harii desu.|Muito prazer, sou o Harry.',
+  '|よろしく|yoroshiku|conto com você; prazer (fórmula de cortesia)|expr|cumprimentos',
+  '|はい|hai|sim; certo; presente|interj|cumprimentos',
+  '|いいえ|iie|não; de nada|interj|cumprimentos',
+  '|おめでとう|omedetou|parabéns|expr|cumprimentos|たんじょうび おめでとう！|tanjoubi omedetou!|Feliz aniversário!',
+  '|だいじょうぶ|daijoubu|tudo bem; sem problema; está tudo certo|adj-na|cumprimentos|だいじょうぶ ですか。|daijoubu desu ka?|Você está bem?',
+  '|マジ|maji|sério?; de verdade (gíria)|expr|anime|マジで？|maji de?|Sério mesmo?',
+  '|すごい|sugoi|incrível; uau; muito|adj-i|anime|すごい！|sugoi!|Incrível!',
+  '|かわいい|kawaii|fofo; bonitinho|adj-i|descricao|この ねこ、かわいい！|kono neko, kawaii!|Esse gato é fofo!',
+  // comida
+  '水|みず|mizu|água|subst|comida|みずを ください。|mizu o kudasai.|Água, por favor.',
+  'お茶|おちゃ|ocha|chá (verde)|subst|comida|おちゃを のみます。|ocha o nomimasu.|Eu bebo chá.',
+  'ご飯|ごはん|gohan|arroz cozido; refeição|subst|comida|ごはんを たべましょう。|gohan o tabemashou.|Vamos comer.',
+  '|パン|pan|pão|subst|comida',
+  '魚|さかな|sakana|peixe|subst|comida',
+  '肉|にく|niku|carne|subst|comida',
+  '野菜|やさい|yasai|verdura; legume|subst|comida',
+  '果物|くだもの|kudamono|fruta|subst|comida',
+  '|りんご|ringo|maçã|subst|comida',
+  '卵|たまご|tamago|ovo|subst|comida',
+  '牛乳|ぎゅうにゅう|gyuunyuu|leite|subst|comida',
+  '|コーヒー|koohii|café|subst|comida',
+  '|ジュース|juusu|suco|subst|comida',
+  '|ラーメン|raamen|lámen|subst|comida|ラーメンが だいすきです。|raamen ga daisuki desu.|Adoro lámen.',
+  '|すし|sushi|sushi|subst|comida',
+  '朝ご飯|あさごはん|asagohan|café da manhã|subst|comida',
+  '昼ご飯|ひるごはん|hirugohan|almoço|subst|comida',
+  '晩ご飯|ばんごはん|bangohan|jantar|subst|comida',
+  '|おいしい|oishii|gostoso; delicioso|adj-i|comida|この ラーメン、おいしい！|kono raamen, oishii!|Este lámen está delicioso!',
+  '|まずい|mazui|ruim (de gosto); complicado (situação)|adj-i|comida',
+  '甘い|あまい|amai|doce|adj-i|comida',
+  '辛い|からい|karai|apimentado; picante|adj-i|comida',
+  // animais
+  '猫|ねこ|neko|gato|subst|animais|ねこが ねています。|neko ga nete imasu.|O gato está dormindo.',
+  '犬|いぬ|inu|cachorro|subst|animais|いぬと さんぽします。|inu to sanpo shimasu.|Passeio com o cachorro.',
+  '鳥|とり|tori|pássaro; ave; frango|subst|animais',
+  '馬|うま|uma|cavalo|subst|animais',
+  '牛|うし|ushi|vaca; boi|subst|animais',
+  '|うさぎ|usagi|coelho|subst|animais',
+  '熊|くま|kuma|urso|subst|animais',
+  '虫|むし|mushi|inseto|subst|animais',
+  // família e pessoas
+  '人|ひと|hito|pessoa|subst|familia|あの ひとは だれですか。|ano hito wa dare desu ka?|Quem é aquela pessoa?',
+  '友達|ともだち|tomodachi|amigo(a)|subst|familia|ともだちと あそびます。|tomodachi to asobimasu.|Brinco/saio com os amigos.',
+  '家族|かぞく|kazoku|família|subst|familia',
+  '母|はは|haha|minha mãe|subst|familia',
+  'お母さん|おかあさん|okaasan|mãe (a sua, ou chamando a própria)|subst|familia',
+  '父|ちち|chichi|meu pai|subst|familia',
+  'お父さん|おとうさん|otousan|pai (o seu, ou chamando o próprio)|subst|familia',
+  '兄|あに|ani|meu irmão mais velho|subst|familia',
+  '姉|あね|ane|minha irmã mais velha|subst|familia',
+  '弟|おとうと|otouto|irmão mais novo|subst|familia',
+  '妹|いもうと|imouto|irmã mais nova|subst|familia',
+  '子供|こども|kodomo|criança; filho(a)|subst|familia',
+  '男|おとこ|otoko|homem; masculino|subst|familia',
+  '女|おんな|onna|mulher; feminino|subst|familia',
+  '先生|せんせい|sensei|professor(a); médico(a); mestre|subst|escola|せんせい、しつもんが あります。|sensei, shitsumon ga arimasu.|Professor(a), tenho uma pergunta.',
+  '学生|がくせい|gakusei|estudante|subst|escola',
+  '私|わたし|watashi|eu|pron|familia|わたしは ブラジルじんです。|watashi wa burajirujin desu.|Eu sou brasileiro(a).',
+  '|あなた|anata|você|pron|familia',
+  '彼|かれ|kare|ele; namorado|pron|familia',
+  '彼女|かのじょ|kanojo|ela; namorada|pron|familia',
+  // tempo
+  '今日|きょう|kyou|hoje|subst|tempo|きょうは あついですね。|kyou wa atsui desu ne.|Hoje está quente, né?',
+  '明日|あした|ashita|amanhã|subst|tempo|また あした！|mata ashita!|Até amanhã!',
+  '昨日|きのう|kinou|ontem|subst|tempo',
+  '今|いま|ima|agora|subst|tempo|いま なんじですか。|ima nanji desu ka?|Que horas são agora?',
+  '時間|じかん|jikan|tempo; hora(s)|subst|tempo|じかんが ありません。|jikan ga arimasen.|Não tenho tempo.',
+  '毎日|まいにち|mainichi|todos os dias|subst|tempo|まいにち にほんごを べんきょうします。|mainichi nihongo o benkyou shimasu.|Estudo japonês todos os dias.',
+  '朝|あさ|asa|manhã|subst|tempo',
+  '昼|ひる|hiru|meio-dia; dia|subst|tempo',
+  '夜|よる|yoru|noite|subst|tempo',
+  '週末|しゅうまつ|shuumatsu|fim de semana|subst|tempo',
+  '月曜日|げつようび|getsuyoubi|segunda-feira|subst|tempo',
+  '火曜日|かようび|kayoubi|terça-feira|subst|tempo',
+  '水曜日|すいようび|suiyoubi|quarta-feira|subst|tempo',
+  '木曜日|もくようび|mokuyoubi|quinta-feira|subst|tempo',
+  '金曜日|きんようび|kin\'youbi|sexta-feira|subst|tempo',
+  '土曜日|どようび|doyoubi|sábado|subst|tempo',
+  '日曜日|にちようび|nichiyoubi|domingo|subst|tempo',
+  '年|とし|toshi|ano; idade|subst|tempo',
+  '春|はる|haru|primavera|subst|tempo',
+  '夏|なつ|natsu|verão|subst|tempo',
+  '秋|あき|aki|outono|subst|tempo',
+  '冬|ふゆ|fuyu|inverno|subst|tempo',
+  // lugares
+  '学校|がっこう|gakkou|escola|subst|escola|がっこうに いきます。|gakkou ni ikimasu.|Vou para a escola.',
+  '家|いえ|ie|casa (o imóvel); lar|subst|casa',
+  '駅|えき|eki|estação (de trem)|subst|lugares|えきは どこですか。|eki wa doko desu ka?|Onde fica a estação?',
+  '病院|びょういん|byouin|hospital|subst|lugares',
+  '会社|かいしゃ|kaisha|empresa|subst|lugares',
+  '店|みせ|mise|loja|subst|lugares',
+  '町|まち|machi|cidade; bairro|subst|lugares',
+  '国|くに|kuni|país|subst|lugares',
+  '日本|にほん|nihon|Japão|subst|lugares',
+  '|ブラジル|burajiru|Brasil|subst|lugares',
+  '公園|こうえん|kouen|parque|subst|lugares',
+  '図書館|としょかん|toshokan|biblioteca|subst|lugares',
+  '銀行|ぎんこう|ginkou|banco|subst|lugares',
+  '|トイレ|toire|banheiro|subst|lugares|トイレは どこですか。|toire wa doko desu ka?|Onde fica o banheiro?',
+  '|コンビニ|konbini|loja de conveniência|subst|lugares',
+  // escola
+  '本|ほん|hon|livro|subst|escola|この ほんは おもしろい。|kono hon wa omoshiroi.|Este livro é interessante.',
+  '勉強|べんきょう|benkyou|estudo|subst|escola|べんきょうは たのしいです。|benkyou wa tanoshii desu.|Estudar é divertido.',
+  '宿題|しゅくだい|shukudai|lição de casa|subst|escola',
+  '日本語|にほんご|nihongo|língua japonesa|subst|escola',
+  '言葉|ことば|kotoba|palavra; língua|subst|escola',
+  '|テスト|tesuto|prova; teste|subst|escola',
+  '質問|しつもん|shitsumon|pergunta|subst|escola',
+  // casa e objetos
+  '部屋|へや|heya|quarto; cômodo|subst|casa',
+  '窓|まど|mado|janela|subst|casa',
+  '|ドア|doa|porta|subst|casa',
+  '机|つくえ|tsukue|mesa (de estudo); escrivaninha|subst|casa',
+  '椅子|いす|isu|cadeira|subst|casa',
+  '電話|でんわ|denwa|telefone|subst|casa',
+  '写真|しゃしん|shashin|foto|subst|casa',
+  '傘|かさ|kasa|guarda-chuva|subst|casa',
+  '鍵|かぎ|kagi|chave|subst|casa',
+  'お金|おかね|okane|dinheiro|subst|casa|おかねが ありません。|okane ga arimasen.|Não tenho dinheiro.',
+  '時計|とけい|tokei|relógio|subst|casa',
+  '|スマホ|sumaho|celular (smartphone)|subst|casa',
+  '映画|えいが|eiga|filme; cinema|subst|casa|えいがを みに いこう。|eiga o mi ni ikou.|Vamos ver um filme.',
+  '音楽|おんがく|ongaku|música|subst|casa',
+  // corpo e saúde
+  '体|からだ|karada|corpo|subst|corpo',
+  '頭|あたま|atama|cabeça|subst|corpo|あたまが いたい。|atama ga itai.|Estou com dor de cabeça.',
+  '目|め|me|olho|subst|corpo',
+  '耳|みみ|mimi|orelha; ouvido|subst|corpo',
+  '口|くち|kuchi|boca|subst|corpo',
+  '手|て|te|mão|subst|corpo',
+  '足|あし|ashi|pé; perna|subst|corpo',
+  '病気|びょうき|byouki|doença; doente|subst|corpo',
+  '痛い|いたい|itai|dolorido; ai! (dor)|adj-i|corpo',
+  '元気|げんき|genki|bem-disposto; com saúde|adj-na|corpo|げんき ですか。|genki desu ka?|Tudo bem? (Você está bem?)',
+  // natureza
+  '天気|てんき|tenki|tempo (clima)|subst|natureza|きょうは いい てんきですね。|kyou wa ii tenki desu ne.|Hoje o tempo está bom, né?',
+  '雨|あめ|ame|chuva|subst|natureza',
+  '雪|ゆき|yuki|neve|subst|natureza',
+  '山|やま|yama|montanha|subst|natureza',
+  '川|かわ|kawa|rio|subst|natureza',
+  '海|うみ|umi|mar|subst|natureza',
+  '空|そら|sora|céu|subst|natureza',
+  '花|はな|hana|flor|subst|natureza',
+  '木|き|ki|árvore; madeira|subst|natureza',
+  '暑い|あつい|atsui|quente (clima)|adj-i|natureza',
+  '寒い|さむい|samui|frio (clima)|adj-i|natureza',
+  // cores
+  '赤い|あかい|akai|vermelho|adj-i|cores',
+  '青い|あおい|aoi|azul|adj-i|cores',
+  '白い|しろい|shiroi|branco|adj-i|cores',
+  '黒い|くろい|kuroi|preto|adj-i|cores',
+  '黄色い|きいろい|kiiroi|amarelo|adj-i|cores',
+  '緑|みどり|midori|verde|subst|cores',
+  '色|いろ|iro|cor|subst|cores',
+  // transporte
+  '車|くるま|kuruma|carro|subst|transporte',
+  '電車|でんしゃ|densha|trem|subst|transporte|でんしゃで がっこうに いきます。|densha de gakkou ni ikimasu.|Vou para a escola de trem.',
+  '|バス|basu|ônibus|subst|transporte',
+  '自転車|じてんしゃ|jitensha|bicicleta|subst|transporte',
+  '飛行機|ひこうき|hikouki|avião|subst|transporte',
+  '道|みち|michi|caminho; rua|subst|transporte',
+  // sentimentos
+  '好き|すき|suki|gostar de; preferido|adj-na|sentimentos|アニメが すきです。|anime ga suki desu.|Eu gosto de anime.',
+  '大好き|だいすき|daisuki|adorar; gostar muito|adj-na|sentimentos',
+  '嫌い|きらい|kirai|não gostar de; detestar|adj-na|sentimentos',
+  '楽しい|たのしい|tanoshii|divertido; agradável|adj-i|sentimentos',
+  '嬉しい|うれしい|ureshii|feliz; contente|adj-i|sentimentos',
+  '悲しい|かなしい|kanashii|triste|adj-i|sentimentos',
+  '怖い|こわい|kowai|assustador; com medo|adj-i|sentimentos',
+  '心|こころ|kokoro|coração; mente; sentimento|subst|sentimentos',
+  // verbos
+  '食べる|たべる|taberu|comer|verbo|acoes|すしを たべる。|sushi o taberu.|Comer sushi.',
+  '飲む|のむ|nomu|beber; tomar (remédio)|verbo|acoes|みずを のむ。|mizu o nomu.|Beber água.',
+  '行く|いく|iku|ir|verbo|acoes|あした がっこうに いく。|ashita gakkou ni iku.|Amanhã vou à escola.',
+  '来る|くる|kuru|vir|verbo|acoes',
+  '帰る|かえる|kaeru|voltar (para casa)|verbo|acoes',
+  '見る|みる|miru|ver; olhar; assistir|verbo|acoes|アニメを みる。|anime o miru.|Assistir anime.',
+  '聞く|きく|kiku|ouvir; perguntar|verbo|acoes|おんがくを きく。|ongaku o kiku.|Ouvir música.',
+  '話す|はなす|hanasu|falar; conversar|verbo|acoes|にほんごを はなす。|nihongo o hanasu.|Falar japonês.',
+  '読む|よむ|yomu|ler|verbo|acoes',
+  '書く|かく|kaku|escrever|verbo|acoes',
+  '買う|かう|kau|comprar|verbo|acoes',
+  '売る|うる|uru|vender|verbo|acoes',
+  '待つ|まつ|matsu|esperar|verbo|acoes|ちょっと まって！|chotto matte!|Espera um pouco!',
+  '歩く|あるく|aruku|andar; caminhar|verbo|acoes',
+  '走る|はしる|hashiru|correr|verbo|acoes',
+  '泳ぐ|およぐ|oyogu|nadar|verbo|acoes',
+  '寝る|ねる|neru|dormir; deitar-se|verbo|acoes',
+  '起きる|おきる|okiru|acordar; levantar-se|verbo|acoes',
+  '遊ぶ|あそぶ|asobu|brincar; divertir-se; sair com amigos|verbo|acoes',
+  '歌う|うたう|utau|cantar|verbo|acoes',
+  '分かる|わかる|wakaru|entender; saber|verbo|acoes|わかりました。|wakarimashita.|Entendi.',
+  '知る|しる|shiru|conhecer; ficar sabendo|verbo|acoes',
+  '|する|suru|fazer|verbo|acoes|べんきょうする。|benkyou suru.|Estudar.',
+  '会う|あう|au|encontrar (alguém)|verbo|acoes',
+  '作る|つくる|tsukuru|fazer; preparar; criar|verbo|acoes',
+  '使う|つかう|tsukau|usar|verbo|acoes',
+  '思う|おもう|omou|pensar; achar|verbo|acoes',
+  '言う|いう|iu|dizer|verbo|acoes',
+  '入る|はいる|hairu|entrar|verbo|acoes',
+  '出る|でる|deru|sair|verbo|acoes',
+  '住む|すむ|sumu|morar|verbo|acoes',
+  '働く|はたらく|hataraku|trabalhar|verbo|acoes',
+  '休む|やすむ|yasumu|descansar; faltar|verbo|acoes',
+  // adjetivos
+  '大きい|おおきい|ookii|grande|adj-i|descricao|おおきい いぬ。|ookii inu.|Um cachorro grande.',
+  '小さい|ちいさい|chiisai|pequeno|adj-i|descricao',
+  '高い|たかい|takai|alto; caro|adj-i|descricao|この かばんは たかい。|kono kaban wa takai.|Esta bolsa é cara.',
+  '安い|やすい|yasui|barato|adj-i|descricao',
+  '新しい|あたらしい|atarashii|novo|adj-i|descricao',
+  '古い|ふるい|furui|velho (coisas); antigo|adj-i|descricao',
+  '良い|いい|ii|bom|adj-i|descricao',
+  '悪い|わるい|warui|ruim; mau|adj-i|descricao',
+  '難しい|むずかしい|muzukashii|difícil|adj-i|descricao',
+  '易しい|やさしい|yasashii|fácil; gentil|adj-i|descricao',
+  '面白い|おもしろい|omoshiroi|interessante; engraçado|adj-i|descricao',
+  '忙しい|いそがしい|isogashii|ocupado|adj-i|descricao',
+  '綺麗|きれい|kirei|bonito; limpo|adj-na|descricao|はなが きれいですね。|hana ga kirei desu ne.|As flores são bonitas, né?',
+  '静か|しずか|shizuka|silencioso; calmo|adj-na|descricao',
+  '有名|ゆうめい|yuumei|famoso|adj-na|descricao',
+  '暇|ひま|hima|livre; desocupado|adj-na|descricao',
+  // advérbios e pronomes úteis
+  '|とても|totemo|muito|adv|descricao',
+  '|ちょっと|chotto|um pouco; um momento|adv|descricao',
+  '|たくさん|takusan|muito; bastante (quantidade)|adv|descricao',
+  '|ゆっくり|yukkuri|devagar; com calma|adv|descricao',
+  '|いつも|itsumo|sempre|adv|tempo',
+  '|もう|mou|já; mais|adv|tempo',
+  '|まだ|mada|ainda; ainda não|adv|tempo',
+  '|これ|kore|isto|pron|casa',
+  '|それ|sore|isso|pron|casa',
+  '|あれ|are|aquilo|pron|casa',
+  '|どこ|doko|onde|pron|lugares',
+  '|なに|nani|o quê|pron|escola',
+  '|だれ|dare|quem|pron|familia',
+  '|いつ|itsu|quando|pron|tempo',
+  '|いくら|ikura|quanto (custa)|pron|lugares',
+  // números e contadores
+  '百|ひゃく|hyaku|cem|num|numeros',
+  '千|せん|sen|mil|num|numeros',
+  '万|まん|man|dez mil|num|numeros',
+  '円|えん|en|iene (moeda japonesa)|cont|numeros|せんえんです。|sen\'en desu.|São mil ienes.',
+  '|ひとつ|hitotsu|um (objeto)|cont|numeros',
+  '|ふたつ|futatsu|dois (objetos)|cont|numeros',
+  '|みっつ|mittsu|três (objetos)|cont|numeros',
+  '一人|ひとり|hitori|uma pessoa; sozinho|cont|numeros',
+  '二人|ふたり|futari|duas pessoas|cont|numeros',
+  '何時|なんじ|nanji|que horas|pron|tempo',
+  // anime e cultura pop
+  '|アニメ|anime|anime (animação japonesa)|subst|anime',
+  '漫画|まんが|manga|mangá; quadrinhos|subst|anime',
+  '|ゲーム|geemu|jogo; videogame|subst|anime',
+  '|カラオケ|karaoke|karaokê|subst|anime',
+  '友情|ゆうじょう|yuujou|amizade|subst|anime',
+  '夢|ゆめ|yume|sonho|subst|anime',
+  '力|ちから|chikara|força; poder|subst|anime',
+  '仲間|なかま|nakama|companheiro(s); a turma|subst|anime',
+  '|がんばって|ganbatte|força!; boa sorte; dê o seu melhor|expr|anime|テスト、がんばって！|tesuto, ganbatte!|Boa sorte na prova!'
+];
+/* kanji: significado | leituras (on / kun). Os kanji das lições da Academia também entram automaticamente. */
+const DICT_KANJI = {
+  '水': 'água|sui / mizu', '茶': 'chá|cha, sa', '飯': 'refeição; arroz|han / meshi', '魚': 'peixe|gyo / sakana', '肉': 'carne|niku', '野': 'campo|ya / no', '菜': 'verdura|sai / na',
+  '果': 'fruto; resultado|ka', '物': 'coisa; objeto|butsu, motsu / mono', '卵': 'ovo|ran / tamago', '牛': 'vaca; boi|gyuu / ushi', '乳': 'leite|nyuu / chichi', '朝': 'manhã|chou / asa', '昼': 'meio-dia|chuu / hiru',
+  '晩': 'noite; tarde|ban', '甘': 'doce|kan / ama(i)', '辛': 'picante; amargo|shin / kara(i)', '猫': 'gato|byou / neko', '犬': 'cachorro|ken / inu', '鳥': 'pássaro|chou / tori', '馬': 'cavalo|ba / uma',
+  '熊': 'urso|yuu / kuma', '虫': 'inseto|chuu / mushi', '人': 'pessoa|jin, nin / hito', '友': 'amigo|yuu / tomo', '達': 'plural (pessoas); alcançar|tachi, tatsu', '家': 'casa; família|ka, ke / ie, uchi', '族': 'tribo; família|zoku',
+  '母': 'mãe|bo / haha', '父': 'pai|fu / chichi', '兄': 'irmão mais velho|kyou / ani', '姉': 'irmã mais velha|shi / ane', '弟': 'irmão mais novo|dai, tei / otouto', '妹': 'irmã mais nova|mai / imouto',
+  '子': 'criança; filho|shi, su / ko', '供': 'acompanhar; oferecer|kyou / tomo', '男': 'homem|dan / otoko', '女': 'mulher|jo / onna', '先': 'antes; à frente|sen / saki', '生': 'vida; nascer|sei / i(kiru), u(mareru)',
+  '学': 'estudo; aprender|gaku / mana(bu)', '私': 'eu; privado|shi / watashi', '彼': 'ele; aquele|hi / kare', '今': 'agora|kon / ima', '日': 'dia; sol|nichi, jitsu / hi, ka', '明': 'claro; brilhante|mei / aka(rui)',
+  '昨': 'ontem; passado|saku', '時': 'tempo; hora|ji / toki', '間': 'intervalo; entre|kan, ken / aida, ma', '毎': 'cada; todo|mai', '夜': 'noite|ya / yoru', '週': 'semana|shuu', '末': 'fim; final|matsu / sue',
+  '月': 'lua; mês|getsu, gatsu / tsuki', '曜': 'dia da semana|you', '火': 'fogo|ka / hi', '木': 'árvore; madeira|moku / ki', '金': 'ouro; dinheiro|kin / kane', '土': 'terra; solo|do / tsuchi', '年': 'ano|nen / toshi',
+  '春': 'primavera|shun / haru', '夏': 'verão|ka / natsu', '秋': 'outono|shuu / aki', '冬': 'inverno|tou / fuyu', '校': 'escola|kou', '駅': 'estação|eki', '病': 'doença|byou / yamai', '院': 'instituição|in',
+  '会': 'encontro; reunir|kai / a(u)', '社': 'empresa; santuário|sha / yashiro', '店': 'loja|ten / mise', '町': 'cidade; bairro|chou / machi', '国': 'país|koku / kuni', '本': 'livro; origem|hon / moto',
+  '公': 'público|kou', '園': 'jardim; parque|en / sono', '図': 'mapa; desenho|zu, to', '書': 'escrever|sho / ka(ku)', '館': 'edifício; salão|kan', '銀': 'prata|gin', '行': 'ir; linha|kou, gyou / i(ku)',
+  '勉': 'esforço|ben', '強': 'forte|kyou / tsuyo(i)', '宿': 'pousada; morada|shuku / yado', '題': 'tema; título|dai', '語': 'língua; palavra|go / kata(ru)', '言': 'dizer|gen, gon / i(u), koto', '葉': 'folha|you / ha',
+  '質': 'qualidade|shitsu', '問': 'pergunta|mon / to(u)', '部': 'parte; seção|bu', '屋': 'telhado; loja|oku / ya', '窓': 'janela|sou / mado', '机': 'mesa|ki / tsukue', '椅': 'cadeira|i', '電': 'eletricidade|den',
+  '話': 'conversa; falar|wa / hana(su)', '写': 'copiar; fotografar|sha / utsu(su)', '真': 'verdade; real|shin / ma', '傘': 'guarda-chuva|san / kasa', '鍵': 'chave|ken / kagi', '計': 'medir|kei / haka(ru)', '映': 'refletir; projetar|ei / utsu(ru)',
+  '画': 'imagem; quadro|ga, kaku', '音': 'som|on / oto', '楽': 'diversão; música|gaku, raku / tano(shii)', '体': 'corpo|tai / karada', '頭': 'cabeça|tou, zu / atama', '目': 'olho|moku / me', '耳': 'orelha|ji / mimi',
+  '口': 'boca|kou / kuchi', '手': 'mão|shu / te', '足': 'pé; perna; bastar|soku / ashi', '気': 'espírito; energia|ki', '痛': 'dor|tsuu / ita(i)', '元': 'origem|gen / moto', '天': 'céu|ten / ame',
+  '雨': 'chuva|u / ame', '雪': 'neve|setsu / yuki', '山': 'montanha|san / yama', '川': 'rio|sen / kawa', '海': 'mar|kai / umi', '空': 'céu; vazio|kuu / sora', '花': 'flor|ka / hana', '暑': 'calor|sho / atsu(i)',
+  '寒': 'frio|kan / samu(i)', '赤': 'vermelho|seki / aka', '青': 'azul|sei / ao', '白': 'branco|haku / shiro', '黒': 'preto|koku / kuro', '黄': 'amarelo|kou / ki', '色': 'cor|shoku / iro', '緑': 'verde|ryoku / midori',
+  '車': 'carro; roda|sha / kuruma', '自': 'si mesmo|ji', '転': 'girar; rolar|ten / koro(bu)', '飛': 'voar|hi / to(bu)', '機': 'máquina|ki', '道': 'caminho|dou / michi', '好': 'gostar|kou / su(ki)', '大': 'grande|dai, tai / oo(kii)',
+  '嫌': 'detestar|ken / kira(i)', '嬉': 'alegre|ki / ure(shii)', '悲': 'triste|hi / kana(shii)', '怖': 'medo|fu / kowa(i)', '心': 'coração; mente|shin / kokoro', '食': 'comer; comida|shoku / ta(beru)',
+  '飲': 'beber|in / no(mu)', '来': 'vir|rai / ku(ru)', '帰': 'voltar|ki / kae(ru)', '見': 'ver|ken / mi(ru)', '聞': 'ouvir; perguntar|bun / ki(ku)', '読': 'ler|doku / yo(mu)', '買': 'comprar|bai / ka(u)', '売': 'vender|bai / u(ru)',
+  '待': 'esperar|tai / ma(tsu)', '歩': 'andar|ho / aru(ku)', '走': 'correr|sou / hashi(ru)', '泳': 'nadar|ei / oyo(gu)', '寝': 'dormir|shin / ne(ru)', '起': 'levantar; acordar|ki / o(kiru)', '遊': 'brincar; diversão|yuu / aso(bu)',
+  '歌': 'canção; cantar|ka / uta', '分': 'parte; minuto; entender|bun, fun / wa(karu)', '知': 'saber; conhecer|chi / shi(ru)', '作': 'fazer; criar|saku / tsuku(ru)', '使': 'usar|shi / tsuka(u)', '思': 'pensar|shi / omo(u)',
+  '入': 'entrar|nyuu / hai(ru), i(reru)', '出': 'sair|shutsu / de(ru)', '住': 'morar|juu / su(mu)', '働': 'trabalhar|dou / hatara(ku)', '休': 'descansar|kyuu / yasu(mu)', '小': 'pequeno|shou / chii(sai), ko',
+  '高': 'alto; caro|kou / taka(i)', '安': 'barato; tranquilo|an / yasu(i)', '新': 'novo|shin / atara(shii)', '古': 'velho; antigo|ko / furu(i)', '良': 'bom|ryou / yo(i)', '悪': 'mau; ruim|aku / waru(i)', '難': 'difícil|nan / muzuka(shii)',
+  '易': 'fácil|i, eki / yasa(shii)', '面': 'rosto; superfície|men / omote', '忙': 'ocupado|bou / isoga(shii)', '綺': 'belo; seda fina|ki', '麗': 'lindo|rei / uruwa(shii)', '静': 'silêncio|sei / shizu(ka)', '有': 'ter; existir|yuu / a(ru)',
+  '名': 'nome|mei, myou / na', '暇': 'tempo livre|ka / hima', '何': 'o quê|ka / nani, nan', '百': 'cem|hyaku', '千': 'mil|sen / chi', '万': 'dez mil|man, ban', '円': 'círculo; iene|en / maru(i)', '一': 'um|ichi / hito(tsu)',
+  '二': 'dois|ni / futa(tsu)', '漫': 'involuntário; à toa|man', '情': 'sentimento|jou / nasa(ke)', '夢': 'sonho|mu / yume', '力': 'força|ryoku, riki / chikara', '仲': 'relação; intermediário|chuu / naka', '世': 'mundo; geração|sei / yo'
+};
+
+/* ==========================================================
+   Nihongo Quest 7.0 — DICIONÁRIO JAPONÊS-PORTUGUÊS
+   - Junta todas as palavras do app (Academia, Academia Auditiva, Listening Academy,
+     Chat) + DICT_EXTRA, sem duplicar (mesma leitura e mesma escrita = uma entrada).
+   - Pesquisa por japonês, kana, kanji, romaji (grafia flexível) e português (sem acento).
+   - Áudio com a voz japonesa do aparelho: palavra, frase inteira e frase por partes.
+   - Favoritos (S.dict.fav), recentes, envio ao Caderno + Revisão (S.items, sem duplicar).
+   - Consultar o dicionário NUNCA conta como lição feita nem libera conteúdo.
+   ========================================================== */
+const DICT_LESSON = { id: 'dict', title: 'Dicionário', kind: 'audio', cat: { id: 'dict', title: 'Dicionário' }, index: 0, items: [] };
+const DICT = { built: false, list: [], byKey: {}, byWord: {}, kanji: {} };
+const dictUI = { q: '', theme: '', limit: 40 };
+const hasKanji = s => /[一-鿿々]/.test(s || '');
+const isKana = s => /^[぀-ヿー・\s　]+$/.test(s || '');
+const dNorm = s => KANA.strip(s).toLowerCase().trim();
+function dictState() {
+  if (!isPlainObj(S.dict)) S.dict = defaultDict();
+  if (!isPlainObj(S.dict.fav)) S.dict.fav = {};
+  if (!Array.isArray(S.dict.recent)) S.dict.recent = [];
+  return S.dict;
+}
+
+/* itens próprios do dicionário (palavras extras que não existem no app): registrados já no início,
+   para que o Caderno e a Revisão encontrem as que o aluno salvou */
+const DICT_EXTRA_P = DICT_EXTRA.map(line => {
+  const [kanji, kana, ro, pt, pos, tag, ej, er, ep] = line.split('|');
+  return { kanji, kana, ro, pt, pos, tag, ex: ej ? { jp: ej, ro: er, pt: ep } : null };
+});
+DICT_EXTRA_P.forEach(e => {
+  const k = KANA.kata2hira(e.kana) || e.ro;
+  const it = { k, jp: e.kanji || e.kana, jp2: e.kanji ? e.kanji + '（' + e.kana + '）' : '', say: e.kana, ro: e.ro, pt: e.pt.split(';').map(x => x.trim()).join(' / '), kanji: e.kanji || '', group: e.pos === 'expr' || e.pos === 'interj' ? 'expressao' : 'palavra', ex: e.ex, id: 'dict:' + k, lesson: DICT_LESSON };
+  if (!ITEM[it.id]) { ITEM[it.id] = it; DICT_LESSON.items.push(it); }
+  e.dictId = it.id;
+});
+
+/* ---------- índice (montado na primeira consulta) ---------- */
+function dictBuild() {
+  if (DICT.built) return; DICT.built = true;
+  // kanji: primeiro os das lições da Academia (kanji isolado + significado), depois os complementares
+  ALL_LESSONS.forEach(l => l.items.forEach(it => {
+    if (/^[一-鿿]$/.test(it.jp) && !DICT.kanji[it.jp]) DICT.kanji[it.jp] = { m: String(it.pt).replace(/\s*\(.*?\)\s*/g, ' ').trim() || it.pt, r: [it.ro, it.alt].filter(Boolean).join(', '), id: it.id };
+  }));
+  Object.keys(DICT_KANJI).forEach(k => { if (!DICT.kanji[k]) { const [m, r] = DICT_KANJI[k].split('|'); DICT.kanji[k] = { m, r }; } });
+  const add = (src) => {
+    const kana = src.kana, kanji = src.kanji || '';
+    if (!kana && !kanji) return;
+    const reading = KANA.kata2hira(kana || '');
+    // mesma leitura + mesma escrita (ou uma delas sem kanji) = mesma palavra
+    let e = (DICT.byWord[reading] || []).find(x => !kanji || !x.kanji || x.kanji === kanji);
+    if (!e) {
+      e = { key: (kanji || '') + '|' + (kana || src.ro), kanji, kana, reading, ro: src.ro, pt: [], pos: '', tags: [], ex: [], notes: [], ctx: [], items: [], srcs: [] };
+      DICT.list.push(e); (DICT.byWord[reading] = DICT.byWord[reading] || []).push(e); DICT.byKey[e.key] = e;
+    }
+    if (kanji && !e.kanji) e.kanji = kanji;
+    if (!e.kana && kana) e.kana = kana;
+    String(src.pt || '').split(/\s*[;／/]\s*/).map(x => x.trim()).filter(Boolean).forEach(m => { if (!e.pt.some(p => dNorm(p) === dNorm(m))) e.pt.push(m); });
+    if (src.pos && !e.pos) e.pos = src.pos;
+    if (src.tag && !e.tags.includes(src.tag)) e.tags.push(src.tag);
+    if (src.ex && src.ex.jp && !e.ex.some(x => x.jp === src.ex.jp)) e.ex.push(src.ex);
+    if (src.note && !e.notes.includes(src.note)) e.notes.push(src.note);
+    (src.ctx || []).forEach(c => { if (c && !e.ctx.includes(c)) e.ctx.push(c); });
+    if (src.id && !e.items.includes(src.id)) e.items.push(src.id);
+    if (src.srcLabel && !e.srcs.includes(src.srcLabel)) e.srcs.push(src.srcLabel);
+  };
+  const fromItem = (it, srcLabel, tagHint) => {
+    if (!it || !it.jp || it.lesson === DICT_LESSON) return;
+    const L = it.lesson, kind = L.kind;
+    if (kind === 'kana' || kind === 'grammar') return; // caracteres isolados e frases de gramática não são verbetes
+    if (it.group === 'frase' || it.group === 'resposta') return;
+    if (/[。？！?!]/.test(it.jp) && it.jp.length > 6) return; // frases inteiras
+    const jp = it.jp, say = it.say && isKana(it.say) ? it.say : '';
+    let kana, kanji = '';
+    if (hasKanji(jp)) { kanji = jp.replace(/[！!？?。]/g, ''); kana = say || KANA.toKana(it.ro); }
+    else { kana = jp.replace(/[！!？?。…〜~]/g, ''); kanji = it.kanji && hasKanji(it.kanji) && it.kanji.length <= 4 ? it.kanji : ''; }
+    if (!kana || kana.length > 14) return;
+    const ctx = [];
+    if (it.alt) ctx.push('Outra leitura: ' + it.alt + '.');
+    if (it.when) ctx.push('Quando usar: ' + it.when);
+    if (it.formal) ctx.push(it.formal);
+    const lt = (L.title || '') + ' ' + (L.cat && L.cat.title || '');
+    const pos = kind === 'number' ? 'num' : /^[一-鿿]$/.test(jp) ? 'kanji' : it.group === 'expressao' ? 'expr' : /verbo/i.test(L.title || '') && /^(a |o )?[a-zà-ú]+(ar|er|ir|or)\b/i.test(it.pt) ? 'verbo' : /adjetivo/i.test(L.title || '') && /i$/.test(it.ro) ? 'adj-i' : '';
+    add({ kana, kanji, ro: it.ro, pt: it.pt, pos, note: it.note, ex: it.ex, ctx, id: it.id, srcLabel, tag: tagHint || dictTagFromTitle(lt) });
+  };
+  ALL_LESSONS.forEach(l => l.items.forEach(it => fromItem(it, l.cat.title + ' · ' + l.title)));
+  AUDIO_PACKS.forEach(p => p.items.forEach(it => fromItem(it, p.title || 'Academia Auditiva', p.id === 'aud-ani' ? 'anime' : '')));
+  if (typeof LA_LESSONS !== 'undefined') LA_LESSONS.forEach(l => l.items.forEach(it => fromItem(it, 'Listening Academy · ' + l.title)));
+  if (typeof CHAT_PACK !== 'undefined') CHAT_PACK.items.forEach(it => fromItem(it, 'Nihongo Chat'));
+  DICT_EXTRA_P.forEach(e => add({ kana: e.kana, kanji: e.kanji, ro: e.ro, pt: e.pt, pos: e.pos, tag: e.tag, ex: e.ex, id: null, dict: true }));
+  DICT_EXTRA_P.forEach(e => { const d = dictFind(e.kanji || e.kana, e.kana); if (d) d.dictId = e.dictId; });
+  DICT.list.forEach((e, i) => {
+    e.rank = i;
+    e.jp = e.kanji || e.kana;
+    e.k = { ro: KANA.phon(e.ro || KANA.toRomaji(e.kana)), roRaw: dNorm(e.ro).replace(/[^a-z]/g, ''), kana: e.reading, pt: e.pt.map(dNorm), ptWords: e.pt.flatMap(p => dNorm(p).split(/[^a-z0-9à-ú]+/).filter(Boolean)) };
+  });
+}
+function dictTagFromTitle(t) {
+  const m = [[/cumpriment|express|saudaç/i, 'cumprimentos'], [/comida|bebida|restaurante|culin/i, 'comida'], [/anima(l|is)/i, 'animais'], [/família|pessoas/i, 'familia'], [/tempo|dias|horas|calend|datas/i, 'tempo'], [/lugar|cidade|direç/i, 'lugares'], [/escola|estud/i, 'escola'], [/casa|objet/i, 'casa'], [/corpo|saúde/i, 'corpo'], [/natureza|clima/i, 'natureza'], [/cores/i, 'cores'], [/transporte/i, 'transporte'], [/sentiment|emoç/i, 'sentimentos'], [/verbo/i, 'acoes'], [/adjetivo/i, 'descricao'], [/número/i, 'numeros'], [/anime/i, 'anime']];
+  const hit = m.find(([r]) => r.test(t)); return hit ? hit[1] : '';
+}
+function dictFind(jp, kana) {
+  dictBuild();
+  const r = KANA.kata2hira(kana || jp || '');
+  const list = DICT.byWord[r] || [];
+  return list.find(e => e.kanji === jp || e.kana === jp) || list[0] || DICT.list.find(e => e.kanji === jp) || null;
+}
+
+/* ---------- pesquisa flexível ---------- */
+function dictSearch(q) {
+  dictBuild();
+  q = String(q || '').trim(); if (!q) return [];
+  const out = [];
+  if (/[぀-ヿ一-鿿]/.test(q)) {
+    const hira = KANA.kata2hira(q.replace(/\s/g, ''));
+    DICT.list.forEach(e => {
+      let s = 0;
+      if (e.kanji === q || e.kana === q || e.reading === hira) s = 100;
+      else if (e.kanji && e.kanji.startsWith(q) || e.reading.startsWith(hira)) s = 70;
+      else if (e.kanji && e.kanji.includes(q)) s = 50;
+      else if (hira.length >= 2 && e.reading.includes(hira)) s = 35;
+      else if (q.length === 1 && hasKanji(q) && (e.kanji || '').includes(q)) s = 45;
+      if (s) out.push([s, e]);
+    });
+  } else {
+    const n = dNorm(q), ph = KANA.phon(n), raw = n.replace(/[^a-z]/g, ''), kana = KANA.toKana(n);
+    DICT.list.forEach(e => {
+      let s = 0;
+      // romaji (grafias diferentes: ou/oo/ō, shi/si, tsu/tu, n'…)
+      if (raw && e.k.roRaw === raw) s = 100;
+      else if (ph && e.k.ro === ph) s = 96;
+      else if (kana && e.reading === kana) s = 95;
+      else if (ph.length >= 2 && e.k.ro.startsWith(ph)) s = 62 - Math.min(10, e.k.ro.length - ph.length);
+      else if (ph.length >= 4 && e.k.ro.includes(ph)) s = 30;
+      // português (sem acento, palavra inteira vale mais)
+      let p = 0;
+      if (e.k.pt.some(x => x === n || x.replace(/^(o|a|os|as|um|uma) /, '') === n)) p = 98;
+      else if (e.k.pt.some(x => x.split(/\s*\(/)[0].trim() === n)) p = 92;
+      else if (n.length >= 2 && e.k.ptWords.includes(n)) p = 80;
+      else if (n.length >= 3 && e.k.ptWords.some(w => w.startsWith(n))) p = 58;
+      else if (n.length >= 4 && e.k.pt.some(x => x.includes(n))) p = 34;
+      s = Math.max(s, p);
+      if (s) out.push([s, e]);
+    });
+  }
+  return out.sort((a, b) => b[0] - a[0] || (a[1].jp.length - b[1].jp.length) || a[1].rank - b[1].rank).map(x => x[1]);
+}
+
+/* ---------- áudio ---------- */
+async function dictSpeak(text, btn, slow) {
+  if (!text) return;
+  document.querySelectorAll('.d-snd.playing').forEach(b => b.classList.remove('playing'));
+  if (btn) btn.classList.add('playing');
+  if (slow) AUDIO.slow = true;
+  try { await speak(text); } finally { if (slow) AUDIO.slow = false; if (btn) btn.classList.remove('playing'); }
+}
+/* frase em partes: separa pelos espaços (kana) ou pela pontuação */
+function dictSegments(jp) {
+  const s = String(jp || '').trim();
+  let parts = s.split(/[\s　]+/).filter(Boolean);
+  if (parts.length < 2) parts = s.split(/(?<=[、。！？])/).map(x => x.trim()).filter(Boolean);
+  return parts.length > 1 ? parts : [];
+}
+
+/* ---------- integração: Caderno + Revisão, favoritos ---------- */
+function dictItemId(e) { return e.items[0] || e.dictId || null; }
+function dictInNotebook(e) { return [].concat(e.items, e.dictId || []).some(id => S.items[id] && S.items[id].seen); }
+function dictSave(e) {
+  const id = dictItemId(e); if (!id || !ITEM[id]) return false;
+  if (dictInNotebook(e)) return true; // já está: não duplica
+  markSeen(id); // entra no Caderno e na Revisão (SRS); não conta como lição nem libera nada
+  save(); return true;
+}
+function dictToggleFav(e) { const d = dictState(); if (d.fav[e.key]) delete d.fav[e.key]; else d.fav[e.key] = Date.now(); save(); }
+function dictRecent(e) { const d = dictState(); d.recent = [e.key].concat(d.recent.filter(k => k !== e.key)).slice(0, 12); save(); }
+
+/* ---------- interface ---------- */
+const DICT_STAR = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2l2.6 6.6L21 9.3l-5 4.4 1.5 6.8L12 17l-5.5 3.5L8 13.7 3 9.3l6.4-.7z"/></svg>';
+const dictSnd = (text, label, cls = '') => AUDIO.supported ? `<button class="icon-btn d-snd ${cls}" data-act="dictSay" data-text="${esc(text)}" aria-label="${esc(label || 'Ouvir')}">${IC.sound}</button>` : '';
+function dictRow(e) {
+  const fav = !!dictState().fav[e.key];
+  return `<div class="d-row"><button class="d-main" data-act="dictOpen" data-k="${esc(e.key)}"><span class="d-jp jp">${esc(e.jp)}</span><span class="d-sub">${e.kanji ? `<span class="jp">${esc(e.kana)}</span> · ` : ''}${esc(e.ro)}${e.pos ? ` · <span class="d-pos">${esc(DICT_POS[e.pos] || e.pos)}</span>` : ''}</span><span class="d-pt">${esc(e.pt.slice(0, 3).join('; '))}</span></button>
+    <div class="d-acts">${dictSnd(e.kana || e.jp, 'Ouvir ' + e.ro)}${fav ? `<span class="d-fav on" aria-label="Favorito">${DICT_STAR}</span>` : ''}</div></div>`;
+}
+function dictListHTML() {
+  const q = dictUI.q.trim();
+  if (q) {
+    const res = dictSearch(q);
+    if (!res.length) return `<div class="card mascot-tip" style="box-shadow:none">${mascot('neutral', 56)}<div><b>Nada encontrado para “${esc(q)}”.</b><p class="muted" style="margin:4px 0 0">Tente outra grafia (ex.: <i>arigato</i>, <i>ありがとう</i>), uma palavra em português sem acento ou só o começo da palavra.</p></div></div>`;
+    return `<p class="muted tabnum" style="margin:0 2px;font-size:.82rem">${res.length} resultado${res.length > 1 ? 's' : ''}</p><div class="card d-list">${res.slice(0, dictUI.limit).map(dictRow).join('')}</div>${res.length > dictUI.limit ? `<button class="btn btn-ghost btn-block" data-act="dictMore">Ver mais</button>` : ''}`;
+  }
+  if (dictUI.theme) {
+    const th = DICT_THEMES.find(t => t[0] === dictUI.theme);
+    const res = DICT.list.filter(e => e.tags.includes(dictUI.theme)).slice(0, 120);
+    return `<div class="section-h" style="margin:0"><h2 style="font-size:1.05rem">${esc(th ? th[1] : '')}</h2><button class="link-btn" data-act="dictTheme" data-t="">Voltar</button></div><div class="card d-list">${res.map(dictRow).join('') || '<p class="muted">Nenhuma palavra neste tema ainda.</p>'}</div>`;
+  }
+  const d = dictState();
+  const favs = Object.keys(d.fav).sort((a, b) => d.fav[b] - d.fav[a]).map(k => DICT.byKey[k]).filter(Boolean);
+  const rec = d.recent.map(k => DICT.byKey[k]).filter(Boolean);
+  const pool = DICT.list.filter(e => e.ex.length && e.pt.length);
+  const day = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 864e5);
+  const wod = pool.length ? pool[(day * 7919) % pool.length] : null;
+  const chip = e => `<button class="d-chip" data-act="dictOpen" data-k="${esc(e.key)}"><span class="jp">${esc(e.jp)}</span><small>${esc(e.pt[0] || '')}</small></button>`;
+  return `${wod ? `<div class="card d-wod"><span class="eyebrow">Palavra do dia</span><div class="d-wod-in"><button class="d-main" data-act="dictOpen" data-k="${esc(wod.key)}"><span class="d-jp jp" style="font-size:1.7rem">${esc(wod.jp)}</span><span class="d-sub">${wod.kanji ? `<span class="jp">${esc(wod.kana)}</span> · ` : ''}${esc(wod.ro)}</span><span class="d-pt">${esc(wod.pt.slice(0, 2).join('; '))}</span></button>${dictSnd(wod.kana || wod.jp, 'Ouvir ' + wod.ro)}</div></div>` : ''}
+    ${favs.length ? `<section class="section"><h2 style="font-size:1.02rem">Favoritos</h2><div class="d-chips">${favs.map(chip).join('')}</div></section>` : ''}
+    ${rec.length ? `<section class="section"><h2 style="font-size:1.02rem">Vistas recentemente</h2><div class="d-chips">${rec.map(chip).join('')}</div></section>` : ''}
+    <section class="section"><h2 style="font-size:1.02rem">Explorar por tema</h2><div class="d-themes">${DICT_THEMES.map(([k, t, ic]) => `<button class="d-theme" data-act="dictTheme" data-t="${k}"><span class="jp">${ic}</span>${esc(t)}</button>`).join('')}</div></section>
+    <p class="muted" style="margin:14px 2px 0;font-size:.82rem">${DICT.list.length} palavras e expressões. Consultar o dicionário não conta como lição concluída: o progresso da Academia continua vindo das lições e avaliações.</p>`;
+}
+function nbTabs(cur) {
+  return `<div class="seg d-tabs" role="tablist"><button class="${cur === 'caderno' ? 'on' : ''}" data-act="nav" data-view="caderno" role="tab" aria-selected="${cur === 'caderno'}">Caderno</button><button class="${cur === 'dicionario' ? 'on' : ''}" data-act="nav" data-view="dicionario" role="tab" aria-selected="${cur === 'dicionario'}">Dicionário</button></div>`;
+}
+function viewDictionary() {
+  dictBuild();
+  return `<div class="wrap"><div class="page-title"><div><span class="jp">じしょ</span><h1>Dicionário</h1></div>${nbTabs('dicionario')}</div>
+    <div class="stack"><div class="d-search"><input class="search" id="dictSearch" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Português, romaji, かな ou 漢字" value="${esc(dictUI.q)}" aria-label="Pesquisar no dicionário">${dictUI.q ? `<button class="d-clear" data-act="dictClear" aria-label="Limpar pesquisa">×</button>` : ''}</div>
+    <p class="muted" style="margin:-4px 2px 0;font-size:.8rem">Ex.: <button class="link-btn d-try" data-act="dictTry" data-q="água">água</button> · <button class="link-btn d-try" data-act="dictTry" data-q="neko">neko</button> · <button class="link-btn d-try" data-act="dictTry" data-q="ありがとう">ありがとう</button> · <button class="link-btn d-try" data-act="dictTry" data-q="学">学</button></p>
+    <div id="dictList" class="stack">${dictListHTML()}</div></div></div>`;
+}
+/* ficha da palavra (abre em janela, de qualquer lugar do app, inclusive durante uma lição) */
+function dictEntryHTML(e) {
+  const d = dictState(), fav = !!d.fav[e.key], inNb = dictInNotebook(e), id = dictItemId(e);
+  const kj = [...(e.kanji || '')].filter(ch => hasKanji(ch)).map(ch => ({ ch, k: DICT.kanji[ch] })).filter(x => x.k);
+  const exs = e.ex.slice(0, 3).concat(dictAppExamples(e, 3 - Math.min(3, e.ex.length)));
+  const exHTML = exs.map((x, i) => { const seg = dictSegments(x.jp); return `<div class="d-ex"><div class="d-ex-top"><span class="jp d-ex-jp">${esc(x.jp)}</span>${dictSnd(x.jp, 'Ouvir a frase inteira')}</div><span class="ro">${esc(x.ro || '')}</span><span>${esc(x.pt || '')}</span>${seg.length ? `<div class="d-segs" aria-label="Ouvir por partes">${seg.map(s => `<button class="d-seg d-snd" data-act="dictSay" data-text="${esc(s)}">${esc(s)}</button>`).join('')}</div>` : ''}</div>`; }).join('');
+  const related = dictRelated(e);
+  const status = id && S.items[id] && S.items[id].seen ? STATUS_LABEL[itemStatus(id)] : '';
+  return `<div class="d-entry">
+    <div class="d-head"><div class="d-head-t"><span class="d-big jp">${esc(e.jp)}</span>${e.kanji ? `<span class="d-read jp">${esc(e.kana)}</span>` : ''}<span class="d-ro">${esc(e.ro)}</span></div>
+      <div class="d-head-b">${dictSnd(e.kana || e.jp, 'Ouvir a palavra', 'big')}<button class="btn btn-ghost btn-small d-snd" data-act="dictSaySlow" data-text="${esc(e.kana || e.jp)}">Devagar</button></div></div>
+    ${e.pos ? `<span class="chip nova d-poschip">${esc(DICT_POS[e.pos] || e.pos)}</span>` : ''}
+    <section><span class="eyebrow">Significados</span><ol class="d-means">${e.pt.map(p => `<li>${esc(p)}</li>`).join('')}</ol></section>
+    ${e.notes.length || e.ctx.length ? `<section><span class="eyebrow">Uso e variações</span>${e.notes.concat(e.ctx).slice(0, 4).map(n => `<p class="d-note">${esc(n)}</p>`).join('')}</section>` : ''}
+    ${kj.length ? `<section><span class="eyebrow">Kanji</span><div class="d-kanji">${kj.map(x => `<button class="d-kj" data-act="dictTry" data-q="${esc(x.ch)}"><span class="jp">${esc(x.ch)}</span><span><b>${esc(x.k.m)}</b><small>${esc(x.k.r || '')}</small></span></button>`).join('')}</div></section>` : ''}
+    ${exHTML ? `<section><span class="eyebrow">Exemplos</span>${exHTML}</section>` : ''}
+    ${related.length ? `<section><span class="eyebrow">Palavras relacionadas e expressões</span><div class="d-chips">${related.map(r => `<button class="d-chip" data-act="dictOpen" data-k="${esc(r.key)}"><span class="jp">${esc(r.jp)}</span><small>${esc(r.pt[0] || '')}</small></button>`).join('')}</div></section>` : ''}
+    ${e.srcs.length ? `<p class="muted" style="margin:0;font-size:.8rem">No Nihongo Quest: ${esc(e.srcs.slice(0, 2).join(' · '))}</p>` : ''}
+    <div class="d-btns"><button class="btn ${fav ? 'btn-gold' : 'btn-ghost'}" data-act="dictFav" data-k="${esc(e.key)}" aria-pressed="${fav}">${DICT_STAR} ${fav ? 'Favorita' : 'Favoritar'}</button>
+      ${id ? (inNb ? `<span class="btn btn-ghost d-done" aria-disabled="true">✓ No Caderno${status ? ' · ' + esc(status) : ''}</span>` : `<button class="btn btn-primary" data-act="dictSave" data-k="${esc(e.key)}">Adicionar ao Caderno e à Revisão</button>`) : ''}</div>
+    <button class="btn btn-ghost btn-block" data-act="${P ? 'closeModal' : 'dictClose'}">Fechar</button></div>`;
+}
+/* exemplos reais do app que contêm a palavra (frases de gramática e falas da Listening Academy) */
+function dictAppExamples(e, n) {
+  if (n <= 0) return [];
+  const w = e.kanji && e.kanji.length >= 1 ? e.kanji : e.kana;
+  if (!w || (!hasKanji(w) && w.length < 2)) return [];
+  const out = [];
+  for (const L of ALL_LESSONS) { if (L.kind !== 'grammar') continue; for (const it of L.items) { if (out.length >= n) return out; if ((it.jp.includes(w) || (e.kana.length >= 3 && it.jp.includes(e.kana))) && it.jp.length <= 30 && !e.ex.some(x => x.jp === it.jp)) out.push({ jp: it.jp, ro: it.ro, pt: it.pt }); } }
+  return out;
+}
+function dictRelated(e) {
+  const out = [], seen = new Set([e.key]);
+  const push = x => { if (x && !seen.has(x.key) && out.length < 8) { seen.add(x.key); out.push(x); } };
+  const ks = [...(e.kanji || '')].filter(hasKanji);
+  if (ks.length) DICT.list.forEach(x => { if (x.kanji && ks.some(k => x.kanji.includes(k))) push(x); });
+  const w = e.kana; if (w && w.length >= 2) DICT.list.forEach(x => { if (x.kana && x.kana !== w && x.kana.includes(w)) push(x); });
+  if (out.length < 5) e.tags.slice(0, 1).forEach(t => shuffle(DICT.list.filter(x => x.tags.includes(t))).slice(0, 5).forEach(push));
+  return out;
+}
+function dictOpen(e) { if (!e) return; dictRecent(e); openModal(dictEntryHTML(e), 'd-sheet'); }
+/* abre a ficha a partir de outra área (lições, feedback): procura a palavra; se não achar, mostra a busca */
+function dictOpenWord(jp) {
+  dictBuild();
+  const e = dictFind(jp, jp) || dictSearch(jp)[0];
+  if (e) return dictOpen(e);
+  toast('辞', 'Essa palavra ainda não está no dicionário.');
+}
+function dictRefreshList() { const l = $('#dictList'); if (l) l.innerHTML = dictListHTML(); }
+
+Object.assign(ACT, {
+  dictOpen: el => dictOpen(DICT.byKey[el.dataset.k]),
+  dictSay: el => dictSpeak(el.dataset.text, el),
+  dictSaySlow: el => dictSpeak(el.dataset.text, el, true),
+  dictFav: el => { const e = DICT.byKey[el.dataset.k]; if (!e) return; dictToggleFav(e); toast('★', dictState().fav[e.key] ? 'Adicionada aos favoritos.' : 'Removida dos favoritos.'); openModal(dictEntryHTML(e), 'd-sheet'); if (view === 'dicionario' && !P) dictRefreshList(); },
+  dictSave: el => { const e = DICT.byKey[el.dataset.k]; if (!e) return; if (dictSave(e)) toast('帳', 'No Caderno e na Revisão. Ela aparece nas revisões, sem contar como lição.'); openModal(dictEntryHTML(e), 'd-sheet'); },
+  dictClose: () => { closeModal(); if (view === 'dicionario') dictRefreshList(); },
+  dictTheme: el => { dictUI.theme = el.dataset.t; dictUI.q = ''; if (view !== 'dicionario') go('dicionario'); else render(); window.scrollTo(0, 0); },
+  dictTry: el => { closeModal(); dictUI.q = el.dataset.q; dictUI.theme = ''; dictUI.limit = 40; if (P) { closePlayer(); } if (view !== 'dicionario') go('dicionario'); else render(); },
+  dictClear: () => { dictUI.q = ''; dictUI.limit = 40; render(); const s = $('#dictSearch'); if (s) s.focus(); },
+  dictMore: () => { dictUI.limit += 60; dictRefreshList(); },
+  gotoDict: () => go('dicionario')
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'dictSearch') {
+    dictUI.q = e.target.value; dictUI.limit = 40; if (dictUI.q) dictUI.theme = '';
+    dictRefreshList();
+    const c = $('.d-clear'); if (!!dictUI.q !== !!c) { const box = $('.d-search'); if (box) { if (c) c.remove(); else box.insertAdjacentHTML('beforeend', `<button class="d-clear" data-act="dictClear" aria-label="Limpar pesquisa">×</button>`); } }
+  }
+});
+
+/* ---------- integrações com as telas existentes ---------- */
+VIEWS.push('dicionario');
+const _dictRender = render;
+render = function () {
+  if (view === 'dicionario' && S.profile.onboarded) {
+    $('#tabbar').hidden = false; ensureDaily();
+    $('#view').innerHTML = viewDictionary();
+    document.querySelectorAll('.tab').forEach(t => { const on = t.dataset.view === 'caderno'; t.classList.toggle('active', on); t.setAttribute('aria-current', on ? 'page' : 'false'); });
+    updateTabDots(); return;
+  }
+  _dictRender();
+};
+const _dictNotebook = viewNotebook;
+viewNotebook = function () { return _dictNotebook().replace('<h1>Caderno de Aprendizado</h1></div>', '<h1>Caderno de Aprendizado</h1></div>' + nbTabs('caderno')); };
+const _dictOrigin = originOf;
+originOf = function (it) { return it && it.lesson === DICT_LESSON ? 'Dicionário' : _dictOrigin(it); };
+const _dictHome = homeListenCard;
+homeListenCard = function () {
+  return _dictHome() + `<section class="section"><div class="card d-home"><div class="mascot-tip" style="align-items:center"><span class="mod-ic big jp" style="font-size:1.3rem">辞</span><div style="min-width:0"><span class="eyebrow">Novo · Dicionário</span><h3 style="font-size:1.05rem">Procure qualquer palavra</h3><span class="muted" style="font-size:.85rem">Em português, romaji, kana ou kanji, com áudio e exemplos.</span></div></div><button class="btn btn-ghost btn-small" data-act="gotoDict">Abrir o dicionário</button></div></section>`;
+};
+/* novidade da 7.0: aviso único para quem já usava o app */
+setTimeout(() => { try { const d = dictState(); if (S.profile.onboarded && !d.news) { d.news = Date.now(); save(); toast('辞', 'Novo na 7.0: Dicionário (no Caderno) e perguntas faladas na Listening Academy!'); } } catch (e) {} }, 1500);
 
 /* ==========================================================
    INÍCIO DO APP (roda por último, depois de todos os módulos)

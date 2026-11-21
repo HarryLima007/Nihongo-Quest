@@ -46,7 +46,7 @@ const night = `(() => { const R = Date; const off = new R(2026, 10, 20, 23, 10).
   const page = await mk();
   const raw = await loadSave(page, V50);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 6 && S.appVersion === '6.0.0', '5.0: migrado para o esquema 6 (versão 6.0.0)');
+  ok(S.schemaVersion === 7 && S.appVersion === '7.0.0', '5.0: migrado para o esquema 6 (versão 6.0.0)');
   ok(await page.evaluate(() => localStorage.getItem('nihongoQuest:backup:schema5')) === raw, '5.0: cópia de segurança do save antigo (backup:schema5) antes da migração');
   same(S.lessons, V50.lessons, '5.0: progresso da Academia preservado');
   same(S.catExams, V50.catExams, '5.0: avaliações preservadas');
@@ -56,7 +56,7 @@ const night = `(() => { const R = Date; const off = new R(2026, 10, 20, 23, 10).
   same(S.chat, V50.chat, '5.0: Nihongo Chat inteiro preservado (conversas, personagens, figurinhas, fatos, desafios)');
   same(S.listening, V50.listening, '5.0: estatísticas da Academia Auditiva preservadas');
   ok(S.lacad && S.lacad.v === 1 && Object.keys(S.lacad.lessons).length === 0, '5.0: Listening Academy adicionada vazia');
-  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 6, 'save regravado no esquema 6');
+  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 7, 'save regravado no esquema 7');
 
   /* ---------- 2. Listening Academy: estrutura e desbloqueio ---------- */
   await openLA(page);
@@ -137,7 +137,8 @@ const night = `(() => { const R = Date; const off = new R(2026, 10, 20, 23, 10).
   await page.click('.wing [data-act="laOpen"][data-id="la4l1"]'); await page.click('#modal [data-act="laGo"]'); await page.click('#player [data-act="laBegin"]');
   if (await page.isVisible('#player [data-act="laToQs"]')) await page.click('#player [data-act="laToQs"]');
   await page.evaluate(() => { window.__SPEAK_MS = 400; window.__spoken = []; });
-  await page.waitForTimeout(450);
+  // 7.0: primeiro toca a pergunta em japonês; espera o diálogo começar
+  await page.waitForFunction(() => LA.state === 'playing' && LA.mode === 'all', null, { timeout: 4000 }); await page.waitForTimeout(100);
   ok(await page.$$eval('#player .la-line', e => e.length) === 5, 'diálogo mostra as 5 falas com quem fala e botão de ouvir cada uma');
   ok(await page.evaluate(() => window.__spoken.length >= 1 && LA.state === 'playing'), 'diálogo completo começa a tocar');
   await page.click('#player [data-act="laToggle"]'); await page.waitForTimeout(60);

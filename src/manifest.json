@@ -40,7 +40,10 @@
     "chat-talk.js",
     "chat-ui.js",
     "listening-data.js",
+    "listening-voice.js",
     "listening.js",
+    "dict-data.js",
+    "dictionary.js",
     "boot.js"
   ]
 }

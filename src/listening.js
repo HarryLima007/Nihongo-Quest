@@ -62,6 +62,9 @@ function laState() {
   if (!isPlainObj(a.stats.byCat)) a.stats.byCat = {};
   if (!isPlainObj(a.stats.byType)) a.stats.byType = {};
   if (!LA_SPEEDS.includes(a.speed)) a.speed = 1;
+  /* 7.0: palavras que a PRÓPRIA Listening Academy já ensinou (separado do "visto" geral, que o Chat,
+     o Caderno e o Dicionário também marcam). Saves da 6.0: reconstruído das lições já feitas. */
+  if (!isPlainObj(a.taught)) { a.taught = {}; Object.keys(a.lessons).forEach(id => { const L = LA_LESSON[id]; if (L) L.wordRefs.forEach(w => { a.taught[w.id] = a.lessons[id].at || Date.now(); }); }); }
   return a;
 }
 
@@ -150,8 +153,12 @@ async function laPlay(lines, from = 0, mode = 'all') {
 function laPause() { if (LA.state !== 'playing') return; LA.state = 'paused'; const keep = LA.idx; AUDIO.token++; laStopFile(); try { if (AUDIO.supported) speechSynthesis.cancel(); } catch (e) {} LA.idx = keep; laSync(); }
 function laStop() { AUDIO.token++; laStopFile(); try { if (AUDIO.supported) speechSynthesis.cancel(); } catch (e) {} LA.state = 'idle'; LA.idx = 0; laSync(); }
 function laSync() {
-  const playing = LA.state === 'playing';
-  document.body.classList.toggle('is-playing', playing);
+  const any = LA.state === 'playing', q = P && P.kind === 'lacad' && P.qs ? P.qs[P.i] : null;
+  const playing = any && !['q', 'opt', 'ans'].includes(LA.mode);
+  document.body.classList.toggle('is-playing', any);
+  document.querySelectorAll('.la-qbtn').forEach(b => b.classList.toggle('playing', any && LA.mode === 'q'));
+  document.querySelectorAll('.la-opt').forEach(b => b.classList.toggle('speaking', any && LA.mode === 'opt' && +b.dataset.i === LA.optI && q && LA.lines[0] === (q.options[LA.optI] || {}).say));
+  document.querySelectorAll('.la-ans .icon-btn').forEach(b => b.classList.toggle('playing', any && LA.mode === 'ans'));
   document.querySelectorAll('[data-la-toggle]').forEach(b => {
     b.innerHTML = (playing ? IC.pause : IC.play) + `<span>${playing ? 'Pausar' : LA.state === 'paused' ? 'Continuar' : 'Ouvir'}</span>`;
     b.setAttribute('aria-label', playing ? 'Pausar o áudio' : LA.state === 'paused' ? 'Continuar o áudio' : 'Ouvir o áudio');
@@ -195,12 +202,20 @@ function laTextHTML(l, show, big) {
    ========================================================== */
 function laLine(sp, s) { const t = laTL(s); return { sp, jp: t.jp, ro: t.ro, pt: t.pt, say: t.jp, audio: t.audio }; }
 function laDialog(L, ex) { return (ex.d || L.d || []).map(([sp, s]) => laLine(sp, s)); }
+/* 7.0: alternativas de significado só do currículo da Listening Academy até esta lição:
+   a própria lição, as lições anteriores da categoria e as categorias anteriores. Nunca Chat,
+   Caderno, Dicionário, histórico ou categorias futuras. */
+function laScopeLessons(L) {
+  const c = L.cat;
+  return LA_CATS.slice(0, c.index).flatMap(x => x.lessons).concat(c.lessons.slice(0, L.index + 1));
+}
 function laPtPool(L, not) {
   const out = [], seen = new Set([not]);
-  const add = pt => { if (pt && !seen.has(pt)) { seen.add(pt); out.push(pt); } };
-  shuffle(L.wordRefs).forEach(r => add(ITEM[r.id].pt));
-  shuffle(L.cat.lessons.flatMap(l => l.wordRefs)).forEach(r => add(ITEM[r.id].pt));
-  shuffle(LA_LESSONS.flatMap(l => l.wordRefs)).forEach(r => add(ITEM[r.id].pt));
+  const add = it => { if (it && it.pt && !seen.has(it.pt)) { seen.add(it.pt); out.push(it); } };
+  const earlier = laScopeLessons(L).filter(l => l !== L);
+  shuffle(L.wordRefs).forEach(r => add(ITEM[r.id]));
+  shuffle(earlier.filter(l => l.cat === L.cat).flatMap(l => l.wordRefs)).forEach(r => add(ITEM[r.id]));
+  shuffle(earlier.filter(l => l.cat !== L.cat).flatMap(l => l.wordRefs)).forEach(r => add(ITEM[r.id]));
   return out;
 }
 /* palavras da lição presentes no áudio (para a revisão e o caderno) */
@@ -213,44 +228,61 @@ function laBuildQ(ex, L, n) {
   if (ex.t === 'id') {
     const it = laWord(L, ex.w); if (!it) return null;
     const line = { sp, jp: it.jp, ro: it.ro, pt: it.pt, say: it.say || it.jp };
-    q = { ...base, prompt: 'O que significa a palavra que você ouviu?', lines: [line], options: opts(it.pt, laPtPool(L, it.pt).slice(0, 3)), ans: it.pt, items: [it.id] };
+    const pool = laPtPool(L, it.pt).slice(0, 3);
+    q = { ...base, prompt: 'O que significa a palavra que você ouviu?', lines: [line], options: shuffle([{ label: it.pt, correct: true, say: laSayOf(it) }].concat(pool.map(w => ({ label: w.pt, correct: false, say: laSayOf(w) })))), ans: it.pt, items: [it.id], aLine: line };
   } else if (ex.t === 'rec') {
     const s = laLine(sp, ex.s), alts = ex.alts.map(laTL);
-    q = { ...base, prompt: 'Qual destas você ouviu?', lines: [s], roOpts: true, options: shuffle([{ label: s.ro, sub: s.jp, correct: true }].concat(alts.map(a => ({ label: a.ro, sub: a.jp, correct: false })))), ans: s.ro };
+    q = { ...base, prompt: 'Qual destas você ouviu?', lines: [s], roOpts: true, options: shuffle([{ label: s.ro, sub: s.jp, correct: true, say: s }].concat(alts.map(a => ({ label: a.ro, sub: a.jp, correct: false, say: a })))), ans: s.ro, aLine: s };
   } else if (ex.t === 'mean') {
     const s = laLine(sp, ex.s);
-    q = { ...base, prompt: 'O que a pessoa disse?', lines: [s], options: opts(s.pt, ex.alts), ans: s.pt };
+    q = { ...base, prompt: 'O que a pessoa disse?', lines: [s], options: laOpts(s.pt, ex.alts, s), ans: s.pt, aLine: s };
   } else if (ex.t === 'spot') {
     const s = laLine(sp, ex.s);
-    q = { ...base, prompt: ex.prompt || 'Qual destas palavras aparece no áudio?', lines: [s], options: opts(ex.ans, ex.alts), ans: ex.ans };
+    const w = laSpotWord(L, ex.ans);
+    q = { ...base, prompt: ex.prompt || 'Qual destas palavras aparece no áudio?', lines: [s], options: shuffle([ex.ans].concat(ex.alts).map((r, i) => ({ label: r, correct: i === 0, say: laSpotWord(L, r) }))), ans: ex.ans, aLine: { jp: w.jp, ro: ex.ans, pt: w.pt || s.pt } };
   } else if (ex.t === 'order') {
     const s = laLine(sp, ex.s), parts = ex.parts.map(p => { const [jp, ro] = p.split('|'); return { jp, ro }; });
-    q = { ...base, prompt: 'Ouça e monte a frase na ordem em que foi dita.', lines: [s], parts, bank: shuffle(parts.map((p, i) => ({ ...p, i }))), answer: parts.map((_, i) => i), ans: parts.map(p => p.ro).join(' ') };
+    q = { ...base, prompt: 'Ouça e monte a frase na ordem em que foi dita.', lines: [s], parts, bank: shuffle(parts.map((p, i) => ({ ...p, i }))), answer: parts.map((_, i) => i), ans: parts.map(p => p.ro).join(' '), aLine: s };
     if (q.bank.every((b, i) => b.i === i) && parts.length > 1) q.bank.push(q.bank.shift());
   } else if (ex.t === 'tf') {
     const lines = ex.s ? [laLine(sp, ex.s)] : laDialog(L, ex);
-    q = { ...base, prompt: 'Ouça e responda: verdadeiro ou falso?', claim: ex.claim, lines, tf: true, options: [{ label: 'Verdadeiro', correct: !!ex.ans }, { label: 'Falso', correct: !ex.ans }], ans: ex.ans ? 'Verdadeiro' : 'Falso' };
+    q = { ...base, prompt: 'Ouça e responda: verdadeiro ou falso?', claim: ex.claim, lines, tf: true, options: [{ label: 'Verdadeiro', correct: !!ex.ans, say: laPair(LA_TF_JP.Verdadeiro) }, { label: 'Falso', correct: !ex.ans, say: laPair(LA_TF_JP.Falso) }], ans: ex.ans ? 'Verdadeiro' : 'Falso', aLine: lines.length === 1 ? lines[0] : null };
   } else if (ex.t === 'intent') {
     const s = laLine(sp, ex.s), others = shuffle(Object.keys(LA_INTENTS).filter(k => k !== ex.ans)).slice(0, 3);
-    q = { ...base, prompt: 'O que a pessoa está fazendo?', lines: [s], options: opts(LA_INTENTS[ex.ans], others.map(k => LA_INTENTS[k])), ans: LA_INTENTS[ex.ans] };
+    q = { ...base, prompt: 'O que a pessoa está fazendo?', lines: [s], options: shuffle([ex.ans].concat(others).map((k, i) => ({ label: LA_INTENTS[k], correct: i === 0, say: laPair(LA_INTENT_JP[k]) }))), ans: LA_INTENTS[ex.ans], aLine: s };
   } else if (ex.t === 'reply') {
     const s = laLine(sp, ex.s), ok = laTL(ex.ok), bad = ex.bad.map(laTL);
-    q = { ...base, prompt: 'Ouça. Qual é a melhor resposta?', lines: [s], roOpts: true, replyOpts: true, options: shuffle([{ label: ok.ro, sub: ok.jp, pt: ok.pt, correct: true }].concat(bad.map(b => ({ label: b.ro, sub: b.jp, pt: b.pt, correct: false })))), ans: ok.ro + ' (' + ok.pt + ')' };
+    q = { ...base, prompt: 'Ouça. Qual é a melhor resposta?', lines: [s], roOpts: true, replyOpts: true, options: shuffle([{ label: ok.ro, sub: ok.jp, pt: ok.pt, correct: true, say: ok }].concat(bad.map(b => ({ label: b.ro, sub: b.jp, pt: b.pt, correct: false, say: b })))), ans: ok.ro + ' (' + ok.pt + ')', aLine: ok };
   } else if (ex.t === 'comp' || ex.t === 'gist') {
     const lines = laDialog(L, ex);
-    q = { ...base, prompt: ex.q, lines, options: shuffle(ex.opts.map((o, i) => ({ label: o, correct: i === ex.ans }))), ans: ex.opts[ex.ans] };
+    const a = laJpFor(ex.opts[ex.ans]);
+    q = { ...base, prompt: ex.q, qjp: laJpFor(ex.q), lines, options: shuffle(ex.opts.map((o, i) => ({ label: o, correct: i === ex.ans, say: laJpFor(o) }))), ans: ex.opts[ex.ans], aLine: a ? { ...a, pt: ex.opts[ex.ans] } : null };
   } else if (ex.t === 'line') {
     const dl = laDialog(L, ex), l = dl[ex.i]; if (!l) return null;
-    q = { ...base, prompt: 'Ouça esta fala do diálogo (' + laWho(l.sp).name + '). O que ela significa?', lines: [l], options: opts(l.pt, ex.alts), ans: l.pt };
+    q = { ...base, prompt: 'Ouça esta fala do diálogo (' + laWho(l.sp).name + '). O que ela significa?', lines: [l], options: laOpts(l.pt, ex.alts, l), ans: l.pt, aLine: l };
   } else if (ex.t === 'reg') {
     const s = laLine(sp, ex.s);
-    q = { ...base, prompt: 'Como a pessoa está falando?', lines: [s], fixed: true, options: LA_REG.map(([k, t, d]) => ({ label: t, sub: d, correct: k === ex.ans })), ans: LA_REG.find(r => r[0] === ex.ans)[1], why: (ex.why ? ex.why + ' ' : '') + LA_REG_WHY[ex.ans] };
+    q = { ...base, prompt: 'Como a pessoa está falando?', lines: [s], fixed: true, options: LA_REG.map(([k, t, d]) => ({ label: t, sub: d, correct: k === ex.ans, say: laPair(LA_REG_JP[k]) })), aLine: s, ans: LA_REG.find(r => r[0] === ex.ans)[1], why: (ex.why ? ex.why + ' ' : '') + LA_REG_WHY[ex.ans] };
   }
   if (!q) return null;
+  // 7.0: pergunta falada em japonês (Aiko-sensei) e voz de cada alternativa
+  const qj = q.qjp ? { jp: q.qjp.jp, ro: q.qjp.ro, pt: ex.q } : laPair(LA_QJP[ex.t]);
+  q.qline = qj ? { sp: 'aiko', jp: qj.jp, ro: qj.ro, pt: qj.pt || q.prompt, say: qj.jp } : null;
+  (q.options || []).forEach(o => { if (o.say) o.say = { sp: q.lines[0] ? q.lines[0].sp : sp, jp: o.say.jp, ro: o.say.ro, say: o.say.say || o.say.jp }; });
   if (!q.items.length) q.items = laItemsIn(L, q.lines.map(l => l.jp).join(' ')).slice(0, 2);
   q.noPre = L.lv >= 5; // nível 5: menos apoio visual antes da resposta
   return q;
 }
+/* helpers de voz das alternativas */
+function laPair(v) { if (!v) return null; const [jp, ro, pt] = String(v).split('|'); return { jp, ro, pt }; }
+function laSayOf(it) { return it ? { jp: it.say || it.jp, ro: it.ro, pt: it.pt } : null; }
+function laOpts(right, wrong, rightLine) { return shuffle([{ label: right, correct: true, say: rightLine }].concat(wrong.map(w => ({ label: w, correct: false, say: laJpFor(w) })))); }
+function laSpotWord(L, ro) {
+  const norm = x => String(x || '').toLowerCase().replace(/[^a-z]/g, '');
+  const hit = L.wordRefs.map(r => ITEM[r.id]).concat(LA_LESSONS.flatMap(l => l.wordRefs.map(r => ITEM[r.id]))).find(it => norm(it.ro) === norm(ro));
+  return hit ? { jp: hit.say || hit.jp, ro: hit.ro, pt: hit.pt } : { jp: KANA.toKana(ro), ro, pt: '' };
+}
+function laDictBtn(jp) { return jp && typeof dictOpenWord === 'function' ? `<button class="icon-btn la-dict" data-act="laDict" data-q="${esc(jp)}" aria-label="Ver no dicionário">辞</button>` : ''; }
 function laBuildLesson(L) { return L.ex.map((ex, i) => laBuildQ(ex, L, i)).filter(Boolean); }
 function laBuildExam(c) {
   const per = Math.max(2, Math.ceil(10 / c.lessons.length));
@@ -283,7 +315,7 @@ function laRender() {
 function laRenderIntro() {
   const L = P.L, r = laState().lessons[L.id];
   const sps = [...new Set([L.sp].concat((L.d || []).map(x => x[0]), L.ex.map(e => e.sp).filter(Boolean)))].filter(Boolean);
-  const nNew = L.wordRefs.filter(w => !(S.items[w.id] && S.items[w.id].seen)).length;
+  const nNew = L.wordRefs.filter(w => !laState().taught[w.id]).length;
   const body = `<span class="mode-tag">Listening Academy · ${esc(L.cat.title)} · Nível ${L.lv}: ${esc(LA_LEVELS[L.lv])}</span>
     <h1 style="font-size:1.45rem">${esc(L.title)}</h1>${L.situ ? `<p class="muted" style="margin:0">${esc(L.situ)}</p>` : ''}
     <div class="theory-card"><p>${esc(L.intro)}</p></div>
@@ -295,7 +327,7 @@ function laRenderIntro() {
 /* palavras novas: identificadas, explicadas, com romaji, escrita e áudio; vão para o Caderno e a Revisão */
 function laRenderLearn() {
   const L = P.L, list = P.learn;
-  const cards = list.map(w => { const it = ITEM[w.id]; return `<div class="card la-word"><div class="la-word-top"><span class="chip k-new">Nova</span><button class="icon-btn" data-act="laSayWord" data-id="${esc(it.id)}" aria-label="Ouvir ${esc(it.ro)}">${IC.sound}</button></div>
+  const cards = list.map(w => { const it = ITEM[w.id]; return `<div class="card la-word"><div class="la-word-top"><span class="chip k-new">Nova</span><span class="row-btns" style="gap:6px">${laDictBtn(it.jp)}<button class="icon-btn" data-act="laSayWord" data-id="${esc(it.id)}" aria-label="Ouvir ${esc(it.ro)}">${IC.sound}</button></span></div>
     <span class="jp la-word-jp">${esc(it.jp)}</span><span class="la-word-ro">${esc(it.ro)}</span><span class="la-word-pt">${esc(it.pt)}</span>${it.note ? `<span class="muted" style="font-size:.88rem">${esc(it.note)}</span>` : ''}</div>`; }).join('');
   const known = L.wordRefs.filter(w => !list.includes(w));
   const body = `<span class="mode-tag">Palavras novas · ${list.length}</span><h2>Antes de ouvir</h2>
@@ -317,15 +349,21 @@ function laOptHTML(o, i, q) {
   // opções em romaji: a escrita japonesa só aparece se o aluno revelou o japonês (ou depois da resposta)
   const sub = q.roOpts ? ((P.show.jp || P.answered) && o.sub ? `<span class="o-ro jp">${esc(o.sub)}</span>` : '') : o.sub ? `<span class="o-ro">${esc(o.sub)}</span>` : '';
   const pt = q.replyOpts && P.answered && o.pt ? `<span class="o-ro">${esc(o.pt)}</span>` : '';
-  return `<button class="${cls}" data-act="laOpt" data-i="${i}" ${P.answered ? 'disabled' : ''}><span>${esc(o.label)}</span>${sub}${pt}</button>`;
+  // 7.0: tocar numa alternativa seleciona e toca a pronúncia; depois da resposta, só toca (para comparar)
+  const snd = o.say ? `<span class="la-osnd" aria-hidden="true">${IC.sound}</span>` : '';
+  return `<button class="${cls} ${o.say ? 'has-snd' : ''}" data-act="laOpt" data-i="${i}" aria-label="${esc(o.label)}${o.say ? ' (toca a pronúncia)' : ''}">${snd}<span>${esc(o.label)}</span>${sub}${pt}</button>`;
 }
 function laRenderQ() {
   const q = P.qs[P.i], isExam = P.mode === 'exam';
   const show = P.answered ? P.show : { jp: P.show.jp && !q.noPre, ro: P.show.ro && !q.noPre, pt: false };
-  let body = `<span class="mode-tag ${isExam ? '' : 'rev'}">${isExam ? 'Avaliação' : 'Listening'} · ${esc(LA_TYPE[q.t] || '')}</span><div class="q-prompt">${esc(q.prompt)}</div>`;
+  let body = `<span class="mode-tag ${isExam ? '' : 'rev'}">${isExam ? 'Avaliação' : 'Listening'} · ${esc(LA_TYPE[q.t] || '')}</span>`;
+  // 7.0: a pergunta também é falada em japonês; o texto japonês da pergunta aparece só se o aluno revelar
+  if (q.qline) body += `<div class="la-q"><button class="la-qbtn" data-act="laQ" aria-label="Ouvir a pergunta em japonês">${IC.sound}<span>Pergunta</span></button><div class="q-prompt">${esc(q.prompt)}</div></div>${show.jp || show.ro ? `<div class="la-qjp">${show.jp ? `<span class="jp">${esc(q.qline.jp)}</span>` : ''}${show.ro ? `<span class="ro">${esc(q.qline.ro)}</span>` : ''}</div>` : ''}`;
+  else body += `<div class="q-prompt">${esc(q.prompt)}</div>`;
   if (q.claim) body += `<div class="q-card la-claim"><span class="ctx">Afirmação</span><b>${esc(q.claim)}</b></div>`;
   body += laAudioCard(q, show);
   // ouvir primeiro: antes da resposta, só japonês e romaji (como dica); a tradução vem depois
+  if (!P.answered && q.options && q.options.some(o => o.say)) body += `<p class="muted la-opt-tip">Toque numa alternativa para ouvi-la. Nada é corrigido até você tocar em Verificar.</p>`;
   if (!P.answered && !q.noPre) body += `<div class="reveal-row"><button class="link-btn" data-act="laShow" data-k="jp">${P.show.jp ? 'Esconder japonês' : 'Ver japonês'}</button><button class="link-btn" data-act="laShow" data-k="ro">${P.show.ro ? 'Esconder romaji' : 'Ver romaji'}</button></div>${P.hinted ? '<p class="muted" style="margin:0;font-size:.8rem;text-align:center">Com dica, a resposta vale menos XP, mas conta como acerto.</p>' : ''}`;
   else if (!P.answered) body += `<p class="muted" style="margin:0;font-size:.85rem;text-align:center">Nível 5: ouça com atenção; o texto aparece depois da resposta.</p>`;
   let canCheck = P.sel !== null;
@@ -339,7 +377,9 @@ function laRenderQ() {
   else {
     const ok = P.lastOk; footCls = ok ? 'ok' : 'bad';
     const tg = (k, t) => `<button class="filter ${P.show[k] ? 'on' : ''}" data-act="laShow" data-k="${k}" aria-pressed="${!!P.show[k]}">${t}</button>`;
-    foot = `<div class="fb">${mascot(ok ? 'happy' : 'sad', 50, 'hop')}<div class="fb-text"><h3>${esc(P.fbTitle)}</h3>${!ok ? `<p class="answer">Resposta certa: ${esc(q.ans)}</p>` : ''}${q.why ? `<p>${esc(q.why)}</p>` : ''}
+    const A = q.aLine;
+    const card = A ? `<div class="la-ans"><button class="icon-btn" data-act="laAns" aria-label="Ouvir a resposta certa">${IC.sound}</button><div class="la-ans-t">${A.jp ? `<span class="jp la-ans-jp">${esc(A.jp)}</span>` : ''}${A.ro ? `<span class="ro">${esc(A.ro)}</span>` : ''}${A.pt ? `<span class="la-pt">${esc(A.pt)}</span>` : ''}</div>${laDictBtn(A.jp)}</div>` : '';
+    foot = `<div class="fb">${mascot(ok ? 'happy' : 'sad', 50, 'hop')}<div class="fb-text"><h3>${esc(P.fbTitle)}</h3>${!ok ? `<p class="answer">Resposta certa: ${esc(q.ans)}</p>` : ''}${card}${q.why ? `<p>${esc(q.why)}</p>` : ''}
       <div class="la-reveal"><span class="eyebrow">Revelar</span><div class="filters">${tg('jp', 'Japonês')}${tg('ro', 'Romaji')}${tg('pt', 'Tradução')}<button class="filter" data-act="laShowAll">Tudo</button></div></div></div></div>
       <button class="btn ${ok ? 'btn-ok' : 'btn-bad'} btn-block" data-act="laNextQ">Continuar</button>`;
   }
@@ -366,6 +406,8 @@ function laCheck() {
   save();
   P.keepScroll = true; renderPlayer();
   const f = $('.p-foot .btn'); if (f) f.focus({ preventScroll: true });
+  // 7.0: feedback que ensina: toca a resposta certa uma vez (o aluno pode repetir)
+  const A = q.aLine; if (A && A.jp && !audioBlocked()) setTimeout(() => { if (P && P.kind === 'lacad' && P.qs && P.qs[P.i] === q && P.answered) laPlay([{ sp: (q.lines[0] || {}).sp || 'aiko', jp: A.jp, say: A.jp }], 0, 'ans'); }, 700);
 }
 function laNextQ() {
   laStop();
@@ -418,7 +460,16 @@ function laRenderResult() {
 function laAfterRender() {
   if (!P || P.kind !== 'lacad' || P.phase !== 'q' || P.answered) { laSync(); return; }
   const q = P.qs[P.i];
-  if (P.autoplayed !== P.i && (!audioBlocked() || q.lines.some(l => l.audio))) { P.autoplayed = P.i; setTimeout(() => { if (P && P.kind === 'lacad' && P.qs && P.qs[P.i] === q && !P.answered && LA.state === 'idle') laPlay(q.lines, 0, 'all'); }, 350); }
+  const still = () => P && P.kind === 'lacad' && P.qs && P.qs[P.i] === q && !P.answered;
+  if (P.autoplayed !== P.i && (!audioBlocked() || q.lines.some(l => l.audio))) {
+    P.autoplayed = P.i;
+    // 7.0: primeiro a pergunta em japonês, depois o áudio do exercício
+    setTimeout(async () => {
+      if (!still() || LA.state !== 'idle') return;
+      if (q.qline && !audioBlocked()) { const ok = await laPlay([q.qline], 0, 'q'); if (!ok || !still() || LA.state !== 'idle') return; await new Promise(r => setTimeout(r, 300)); if (!still() || LA.state !== 'idle') return; }
+      laPlay(q.lines, 0, 'all');
+    }, 350);
+  }
   laSync();
 }
 const _laRenderPlayer = renderPlayer;
@@ -528,13 +579,14 @@ Object.assign(ACT, {
   },
   laGo: el => laStart(el.dataset.id, 'lesson'),
   laExamOpen: el => { const c = LA_CAT[el.dataset.id]; if (!c) return; if (!laExamUnlocked(c)) { toast('鍵', laCatUnlocked(c) ? 'Conclua todas as lições da categoria para liberar a avaliação.' : laReqText(c)); return; } laStart(c.id, 'exam'); },
-  laBegin: () => { const L = P.L; const fresh = L.wordRefs.filter(w => !(S.items[w.id] && S.items[w.id].seen)); if (fresh.length) { P.learn = fresh; P.phase = 'learn'; fresh.forEach(w => markSeen(w.id)); renderPlayer(); } else { laSetupQs(laBuildLesson(L)); renderPlayer(); } },
+  // 7.0: "novas" = ainda não ensinadas PELA Listening Academy (ter visto no Chat/Dicionário não conta)
+  laBegin: () => { const L = P.L, a = laState(); const fresh = L.wordRefs.filter(w => !a.taught[w.id]); if (fresh.length) { P.learn = fresh; P.phase = 'learn'; fresh.forEach(w => { markSeen(w.id); a.taught[w.id] = Date.now(); }); save(); renderPlayer(); } else { laSetupQs(laBuildLesson(L)); renderPlayer(); } },
   laToQs: () => { laStop(); laSetupQs(laBuildLesson(P.L)); renderPlayer(); },
   laExamGo: () => { laSetupQs(laBuildExam(P.C)); renderPlayer(); },
   laSayWord: el => { const it = ITEM[el.dataset.id]; if (it) laPlay([{ sp: P.L.sp, jp: it.jp, say: it.say || it.jp }], 0, 'one'); },
   laToggle: () => {
     const q = P && P.qs && P.qs[P.i]; if (!q) return;
-    if (LA.state === 'playing') laPause();
+    if (LA.state === 'playing' && LA.lines === q.lines) laPause();
     else if (LA.state === 'paused' && LA.lines === q.lines) laPlay(q.lines, LA.idx, LA.mode === 'one' ? 'one' : 'all');
     else laPlay(q.lines, 0, 'all');
   },
@@ -548,7 +600,15 @@ Object.assign(ACT, {
   },
   laShow: el => { const k = el.dataset.k; P.show[k] = !P.show[k]; if (!P.answered && P.show[k]) P.hinted = true; P.keepScroll = true; renderPlayer(); },
   laShowAll: () => { P.show = { jp: true, ro: true, pt: true }; P.keepScroll = true; renderPlayer(); },
-  laOpt: el => { if (P.answered) return; P.sel = +el.dataset.i; P.keepScroll = true; renderPlayer(); },
+  laOpt: el => {
+    const q = P.qs[P.i], i = +el.dataset.i, o = q.options[i]; if (!o) return;
+    const play = () => { if (o.say && !audioBlocked()) { LA.optI = i; laPlay([o.say], 0, 'opt'); } };
+    if (P.answered) return play(); // depois da resposta: só ouvir, sem mudar nada
+    P.sel = i; P.keepScroll = true; renderPlayer(); play();
+  },
+  laQ: () => { const q = P.qs[P.i]; if (q && q.qline) laPlay([q.qline], 0, 'q'); },
+  laAns: () => { const q = P.qs[P.i], A = q && q.aLine; if (A && A.jp) laPlay([{ sp: (q.lines[0] || {}).sp || 'aiko', jp: A.jp, say: A.jp }], 0, 'ans'); },
+  laDict: el => dictOpenWord(el.dataset.q),
   laBuild: el => { if (P.answered) return; const i = +el.dataset.i; if (!P.built.includes(i)) P.built.push(i); P.keepScroll = true; renderPlayer(); },
   laUnbuild: el => { if (P.answered) return; P.built = P.built.filter(x => x !== +el.dataset.i); P.keepScroll = true; renderPlayer(); },
   laCheck: () => laCheck(),
