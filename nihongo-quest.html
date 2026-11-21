@@ -172,8 +172,8 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 
 /* ---------- Abas ---------- */
 .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
-.tabbar-in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); }
-.tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 2px 10px; font-size: .72rem; font-weight: 800; color: var(--muted); position: relative; }
+.tabbar-in { max-width: 600px; margin: 0 auto; display: grid; grid-template-columns: repeat(7, 1fr); }
+.tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 1px 10px; font-size: .68rem; min-width: 0; font-weight: 800; color: var(--muted); position: relative; }
 .tab svg { width: 24px; height: 24px; }
 .tab.active { color: var(--royal); }
 .tab.active::before { content: ""; position: absolute; top: 0; left: 28%; right: 28%; height: 3px; border-radius: 0 0 3px 3px; background: var(--gold); }
@@ -585,7 +585,7 @@ section .stats-grid:has(.kpi:nth-child(3)) { grid-template-columns: repeat(3, mi
 .sugg { flex: none; max-width: 78vw; }
 .ch-cur, .ch-pend { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .ch-cur .link-btn, .ch-pend .link-btn { padding: 2px 0; font-size: .85rem; flex: none; }
-@media (max-width: 360px) { .tab span:last-child { font-size: .64rem; } .cm .cb { max-width: 88%; } .cm-card { margin-left: 0; } }
+@media (max-width: 380px) { .tab span:last-child { font-size: .6rem; letter-spacing: -.01em; } .tab svg { width: 22px; height: 22px; } .cm .cb { max-width: 88%; } .cm-card { margin-left: 0; } }
 
 /* ===== Nihongo Chat 5.0 ===== */
 .conv-list { padding: 4px 0; }
@@ -701,7 +701,7 @@ button.conv:hover { background: var(--surface-2); }
 .la-osnd svg { width: 18px; height: 18px; }
 .la-opt.speaking .la-osnd { color: var(--royal); animation: la-pulse 1s ease-in-out infinite; }
 .la-opt.speaking:not(.sel):not(.right):not(.wrong) { border-color: color-mix(in srgb, var(--royal) 45%, var(--line)); }
-.la-opt[aria-disabled="true"] { cursor: default; }
+
 .la-ans { display: flex; align-items: center; gap: 10px; margin: 6px 0; padding: 10px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); text-align: left; }
 .la-ans-t { display: flex; flex-direction: column; min-width: 0; flex: 1; }
 .la-ans-jp { font-size: 1.15rem; font-weight: 700; overflow-wrap: anywhere; }
@@ -710,6 +710,7 @@ button.conv:hover { background: var(--surface-2); }
 /* ==========================================================
    7.0 — Dicionário
    ========================================================== */
+.page-title:has(.d-tabs) { flex-wrap: wrap; }
 .d-tabs { margin-left: auto; }
 .d-search { position: relative; }
 .d-search .search { padding-right: 44px; font-size: 1rem; }
@@ -761,12 +762,137 @@ button.conv:hover { background: var(--surface-2); }
 .d-btns .btn { flex: 1 1 160px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .d-done { color: var(--ok); }
 
+/* ==========================================================
+   8.0 — Living Japanese World
+   ========================================================== */
+.w-root .w-mapcard { padding: 8px; overflow: hidden; }
+.w-map { display: block; width: 100%; height: auto; max-height: 70vh; margin: 0 auto; }
+.w-pin { cursor: pointer; transition: transform .15s; }
+.w-pin:hover, .w-pin:focus-visible { filter: brightness(1.05) drop-shadow(0 3px 6px rgba(0,0,0,.25)); outline: none; }
+.w-intro { align-items: flex-start; }
+.w-places { display: flex; flex-direction: column; gap: 8px; }
+.w-place-row { display: flex; align-items: center; gap: 12px; text-align: left; background: var(--surface); border: 1px solid var(--line); border-left: 5px solid var(--pc); border-radius: 14px; padding: 10px 12px; min-height: 56px; }
+.w-place-row b { display: block; font-size: .98rem; }
+.w-place-row small { display: block; color: var(--muted); font-size: .8rem; line-height: 1.35; }
+.w-pic { width: 42px; height: 42px; flex: none; border-radius: 12px; display: grid; place-items: center; background: var(--pc); color: #fff; font-weight: 800; font-size: 1.1rem; }
+.w-prog { font-weight: 800; color: var(--muted); font-size: .85rem; flex: none; }
+.w-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; padding: 12px; }
+.w-stats b { display: block; font-size: 1.25rem; font-family: var(--f-display); color: var(--royal); }
+.w-stats small { color: var(--muted); font-size: .76rem; line-height: 1.2; display: block; }
+.w-ptop { display: flex; align-items: center; gap: 10px; padding-top: 14px; }
+.w-banner { margin-top: 10px; border-radius: var(--r); background: linear-gradient(135deg, var(--pc), color-mix(in srgb, var(--pc) 55%, #191c4a)); color: #fff; display: flex; align-items: center; gap: 8px; padding: 14px 10px 10px 16px; overflow: hidden; margin-bottom: 14px; }
+.w-btxt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.w-bjp { font-size: 1.7rem; font-weight: 800; line-height: 1.1; }
+.w-btxt small { opacity: .9; font-size: .82rem; line-height: 1.35; margin-top: 4px; }
+.w-bsvg { width: 120px; flex: none; height: auto; }
+.w-greet { display: flex; align-items: flex-start; gap: 10px; }
+.w-greet .w-bub { flex: 1; }
+.w-chars { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.w-chars::-webkit-scrollbar { display: none; }
+.w-char { flex: none; width: 92px; display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 6px; }
+.w-char span { font-weight: 800; font-size: .82rem; line-height: 1.2; }
+.w-char small { color: var(--muted); font-size: .7rem; line-height: 1.2; }
+.w-scene { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; min-height: 64px; }
+.w-scene b { display: block; font-size: .98rem; line-height: 1.3; }
+.w-scene small { display: block; font-size: .8rem; line-height: 1.35; }
+.w-scene.done { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.w-scene.locked { opacity: .62; }
+.w-kic { width: 40px; height: 40px; flex: none; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--pc, var(--royal)) 16%, var(--surface)); color: var(--pc, var(--royal)); font-weight: 800; font-size: 1.05rem; }
+.w-kic svg { width: 20px; height: 20px; }
+.w-scene.done .w-kic { background: var(--ok-bg); color: var(--ok); }
+.w-xp { flex: none; font-weight: 800; font-size: .78rem; color: var(--gold-ink); background: var(--gold-soft); border-radius: 999px; padding: 3px 8px; }
+.w-walk { display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; padding: 12px; }
+.w-walk b { display: block; }
+.w-walk small { display: block; font-size: .82rem; }
+.w-words { display: flex; flex-direction: column; padding: 4px 12px; }
+.w-wrow { display: flex; align-items: center; gap: 6px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.w-wrow:last-child { border-bottom: 0; }
+.w-wrow .grow { min-width: 0; }
+.w-wjp { font-weight: 800; font-size: 1.05rem; }
+.w-wpt { display: block; font-size: .82rem; color: var(--text); }
+.w-wrow .icon-btn { width: 36px; height: 36px; }
+.w-saved { width: 36px; height: 36px; display: grid; place-items: center; color: var(--ok); font-weight: 800; flex: none; }
+.w-homecard { display: flex; flex-direction: column; gap: 10px; border-left: 5px solid #e0861e; }
+.w-prof-h { display: flex; gap: 14px; align-items: center; }
+/* cena */
+.player:has(.w-pane) { padding-top: 0; }
+.w-pane { display: flex; flex-direction: column; height: 100%; width: 100%; max-width: 600px; margin: 0 auto; background: var(--bg); padding-top: env(safe-area-inset-top, 0px); }
+.w-head { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: linear-gradient(135deg, var(--pc), color-mix(in srgb, var(--pc) 55%, #191c4a)); color: #fff; flex: none; }
+.w-head .eyebrow { color: rgba(255,255,255,.85); }
+.w-head .icon-btn { background: rgba(255,255,255,.18); color: #fff; }
+.w-htitle { display: block; font-family: var(--f-display); font-size: 1rem; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.w-hsvg { width: 64px; height: auto; flex: none; }
+.w-opts { display: flex; gap: 6px; padding: 8px 12px; overflow-x: auto; scrollbar-width: none; background: var(--surface); border-bottom: 1px solid var(--line); align-items: center; }
+.w-opts::-webkit-scrollbar { display: none; }
+.w-speed button { padding: 6px 9px; }
+.w-log { flex: 1; overflow-y: auto; padding: 14px 12px 18px; display: flex; flex-direction: column; gap: 10px; overscroll-behavior: contain; }
+.w-nar { margin: 2px 6px; color: var(--muted); font-style: italic; font-size: .92rem; text-align: center; }
+.w-line { display: flex; align-items: flex-end; gap: 8px; max-width: 100%; }
+.w-line.me { justify-content: flex-end; }
+.w-av { flex: none; padding: 0; border-radius: 50%; }
+.w-bub { background: var(--surface); border: 1px solid var(--line); border-radius: 16px 16px 16px 4px; padding: 8px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 0; max-width: 86%; box-shadow: var(--shadow); }
+.w-line.me .w-bub { border-radius: 16px 16px 4px 16px; background: color-mix(in srgb, var(--royal) 12%, var(--surface)); border-color: color-mix(in srgb, var(--royal) 30%, var(--line)); }
+.w-line.playing .w-bub { outline: 3px solid var(--gold); }
+.w-who { font-size: .74rem; color: var(--muted); font-weight: 800; }
+.w-jp { font-size: 1.12rem; font-weight: 700; line-height: 1.45; word-break: break-word; }
+.w-pt { font-size: .88rem; }
+.w-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.w-a { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 0 10px; border-radius: 999px; background: var(--surface-2); color: var(--royal); font-weight: 800; font-size: .78rem; }
+.w-a svg { width: 15px; height: 15px; }
+.w-a.on { background: var(--royal); color: var(--on-accent); }
+.w-a.done { color: var(--ok); background: var(--ok-bg); }
+.w-hidden { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 12px; border: 2px dashed var(--line); color: var(--royal); font-weight: 800; font-size: .88rem; text-align: left; }
+.w-hidden svg { width: 20px; height: 20px; flex: none; }
+.w-parts { display: flex; flex-wrap: wrap; gap: 6px; }
+.w-part { padding: 6px 10px; border-radius: 10px; background: var(--surface-2); font-family: var(--f-display); font-weight: 700; font-size: 1.02rem; border: 2px solid transparent; }
+.w-part:active { border-color: var(--gold); }
+.w-me-av { flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--royal); color: #fff; font-weight: 800; font-size: .9rem; }
+.w-tip { align-self: stretch; background: var(--gold-soft); color: var(--text); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: .9rem; }
+.w-tip .eyebrow { color: var(--gold-ink); }
+.w-teach { align-self: stretch; background: var(--surface); border: 2px solid color-mix(in srgb, var(--pc, var(--royal)) 45%, var(--line)); border-radius: 16px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.w-teach-h { display: flex; align-items: center; gap: 8px; }
+.w-teach-h .chip:not(.nova) { background: var(--ok-bg); color: var(--ok); }
+.w-teach-h .chip.nova { background: var(--gold-soft); color: var(--gold-ink); }
+.w-teach-b { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.w-tjp { font-size: 1.5rem; font-weight: 800; }
+.w-tpt { width: 100%; font-size: .98rem; }
+.w-teach-b small { width: 100%; font-size: .82rem; }
+.w-teach-a { display: flex; flex-wrap: wrap; gap: 6px; }
+.w-fb { align-self: stretch; border-radius: 14px; padding: 9px 12px; display: flex; flex-direction: column; gap: 2px; font-size: .9rem; }
+.w-fb-x { background: var(--bad-bg); }
+.w-fb-x b { color: var(--bad); }
+.w-fb-k { background: var(--surface-2); }
+.w-fb-k b { color: var(--royal); }
+.w-fb-ok { background: var(--ok-bg); }
+.w-fb-ok b { color: var(--ok); }
+.w-end { display: flex; flex-direction: column; gap: 6px; align-self: stretch; }
+.w-reward { color: var(--gold-ink); background: var(--gold-soft); border-radius: 12px; padding: 6px 10px; align-self: flex-start; font-size: 1.05rem; }
+.w-foot { flex: none; background: var(--surface); border-top: 1px solid var(--line); padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); max-height: 52vh; overflow-y: auto; }
+.w-ask { margin: 0 2px 8px; font-weight: 800; font-size: .9rem; color: var(--muted); }
+.w-miss { margin: 0 2px 8px; color: var(--bad); font-weight: 700; font-size: .88rem; }
+.w-optlist { display: flex; flex-direction: column; gap: 6px; }
+.w-opt-row { display: flex; gap: 6px; align-items: stretch; }
+.w-opt { flex: 1; min-width: 0; text-align: left; display: flex; flex-direction: column; gap: 0; padding: 8px 12px; line-height: 1.35; border-radius: 14px; border: 2px solid var(--line); background: var(--surface); min-height: 52px; }
+.w-opt:hover { border-color: var(--royal); }
+.w-opt:active { transform: scale(.99); }
+.w-ojp { font-size: 1.05rem; font-weight: 700; }
+.w-opt-row .icon-btn { height: auto; min-height: 48px; }
+.w-pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 8px; }
+.w-pk { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 10px 8px; min-height: 64px; border-radius: 14px; border: 2px solid var(--line); background: var(--surface); text-align: center; }
+.w-pk.ptonly { grid-column: 1 / -1; min-height: 52px; font-weight: 700; font-size: .92rem; }
+.w-pk.bad { opacity: .45; border-color: var(--bad); text-decoration: line-through; }
+.w-pjp { font-size: 1.2rem; font-weight: 800; }
+.w-vis { width: 56px; height: 44px; color: var(--royal); }
+.w-endbtns { display: flex; flex-direction: column; gap: 8px; }
+@media (min-width: 520px) { .w-pick { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); } }
+
 </style>
 <div class="app" id="app"><main id="view"></main></div>
 <nav class="tabbar" id="tabbar" aria-label="Navegação principal"><div class="tabbar-in">
   <button class="tab" data-act="nav" data-view="inicio"><span class="dot" hidden></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg><span>Início</span></button>
   <button class="tab" data-act="nav" data-view="academia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18"/><path d="M2 4c3 1 17 1 20 0"/><path d="M6 7v14M18 7v14"/><path d="M5 12h14"/></svg><span>Academia</span></button>
   <button class="tab" data-act="nav" data-view="chat"><span class="dot" hidden></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg><span>Chat</span></button>
+  <button class="tab" data-act="nav" data-view="mundo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg><span>Mundo</span></button>
   <button class="tab" data-act="nav" data-view="revisao"><span class="dot" hidden></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 8v4l3 2"/></svg><span>Revisão</span></button>
   <button class="tab" data-act="nav" data-view="caderno"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M9 8h6M9 12h4"/></svg><span>Caderno</span></button>
   <button class="tab" data-act="nav" data-view="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>Perfil</span></button>
@@ -9863,8 +9989,8 @@ const NQK = (function () {
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '7.0.0';
-const SCHEMA_VERSION = 7;
+const APP_VERSION = '8.0.0';
+const SCHEMA_VERSION = 8;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -9918,13 +10044,17 @@ function defaultState() {
     exStats: {}, skills: {}, log: {}, tests: [],
     chat: defaultChat(),
     lacad: defaultLacad(),
-    dict: defaultDict()
+    dict: defaultDict(),
+    world: defaultWorld()
   };
 }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
 function defaultLacad() { return { v: 1, lessons: {}, exams: {}, words: {}, dialogs: {}, speed: 1, stats: { a: 0, c: 0, ms: 0, byCat: {}, byType: {} } }; }
 /* 7.0: Dicionário (favoritos e recentes; salvar no Caderno usa S.items, como o resto do app) */
 function defaultDict() { return { v: 1, fav: {}, recent: [] }; }
+/* 8.0: Living Japanese World (visitas, situações vividas, personagens encontrados, palavras descobertas, opções de leitura/voz).
+   XP vai para S.xp; palavras salvas vão para S.items (Caderno/Revisão), como o resto do app. */
+function defaultWorld() { return { v: 1, visits: {}, scenes: {}, met: {}, words: {}, speed: 'normal', opt: { ro: true, pt: true, listen: false }, intro: 0, news: 0 }; }
 function defaultListening() {
   const ac = () => ({ a: 0, c: 0 });
   return {
@@ -9999,6 +10129,12 @@ const MIGRATIONS = {
     if (!isPlainObj(s.dict)) s.dict = defaultDict();
     s.migratedFrom7 = { schema: 6, at: Date.now() };
     return s;
+  },
+  7: s => { // 7.0 -> 8.0: só ACRESCENTA o Living Japanese World. XP, níveis, conquistas, histórico, Caderno, Revisão,
+    // Chat, Dicionário e progresso da Academia e da Listening Academy ficam intactos.
+    if (!isPlainObj(s.world)) s.world = defaultWorld();
+    s.migratedFrom8 = { schema: 7, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -10033,6 +10169,9 @@ function normalize(data) {
   if (!isPlainObj(s.dict)) s.dict = defaultDict();
   if (!isPlainObj(s.dict.fav)) s.dict.fav = {};
   if (!Array.isArray(s.dict.recent)) s.dict.recent = [];
+  if (!isPlainObj(s.world)) s.world = defaultWorld();
+  ['visits', 'scenes', 'met', 'words'].forEach(k => { if (!isPlainObj(s.world[k])) s.world[k] = {}; });
+  if (!isPlainObj(s.world.opt)) s.world.opt = defaultWorld().opt;
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;
@@ -10375,6 +10514,7 @@ function itemSource(it) {
   if (it.lesson.la) return 'listening';
   if (it.lesson.id === 'chat') return 'chat';
   if (it.lesson.id === 'dict') return 'dicionario';
+  if (it.lesson.id === 'world') return 'mundo';
   if (AUDIO_PACKS.includes(it.lesson)) return 'auditiva';
   return 'outro';
 }
@@ -11791,7 +11931,7 @@ function viewNotebook() {
       <div class="nb-meta"><span class="chip nova">${GROUP_LABEL[g]}</span><span>${esc(originOf(it))}</span><span>· desde ${new Date(r.seen).toLocaleDateString('pt-BR')}</span>${r.c + r.w ? `<span class="tabnum">· ${r.c} acerto${r.c === 1 ? '' : 's'}, ${r.w} erro${r.w === 1 ? '' : 's'}</span>` : ''}${g === 'anime' ? `<button class="link-btn" style="padding:0" data-act="discOpen" data-id="${it.id}">Ver descoberta</button>` : ''}</div></div>`;
   };
   // agrupa pela origem, mantendo a ordem do conteúdo
-  const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK], typeof DICT_LESSON !== 'undefined' ? [DICT_LESSON] : []);
+  const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK], typeof DICT_LESSON !== 'undefined' ? [DICT_LESSON] : [], typeof WORLD_LESSON !== 'undefined' ? [WORLD_LESSON] : []);
   let groups;
   if (nb.t === 'dificeis') groups = entries.length ? `<section class="section"><div class="card">${entries.map(entryHTML).join('')}</div></section>` : '';
   else groups = order.map(l => { const list = entries.filter(it => it.lesson === l); return list.length ? `<section class="section"><div class="section-h"><h2 style="font-size:1rem">${esc(l.kind === 'audio' || l.id === 'chat' ? originOf(list[0]) : l.title)}</h2><span class="muted" style="font-size:.8rem">${esc(l.cat.title)}</span></div><div class="card">${list.map(entryHTML).join('')}</div></section>` : ''; }).join('');
@@ -15986,47 +16126,46 @@ function laBuildQ(ex, L, n) {
     const it = laWord(L, ex.w); if (!it) return null;
     const line = { sp, jp: it.jp, ro: it.ro, pt: it.pt, say: it.say || it.jp };
     const pool = laPtPool(L, it.pt).slice(0, 3);
-    q = { ...base, prompt: 'O que significa a palavra que você ouviu?', lines: [line], options: shuffle([{ label: it.pt, correct: true, say: laSayOf(it) }].concat(pool.map(w => ({ label: w.pt, correct: false, say: laSayOf(w) })))), ans: it.pt, items: [it.id], answer: line };
+    q = { ...base, prompt: 'O que significa a palavra que você ouviu?', lines: [line], options: shuffle([{ label: it.pt, correct: true, say: laSayOf(it) }].concat(pool.map(w => ({ label: w.pt, correct: false, say: laSayOf(w) })))), ans: it.pt, items: [it.id], aLine: line };
   } else if (ex.t === 'rec') {
     const s = laLine(sp, ex.s), alts = ex.alts.map(laTL);
-    q = { ...base, prompt: 'Qual destas você ouviu?', lines: [s], roOpts: true, options: shuffle([{ label: s.ro, sub: s.jp, correct: true, say: s }].concat(alts.map(a => ({ label: a.ro, sub: a.jp, correct: false, say: a })))), ans: s.ro, answer: s };
+    q = { ...base, prompt: 'Qual destas você ouviu?', lines: [s], roOpts: true, options: shuffle([{ label: s.ro, sub: s.jp, correct: true, say: s }].concat(alts.map(a => ({ label: a.ro, sub: a.jp, correct: false, say: a })))), ans: s.ro, aLine: s };
   } else if (ex.t === 'mean') {
     const s = laLine(sp, ex.s);
-    q = { ...base, prompt: 'O que a pessoa disse?', lines: [s], options: laOpts(s.pt, ex.alts, s), ans: s.pt, answer: s };
+    q = { ...base, prompt: 'O que a pessoa disse?', lines: [s], options: laOpts(s.pt, ex.alts, s), ans: s.pt, aLine: s };
   } else if (ex.t === 'spot') {
     const s = laLine(sp, ex.s);
     const w = laSpotWord(L, ex.ans);
-    q = { ...base, prompt: ex.prompt || 'Qual destas palavras aparece no áudio?', lines: [s], options: shuffle([ex.ans].concat(ex.alts).map((r, i) => ({ label: r, correct: i === 0, say: laSpotWord(L, r) }))), ans: ex.ans, answer: { jp: w.jp, ro: ex.ans, pt: w.pt || s.pt } };
+    q = { ...base, prompt: ex.prompt || 'Qual destas palavras aparece no áudio?', lines: [s], options: shuffle([ex.ans].concat(ex.alts).map((r, i) => ({ label: r, correct: i === 0, say: laSpotWord(L, r) }))), ans: ex.ans, aLine: { jp: w.jp, ro: ex.ans, pt: w.pt || s.pt } };
   } else if (ex.t === 'order') {
     const s = laLine(sp, ex.s), parts = ex.parts.map(p => { const [jp, ro] = p.split('|'); return { jp, ro }; });
-    q = { ...base, prompt: 'Ouça e monte a frase na ordem em que foi dita.', lines: [s], parts, bank: shuffle(parts.map((p, i) => ({ ...p, i }))), answer: parts.map((_, i) => i), ans: parts.map(p => p.ro).join(' '), answer: s };
+    q = { ...base, prompt: 'Ouça e monte a frase na ordem em que foi dita.', lines: [s], parts, bank: shuffle(parts.map((p, i) => ({ ...p, i }))), answer: parts.map((_, i) => i), ans: parts.map(p => p.ro).join(' '), aLine: s };
     if (q.bank.every((b, i) => b.i === i) && parts.length > 1) q.bank.push(q.bank.shift());
   } else if (ex.t === 'tf') {
     const lines = ex.s ? [laLine(sp, ex.s)] : laDialog(L, ex);
-    q = { ...base, prompt: 'Ouça e responda: verdadeiro ou falso?', claim: ex.claim, lines, tf: true, options: [{ label: 'Verdadeiro', correct: !!ex.ans, say: laPair(LA_TF_JP.Verdadeiro) }, { label: 'Falso', correct: !ex.ans, say: laPair(LA_TF_JP.Falso) }], ans: ex.ans ? 'Verdadeiro' : 'Falso', answer: lines.length === 1 ? lines[0] : null };
+    q = { ...base, prompt: 'Ouça e responda: verdadeiro ou falso?', claim: ex.claim, lines, tf: true, options: [{ label: 'Verdadeiro', correct: !!ex.ans, say: laPair(LA_TF_JP.Verdadeiro) }, { label: 'Falso', correct: !ex.ans, say: laPair(LA_TF_JP.Falso) }], ans: ex.ans ? 'Verdadeiro' : 'Falso', aLine: lines.length === 1 ? lines[0] : null };
   } else if (ex.t === 'intent') {
     const s = laLine(sp, ex.s), others = shuffle(Object.keys(LA_INTENTS).filter(k => k !== ex.ans)).slice(0, 3);
-    q = { ...base, prompt: 'O que a pessoa está fazendo?', lines: [s], options: shuffle([ex.ans].concat(others).map((k, i) => ({ label: LA_INTENTS[k], correct: i === 0, say: laPair(LA_INTENT_JP[k]) }))), ans: LA_INTENTS[ex.ans], answer: s };
+    q = { ...base, prompt: 'O que a pessoa está fazendo?', lines: [s], options: shuffle([ex.ans].concat(others).map((k, i) => ({ label: LA_INTENTS[k], correct: i === 0, say: laPair(LA_INTENT_JP[k]) }))), ans: LA_INTENTS[ex.ans], aLine: s };
   } else if (ex.t === 'reply') {
     const s = laLine(sp, ex.s), ok = laTL(ex.ok), bad = ex.bad.map(laTL);
-    q = { ...base, prompt: 'Ouça. Qual é a melhor resposta?', lines: [s], roOpts: true, replyOpts: true, options: shuffle([{ label: ok.ro, sub: ok.jp, pt: ok.pt, correct: true, say: ok }].concat(bad.map(b => ({ label: b.ro, sub: b.jp, pt: b.pt, correct: false, say: b })))), ans: ok.ro + ' (' + ok.pt + ')', answer: ok };
+    q = { ...base, prompt: 'Ouça. Qual é a melhor resposta?', lines: [s], roOpts: true, replyOpts: true, options: shuffle([{ label: ok.ro, sub: ok.jp, pt: ok.pt, correct: true, say: ok }].concat(bad.map(b => ({ label: b.ro, sub: b.jp, pt: b.pt, correct: false, say: b })))), ans: ok.ro + ' (' + ok.pt + ')', aLine: ok };
   } else if (ex.t === 'comp' || ex.t === 'gist') {
     const lines = laDialog(L, ex);
     const a = laJpFor(ex.opts[ex.ans]);
-    q = { ...base, prompt: ex.q, qjp: laJpFor(ex.q), lines, options: shuffle(ex.opts.map((o, i) => ({ label: o, correct: i === ex.ans, say: laJpFor(o) }))), ans: ex.opts[ex.ans], answer: a ? { ...a, pt: ex.opts[ex.ans] } : null };
+    q = { ...base, prompt: ex.q, qjp: laJpFor(ex.q), lines, options: shuffle(ex.opts.map((o, i) => ({ label: o, correct: i === ex.ans, say: laJpFor(o) }))), ans: ex.opts[ex.ans], aLine: a ? { ...a, pt: ex.opts[ex.ans] } : null };
   } else if (ex.t === 'line') {
     const dl = laDialog(L, ex), l = dl[ex.i]; if (!l) return null;
-    q = { ...base, prompt: 'Ouça esta fala do diálogo (' + laWho(l.sp).name + '). O que ela significa?', lines: [l], options: laOpts(l.pt, ex.alts, l), ans: l.pt, answer: l };
+    q = { ...base, prompt: 'Ouça esta fala do diálogo (' + laWho(l.sp).name + '). O que ela significa?', lines: [l], options: laOpts(l.pt, ex.alts, l), ans: l.pt, aLine: l };
   } else if (ex.t === 'reg') {
     const s = laLine(sp, ex.s);
-    q = { ...base, prompt: 'Como a pessoa está falando?', lines: [s], fixed: true, options: LA_REG.map(([k, t, d]) => ({ label: t, sub: d, correct: k === ex.ans, say: laPair(LA_REG_JP[k]) })), answer: s, ans: LA_REG.find(r => r[0] === ex.ans)[1], why: (ex.why ? ex.why + ' ' : '') + LA_REG_WHY[ex.ans] };
+    q = { ...base, prompt: 'Como a pessoa está falando?', lines: [s], fixed: true, options: LA_REG.map(([k, t, d]) => ({ label: t, sub: d, correct: k === ex.ans, say: laPair(LA_REG_JP[k]) })), aLine: s, ans: LA_REG.find(r => r[0] === ex.ans)[1], why: (ex.why ? ex.why + ' ' : '') + LA_REG_WHY[ex.ans] };
   }
   if (!q) return null;
   // 7.0: pergunta falada em japonês (Aiko-sensei) e voz de cada alternativa
   const qj = q.qjp ? { jp: q.qjp.jp, ro: q.qjp.ro, pt: ex.q } : laPair(LA_QJP[ex.t]);
   q.qline = qj ? { sp: 'aiko', jp: qj.jp, ro: qj.ro, pt: qj.pt || q.prompt, say: qj.jp } : null;
   (q.options || []).forEach(o => { if (o.say) o.say = { sp: q.lines[0] ? q.lines[0].sp : sp, jp: o.say.jp, ro: o.say.ro, say: o.say.say || o.say.jp }; });
-  q.optHint = ['id', 'rec', 'mean', 'line'].includes(ex.t); // aqui o áudio da alternativa certa repete o áudio da pergunta
   if (!q.items.length) q.items = laItemsIn(L, q.lines.map(l => l.jp).join(' ')).slice(0, 2);
   q.noPre = L.lv >= 5; // nível 5: menos apoio visual antes da resposta
   return q;
@@ -16109,7 +16248,7 @@ function laOptHTML(o, i, q) {
   const pt = q.replyOpts && P.answered && o.pt ? `<span class="o-ro">${esc(o.pt)}</span>` : '';
   // 7.0: tocar numa alternativa seleciona e toca a pronúncia; depois da resposta, só toca (para comparar)
   const snd = o.say ? `<span class="la-osnd" aria-hidden="true">${IC.sound}</span>` : '';
-  return `<button class="${cls} ${o.say ? 'has-snd' : ''}" data-act="laOpt" data-i="${i}" ${P.answered ? 'aria-disabled="true"' : ''} aria-label="${esc(o.label)}${o.say ? ' (toca a pronúncia)' : ''}">${snd}<span>${esc(o.label)}</span>${sub}${pt}</button>`;
+  return `<button class="${cls} ${o.say ? 'has-snd' : ''}" data-act="laOpt" data-i="${i}" aria-label="${esc(o.label)}${o.say ? ' (toca a pronúncia)' : ''}">${snd}<span>${esc(o.label)}</span>${sub}${pt}</button>`;
 }
 function laRenderQ() {
   const q = P.qs[P.i], isExam = P.mode === 'exam';
@@ -16121,7 +16260,7 @@ function laRenderQ() {
   if (q.claim) body += `<div class="q-card la-claim"><span class="ctx">Afirmação</span><b>${esc(q.claim)}</b></div>`;
   body += laAudioCard(q, show);
   // ouvir primeiro: antes da resposta, só japonês e romaji (como dica); a tradução vem depois
-  if (!P.answered && q.options && q.options.some(o => o.say)) body += `<p class="muted la-opt-tip">Toque numa alternativa para ouvi-la${q.optHint ? ' (aqui, ouvir as alternativas conta como dica)' : ''}. Nada é corrigido até você tocar em Verificar.</p>`;
+  if (!P.answered && q.options && q.options.some(o => o.say)) body += `<p class="muted la-opt-tip">Toque numa alternativa para ouvi-la. Nada é corrigido até você tocar em Verificar.</p>`;
   if (!P.answered && !q.noPre) body += `<div class="reveal-row"><button class="link-btn" data-act="laShow" data-k="jp">${P.show.jp ? 'Esconder japonês' : 'Ver japonês'}</button><button class="link-btn" data-act="laShow" data-k="ro">${P.show.ro ? 'Esconder romaji' : 'Ver romaji'}</button></div>${P.hinted ? '<p class="muted" style="margin:0;font-size:.8rem;text-align:center">Com dica, a resposta vale menos XP, mas conta como acerto.</p>' : ''}`;
   else if (!P.answered) body += `<p class="muted" style="margin:0;font-size:.85rem;text-align:center">Nível 5: ouça com atenção; o texto aparece depois da resposta.</p>`;
   let canCheck = P.sel !== null;
@@ -16135,7 +16274,7 @@ function laRenderQ() {
   else {
     const ok = P.lastOk; footCls = ok ? 'ok' : 'bad';
     const tg = (k, t) => `<button class="filter ${P.show[k] ? 'on' : ''}" data-act="laShow" data-k="${k}" aria-pressed="${!!P.show[k]}">${t}</button>`;
-    const A = q.answer;
+    const A = q.aLine;
     const card = A ? `<div class="la-ans"><button class="icon-btn" data-act="laAns" aria-label="Ouvir a resposta certa">${IC.sound}</button><div class="la-ans-t">${A.jp ? `<span class="jp la-ans-jp">${esc(A.jp)}</span>` : ''}${A.ro ? `<span class="ro">${esc(A.ro)}</span>` : ''}${A.pt ? `<span class="la-pt">${esc(A.pt)}</span>` : ''}</div>${laDictBtn(A.jp)}</div>` : '';
     foot = `<div class="fb">${mascot(ok ? 'happy' : 'sad', 50, 'hop')}<div class="fb-text"><h3>${esc(P.fbTitle)}</h3>${!ok ? `<p class="answer">Resposta certa: ${esc(q.ans)}</p>` : ''}${card}${q.why ? `<p>${esc(q.why)}</p>` : ''}
       <div class="la-reveal"><span class="eyebrow">Revelar</span><div class="filters">${tg('jp', 'Japonês')}${tg('ro', 'Romaji')}${tg('pt', 'Tradução')}<button class="filter" data-act="laShowAll">Tudo</button></div></div></div></div>
@@ -16165,7 +16304,7 @@ function laCheck() {
   P.keepScroll = true; renderPlayer();
   const f = $('.p-foot .btn'); if (f) f.focus({ preventScroll: true });
   // 7.0: feedback que ensina: toca a resposta certa uma vez (o aluno pode repetir)
-  const A = q.answer; if (A && A.jp && !audioBlocked()) setTimeout(() => { if (P && P.kind === 'lacad' && P.qs && P.qs[P.i] === q && P.answered) laPlay([{ sp: (q.lines[0] || {}).sp || 'aiko', jp: A.jp, say: A.jp }], 0, 'ans'); }, 700);
+  const A = q.aLine; if (A && A.jp && !audioBlocked()) setTimeout(() => { if (P && P.kind === 'lacad' && P.qs && P.qs[P.i] === q && P.answered) laPlay([{ sp: (q.lines[0] || {}).sp || 'aiko', jp: A.jp, say: A.jp }], 0, 'ans'); }, 700);
 }
 function laNextQ() {
   laStop();
@@ -16362,11 +16501,10 @@ Object.assign(ACT, {
     const q = P.qs[P.i], i = +el.dataset.i, o = q.options[i]; if (!o) return;
     const play = () => { if (o.say && !audioBlocked()) { LA.optI = i; laPlay([o.say], 0, 'opt'); } };
     if (P.answered) return play(); // depois da resposta: só ouvir, sem mudar nada
-    if (o.say && q.optHint && !audioBlocked()) P.hinted = true;
     P.sel = i; P.keepScroll = true; renderPlayer(); play();
   },
   laQ: () => { const q = P.qs[P.i]; if (q && q.qline) laPlay([q.qline], 0, 'q'); },
-  laAns: () => { const q = P.qs[P.i], A = q && q.answer; if (A && A.jp) laPlay([{ sp: (q.lines[0] || {}).sp || 'aiko', jp: A.jp, say: A.jp }], 0, 'ans'); },
+  laAns: () => { const q = P.qs[P.i], A = q && q.aLine; if (A && A.jp) laPlay([{ sp: (q.lines[0] || {}).sp || 'aiko', jp: A.jp, say: A.jp }], 0, 'ans'); },
   laDict: el => dictOpenWord(el.dataset.q),
   laBuild: el => { if (P.answered) return; const i = +el.dataset.i; if (!P.built.includes(i)) P.built.push(i); P.keepScroll = true; renderPlayer(); },
   laUnbuild: el => { if (P.answered) return; P.built = P.built.filter(x => x !== +el.dataset.i); P.keepScroll = true; renderPlayer(); },
@@ -16761,7 +16899,7 @@ function dictBuild() {
     if (kanji && !e.kanji) e.kanji = kanji;
     if (!e.kana && kana) e.kana = kana;
     String(src.pt || '').split(/\s*[;／/]\s*/).map(x => x.trim()).filter(Boolean).forEach(m => { if (!e.pt.some(p => dNorm(p) === dNorm(m))) e.pt.push(m); });
-    if (src.pos && !e.pos) e.pos = src.pos;
+    if (src.pos && (!e.pos || src.dict && e.pos !== 'num')) e.pos = src.pos; // classe do DICT_EXTRA (revisada) tem prioridade
     if (src.tag && !e.tags.includes(src.tag)) e.tags.push(src.tag);
     if (src.ex && src.ex.jp && !e.ex.some(x => x.jp === src.ex.jp)) e.ex.push(src.ex);
     if (src.note && !e.notes.includes(src.note)) e.notes.push(src.note);
@@ -16785,19 +16923,21 @@ function dictBuild() {
     if (it.when) ctx.push('Quando usar: ' + it.when);
     if (it.formal) ctx.push(it.formal);
     const lt = (L.title || '') + ' ' + (L.cat && L.cat.title || '');
-    const pos = kind === 'number' ? 'num' : /^[一-鿿]$/.test(jp) ? 'kanji' : it.group === 'expressao' ? 'expr' : /verbo/i.test(L.title || '') && /^(a |o )?[a-zà-ú]+(ar|er|ir|or)\b/i.test(it.pt) ? 'verbo' : /adjetivo/i.test(L.title || '') && /i$/.test(it.ro) ? 'adj-i' : '';
-    add({ kana, kanji, ro: it.ro, pt: it.pt, pos, note: it.note, ex: it.ex, ctx, id: it.id, srcLabel, tag: tagHint || dictTagFromTitle(lt) });
+    const kanjiLesson = L.cat && /kanji/i.test(L.cat.title || '');
+    const pos = kind === 'number' ? 'num' : kanjiLesson && /^[一-鿿]$/.test(jp) ? 'kanji' : it.group === 'expressao' ? 'expr' : /verbo/i.test(L.title || '') && /^(a |o )?[a-zà-ú]+(ar|er|ir|or)\b/i.test(it.pt) ? 'verbo' : /adjetivo/i.test(L.title || '') && /i$/.test(it.ro) ? 'adj-i' : '';
+    add({ kana, kanji, ro: it.ro, pt: it.pt, pos, note: it.note, ex: it.ex, ctx, id: it.id, srcLabel, tag: tagHint || (kanjiLesson ? '' : dictTagFromTitle(lt)) });
   };
   ALL_LESSONS.forEach(l => l.items.forEach(it => fromItem(it, l.cat.title + ' · ' + l.title)));
   AUDIO_PACKS.forEach(p => p.items.forEach(it => fromItem(it, p.title || 'Academia Auditiva', p.id === 'aud-ani' ? 'anime' : '')));
   if (typeof LA_LESSONS !== 'undefined') LA_LESSONS.forEach(l => l.items.forEach(it => fromItem(it, 'Listening Academy · ' + l.title)));
   if (typeof CHAT_PACK !== 'undefined') CHAT_PACK.items.forEach(it => fromItem(it, 'Nihongo Chat'));
+  if (typeof WORLD_LESSON !== 'undefined') WORLD_LESSON.items.forEach(it => fromItem(it, 'Living Japanese World'));
   DICT_EXTRA_P.forEach(e => add({ kana: e.kana, kanji: e.kanji, ro: e.ro, pt: e.pt, pos: e.pos, tag: e.tag, ex: e.ex, id: null, dict: true }));
   DICT_EXTRA_P.forEach(e => { const d = dictFind(e.kanji || e.kana, e.kana); if (d) d.dictId = e.dictId; });
   DICT.list.forEach((e, i) => {
     e.rank = i;
     e.jp = e.kanji || e.kana;
-    e.k = { ro: KANA.phon(e.ro || KANA.toRomaji(e.kana)), roRaw: dNorm(e.ro).replace(/[^a-z]/g, ''), kana: e.reading, pt: e.pt.map(dNorm), ptWords: e.pt.flatMap(p => dNorm(p).split(/[^a-z0-9à-ú]+/).filter(Boolean)) };
+    e.k = { ro: KANA.phon(e.ro || KANA.toRomaji(e.kana)), roRaw: dNorm(e.ro).replace(/[^a-z]/g, ''), kana: e.reading, pt: e.pt.map(p => dNorm(p).replace(/\((a|o|as|os|es)\)/g, '').replace(/\s+/g, ' ').trim()), ptWords: e.pt.flatMap(p => dNorm(p).split(/[^a-z0-9à-ú]+/).filter(Boolean)) };
   });
 }
 function dictTagFromTitle(t) {
@@ -16844,6 +16984,8 @@ function dictSearch(q) {
       else if (n.length >= 2 && e.k.ptWords.includes(n)) p = 80;
       else if (n.length >= 3 && e.k.ptWords.some(w => w.startsWith(n))) p = 58;
       else if (n.length >= 4 && e.k.pt.some(x => x.includes(n))) p = 34;
+      if (p && e.pos === 'kanji') p -= 12; // palavras antes de kanji isolados
+      if (p && e.k.pt[0] && (e.k.pt[0] === n || e.k.pt[0].split(/\s*\(/)[0].trim() === n)) p += 3; // sentido principal
       s = Math.max(s, p);
       if (s) out.push([s, e]);
     });
@@ -17017,6 +17159,924 @@ homeListenCard = function () {
 setTimeout(() => { try { const d = dictState(); if (S.profile.onboarded && !d.news) { d.news = Date.now(); save(); toast('辞', 'Novo na 7.0: Dicionário (no Caderno) e perguntas faladas na Listening Academy!'); } } catch (e) {} }, 1500);
 
 /* ==========================================================
+   Nihongo Quest 8.0 — LIVING JAPANESE WORLD (dados)
+   Hikari-machi: uma pequena cidade com lugares, personagens e situações.
+   Para acrescentar um lugar novo: um item em WORLD_PLACES, personagens em WORLD_CHARS,
+   palavras em WORLD_WORDS e cenas em WORLD_SCENES (place: id do lugar). Nada mais muda.
+
+   Formato das cenas (nós):
+     n:   narração em português
+     s:   fala de personagem 'id|japonês (/ separa partes)|romaji|português|leitura opcional' (ou lista de falas)
+     tip: nota cultural / explicação curta
+     t:   palavras ensinadas aqui (chaves de WORLD_WORDS)
+     o:   escolhas do aluno [['japonês|romaji|português', tag, próximo nó, nota], ...]
+          tag: g = natural, k = funciona (com nota), x = mal-entendido (reação e tenta de novo)
+     p:   escolha por escuta { say, q, items: [['jp|romaji|pt', certo(1/0), nota, visual]], go, miss }
+     b:   desvio { done: cena, y, n } (o personagem lembra de você quando a cena já foi feita)
+     go:  próximo nó (botão Continuar)   back: 1 volta para a última escolha   end: texto final
+   ========================================================== */
+const WORLD_PLACES = [
+  { id: 'konbini', jp: 'コンビニ', ro: 'konbini', pt: 'Loja de conveniência', name: 'Hikari Mart', color: '#22946a', icon: 'コ', host: 'sato',
+    desc: 'Aberta 24 horas: bebidas, bentôs, onigiris e atendentes que falam rápido.' },
+  { id: 'resutoran', jp: 'レストラン', ro: 'resutoran', pt: 'Restaurante', name: 'Sakura Shokudō', color: '#d2463c', icon: 'レ', host: 'kenji',
+    desc: 'Um restaurante de bairro com ramen, oyakodon e um chef barulhento.' },
+  { id: 'eki', jp: '駅', ro: 'eki', pt: 'Estação', name: 'Estação Hikari', color: '#3553d1', icon: '駅', host: 'tanaka',
+    desc: 'Plataformas, bilhetes, avisos no alto-falante e passageiros de todo tipo.' },
+  { id: 'gakkou', jp: '学校', ro: 'gakkō', pt: 'Escola', name: 'Escola Hikari', color: '#7b52e0', icon: '学', host: 'yumi',
+    desc: 'Colegas, professores, aulas e a hora mais esperada: o almoço.' },
+  { id: 'machi', jp: '街', ro: 'machi', pt: 'Cidade', name: 'Rua comercial', color: '#e0861e', icon: '街', host: 'takeshi',
+    desc: 'Ruas, lojinhas, o posto policial e surpresas a cada esquina.' }
+];
+
+/* personagens: chat = usa o retrato do Nihongo Chat; look = retrato próprio */
+const WORLD_CHARS = {
+  sato: { name: 'Satō-san', jp: '佐藤さん', role: 'Atendente do konbini', place: 'konbini', pitch: 1.25,
+    bio: 'Universitária que trabalha meio período. Animada, fala rápido e no educado “japonês de loja”.', likes: 'Nikuman no inverno e mangá de terror.', style: 'Educado de loja (keigo)',
+    greet: ['いらっしゃいませ！|irasshaimase!|Bem-vindo(a)!', 'あ、また来てくれましたね！|a, mata kite kuremashita ne!|Ah, você voltou!'],
+    look: { bg: '#22946a', skin: '#ffe2cc', hair: '#6b3b1f', style: 'pony', top: '#3fc48f', acc: 'visor' } },
+  mori: { name: 'Mori (gerente)', jp: '森店長', role: 'Gerente do konbini', place: 'konbini', pitch: 0.72,
+    bio: 'Calmo, gentil e viciado em trocadilhos de tiozão.', likes: 'Piadas ruins e café em lata.', style: 'Educado, às vezes brincalhão',
+    look: { bg: '#1b6e50', skin: '#f5d2b5', hair: '#8a8a8a', style: 'side', top: '#3fc48f', acc: 'glasses' } },
+  kenji: { name: 'Kenji', jp: '健二', role: 'Garçom', place: 'resutoran', pitch: 0.95,
+    bio: 'Garçom novato, educadíssimo e um pouco atrapalhado.', likes: 'Oyakodon e jogos de celular.', style: 'Educado de atendimento (keigo)',
+    greet: ['いらっしゃいませ。|irasshaimase.|Bem-vindo(a).', 'あ、いつもありがとうございます！|a, itsumo arigatō gozaimasu!|Ah, obrigado por sempre vir!'],
+    look: { bg: '#d2463c', skin: '#ffe2cc', hair: '#22224a', style: 'short', top: '#ffffff', acc: 'apron' } },
+  taisho: { name: 'Gorō (o chef)', jp: '大将', role: 'Dono e cozinheiro', place: 'resutoran', pitch: 0.65,
+    bio: 'Voz alta, coração enorme. Fala de forma informal e calorosa com todo mundo.', likes: 'Ver clientes saindo de barriga cheia.', style: 'Informal e caloroso',
+    look: { bg: '#a3302a', skin: '#f2c9a5', hair: '#2b2b2b', style: 'bald', top: '#ffffff', acc: 'headband' } },
+  tanaka: { name: 'Tanaka-san', jp: '田中さん', role: 'Funcionário da estação', place: 'eki', pitch: 0.8,
+    bio: 'Sério, pontual e muito paciente. Usa o keigo mais formal da cidade.', likes: 'Trens que chegam no horário exato.', style: 'Keigo formal',
+    greet: ['いらっしゃいませ。|irasshaimase.|Bem-vindo(a).', 'またのご利用、ありがとうございます。|mata no go-riyō, arigatō gozaimasu.|Obrigado por usar a estação de novo.'],
+    look: { bg: '#3553d1', skin: '#ffe2cc', hair: '#22224a', style: 'short', top: '#1f3a8a', acc: 'cap' } },
+  haruko: { name: 'Haruko-san', jp: '春子さん', role: 'Passageira', place: 'eki', pitch: 1.15,
+    bio: 'Senhora de Osaka, falante e generosa. Sempre tem balas na bolsa.', likes: 'Conversar com desconhecidos e oferecer doces.', style: 'Dialeto de Osaka (Kansai-ben)',
+    look: { bg: '#c7569a', skin: '#f5d2b5', hair: '#b9b9c9', style: 'bun', top: '#e58fc0', acc: 'none' } },
+  ann: { name: 'Alto-falante', jp: '放送', role: 'Avisos da estação', place: 'eki', pitch: 1.1, bio: 'A voz calma que anuncia os trens.', style: 'Formal', speaker: true },
+  aiko: { chat: 'aiko', name: 'Aiko-sensei', jp: '愛子先生', role: 'Professora', place: 'gakkou', pitch: 1.05,
+    bio: 'A professora do Nihongo Chat. Paciente e educada, adora ver alunos se arriscando.', likes: 'Chá verde e alunos curiosos.', style: 'Educado (desu/masu)' },
+  yumi: { chat: 'yumi', name: 'Yumi', jp: 'ゆみ', role: 'Colega de classe', place: 'gakkou', pitch: 1.3,
+    bio: 'Sua colega de classe do Nihongo Chat. Simpática, fã de anime.', likes: 'Anime, karaokê e doces.', style: 'Casual (entre colegas)',
+    greet: ['あ、おはよう！|a, ohayō!|Ah, bom dia!', 'また会えたね！今日も一緒に頑張ろう！|mata aeta ne! kyō mo issho ni ganbarō!|Que bom te ver! Vamos nos esforçar juntos hoje!'] },
+  shota: { name: 'Shōta', jp: '翔太', role: 'Colega de classe', place: 'gakkou', pitch: 0.9,
+    bio: 'Do clube de futebol. Barulhento, engraçado e sempre com fome.', likes: 'Futebol, ramen e dormir na aula.', style: 'Bem casual',
+    look: { bg: '#7b52e0', skin: '#f2c9a5', hair: '#3b2a20', style: 'spiky', top: '#22224a', acc: 'none' } },
+  takeshi: { chat: 'takeshi', name: 'Takeshi', jp: 'たけし', role: 'Dono da quitanda', place: 'machi', pitch: 0.75,
+    bio: 'O comerciante do Nihongo Chat. Aqui você visita a quitanda dele.', likes: 'Frutas da estação e dar brindes.', style: 'Educado e animado de comerciante',
+    greet: ['いらっしゃい！今日も安いよ！|irasshai! kyō mo yasui yo!|Bem-vindo! Hoje também tá barato!', 'お、また来たね！いつもありがとう！|o, mata kita ne! itsumo arigatō!|Opa, voltou! Obrigado sempre!'] },
+  ren: { chat: 'ren', name: 'Ren', jp: 'レン', role: 'Seu amigo', place: 'machi', pitch: 0.85,
+    bio: 'Seu amigo próximo do Nihongo Chat. Fala bem casual e vive com fome.', likes: 'Games, comida de rua e música.', style: 'Muito casual' },
+  yamada: { name: 'Yamada-san', jp: '山田さん', role: 'Policial do kōban', place: 'machi', pitch: 0.85,
+    bio: 'Policial do posto de bairro. Conhece cada rua e ajuda todo mundo.', likes: 'Bicicleta e mapas desenhados à mão.', style: 'Educado e claro',
+    look: { bg: '#2c4a7a', skin: '#ffe2cc', hair: '#22224a', style: 'short', top: '#2c4a7a', acc: 'police' } },
+  mei: { name: 'Mei', jp: 'めい', role: 'Menina do bairro', place: 'machi', pitch: 1.45,
+    bio: 'Tem 7 anos e uma gata chamada Miruku.', likes: 'Gatos, laços e balas de morango.', style: 'Fala de criança, casual',
+    look: { bg: '#f08aa8', skin: '#ffe2cc', hair: '#4a2a1a', style: 'twin', top: '#ffd877', acc: 'none' } },
+  tourist: { name: 'Turista', jp: '観光客', role: 'Turista japonês', place: 'machi', pitch: 1.0, bio: 'Visitando Hikari-machi nas férias.', style: 'Educado',
+    look: { bg: '#2fa3b8', skin: '#ffe2cc', hair: '#22224a', style: 'short', top: '#ffb347', acc: 'hat' } },
+  oji: { name: 'Seu Kaneda', jp: '金田さん', role: 'Dono da loja de ferragens', place: 'machi', pitch: 0.7, bio: 'Rabugento por fora, gentil por dentro.', style: 'Casual de bairro',
+    look: { bg: '#6b6b7a', skin: '#f2c9a5', hair: '#cfcfcf', style: 'side', top: '#556b2f', acc: 'none' } },
+  imo: { name: 'Vendedor de batata-doce', jp: '焼き芋屋さん', role: 'Vendedor ambulante', place: 'machi', pitch: 0.7, bio: 'Passa cantando no outono e no inverno.', style: 'Casual e animado',
+    look: { bg: '#a0522d', skin: '#f2c9a5', hair: '#2b2b2b', style: 'bald', top: '#4a4a8a', acc: 'headband' } },
+  oldman: { name: 'Senhor de chapéu', jp: 'おじいさん', role: 'Morador', place: 'machi', pitch: 0.65, bio: 'Passeia pela rua comercial todas as tardes.', style: 'Educado',
+    look: { bg: '#5a7a5a', skin: '#f5d2b5', hair: '#e0e0e0', style: 'side', top: '#8a6a4a', acc: 'hat' } }
+};
+
+/* palavras do mundo: 'escrita|kana|romaji|português|explicação simples|e (expressão)' */
+const WORLD_WORDS = {
+  kore: 'これ|これ|kore|isto (perto de mim)|Use apontando para algo perto de você.',
+  kudasai: 'ください|ください|kudasai|por favor, me dê|Vai depois do que você quer: “kore, kudasai” = isto, por favor.|e',
+  ikura: 'いくら|いくら|ikura|quanto (custa)?|“Ikura desu ka?” = quanto custa?',
+  fukuro: '袋|ふくろ|fukuro|sacola|Cuidado: “fukurō” (com o longo) é coruja!',
+  daijoubu: '大丈夫です|だいじょうぶです|daijōbu desu|está tudo bem / não precisa|Serve para recusar algo com educação.|e',
+  okane: 'お金|おかね|okane|dinheiro|',
+  bentou: 'お弁当|おべんとう|obentō|marmita, bentô|',
+  atatame: '温めますか|あたためますか|atatamemasu ka|quer que esquente?|Pergunta clássica do caixa do konbini.|e',
+  ohashi: 'お箸|おはし|ohashi|hashi (palitinhos)|',
+  onigiri: 'おにぎり|おにぎり|onigiri|bolinho de arroz|',
+  doko: 'どこ|どこ|doko|onde|“~ wa doko desu ka?” = onde fica ~?',
+  achira: 'あちら|あちら|achira|ali, por ali (educado)|Forma educada de “ali”.',
+  moichido: 'もう一度|もういちど|mō ichido|mais uma vez|“Mō ichido onegai shimasu” = pode repetir, por favor?|e',
+  pointcard: 'ポイントカード|ポイントカード|pointo kādo|cartão de pontos|',
+  osusume: 'おすすめ|おすすめ|osusume|recomendação|',
+  nanmeisama: '何名様|なんめいさま|nanmei-sama|quantas pessoas? (educado)|Pergunta ao entrar em restaurantes.|e',
+  hitori: '一人|ひとり|hitori|uma pessoa / sozinho|Duas pessoas: futari.',
+  douzo: 'どうぞ|どうぞ|dōzo|por favor, fique à vontade / pode pegar|Usado ao oferecer algo ou dar passagem.|e',
+  chuumon: 'ご注文|ごちゅうもん|go-chūmon|o pedido|',
+  hitotsu: '一つ|ひとつ|hitotsu|um (objeto)|Para contar coisas: hitotsu, futatsu, mittsu...',
+  mizu: 'お水|おみず|omizu|água|',
+  nani: '何|なに・なん|nani / nan|o quê|“Kore wa nan desu ka?” = o que é isto?',
+  toriniku: '鶏肉|とりにく|toriniku|carne de frango|',
+  tamago: '卵|たまご|tamago|ovo|',
+  nishimasu: '〜にします|〜にします|~ ni shimasu|vou querer ~ / escolho ~|“Kore ni shimasu” = vou querer este.|e',
+  omoshiroi: 'おもしろい|おもしろい|omoshiroi|interessante, divertido|',
+  okaikei: 'お会計|おかいけい|okaikei|a conta|“Okaikei onegai shimasu” = a conta, por favor.',
+  gochisousama: 'ごちそうさまでした|ごちそうさまでした|gochisōsama deshita|obrigado pela refeição|Dito depois de comer.|e',
+  wasuremono: '忘れ物|わすれもの|wasuremono|objeto esquecido|',
+  ikitai: '行きたいです|いきたいです|ikitai desu|quero ir|“Tōkyō ni ikitai desu” = quero ir a Tóquio.|e',
+  bansen: '〜番線|〜ばんせん|~ bansen|plataforma número ~|Sanbansen = plataforma 3.',
+  kippu: '切符|きっぷ|kippu|bilhete, passagem|',
+  made: 'まで|まで|made|até|“Shibuya made” = até Shibuya.',
+  mamonaku: 'まもなく|まもなく|mamonaku|em instantes|Muito comum nos avisos de trem.',
+  densha: '電車|でんしゃ|densha|trem|',
+  tomarimasu: '止まりますか|とまりますか|tomarimasu ka|(o trem) para em...?|“Shibuya ni tomarimasu ka?” = para em Shibuya?|e',
+  dokokara: 'どこから|どこから|doko kara|de onde|',
+  ame: '飴|あめ|ame|bala, docinho|Tem o mesmo som de 雨 (chuva)! O contexto mostra qual é.',
+  jikoshoukai: '自己紹介|じこしょうかい|jiko shōkai|apresentação pessoal|',
+  hajimemashite: 'はじめまして|はじめまして|hajimemashite|muito prazer (primeira vez)|Só na primeira vez que conhece alguém.|e',
+  yoroshiku: 'よろしくお願いします|よろしくおねがいします|yoroshiku onegai shimasu|conto com você / prazer em conhecer|Fecha quase toda apresentação.|e',
+  suki: '好き|すき|suki|gostar (de algo)|“Anime ga suki desu” = gosto de anime.',
+  keshigomu: '消しゴム|けしゴム|keshigomu|borracha (de apagar)|',
+  arimasuka: 'ありますか|ありますか|arimasu ka|tem? (coisas)|“Keshigomu, arimasu ka?” = você tem borracha?|e',
+  kyoukasho: '教科書|きょうかしょ|kyōkasho|livro didático|',
+  tsugi: '次|つぎ|tsugi|próximo|',
+  jugyou: '授業|じゅぎょう|jugyō|aula|',
+  issho: '一緒に|いっしょに|issho ni|juntos|',
+  massugu: 'まっすぐ|まっすぐ|massugu|reto, em frente|',
+  migi: '右|みぎ|migi|direita|',
+  hidari: '左|ひだり|hidari|esquerda|',
+  yasui: '安い|やすい|yasui|barato|',
+  mittsu: '三つ|みっつ|mittsu|três (objetos)|',
+  omake: 'おまけ|おまけ|omake|brinde, um extra de presente|',
+  atsui: '熱い|あつい|atsui|quente (ao tocar ou comer)|“Atsu!” = ai, que quente!',
+  oishii: 'おいしい|おいしい|oishii|gostoso, delicioso|',
+  neko: '猫|ねこ|neko|gato|',
+  shiroi: '白い|しろい|shiroi|branco|',
+  mitsuketa: '見つけた|みつけた|mitsuketa|achei, encontrei|',
+  shashin: '写真|しゃしん|shashin|foto|',
+  kasa: '傘|かさ|kasa|guarda-chuva|',
+  yakiimo: '焼き芋|やきいも|yakiimo|batata-doce assada|',
+  nanji: '何時|なんじ|nanji|que horas|“Ima nanji desu ka?” = que horas são?'
+};
+
+const WORLD_SCENES = [
+  /* ================= コンビニ ================= */
+  { id: 'k1', place: 'konbini', kind: 'missao', title: 'Comprar chá e um lanche', desc: 'Peça algo apontando e responda sobre a sacola.', chars: ['sato'], words: ['kore', 'kudasai', 'ikura', 'fukuro', 'daijoubu', 'okane'], nodes: {
+    a: { n: 'Você entra na Hikari Mart. A porta faz “pin-pon” e alguém fala lá do fundo.', s: 'sato|いらっしゃいませ！|irasshaimase!|Bem-vindo(a)!', tip: 'Nas lojas japonesas, os atendentes dizem “irasshaimase” a todo cliente que entra. Não precisa responder: um aceno basta.', go: 'b' },
+    b: { n: 'Você põe um chá no balcão. Ao lado do caixa, uma vitrine quentinha mostra frango frito (karaage). Dá vontade...', s: 'sato|お茶が/一点。|ocha ga itten.|Um chá.', t: ['kore', 'kudasai'], o: [
+      ['これ、/ください。|kore, kudasai.|Isto, por favor. (apontando o karaage)', 'g', 'c'],
+      ['すみません、/これ、/ください。|sumimasen, kore, kudasai.|Com licença, isto, por favor.', 'g', 'c'],
+      ['ありがとう。|arigatō.|Obrigado(a).', 'x', 'bx', 'Você agradeceu, mas ainda não pediu nada! Para pedir apontando, use “kore, kudasai”.']] },
+    bx: { s: 'sato|はい？/えっと…/どういたしまして？|hai? etto… dō itashimashite?|Hã? É... de nada?', n: 'Satō-san sorri, meio confusa.', back: 1 },
+    c: { s: 'sato|唐揚げですね。/かしこまりました。|karaage desu ne. kashikomarimashita.|Karaage, né? Certo!|からあげですね。かしこまりました。', t: ['ikura'], o: [
+      ['いくらですか？|ikura desu ka?|Quanto custa?', 'g', 'd'],
+      ['…|…|(Esperar em silêncio)', 'k', 'd2', 'Ela disse o preço sozinha. Mas “ikura desu ka?” é muito útil em feiras e lojinhas.']] },
+    d: { s: 'sato|全部で/350円です。|zenbu de sanbyaku gojū en desu.|Ao todo, 350 ienes.|ぜんぶで、さんびゃくごじゅうえんです。', go: 'f' },
+    d2: { s: 'sato|お会計、/350円です。|okaikei, sanbyaku gojū en desu.|A conta dá 350 ienes.|おかいけい、さんびゃくごじゅうえんです。', go: 'f' },
+    f: { s: 'sato|袋は/ご利用ですか？|fukuro wa go-riyō desu ka?|Vai usar sacola?|ふくろは、ごりようですか？', tip: 'Desde 2020 as sacolas plásticas são pagas no Japão (custam uns 3 a 5 ienes). Por isso sempre perguntam.', t: ['fukuro', 'daijoubu'], o: [
+      ['はい、/お願いします。|hai, onegai shimasu.|Sim, por favor.', 'g', 'g1'],
+      ['いいえ、/大丈夫です。|iie, daijōbu desu.|Não, tudo bem (não precisa).', 'g', 'g2'],
+      ['ふくろう？|fukurō?|Coruja?', 'x', 'fx', '“Fukurō” (com o “o” longo) é coruja! Sacola é “fukuro”, curtinho.']] },
+    fx: { s: 'sato|ふくろう？/…ふふっ、/ふくろ、/袋です！|fukurō? …fufu, fukuro, fukuro desu!|Coruja? ...hehe, sacola, “fukuro”!', n: 'Ela mostra uma sacolinha, rindo.', back: 1 },
+    g1: { s: 'sato|袋代、/3円/いただきます。|fukuro-dai, san en itadakimasu.|São 3 ienes pela sacola.|ふくろだい、さんえんいただきます。', go: 'h' },
+    g2: { s: 'sato|かしこまりました。|kashikomarimashita.|Entendido.', go: 'h' },
+    h: { n: 'Você entrega o dinheiro. Satō-san conta e devolve o troco.', t: ['okane'], s: 'sato|ありがとうございました！/またお越しくださいませ！|arigatō gozaimashita! mata okoshi kudasaimase!|Muito obrigada! Volte sempre!', end: 'Você comprou chá e karaage sozinho(a)! Missão cumprida.' }
+  } },
+  { id: 'k2', place: 'konbini', kind: 'missao', title: 'Esquentar o bentô', desc: 'Entenda as perguntas do caixa na hora do almoço.', need: ['k1'], chars: ['sato'], words: ['bentou', 'atatame', 'ohashi'], nodes: {
+    a: { n: 'Hora do almoço. Você pega uma marmita de frango e vai ao caixa.', s: 'sato|あ、/いらっしゃいませ！/お弁当ですね。|a, irasshaimase! obentō desu ne.|Ah, bem-vindo(a)! Um bentô, né?|あ、いらっしゃいませ！おべんとうですね。', t: ['bentou'], go: 'b' },
+    b: { s: 'sato|温めますか？|atatamemasu ka?|Quer que eu esquente?|あたためますか？', t: ['atatame'], o: [
+      ['はい、/お願いします。|hai, onegai shimasu.|Sim, por favor.', 'g', 'c'],
+      ['いいえ、/大丈夫です。|iie, daijōbu desu.|Não, tudo bem.', 'k', 'bn', 'Resposta correta! Só que agora seu almoço vai ser gelado...'],
+      ['あたたかい…ですか？|atatakai… desu ka?|Quente... é?', 'x', 'bx', 'Quase! “Atatakai” é quente; “atatamemasu ka?” é “quer que eu esquente?”. Responda com “hai” ou “iie”.']] },
+    bx: { s: 'sato|はい、/電子レンジで/温めます。/いかがですか？|hai, denshi renji de atatamemasu. ikaga desu ka?|Isso, eu esquento no micro-ondas. Que tal?|はい、でんしレンジであたためます。いかがですか？', back: 1 },
+    bn: { s: 'sato|はい、/そのままで。|hai, sono mama de.|Certo, do jeito que está.', n: 'Você recebe o bentô geladinho. Arroz frio no inverno... coragem!', go: 'd' },
+    c: { s: 'sato|少々/お待ちください。|shōshō omachi kudasai.|Aguarde um momento, por favor.|しょうしょう、おまちください。', n: 'O micro-ondas apita: pi pi pi! O cheiro de frango invade a loja.', go: 'd' },
+    d: { s: 'sato|お箸は/おつけしますか？|ohashi wa otsuke shimasu ka?|Quer que eu coloque hashi?|おはしは、おつけしますか？', t: ['ohashi'], o: [
+      ['はい、/一つ/お願いします。|hai, hitotsu onegai shimasu.|Sim, um par, por favor.', 'g', 'e'],
+      ['はい、/お願いします。|hai, onegai shimasu.|Sim, por favor.', 'g', 'e'],
+      ['いいえ。|iie.|Não.', 'k', 'd2', 'Tudo certo na gramática... mas como você vai comer?']] },
+    d2: { s: 'sato|え、/お箸、/いりませんか？/…手で？|e, ohashi, irimasen ka? …te de?|Ué, não quer hashi? ...Vai comer com a mão?|え、おはし、いりませんか？てで？', n: 'Ela parece preocupada de verdade. Você ri e aceita o hashi.', go: 'e' },
+    e: { s: 'sato|ありがとうございました！/またどうぞ！|arigatō gozaimashita! mata dōzo!|Obrigada! Volte sempre!', end: 'Bentô e hashi na mão. Agora você entende as perguntas mais comuns do caixa!' }
+  } },
+  { id: 'k3', place: 'konbini', kind: 'missao', title: 'O onigiri do Ren', desc: 'Pergunte onde fica um produto e ache o certo só ouvindo.', need: ['k1'], chars: ['sato', 'ren'], words: ['onigiri', 'doko', 'achira'], nodes: {
+    a: { n: 'Seu celular vibra. É uma mensagem de voz do Ren.', s: 'ren|コンビニ？/ツナマヨの/おにぎり、/買ってきて！|konbini? tsuna mayo no onigiri, katte kite!|Tá no konbini? Me traz um onigiri de atum com maionese!', t: ['onigiri'], go: 'b' },
+    b: { n: 'Você não acha os onigiris. Melhor perguntar.', t: ['doko'], o: [
+      ['すみません、/おにぎりは/どこですか？|sumimasen, onigiri wa doko desu ka?|Com licença, onde ficam os onigiris?', 'g', 'c'],
+      ['おにぎり、/どこ？|onigiri, doko?|Onigiri, onde?', 'k', 'c', 'Funciona, mas soa bem informal com uma atendente. “Sumimasen... doko desu ka?” é mais educado.'],
+      ['おにぎりは/だれですか？|onigiri wa dare desu ka?|Quem é o onigiri?', 'x', 'bx', '“Dare” é “quem”. Para lugares, use “doko” (onde).']] },
+    bx: { s: 'sato|だれ…？/おにぎりさんは/人じゃないですよ！|dare…? onigiri-san wa hito ja nai desu yo!|Quem...? O senhor Onigiri não é uma pessoa!', back: 1 },
+    c: { s: 'sato|おにぎりは/あちらです。/入口の/近くです。|onigiri wa achira desu. iriguchi no chikaku desu.|Os onigiris ficam ali. Perto da entrada.|おにぎりは、あちらです。いりぐちの、ちかくです。', t: ['achira'], go: 'd' },
+    d: { n: 'Na prateleira há vários onigiris com rótulos em japonês. Ouça o que o Ren pediu e escolha.', p: { say: 'ren|ツナマヨ！|tsuna mayo!|Atum com maionese!', q: 'Qual é o onigiri de ツナマヨ (tsuna mayo)?', items: [['梅|ume|ameixa em conserva', 0], ['ツナマヨ|tsuna mayo|atum com maionese', 1], ['鮭|sake|salmão', 0], ['昆布|konbu|alga konbu', 0]], go: 'e', miss: 'Esse não é. Ouça de novo: “tsu-na ma-yo”.' } },
+    e: { n: 'Achou! Você paga e manda uma foto para o Ren.', s: 'ren|それそれ！/サンキュー！/今度/おごるね。|sore sore! sankyū! kondo ogoru ne.|Esse mesmo! Valeu! Da próxima eu pago, tá?', end: 'Você perguntou onde ficava um produto e achou o certo. Missão cumprida!' }
+  } },
+  { id: 'k4', place: 'konbini', kind: 'historia', title: 'Satō-san lembra de você', desc: 'Uma pergunta rápida demais... e o gerente com suas piadas.', need: ['k2'], chars: ['sato', 'mori'], words: ['moichido', 'pointcard', 'osusume'], nodes: {
+    a: { b: { done: 'k4', y: 'r', n: 'a1' } },
+    a1: { n: 'Satō-san reconhece você de longe.', s: 'sato|あ！/また来てくれたんですね！|a! mata kite kureta n desu ne!|Ah! Você voltou!', go: 'b' },
+    r: { s: 'sato|あ、/常連さん！/いつも/ありがとうございます！|a, jōren-san! itsumo arigatō gozaimasu!|Ah, nosso cliente fiel! Obrigada sempre!|あ、じょうれんさん！いつもありがとうございます！', tip: '“Jōren-san” é o cliente que sempre volta. Ser chamado assim é um carinho.', go: 'b' },
+    b: { n: 'Você põe um suco no balcão. Ela pergunta algo bem rápido.', s: 'sato|ポイントカードは/お持ちですか？|pointo kādo wa omochi desu ka?|Você tem cartão de pontos?|ポイントカードは、おもちですか？', t: ['moichido'], o: [
+      ['もう一度/お願いします。|mō ichido onegai shimasu.|Mais uma vez, por favor.', 'g', 'c'],
+      ['ゆっくり/お願いします。|yukkuri onegai shimasu.|Mais devagar, por favor.', 'g', 'c'],
+      ['はい！|hai!|Sim!', 'x', 'bx', 'Você disse “sim” sem entender... e agora ela espera um cartão! Quando não entender, peça “mō ichido onegai shimasu”.']] },
+    bx: { s: 'sato|では、/カードを/どうぞ。|dewa, kādo o dōzo.|Então, pode me passar o cartão.', n: 'Ela estende a mão... e espera. Você procura na carteira um cartão que não existe. Silêncio constrangedor.', back: 1 },
+    c: { s: 'sato|ポイント/カード、/です。/持っていますか？|pointo kādo desu. motte imasu ka?|Cartão... de pontos. Você tem?|ポイントカード、です。もっていますか？', t: ['pointcard'], o: [
+      ['いいえ、/ありません。|iie, arimasen.|Não, não tenho.', 'g', 'd'],
+      ['いいえ、/大丈夫です。|iie, daijōbu desu.|Não, tudo bem.', 'g', 'd']] },
+    d: { s: 'sato|そうですか。/あ、/今日の/おすすめは/肉まんですよ！/ふわふわです！|sō desu ka. a, kyō no osusume wa nikuman desu yo! fuwafuwa desu!|Entendi. Ah, a recomendação de hoje é o nikuman! Tá fofinho!|そうですか。あ、きょうのおすすめは、にくまんですよ！ふわふわです！', t: ['osusume'], tip: 'Nikuman é um pãozinho cozido no vapor, recheado de carne. No inverno, todo konbini tem uma vitrine deles.', o: [
+      ['じゃあ、/一つ/ください！|jā, hitotsu kudasai!|Então, um, por favor!', 'g', 'e'],
+      ['今日は/大丈夫です。|kyō wa daijōbu desu.|Hoje não, obrigado(a).', 'g', 'e2']] },
+    e: { n: 'O gerente Mori aparece do estoque, esfregando as mãos.', s: 'mori|寒いですね。/布団が/ふっとんだ！/…なんちゃって。|samui desu ne. futon ga futtonda! …nanchatte.|Que frio, né? O futon voou longe! ...brincadeirinha.|さむいですね。ふとんが、ふっとんだ！なんちゃって。', go: 'e3' },
+    e2: { s: 'sato|はーい！/またどうぞ！|hāi! mata dōzo!|Tá bom! Volte sempre!', end: 'Você pediu para repetir e entendeu a pergunta do cartão de pontos. Isso salva qualquer conversa!' },
+    e3: { s: 'sato|店長…/お客さんが/困ってますよ。|tenchō… okyaku-san ga komatte masu yo.|Gerente... o cliente está sem graça.|てんちょう、おきゃくさんが、こまってますよ。', tip: 'Mori fez uma “oyaji gag”, a típica piada de tiozão: “futon ga futtonda” (o futon voou). Japoneses costumam responder com um riso amarelo.', end: 'Pediu para repetir, ganhou uma recomendação e ouviu uma piada de tiozão. Satō-san já é sua conhecida!' }
+  } },
+
+  /* ================= レストラン ================= */
+  { id: 'r1', place: 'resutoran', kind: 'missao', title: 'Pedir uma mesa', desc: 'Diga quantas pessoas são e entenda o garçom.', chars: ['kenji', 'taisho'], words: ['nanmeisama', 'hitori', 'douzo'], nodes: {
+    a: { n: 'Você entra no Sakura Shokudō. Cheiro de caldo de shoyu.', s: 'taisho|へい、/らっしゃい！|hei, rasshai!|Opa, bem-vindo!', tip: '“Rasshai” é a forma curtinha e animada de “irasshaimase”, comum em restaurantes tradicionais.', go: 'b' },
+    b: { s: 'kenji|いらっしゃいませ。/何名様ですか？|irasshaimase. nanmei-sama desu ka?|Bem-vindo(a). Quantas pessoas?|いらっしゃいませ。なんめいさまですか？', t: ['nanmeisama', 'hitori'], o: [
+      ['一人です。|hitori desu.|Uma pessoa (só eu).', 'g', 'c'],
+      ['（指を一本立てる）|(yubi o ippon tateru)|(Mostrar um dedo)', 'k', 'c', 'Mostrar um dedo funciona! Mas “hitori desu” é fácil e muito usado.'],
+      ['一つです。|hitotsu desu.|Um (objeto).', 'x', 'bx', '“Hitotsu” conta objetos. Para pessoas: “hitori” (1 pessoa), “futari” (2 pessoas).']] },
+    bx: { s: 'kenji|ひとつ…？/えっと、/お一人様/ですね？|hitotsu…? etto, o-hitori-sama desu ne?|Um...? Hã, uma pessoa, certo?|ひとつ？えっと、おひとりさまですね？', n: 'Kenji entende, mas segura o riso.', back: 1 },
+    c: { s: 'kenji|お一人様ですね。/こちらへ/どうぞ。|o-hitori-sama desu ne. kochira e dōzo.|Uma pessoa. Por aqui, por favor.|おひとりさまですね。こちらへどうぞ。', t: ['douzo'], go: 'd' },
+    d: { n: 'Kenji traz um copo de água gelada e uma toalhinha úmida.', s: 'kenji|お水と/おしぼりです。/メニューは/こちらです。|omizu to oshibori desu. menyū wa kochira desu.|Água e toalhinha. O cardápio está aqui.|おみずと、おしぼりです。メニューは、こちらです。', tip: 'No Japão, a água (e muitas vezes chá) é de graça. A “oshibori” é para limpar as mãos antes de comer.', o: [
+      ['ありがとうございます。|arigatō gozaimasu.|Obrigado(a).', 'g', 'e'],
+      ['どうも。|dōmo.|Valeu / Obrigado(a).', 'g', 'e']] },
+    e: { s: 'kenji|ご注文が/決まりましたら、/お呼びください。|go-chūmon ga kimarimashitara, oyobi kudasai.|Quando decidir o pedido, é só chamar.|ごちゅうもんがきまりましたら、およびください。', end: 'Você conseguiu uma mesa e entendeu tudo sem precisar ler. Próximo passo: fazer o pedido!' }
+  } },
+  { id: 'r2', place: 'resutoran', kind: 'missao', title: 'Fazer o pedido', desc: 'Chame o garçom e peça ramen e bebida.', need: ['r1'], chars: ['kenji', 'taisho'], words: ['chuumon', 'hitotsu', 'mizu'], nodes: {
+    a: { n: 'Na parede há fotos de ramen, gyoza e karaage. Para chamar o garçom, levante a mão e...', o: [
+      ['すみません！|sumimasen!|Com licença! (chamando)', 'g', 'b'],
+      ['ウェイター！|weitā!|Garçom!', 'x', 'ax', 'No Japão ninguém chama “weitā”. Levante a mão e diga “sumimasen!”.']] },
+    ax: { s: 'kenji|…？|…?|...?', n: 'Kenji olha para os lados, sem saber se é com ele.', back: 1 },
+    b: { s: 'kenji|はい、/ご注文は/お決まりですか？|hai, go-chūmon wa okimari desu ka?|Pois não, já decidiu o pedido?|はい、ごちゅうもんは、おきまりですか？', t: ['chuumon', 'hitotsu'], o: [
+      ['ラーメンを/一つ/お願いします。|rāmen o hitotsu onegai shimasu.|Um ramen, por favor.', 'g', 'c'],
+      ['ラーメン、/ください。|rāmen, kudasai.|Ramen, por favor.', 'k', 'c', 'Funciona! Com “hitotsu” fica ainda mais claro quantos você quer.'],
+      ['ラーメンを/十/お願いします。|rāmen o jū onegai shimasu.|Dez ramens, por favor.', 'x', 'bx', '“Jū” é dez! Para pedir um, diga “hitotsu”.']] },
+    bx: { s: ['kenji|じゅ、/十杯/ですか？！/大将！/ラーメン十杯！|ju, juppai desu ka?! taishō! rāmen juppai!|D-dez tigelas?! Chefe! Dez ramens!|じゅ、じゅっぱいですか？たいしょう！ラーメンじゅっぱい！', 'taisho|おう！/今日は/祭りか？！|ō! kyō wa matsuri ka?!|Opa! Hoje tem festa?!|おう！きょうは、まつりか？'], n: 'O restaurante inteiro olha para você. Corrija rápido!', back: 1 },
+    c: { s: 'kenji|ラーメン/お一つですね。/お飲み物は/いかがですか？|rāmen ohitotsu desu ne. onomimono wa ikaga desu ka?|Um ramen. E para beber?|ラーメン、おひとつですね。おのみものは、いかがですか？', t: ['mizu'], o: [
+      ['お水で/大丈夫です。|omizu de daijōbu desu.|Água está ótimo.', 'g', 'd'],
+      ['ウーロン茶を/ください。|ūroncha o kudasai.|Um chá oolong, por favor.', 'g', 'd'],
+      ['オレンジジュースを/ください。|orenji jūsu o kudasai.|Um suco de laranja, por favor.', 'g', 'd']] },
+    d: { s: ['kenji|かしこまりました。/少々/お待ちください。|kashikomarimashita. shōshō omachi kudasai.|Entendido. Aguarde um momento.|かしこまりました。しょうしょう、おまちください。', 'taisho|へい、/お待ち！/熱いうちに/どうぞ！|hei, omachi! atsui uchi ni dōzo!|Tá na mesa! Come enquanto tá quente!|へい、おまち！あついうちにどうぞ！'], tip: 'Fazer barulho ao sugar o macarrão é normal (e até elogio) no Japão.', end: 'Pedido feito do jeito certo. E ninguém precisou de dez tigelas!' }
+  } },
+  { id: 'r3', place: 'resutoran', kind: 'missao', title: 'O que é este prato?', desc: 'Pergunte sobre um prato desconhecido e escolha.', need: ['r1'], chars: ['kenji', 'taisho'], words: ['nani', 'toriniku', 'tamago', 'nishimasu'], nodes: {
+    a: { n: 'Hoje o cardápio tem um prato que você não conhece: 親子丼.', s: 'kenji|いらっしゃいませ！/あ、/この前の/お客様ですね。|irasshaimase! a, kono mae no okyakusama desu ne.|Bem-vindo(a)! Ah, você veio da outra vez, né?|いらっしゃいませ！あ、このまえのおきゃくさまですね。', t: ['nani'], o: [
+      ['すみません、/これは/何ですか？|sumimasen, kore wa nan desu ka?|Com licença, o que é isto?', 'g', 'b'],
+      ['これは/どこですか？|kore wa doko desu ka?|Onde é isto?', 'x', 'ax', '“Doko” é onde. Para perguntar “o quê”, use “nan desu ka?”.']] },
+    ax: { s: 'kenji|どこ…？/えっと、/ここは/さくら食堂です。|doko…? etto, koko wa sakura shokudō desu.|Onde...? Hã, aqui é o Sakura Shokudō.|どこ？えっと、ここは、さくらしょくどうです。', back: 1 },
+    b: { s: 'kenji|親子丼です。/鶏肉と/卵の/どんぶりです。|oyakodon desu. toriniku to tamago no donburi desu.|É oyakodon. Uma tigela de frango com ovo.|おやこどんです。とりにくと、たまごの、どんぶりです。', t: ['toriniku', 'tamago'], go: 'c' },
+    c: { s: 'taisho|「親子」は/親と子ども。/鶏が親で、/卵が子どもだ！|“oyako” wa oya to kodomo. tori ga oya de, tamago ga kodomo da!|“Oyako” quer dizer pai e filho. A galinha é a mãe e o ovo é o filho!|おやこは、おやとこども。とりがおやで、たまごがこどもだ！', tip: 'Curiosidade real: “oyakodon” (tigela de pai e filho) tem esse nome porque junta frango e ovo no mesmo prato.', t: ['omoshiroi'], o: [
+      ['おもしろいですね！|omoshiroi desu ne!|Que interessante!', 'g', 'd'],
+      ['ええ？！/かわいそう…|ē?! kawaisō…|Ehh?! Que dó...', 'g', 'd']] },
+    d: { s: 'taisho|はっはっは！/でも/うまいぞ！|ha ha ha! demo umai zo!|Hahaha! Mas é uma delícia!', t: ['nishimasu'], o: [
+      ['じゃあ、/これに/します。|jā, kore ni shimasu.|Então, vou querer este.', 'g', 'e'],
+      ['じゃあ、/ラーメンに/します。|jā, rāmen ni shimasu.|Então, vou de ramen.', 'g', 'e2']] },
+    e: { s: 'kenji|親子丼、/お一つですね！|oyakodon, ohitotsu desu ne!|Um oyakodon, certo!|おやこどん、おひとつですね！', end: 'Você perguntou o que era um prato, entendeu a resposta e escolheu. Isso é viver o japonês!' },
+    e2: { s: 'taisho|ラーメンか！/まあ、/それも/うまいぞ！|rāmen ka! mā, sore mo umai zo!|Ramen, é? Bom, esse também é ótimo!', end: 'Você perguntou o que era um prato, entendeu a resposta e escolheu. Isso é viver o japonês!' }
+  } },
+  { id: 'r4', place: 'resutoran', kind: 'historia', title: 'A conta e a gorjeta', desc: 'Peça a conta, agradeça... e descubra o que acontece com o troco.', need: ['r2'], chars: ['kenji', 'taisho'], words: ['okaikei', 'gochisousama', 'wasuremono'], nodes: {
+    a: { n: 'Você terminou de comer. Hora de pagar.', t: ['okaikei'], o: [
+      ['すみません、/お会計/お願いします。|sumimasen, okaikei onegai shimasu.|Com licença, a conta, por favor.', 'g', 'b'],
+      ['すみません、/お金/ください。|sumimasen, okane kudasai.|Com licença, me dê dinheiro.', 'x', 'ax', 'Você pediu dinheiro ao garçom! A conta é “okaikei”.']] },
+    ax: { s: 'kenji|え？！/お金…/ですか？/ぼくも/ほしいです…|e?! okane… desu ka? boku mo hoshii desu…|Hã?! Dinheiro...? Eu também queria...|え？おかね、ですか？ぼくも、ほしいです。', back: 1 },
+    b: { s: 'kenji|はい、/レジで/お願いします。/980円です。|hai, reji de onegai shimasu. kyūhyaku hachijū en desu.|Certo, no caixa, por favor. São 980 ienes.|はい、レジでおねがいします。きゅうひゃくはちじゅうえんです。', n: 'Você paga com uma nota de mil ienes. Sobram 20 ienes de troco.', o: [
+      ['おつりは/いいです。|otsuri wa ii desu.|Pode ficar com o troco.', 'g', 'c'],
+      ['ありがとうございます。|arigatō gozaimasu.|Obrigado(a).', 'g', 'd']] },
+    c: { n: 'Você deixa o troco no balcão e sai. Logo depois, alguém vem correndo pela rua...', s: 'kenji|お客様！/お客様！/忘れ物です！|okyakusama! okyakusama! wasuremono desu!|Senhor(a)! Senhor(a)! Esqueceu uma coisa!|おきゃくさま！おきゃくさま！わすれものです！', t: ['wasuremono'], tip: 'No Japão não existe gorjeta. Se você deixar dinheiro, é bem provável que alguém corra atrás de você para devolver!', go: 'c2' },
+    c2: { s: 'kenji|はぁ、/はぁ…/20円です！|hā, hā… nijū en desu!|Ufa, ufa... seus 20 ienes!|はあ、はあ。にじゅうえんです！', n: 'Kenji devolve as moedas, ofegante e sorrindo.', go: 'd' },
+    d: { t: ['gochisousama'], o: [
+      ['ごちそうさまでした！|gochisōsama deshita!|Obrigado(a) pela refeição!', 'g', 'e'],
+      ['いただきます！|itadakimasu!|Bom apetite! (antes de comer)', 'x', 'dx', '“Itadakimasu” é dito ANTES de comer. Depois, diga “gochisōsama deshita”.']] },
+    dx: { s: 'taisho|おいおい、/これから/また/食べるのか？！|oi oi, kore kara mata taberu no ka?!|Ei, ei, vai comer tudo de novo?!', back: 1 },
+    e: { s: 'taisho|まいど！/また来いよ！|maido! mata koi yo!|Valeu! Volta, hein!', tip: '“Maido” (literalmente “toda vez”) é um obrigado caloroso de comerciante.', end: 'Conta paga e um “gochisōsama” perfeito. O Sakura Shokudō já te conhece!' }
+  } },
+
+  /* ================= 駅 ================= */
+  { id: 'e1', place: 'eki', kind: 'missao', title: 'Qual é a plataforma?', desc: 'Diga para onde quer ir e ache a plataforma ouvindo.', chars: ['tanaka'], words: ['ikitai', 'bansen'], nodes: {
+    a: { n: 'A estação Hikari está cheia. Você precisa ir a Tóquio. No guichê, um funcionário de uniforme azul.', s: 'tanaka|いらっしゃいませ。/どうなさいましたか？|irasshaimase. dō nasaimashita ka?|Bem-vindo(a). Em que posso ajudar?', t: ['ikitai'], o: [
+      ['すみません、/東京に/行きたいです。|sumimasen, tōkyō ni ikitai desu.|Com licença, quero ir para Tóquio.', 'g', 'b'],
+      ['東京、/どこ？|tōkyō, doko?|Tóquio, onde?', 'k', 'b', 'Ele entendeu, mas com funcionários é melhor completar: “Tōkyō ni ikitai desu”.']] },
+    b: { s: 'tanaka|東京ですね。/3番線から/どうぞ。|tōkyō desu ne. sanbansen kara dōzo.|Tóquio. Pegue o trem na plataforma 3.|とうきょうですね。さんばんせんから、どうぞ。', t: ['bansen'], go: 'c' },
+    c: { n: 'Você olha as placas das plataformas. Qual ele disse?', p: { say: 'tanaka|3番線です。|sanbansen desu.|Plataforma 3.|さんばんせんです。', q: 'Ouça: qual é a plataforma?', items: [['1番線|ichibansen|plataforma 1', 0], ['2番線|nibansen|plataforma 2', 0], ['3番線|sanbansen|plataforma 3', 1], ['4番線|yonbansen|plataforma 4', 0]], go: 'd', miss: 'Não é essa. Ouça de novo: “san-ban-sen”.' } },
+    d: { o: [['ありがとうございます！|arigatō gozaimasu!|Muito obrigado(a)!', 'g', 'e']] },
+    e: { s: 'tanaka|お気をつけて/いってらっしゃいませ。|oki o tsukete itterasshaimase.|Boa viagem, vá com cuidado.|おきをつけて、いってらっしゃいませ。', end: 'Você pediu informação e achou a plataforma certa só ouvindo!' }
+  } },
+  { id: 'e2', place: 'eki', kind: 'missao', title: 'Comprar a passagem', desc: 'Peça um bilhete até um destino e entenda o preço.', need: ['e1'], chars: ['tanaka'], words: ['kippu', 'made'], nodes: {
+    a: { n: 'Você quer ir até Shibuya. As máquinas de bilhete estão todas em japonês, então você volta ao guichê.', t: ['kippu', 'made'], o: [
+      ['渋谷までの/切符を/ください。|shibuya made no kippu o kudasai.|Um bilhete até Shibuya, por favor.', 'g', 'b'],
+      ['渋谷まで、/いくらですか？|shibuya made, ikura desu ka?|Quanto custa até Shibuya?', 'g', 'b'],
+      ['きっぷ？/きっぷ！|kippu? kippu!|Bilhete? Bilhete!', 'k', 'b', 'Uma palavra só já ajuda, mas dizer o destino com “made” (até) deixa tudo claro.']] },
+    b: { s: 'tanaka|渋谷までですね。/片道/200円です。|shibuya made desu ne. katamichi nihyaku en desu.|Até Shibuya. Só ida, 200 ienes.|しぶやまでですね。かたみち、にひゃくえんです。', go: 'c' },
+    c: { p: { say: 'tanaka|200円です。|nihyaku en desu.|São 200 ienes.|にひゃくえんです。', q: 'Quanto ele disse? Escolha o valor certo.', items: [['100円|hyaku en|100 ienes', 0], ['200円|nihyaku en|200 ienes', 1], ['300円|sanbyaku en|300 ienes', 0], ['2000円|nisen en|2000 ienes', 0, 'Isso é “nisen” (dois mil). Ele disse “ni-hya-ku”.']], go: 'd', miss: 'Ouça de novo: “ni-hya-ku en”.' } },
+    d: { s: 'tanaka|はい、/切符です。/改札は/あちらです。|hai, kippu desu. kaisatsu wa achira desu.|Aqui está o bilhete. A catraca é ali.|はい、きっぷです。かいさつは、あちらです。', tip: 'Muita gente usa cartões recarregáveis (como Suica e PASMO): é só encostar na catraca, sem comprar bilhete toda vez.', end: 'Bilhete comprado! Você usou “made” (até) para dizer o destino.' }
+  } },
+  { id: 'e3', place: 'eki', kind: 'missao', title: 'O aviso na plataforma', desc: 'Entenda um aviso do alto-falante e confirme o trem.', need: ['e1'], chars: ['ann', 'haruko'], words: ['mamonaku', 'densha', 'tomarimasu'], nodes: {
+    a: { n: 'Você está na plataforma. Uma musiquinha toca e uma voz anuncia:', s: 'ann|まもなく、/3番線に/電車が/参ります。/黄色い線の/内側まで/お下がりください。|mamonaku, sanbansen ni densha ga mairimasu. kiiroi sen no uchigawa made osagari kudasai.|Em instantes, um trem chegará à plataforma 3. Fique atrás da linha amarela, por favor.|まもなく、さんばんせんに、でんしゃがまいります。きいろいせんの、うちがわまで、おさがりください。', t: ['mamonaku', 'densha'], go: 'b' },
+    b: { p: { q: 'O que o aviso disse?', items: [['O trem está atrasado 10 minutos.', 0], ['Um trem vai chegar em instantes. Fique atrás da linha amarela.', 1], ['A plataforma 3 está fechada hoje.', 0]], go: 'c', miss: 'Dica: “mamonaku” = em instantes; “densha ga mairimasu” = o trem está chegando.' } },
+    c: { n: 'O trem chega. Você quer ir a Shibuya, mas não sabe se ele para lá. Ao seu lado, uma senhora com sacolas de compras.', t: ['tomarimasu'], o: [
+      ['すみません、/この電車は/渋谷に/止まりますか？|sumimasen, kono densha wa shibuya ni tomarimasu ka?|Com licença, este trem para em Shibuya?', 'g', 'd'],
+      ['渋谷？|shibuya?|Shibuya?', 'k', 'd', 'Ela entendeu pelo contexto! A pergunta completa é “Shibuya ni tomarimasu ka?”.']] },
+    d: { s: 'haruko|止まるよ、/止まる！/三つ目やで。|tomaru yo, tomaru! mittsume ya de.|Para sim, para! É a terceira estação.|とまるよ、とまる！みっつめやで。', tip: 'A senhora fala o dialeto de Osaka (Kansai-ben): “ya de” no lugar de “da yo”. Você vai ouvir muitos sotaques no Japão!', o: [
+      ['ありがとうございます！|arigatō gozaimasu!|Muito obrigado(a)!', 'g', 'f'],
+      ['どうも！|dōmo!|Valeu!', 'g', 'f']] },
+    f: { s: 'haruko|ええよ、/ええよ。/気ぃつけてな。|ē yo, ē yo. kī tsukete na.|Imagina, imagina. Vai com cuidado, viu?|ええよ、ええよ。きいつけてな。', end: 'Você entendeu um aviso de estação e confirmou o trem. Nível: passageiro experiente!' }
+  } },
+  { id: 'e4', place: 'eki', kind: 'historia', title: 'Haruko-san e a bala', desc: 'A senhora de Osaka quer saber de onde você veio.', need: ['e3'], chars: ['haruko'], words: ['dokokara', 'ame'], nodes: {
+    a: { b: { done: 'e4', y: 'r', n: 'a1' } },
+    a1: { n: 'No banco da plataforma, a senhora do outro dia acena para você.', s: 'haruko|あら、/この前の子やん！/こっち/座り。|ara, kono mae no ko yan! kotchi suwari.|Olha só, é você do outro dia! Senta aqui.|あら、このまえのこやん！こっちすわり。', go: 'b' },
+    r: { s: 'haruko|また会うたね！/元気にしてた？|mata ōta ne! genki ni shiteta?|Nos encontramos de novo! Tudo bem com você?|またおうたね！げんきにしてた？', go: 'b' },
+    b: { s: 'haruko|どこから/来たん？|doko kara kitan?|De onde você veio?|どこからきたん？', t: ['dokokara'], o: [
+      ['ブラジルから/来ました。|burajiru kara kimashita.|Vim do Brasil.', 'g', 'c'],
+      ['ブラジルです。|burajiru desu.|Brasil.', 'g', 'c'],
+      ['駅から/来ました。|eki kara kimashita.|Vim da estação.', 'x', 'bx', 'Tecnicamente verdade, haha! Mas ela quer saber o seu país.']] },
+    bx: { s: 'haruko|駅？！/あはは、/そら/そうやけど！/国の/話やで。|eki?! ahaha, sora sō yakedo! kuni no hanashi ya de.|Da estação?! Hahaha, isso é verdade! Tô falando do seu país.|えき？あはは、そらそうやけど！くにのはなしやで。', back: 1 },
+    c: { s: 'haruko|まあ、/ブラジル！/遠いところから/よう来たねえ。/飴ちゃん、/食べる？|mā, burajiru! tōi tokoro kara yō kita nē. ame-chan, taberu?|Nossa, Brasil! Veio de tão longe! Quer uma balinha?|まあ、ブラジル！とおいところから、ようきたねえ。あめちゃん、たべる？', t: ['ame'], tip: 'Em Osaka, senhoras costumam andar com balas na bolsa e chamá-las carinhosamente de “ame-chan”.', o: [
+      ['はい、/ありがとうございます！|hai, arigatō gozaimasu!|Sim, obrigado(a)!', 'g', 'd'],
+      ['雨？/今日は/晴れですよ。|ame? kyō wa hare desu yo.|Chuva? Hoje está sol.', 'x', 'cx', '“Ame” pode ser 雨 (chuva) ou 飴 (bala)! O contexto (e a mão estendida com um docinho) mostra que é bala.']] },
+    cx: { s: 'haruko|ちゃうちゃう！/雨やなくて、/飴！/あ・め・ちゃん！|chau chau! ame ya nakute, ame! a-me-chan!|Não, não! Não é chuva, é bala! A-me-chan!|ちゃうちゃう！あめやなくて、あめ！あめちゃん！', n: 'Ela balança um docinho de morango na sua frente, rindo.', back: 1 },
+    d: { n: 'A bala é de morango. O trem chega.', s: 'haruko|ほな、/またね！/日本語、/上手やで！|hona, mata ne! nihongo, jōzu ya de!|Bom, até mais! Seu japonês é ótimo!|ほな、またね！にほんご、じょうずやで！', end: 'Você contou de onde veio e descobriu que “ame” pode ser chuva ou bala. Haruko-san não vai te esquecer!' }
+  } },
+
+  /* ================= 学校 ================= */
+  { id: 'g1', place: 'gakkou', kind: 'missao', title: 'Apresentação na classe', desc: 'Primeiro dia: apresente-se para a turma.', chars: ['aiko', 'shota'], words: ['jikoshoukai', 'hajimemashite', 'yoroshiku'], nodes: {
+    a: { n: 'Primeiro dia na Escola Hikari. A professora Aiko te leva até a frente da sala.', s: 'aiko|皆さん、/今日から/新しい/クラスメートです。/自己紹介を/お願いします。|minasan, kyō kara atarashii kurasumēto desu. jiko shōkai o onegai shimasu.|Pessoal, a partir de hoje temos um(a) colega novo(a). Apresente-se, por favor.|みなさん、きょうから、あたらしいクラスメートです。じこしょうかいを、おねがいします。', t: ['jikoshoukai'], go: 'b' },
+    b: { n: 'Trinta alunos olham para você. Respire fundo.', t: ['hajimemashite'], o: [
+      ['はじめまして。|hajimemashite.|Muito prazer.', 'g', 'c'],
+      ['おはようございます。|ohayō gozaimasu.|Bom dia.', 'k', 'c', 'Também é educado! Mas para se apresentar, comece com “hajimemashite”.'],
+      ['さようなら。|sayōnara.|Adeus.', 'x', 'bx', 'Você acabou de chegar e já está se despedindo!']] },
+    bx: { s: 'shota|え、/もう/帰るの？！|e, mō kaeru no?!|Ué, já vai embora?!|え、もうかえるの？', n: 'A sala inteira ri. A professora sorri e faz sinal para você tentar de novo.', back: 1 },
+    c: { o: [['{name}です。|{name} desu.|Eu sou {name}.', 'g', 'd']] },
+    d: { t: ['yoroshiku'], o: [
+      ['よろしくお願いします。|yoroshiku onegai shimasu.|Conto com vocês.', 'g', 'e'],
+      ['いただきます。|itadakimasu.|Bom apetite.', 'x', 'dx', '“Itadakimasu” é antes de comer! Para fechar uma apresentação, diga “yoroshiku onegai shimasu”.']] },
+    dx: { s: 'shota|お腹/すいてるの？/おれも！|onaka suiteru no? ore mo!|Tá com fome? Eu também!|おなかすいてるの？おれも！', back: 1 },
+    e: { n: 'Palmas pela sala!', s: 'aiko|はい、/ありがとう。/じゃあ、/ゆみさんの/となりに/座ってください。|hai, arigatō. jā, Yumi-san no tonari ni suwatte kudasai.|Muito bem, obrigada. Sente-se ao lado da Yumi, por favor.|はい、ありがとう。じゃあ、ゆみさんのとなりに、すわってください。', tip: '“Yoroshiku onegai shimasu” não tem tradução exata: é um “conto com você, vamos nos dar bem”. Fecha quase toda apresentação.', end: 'Você se apresentou para a classe inteira em japonês. Que coragem!' }
+  } },
+  { id: 'g2', place: 'gakkou', kind: 'missao', title: 'Conhecer a Yumi e o Shōta', desc: 'Converse com colegas sobre o que vocês gostam.', need: ['g1'], chars: ['yumi', 'shota'], words: ['suki', 'omoshiroi'], nodes: {
+    a: { s: 'yumi|はじめまして、/ゆみです。/よろしくね。|hajimemashite, Yumi desu. yoroshiku ne.|Prazer, sou a Yumi. Vamos nos dar bem!', tip: 'Entre colegas da mesma idade, fala-se de forma casual: “yoroshiku ne” em vez de “yoroshiku onegai shimasu”.', go: 'b' },
+    b: { s: 'yumi|ねえ、/何が/好き？|nē, nani ga suki?|Ei, do que você gosta?|ねえ、なにがすき？', t: ['suki'], o: [
+      ['アニメが/好きです。|anime ga suki desu.|Gosto de anime.', 'g', 'c1'],
+      ['サッカーが/好きです。|sakkā ga suki desu.|Gosto de futebol.', 'g', 'c2'],
+      ['ラーメンが/好きです。|rāmen ga suki desu.|Gosto de ramen.', 'g', 'c3']] },
+    c1: { s: 'yumi|本当？！/私も！/今度、/おすすめ/教えてね！|hontō?! watashi mo! kondo, osusume oshiete ne!|Sério?! Eu também! Depois me indica alguns, tá?|ほんとう？わたしも！こんど、おすすめおしえてね！', go: 'd' },
+    c2: { s: 'shota|サッカー？！/おれ、/サッカー部！/一緒に/やろうぜ！|sakkā?! ore, sakkā-bu! issho ni yarō ze!|Futebol?! Eu sou do clube de futebol! Bora jogar junto!|サッカー？おれ、サッカーぶ！いっしょにやろうぜ！', tip: '“Bukatsu” são os clubes escolares (esporte, música, arte...). São parte enorme da vida escolar no Japão.', go: 'd' },
+    c3: { s: 'shota|ラーメン！/わかる！/おれは/毎日/食べたい！|rāmen! wakaru! ore wa mainichi tabetai!|Ramen! Entendo total! Eu comeria todo dia!|ラーメン！わかる！おれは、まいにちたべたい！', go: 'd' },
+    d: { s: 'shota|おれ、/翔太。/よろしく！/日本の/学校、/どう？|ore, Shōta. yoroshiku! nihon no gakkō, dō?|Eu sou o Shōta. Prazer! E aí, o que tá achando da escola japonesa?|おれ、しょうた。よろしく！にほんのがっこう、どう？', t: ['omoshiroi'], o: [
+      ['おもしろいです！|omoshiroi desu!|É legal / interessante!', 'g', 'e'],
+      ['ちょっと/むずかしいです。|chotto muzukashii desu.|É um pouco difícil.', 'g', 'e2']] },
+    e: { s: 'yumi|よかった！/これから/よろしくね！|yokatta! kore kara yoroshiku ne!|Que bom! Conto com você daqui pra frente!', end: 'Você fez dois amigos: Yumi e Shōta. Dizer do que gosta abre qualquer conversa!' },
+    e2: { s: 'yumi|大丈夫！/私たちが/手伝うよ。|daijōbu! watashitachi ga tetsudau yo.|Relaxa! A gente te ajuda.|だいじょうぶ！わたしたちが、てつだうよ。', end: 'Você fez dois amigos: Yumi e Shōta. Dizer do que gosta abre qualquer conversa!' }
+  } },
+  { id: 'g3', place: 'gakkou', kind: 'missao', title: 'Cadê a borracha?', desc: 'Peça algo emprestado e entenda a professora.', need: ['g1'], chars: ['yumi', 'aiko'], words: ['keshigomu', 'arimasuka', 'kyoukasho'], nodes: {
+    a: { n: 'Aula de japonês. Você errou um kanji e... cadê sua borracha?', t: ['keshigomu', 'arimasuka'], o: [
+      ['ゆみさん、/消しゴム、/ありますか？|Yumi-san, keshigomu, arimasu ka?|Yumi, você tem borracha?', 'g', 'b'],
+      ['ゆみさん、/消しゴム！|Yumi-san, keshigomu!|Yumi, borracha!', 'k', 'b', 'Ela entendeu! Com “arimasu ka?” (tem?) fica uma pergunta completa.'],
+      ['ゆみさん、/ケチゴム？|Yumi-san, kechigomu?|Yumi, “borracha pão-dura”?', 'x', 'ax', '“Kechi” quer dizer pão-duro! A palavra é “keshigomu”.']] },
+    ax: { s: 'yumi|ケチ…？！/わ、/私、/ケチじゃないよ！|kechi…?! wa, watashi, kechi ja nai yo!|Pão-dura...?! E-eu não sou pão-dura!|ケチ？わ、わたし、ケチじゃないよ！', back: 1 },
+    b: { s: 'yumi|あるよ。/はい、/どうぞ。|aru yo. hai, dōzo.|Tenho sim. Aqui, toma.', n: 'Ela te empresta uma borracha em formato de gatinho.', go: 'c' },
+    c: { s: 'aiko|では、/教科書の/25ページを/開いてください。|dewa, kyōkasho no nijūgo pēji o hiraite kudasai.|Bem, abram o livro na página 25.|では、きょうかしょの、にじゅうごページを、ひらいてください。', t: ['kyoukasho'], go: 'd' },
+    d: { p: { say: 'aiko|教科書を/出してください。|kyōkasho o dashite kudasai.|Peguem o livro didático.|きょうかしょを、だしてください。', q: 'O que a professora pediu para pegar?', items: [['鉛筆|enpitsu|lápis', 0], ['お弁当|obentō|marmita', 0, 'Ainda não é hora do almoço! Ouça de novo: “kyō-ka-sho”.'], ['教科書|kyōkasho|livro didático', 1], ['消しゴム|keshigomu|borracha', 0]], go: 'e', miss: 'Não é isso. Ouça de novo: “kyō-ka-sho”.' } },
+    e: { s: 'aiko|はい、/よくできました。|hai, yoku dekimashita.|Muito bem.', end: 'Você pediu algo emprestado e entendeu a professora. Sobrevivência escolar: aprovada!' }
+  } },
+  { id: 'g4', place: 'gakkou', kind: 'historia', title: 'Hora do almoço', desc: 'Qual é a próxima aula? E o que tem no bentô do Shōta?', need: ['g2'], chars: ['shota', 'yumi'], words: ['tsugi', 'jugyou', 'issho'], nodes: {
+    a: { n: 'O sinal toca: kin-kon-kan-kon. No quadro de horários, a próxima aula é 体育 (taiiku: educação física).', s: 'shota|やっと/終わった！/次の/授業、/何だっけ？|yatto owatta! tsugi no jugyō, nan dakke?|Finalmente acabou! Qual é a próxima aula mesmo?|やっとおわった！つぎのじゅぎょう、なんだっけ？', t: ['tsugi', 'jugyou'], o: [
+      ['次は/体育です。|tsugi wa taiiku desu.|A próxima é educação física.', 'g', 'b'],
+      ['次は/数学です。|tsugi wa sūgaku desu.|A próxima é matemática.', 'x', 'ax', 'Olhe o quadro: a próxima é 体育 (taiiku), educação física.']] },
+    ax: { s: 'shota|えー、/数学？/…あ、/違う/違う、/体育だよ！|ē, sūgaku? …a, chigau chigau, taiiku da yo!|Ehh, matemática? ...Ah, não, não, é educação física!|えー、すうがく？あ、ちがうちがう、たいいくだよ！', back: 1 },
+    b: { s: 'shota|やった！/でも/その前に/昼ごはん！/一緒に/食べよう！|yatta! demo sono mae ni hirugohan! issho ni tabeyō!|Oba! Mas antes, almoço! Vamos comer juntos!|やった！でも、そのまえに、ひるごはん！いっしょにたべよう！', t: ['issho'], o: [
+      ['うん、/一緒に/食べよう！|un, issho ni tabeyō!|Sim, vamos comer juntos!', 'g', 'c'],
+      ['はい、/いいですね。|hai, ii desu ne.|Sim, boa ideia.', 'k', 'c', 'Perfeito e educado! Entre amigos, “un, tabeyō!” soa mais próximo.']] },
+    c: { n: 'Shōta abre uma marmita gigante. Dentro... só arroz branco, com uma ameixa vermelha no meio.', s: 'yumi|翔太くん、/それ、/ご飯だけ？！|Shōta-kun, sore, gohan dake?!|Shōta, isso aí é só arroz?!|しょうたくん、それ、ごはんだけ？', go: 'd' },
+    d: { s: 'shota|日の丸弁当！/日本の/国旗だぜ！/…おかず、/忘れた。|hinomaru bentō! nihon no kokki da ze! …okazu, wasureta.|Bentô Hinomaru! É a bandeira do Japão! ...Esqueci a mistura.|ひのまるべんとう！にほんのこっきだぜ！おかず、わすれた。', tip: '“Hinomaru bentō” é arroz branco com um umeboshi vermelho no centro, como a bandeira do Japão.', o: [
+      ['これ、/どうぞ。|kore, dōzo.|Toma, pega isto. (oferecendo comida)', 'g', 'e'],
+      ['かわいそう…|kawaisō…|Coitado...', 'g', 'e2']] },
+    e: { s: 'shota|まじ？！/ありがとう！/お前、/いいやつだな！|maji?! arigatō! omae, ii yatsu da na!|Sério?! Valeu! Você é gente boa!|まじ？ありがとう！おまえ、いいやつだな！', end: 'Você entendeu o horário e dividiu o almoço. Shōta nunca vai esquecer!' },
+    e2: { s: 'yumi|しょうがないなあ。/はい、/卵焼き/一つ/あげる。|shō ga nai nā. hai, tamagoyaki hitotsu ageru.|Não tem jeito... Toma, te dou um omelete.|しょうがないなあ。はい、たまごやき、ひとつあげる。', end: 'Você entendeu o horário e viu a Yumi salvar o almoço do Shōta!' }
+  } },
+
+  /* ================= 街 ================= */
+  { id: 'm1', place: 'machi', kind: 'missao', title: 'Onde fica a estação?', desc: 'Peça direções no posto policial e entenda o caminho.', chars: ['yamada'], words: ['massugu', 'migi', 'hidari'], nodes: {
+    a: { n: 'Você se perdeu na rua comercial. Na esquina há um kōban, a casinha da polícia.', tip: 'O “kōban” é um pequeno posto policial de bairro. Os policiais ajudam muito com direções e objetos perdidos.', t: ['doko'], o: [
+      ['すみません、/駅は/どこですか？|sumimasen, eki wa doko desu ka?|Com licença, onde fica a estação?', 'g', 'b'],
+      ['駅、/駅！|eki, eki!|Estação, estação!', 'k', 'b', 'Ele entendeu! Mas “eki wa doko desu ka?” é a pergunta completa.']] },
+    b: { s: 'yamada|駅ですね。/この道を/まっすぐ/行って、/二つ目の/角を/右です。|eki desu ne. kono michi o massugu itte, futatsume no kado o migi desu.|A estação? Siga reto por esta rua e vire à direita na segunda esquina.|えきですね。このみちを、まっすぐいって、ふたつめのかどを、みぎです。', t: ['massugu', 'migi', 'hidari'], go: 'c' },
+    c: { p: { say: 'yamada|まっすぐ/行って、/右です。|massugu itte, migi desu.|Siga reto e vire à direita.|まっすぐいって、みぎです。', q: 'Para onde você deve ir?', items: [['まっすぐ → 左|massugu → hidari|reto e depois à esquerda', 0, '“Hidari” é esquerda. Ele disse “migi” (direita).', 'arrow:L'], ['まっすぐ → 右|massugu → migi|reto e depois à direita', 1, '', 'arrow:R'], ['戻る|modoru|voltar', 0, 'Ele não mandou voltar. Ouça “massugu” (reto).', 'arrow:B']], go: 'd', miss: 'Ouça de novo: “massugu” (reto) ... “migi” (direita).' } },
+    d: { o: [['ありがとうございます！|arigatō gozaimasu!|Muito obrigado(a)!', 'g', 'e']] },
+    e: { s: 'yamada|いえいえ。/お気をつけて！|ie ie. oki o tsukete!|Imagina. Vá com cuidado!|いえいえ。おきをつけて！', end: 'Você pediu direções e entendeu “massugu” e “migi”. Agora não se perde mais!' }
+  } },
+  { id: 'm2', place: 'machi', kind: 'missao', title: 'A quitanda do Takeshi', desc: 'Pergunte o preço, entenda a promoção e compre frutas.', chars: ['takeshi'], words: ['yasui', 'mittsu', 'omake'], nodes: {
+    a: { n: 'Takeshi, dono da quitanda, acena com uma maçã enorme.', s: 'takeshi|いらっしゃい！/今日は/りんごが/安いよ！|irasshai! kyō wa ringo ga yasui yo!|Bem-vindo! Hoje a maçã está barata!|いらっしゃい！きょうは、りんごがやすいよ！', tip: 'Na quitanda (yaoya), os vendedores chamam os clientes em voz alta. É parte da graça da rua comercial.', t: ['yasui'], o: [
+      ['りんごは/いくらですか？|ringo wa ikura desu ka?|Quanto custa a maçã?', 'g', 'c'],
+      ['りんご、/ください。|ringo, kudasai.|Maçã, por favor.', 'g', 'c2']] },
+    c: { s: 'takeshi|一つ/100円！/三つで/250円！|hitotsu hyaku en! mittsu de nihyaku gojū en!|Uma por 100 ienes! Três por 250!|ひとつ、ひゃくえん！みっつで、にひゃくごじゅうえん！', t: ['mittsu'], go: 'd' },
+    c2: { s: 'takeshi|まいど！/一つ/100円、/三つで/250円だよ！|maido! hitotsu hyaku en, mittsu de nihyaku gojū en da yo!|Valeu! Uma sai 100 ienes, três saem 250!|まいど！ひとつひゃくえん、みっつでにひゃくごじゅうえんだよ！', t: ['mittsu'], go: 'd' },
+    d: { o: [
+      ['じゃあ、/三つ/ください。|jā, mittsu kudasai.|Então, três, por favor.', 'g', 'e'],
+      ['一つ/ください。|hitotsu kudasai.|Uma, por favor.', 'g', 'e1'],
+      ['三百/ください。|sanbyaku kudasai.|Me dê trezentas.', 'x', 'dx', '“Sanbyaku” é 300 (como em ienes)! Para contar objetos: hitotsu (1), futatsu (2), mittsu (3).']] },
+    dx: { s: 'takeshi|三百？！/店の/りんご、/全部でも/足りないよ！|sanbyaku?! mise no ringo, zenbu demo tarinai yo!|Trezentas?! Nem todas as maçãs da loja dão!|さんびゃく？みせのりんご、ぜんぶでもたりないよ！', back: 1 },
+    e: { s: 'takeshi|ありがとう！/はい、/おまけ！/みかんも/一つ/どうぞ。|arigatō! hai, omake! mikan mo hitotsu dōzo.|Obrigado! Toma, um brinde! Leva uma tangerina também.', t: ['omake'], tip: '“Omake” é o brinde extra que comerciantes simpáticos dão aos clientes. Em quitandas de bairro, acontece bastante!', end: 'Você perguntou o preço, entendeu a promoção e ainda ganhou um brinde!' },
+    e1: { s: 'takeshi|まいど！/100円ね。/…はい、/おまけ！/みかん/一つ/どうぞ。|maido! hyaku en ne. …hai, omake! mikan hitotsu dōzo.|Valeu! 100 ienes. ...E toma um brinde: uma tangerina!|まいど！ひゃくえんね。はい、おまけ！みかんひとつどうぞ。', t: ['omake'], end: 'Você comprou do jeito certo e ainda ganhou um brinde!' }
+  } },
+  { id: 'm3', place: 'machi', kind: 'historia', title: 'Ren e o takoyaki', desc: 'Conversa casual com um amigo e uma comida quente demais.', need: ['m1'], chars: ['ren'], words: ['atsui', 'oishii'], nodes: {
+    a: { n: 'É o Ren, seu amigo, com o uniforme da escola e a fome de sempre.', s: 'ren|よっ！/何してんの？|yo! nani shiten no?|E aí! O que tá fazendo?|よっ！なにしてんの？', tip: 'Ren fala de forma bem casual (“nani shiten no?”), como amigos falam entre si.', o: [
+      ['散歩してる。|sanpo shiteru.|Tô dando uma volta.', 'g', 'b'],
+      ['こんにちは、/レンさん。|konnichiwa, Ren-san.|Boa tarde, senhor Ren.', 'k', 'b', 'Educado demais para um amigo próximo! Entre amigos, “yo!” ou “ossu!” já basta.']] },
+    b: { s: 'ren|じゃあ、/たこ焼き/食べに/行こう！/あそこの/屋台、/めっちゃ/うまいんだ。|jā, takoyaki tabe ni ikō! asoko no yatai, metcha umai n da.|Então bora comer takoyaki! Aquela barraquinha é muito boa.|じゃあ、たこやきたべにいこう！あそこのやたい、めっちゃうまいんだ。', o: [
+      ['行こう！|ikō!|Bora!', 'g', 'c'],
+      ['たこ焼き？/何？|takoyaki? nani?|Takoyaki? O que é?', 'g', 'b2']] },
+    b2: { s: 'ren|タコが/入ってる/丸い/やつ！/ソースが/最高！|tako ga haitteru marui yatsu! sōsu ga saikō!|É uma bolinha com polvo dentro! O molho é o melhor!|タコがはいってる、まるいやつ！ソースがさいこう！', go: 'c' },
+    c: { n: 'Vocês compram seis takoyaki, fumegando. O Ren já enfia um inteiro na boca.', s: 'ren|あつっ！/あっつ！/はふ、/はふ…|atsu! attsu! hafu, hafu…|Ai, quente! Muito quente! Ráf, ráf...|あつっ！あっつ！はふ、はふ。', t: ['atsui'], tip: '“Atsu!” é a forma curtinha de “atsui” (quente), usada como exclamação. Takoyaki recém-feito é famoso por queimar a língua!', o: [
+      ['大丈夫？|daijōbu?|Tudo bem?', 'g', 'd'],
+      ['あはは！|ahaha!|Hahaha!', 'g', 'd']] },
+    d: { s: 'ren|…でも/うまい！/食べてみて！|…demo umai! tabete mite!|...Mas é bom demais! Prova!|でも、うまい！たべてみて！', t: ['oishii'], o: [
+      ['（ふーふーして）/おいしい！|(fūfū shite) oishii!|(depois de assoprar) Delicioso!', 'g', 'e'],
+      ['（すぐ食べて）/あつっ！|(sugu tabete) atsu!|(come na hora) Ai, quente!', 'g', 'e2']] },
+    e: { s: 'ren|だろ？！/ふーふーするの、/賢いな。|daro?! fūfū suru no, kashikoi na.|Né?! Assoprar antes foi esperto.|だろ？ふーふーするの、かしこいな。', end: 'Você conversou de forma casual com um amigo e aprendeu “atsui” e “oishii” do jeito mais gostoso.' },
+    e2: { s: 'ren|あはは！/仲間だな！|ahaha! nakama da na!|Hahaha! Agora somos parceiros de língua queimada!|あはは！なかまだな！', end: 'Você conversou de forma casual com um amigo e aprendeu “atsui” e “oishii” do jeito mais gostoso.' }
+  } },
+  { id: 'm4', place: 'machi', kind: 'missao', title: 'A gata da Mei', desc: 'Ajude uma menina a encontrar a gatinha dela.', need: ['m1'], chars: ['mei'], words: ['neko', 'shiroi', 'mitsuketa'], nodes: {
+    a: { n: 'Uma menininha está chorando perto do parque.', s: 'mei|うちの/ねこ、/見なかった？|uchi no neko, minakatta?|Você não viu a minha gata?|うちのねこ、みなかった？', t: ['neko'], o: [
+      ['どんな/ねこ？|donna neko?|Que tipo de gata?', 'g', 'b'],
+      ['大丈夫？|daijōbu?|Você está bem?', 'g', 'a2']] },
+    a2: { s: 'mei|ううん…/ミルクが/いないの。/ねこの/ミルク。|uun… Miruku ga inai no. neko no Miruku.|Não... A Miruku sumiu. Minha gatinha Miruku.', go: 'b' },
+    b: { s: 'mei|白い/ねこ。/赤い/リボンを/してるの。|shiroi neko. akai ribon o shiteru no.|Uma gata branca. Ela usa um laço vermelho.|しろいねこ。あかいリボンをしてるの。', t: ['shiroi'], go: 'c' },
+    c: { n: 'Você procura pela rua e encontra três gatos. Qual é a Miruku?', p: { say: 'mei|白い/ねこ、/赤い/リボン！|shiroi neko, akai ribon!|Gata branca, laço vermelho!|しろいねこ、あかいリボン！', q: 'Qual é a gata da Mei?', items: [['黒いねこ・赤いリボン|kuroi neko, akai ribon|gato preto, laço vermelho', 0, '“Kuroi” é preto. A Miruku é “shiroi” (branca).', 'cat:#2b2b33:#e0343c'], ['白いねこ・赤いリボン|shiroi neko, akai ribon|gata branca, laço vermelho', 1, '', 'cat:#ffffff:#e0343c'], ['白いねこ・青いリボン|shiroi neko, aoi ribon|gato branco, laço azul', 0, '“Aoi” é azul. O laço da Miruku é “akai” (vermelho).', 'cat:#ffffff:#2f6fd8']], go: 'd', miss: 'Quase! Lembre: “shiroi” (branca) e “akai ribon” (laço vermelho).' } },
+    d: { t: ['mitsuketa'], o: [['ミルク、/見つけたよ！|Miruku, mitsuketa yo!|Achei a Miruku!', 'g', 'e']] },
+    e: { s: 'mei|ミルク！/よかった…/ありがとう！|Miruku! yokatta… arigatō!|Miruku! Que alívio... Obrigada!', n: 'A gata ronrona, nem aí para o susto que deu.', end: 'Você entendeu a descrição e ajudou a Mei. Herói(na) do bairro!' }
+  } },
+
+  /* ---- acontecimentos da rua (aparecem ao “dar uma volta”) ---- */
+  { id: 'v1', place: 'machi', kind: 'evento', title: 'Uma foto, por favor', desc: 'Turistas pedem ajuda.', chars: ['tourist'], words: ['shashin'], nodes: {
+    a: { n: 'Um casal de turistas japoneses se aproxima com um celular.', s: 'tourist|すみません、/写真を/撮って/もらえますか？|sumimasen, shashin o totte moraemasu ka?|Com licença, poderia tirar uma foto nossa?|すみません、しゃしんを、とってもらえますか？', t: ['shashin'], o: [
+      ['はい、/いいですよ。|hai, ii desu yo.|Claro, pode ser.', 'g', 'b'],
+      ['写真？/はい！|shashin? hai!|Foto? Sim!', 'g', 'b']] },
+    b: { n: 'Você enquadra os dois. Na hora de clicar, como se diz “xis”?', tip: 'Na hora da foto, os japoneses dizem “hai, chīzu!” e fazem o sinal de paz (V) com os dedos.', o: [['はい、/チーズ！|hai, chīzu!|Diga “xis”!', 'g', 'c']] },
+    c: { s: 'tourist|ありがとうございます！/上手ですね！|arigatō gozaimasu! jōzu desu ne!|Muito obrigado! Ficou ótima!|ありがとうございます！じょうずですね！', end: 'Uma foto, um “chīzu” e dois turistas felizes.' }
+  } },
+  { id: 'v2', place: 'machi', kind: 'evento', title: 'Chuva de repente', desc: 'Um vizinho rabugento e gentil.', chars: ['oji'], words: ['kasa'], nodes: {
+    a: { n: 'Começa a chover forte. Você se abriga sob o toldo de uma loja de ferragens.', s: 'oji|うわ、/すごい雨！/傘、/持ってる？|uwa, sugoi ame! kasa, motteru?|Nossa, que chuvarada! Tem guarda-chuva?|うわ、すごいあめ！かさ、もってる？', t: ['kasa'], o: [
+      ['いいえ、/持っていません。|iie, motte imasen.|Não, não tenho.', 'g', 'b'],
+      ['持ってない…|mottenai…|Não tenho...', 'g', 'b']] },
+    b: { s: 'oji|じゃあ、/これ/使って！/返さなくて/いいから。|jā, kore tsukatte! kaesanakute ii kara.|Então usa este! Não precisa devolver.|じゃあ、これつかって！かえさなくていいから。', tip: 'Guarda-chuvas transparentes são baratíssimos no Japão. Muita loja empresta ou dá um quando a chuva aperta.', o: [['ありがとうございます！|arigatō gozaimasu!|Muito obrigado(a)!', 'g', 'c']] },
+    c: { s: 'oji|いいって、/いいって！|ii tte, ii tte!|Imagina, imagina!', end: 'Você ganhou um guarda-chuva e aprendeu “kasa”. Gentileza de bairro!' }
+  } },
+  { id: 'v3', place: 'machi', kind: 'evento', title: 'Ishi-yaki-imo!', desc: 'Uma canção estranha vem de uma caminhonete.', chars: ['imo'], words: ['yakiimo'], nodes: {
+    a: { n: 'Uma caminhonete passa devagar, tocando uma canção arrastada no alto-falante...', s: 'imo|いしや〜きいも〜、/おいも！/ほかほかの/焼き芋だよ〜！|ishiyā kiimo, oimo! hokahoka no yakiimo da yo!|Batata-doce assada na pedra! Batata quentinha!|いしやきいも、おいも！ほかほかの、やきいもだよ！', t: ['yakiimo'], tip: 'No outono e no inverno, caminhonetes vendem “ishi-yaki-imo” (batata-doce assada em pedras quentes) cantando essa melodia famosa.', o: [
+      ['焼き芋、/一つ/ください！|yakiimo, hitotsu kudasai!|Uma batata-doce, por favor!', 'g', 'b'],
+      ['（手を振る）|(te o furu)|(Só acenar)', 'g', 'c']] },
+    b: { s: 'imo|はいよ！/熱いから/気をつけて！|hai yo! atsui kara ki o tsukete!|Tá na mão! Cuidado que tá quente!|はいよ！あついから、きをつけて！', end: 'Batata-doce quentinha nas mãos. Essa canção você nunca mais esquece!' },
+    c: { s: 'imo|またね〜！|mata ne!|Até mais!', end: 'Você ouviu o famoso chamado do vendedor de batata-doce!' }
+  } },
+  { id: 'v4', place: 'machi', kind: 'evento', title: 'Que horas são?', desc: 'Um senhor com o relógio parado.', chars: ['oldman'], words: ['nanji'], nodes: {
+    a: { n: 'Um senhor de chapéu para ao seu lado, olhando o relógio parado.', s: 'oldman|すみません、/今、/何時ですか？|sumimasen, ima, nanji desu ka?|Com licença, que horas são agora?|すみません、いま、なんじですか？', t: ['nanji'], go: 'b' },
+    b: { n: 'Você olha o celular: 3:00.', o: [
+      ['3時です。|sanji desu.|São três horas.', 'g', 'c'],
+      ['3円です。|san en desu.|São três ienes.', 'x', 'bx', '“En” é iene! Para horas, use “ji”: sanji (3 horas).'],
+      ['30です。|sanjū desu.|É trinta.', 'x', 'bx', '“Sanjū” é trinta. Três horas é “sanji”.']] },
+    bx: { s: 'oldman|はて…？|hate…?|Hum...?', n: 'O senhor coça a cabeça. Tente de novo.', back: 1 },
+    c: { s: 'oldman|3時！/おやつの/時間だ。/ありがとう。|sanji! oyatsu no jikan da. arigatō.|Três horas! Hora do lanchinho. Obrigado.|さんじ！おやつのじかんだ。ありがとう。', tip: 'No Japão, 3 da tarde é a tradicional “hora do lanche” (oyatsu no jikan).', end: 'Você disse as horas para alguém. Pequena ajuda, grande japonês!' }
+  } }
+];
+
+/* ==========================================================
+   Nihongo Quest 8.0 — LIVING JAPANESE WORLD (motor e interface)
+   - Mapa de Hikari-machi → lugar → situação (cena com falas, escolhas, escuta).
+   - Áudio: voz japonesa do aparelho (speak), cada personagem com seu tom; repetir, devagar,
+     por partes, velocidade ajustável e modo "ouvir primeiro".
+   - Palavras do mundo viram itens 'world:<chave>'. Salvar no Caderno usa o item que já existe
+     no app quando a palavra já existe (sem duplicar). Nada aqui marca lição, avaliação ou
+     conteúdo da Listening Academy como estudado.
+   - XP só na primeira conclusão de cada situação (+ bônus único sem erros). Repetir é livre, sem XP.
+   ========================================================== */
+const WORLD_LESSON = { id: 'world', title: 'Living Japanese World', kind: 'audio', cat: { id: 'world', title: 'Living Japanese World' }, index: 0, items: [] };
+const WW = {};
+Object.keys(WORLD_WORDS).forEach(k => {
+  const [jp, kana, ro, pt, note, g] = WORLD_WORDS[k].split('|');
+  const w = { key: k, jp, kana, ro, pt, note: note || '', expr: g === 'e' };
+  const say = kana.split('・')[0].replace(/〜/g, '');
+  const it = { k, jp: jp.replace(/〜/g, ''), say, ro: ro.replace(/^~\s*/, ''), pt, group: w.expr ? 'expressao' : 'palavra', kanji: /[一-鿿]/.test(jp) ? jp.replace(/〜/g, '') : '', note: w.note, id: 'world:' + k, lesson: WORLD_LESSON };
+  if (!ITEM[it.id]) { ITEM[it.id] = it; WORLD_LESSON.items.push(it); }
+  w.itemId = it.id; w.say = say;
+  WW[k] = w;
+});
+const WSC = {}; WORLD_SCENES.forEach(sc => { WSC[sc.id] = sc; });
+const WPL = {}; WORLD_PLACES.forEach(p => { WPL[p.id] = p; });
+const W_XP = { missao: 20, historia: 15, evento: 5 };
+const W_KIND = { missao: ['任', 'Missão'], historia: ['話', 'História'], evento: ['!', 'Acontecimento'] };
+
+Object.assign(IC, {
+  world: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg>',
+  back: IC.back || '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>'
+});
+
+/* ---------- estado ---------- */
+function wState() {
+  if (!isPlainObj(S.world)) S.world = defaultWorld();
+  const w = S.world;
+  ['visits', 'scenes', 'met', 'words'].forEach(k => { if (!isPlainObj(w[k])) w[k] = {}; });
+  if (!isPlainObj(w.opt)) w.opt = { ro: true, pt: true, listen: false };
+  if (!RATES[w.speed]) w.speed = 'normal';
+  return w;
+}
+const wDone = id => { const r = wState().scenes[id]; return !!(r && r.done); };
+const wOpen = sc => !sc.need || sc.need.every(wDone);
+const wRate = () => RATES[wState().speed] || RATES.normal;
+const wName = () => (S.profile && S.profile.name || '').trim() || 'Aluno';
+const wPlaceScenes = (pid, kind) => WORLD_SCENES.filter(sc => sc.place === pid && (!kind || (kind === 'evento' ? sc.kind === 'evento' : sc.kind !== 'evento')));
+function wPlaceProgress(pid) { const all = wPlaceScenes(pid).filter(sc => sc.kind !== 'evento'); return { done: all.filter(sc => wDone(sc.id)).length, total: all.length }; }
+function wPlaceWords(pid) { const out = []; wPlaceScenes(pid).forEach(sc => sc.words.forEach(k => { if (!out.includes(k)) out.push(k); })); return out; }
+
+/* ---------- falas ---------- */
+function wFill(s) { return String(s || '').replace(/\{name\}/g, wName()); }
+function wLine(str, me) {
+  const f = wFill(str).split('|');
+  const [sp, jpRaw, ro, pt, say] = me ? ['me', f[0], f[1], f[2], f[3]] : f;
+  const parts = jpRaw.split('/').map(x => x.trim()).filter(Boolean);
+  const jp = parts.join('');
+  const c = WORLD_CHARS[sp];
+  // texto entre parênteses é ação (não é falado)
+  const spoken = (say || jp).replace(/[（(][^）)]*[）)]/g, '').replace(/[…・]/g, '').trim();
+  return { sp, jp, parts: parts.length > 1 ? parts : [], ro: ro || '', pt: pt || '', say: /[぀-ヿ一-鿿0-9]/.test(spoken) ? spoken : '', pitch: me ? 1 : (c && c.pitch) || 1 };
+}
+async function wSay(lines, slow) {
+  lines = lines.filter(l => l && l.say);
+  if (!lines.length || !AUDIO.supported) return;
+  const my = ++AUDIO.token;
+  for (let i = 0; i < lines.length; i++) {
+    if (AUDIO.token !== my) return;
+    AUDIO.token = my - 1; // speak() incrementa; a sequência continua dona do token
+    const ok = await speak(lines[i].say, { pitch: lines[i].pitch, rate: slow ? 0.6 : wRate(), key: lines[i].key });
+    if (!ok || AUDIO.token !== my) return;
+    if (!window.__NQ_FAST) await new Promise(r => setTimeout(r, 260));
+  }
+}
+
+/* ---------- retratos ---------- */
+function wPortrait(id, size = 44) {
+  if (id === 'me') return `<span class="w-me-av" style="width:${size}px;height:${size}px" aria-hidden="true">${esc(wName().slice(0, 1).toUpperCase())}</span>`;
+  const c = WORLD_CHARS[id]; if (!c) return '';
+  if (c.chat && typeof chPortrait === 'function') return chPortrait(c.chat, size);
+  if (c.speaker) return `<svg class="ch-portrait" width="${size}" height="${size}" viewBox="0 0 100 100" role="img" aria-label="Alto-falante"><circle cx="50" cy="50" r="50" fill="#4b5170"/><path d="M28 42h12l16-13v42L40 58H28z" fill="#fff"/><path d="M64 38a16 16 0 0 1 0 24M71 31a26 26 0 0 1 0 38" stroke="#ffd877" stroke-width="5" fill="none" stroke-linecap="round"/></svg>`;
+  const L = c.look, h = L.hair;
+  const face = `<ellipse cx="50" cy="56" rx="21" ry="24" fill="${L.skin}"/><ellipse cx="41" cy="58" rx="2.6" ry="3.4" fill="#2a2560"/><ellipse cx="59" cy="58" rx="2.6" ry="3.4" fill="#2a2560"/><ellipse cx="37" cy="65" rx="4" ry="2.2" fill="#ff9fb5" opacity=".55"/><ellipse cx="63" cy="65" rx="4" ry="2.2" fill="#ff9fb5" opacity=".55"/><path d="M44 70q6 5 12 0" stroke="#7a3b3b" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+  const top = 'M27 54c-2-18 9-28 23-28s25 10 23 28c-6-9-14-13-23-13s-17 4-23 13z';
+  const hair = {
+    short: `<path d="M28 52c-1-17 10-26 22-26s23 9 22 26c-5-8-13-12-22-12s-17 4-22 12z" fill="${h}"/>`,
+    pony: `<path d="M71 42c11 4 13 20 6 30-2-9-4-15-9-20z" fill="${h}"/><path d="${top}" fill="${h}"/>`,
+    side: `<path d="M28 52c0-16 10-24 22-24s22 8 22 24c-8-12-28-14-44 0z" fill="${h}"/>`,
+    bald: `<path d="M29 60c-3-5-3-11 0-15M71 60c3-5 3-11 0-15" stroke="${h}" stroke-width="5" fill="none" stroke-linecap="round"/>`,
+    spiky: `<path d="M27 52l2-15 6 6 4-12 6 8 5-13 5 13 6-8 4 12 6-6 2 15c-6-8-14-11-23-11s-17 3-23 11z" fill="${h}"/>`,
+    bun: `<circle cx="50" cy="25" r="9" fill="${h}"/><path d="${top}" fill="${h}"/>`,
+    twin: `<circle cx="24" cy="50" r="8" fill="${h}"/><circle cx="76" cy="50" r="8" fill="${h}"/><path d="${top}" fill="${h}"/>`
+  }[L.style] || '';
+  const acc = {
+    visor: '<path d="M26 44q24-11 48 0l-2 5q-22-8-44 0z" fill="#3fc48f"/>',
+    glasses: '<circle cx="41" cy="58" r="6" fill="none" stroke="#2a2560" stroke-width="1.8"/><circle cx="59" cy="58" r="6" fill="none" stroke="#2a2560" stroke-width="1.8"/><path d="M47 58h6" stroke="#2a2560" stroke-width="1.8"/>',
+    headband: '<path d="M28 44q22-8 44 0v6q-22-8-44 0z" fill="#ffffff" stroke="#d6dbe8" stroke-width="1"/>',
+    cap: '<path d="M27 47c0-14 10-22 23-22s23 8 23 22z" fill="#1f3a8a"/><rect x="22" y="45" width="56" height="5" rx="2" fill="#16285e"/><circle cx="50" cy="35" r="3.2" fill="#f2b632"/>',
+    police: '<path d="M27 47c0-14 10-22 23-22s23 8 23 22z" fill="#1d2f52"/><rect x="22" y="45" width="56" height="5" rx="2" fill="#0f1d38"/><path d="M50 31l4 3-1.5 5h-5L46 34z" fill="#f2b632"/>',
+    hat: '<ellipse cx="50" cy="38" rx="31" ry="6" fill="#7a5a3a"/><path d="M33 38c0-13 7-17 17-17s17 4 17 17z" fill="#8a6a4a"/>',
+    apron: '', none: ''
+  }[L.acc] || '';
+  const body = L.acc === 'apron' ? `<path d="M18 100q2-22 32-24 30 2 32 24z" fill="${L.top}"/><path d="M38 80h24v20H38z" fill="#2b2b4a"/>` : `<path d="M18 100q2-22 32-24 30 2 32 24z" fill="${L.top}"/>`;
+  return `<svg class="ch-portrait" width="${size}" height="${size}" viewBox="0 0 100 100" role="img" aria-label="Retrato de ${esc(c.name)}"><circle cx="50" cy="50" r="50" fill="${L.bg}"/>${body}${face}${hair}${acc}</svg>`;
+}
+
+/* ---------- desenhos dos lugares (SVG original) ---------- */
+function wBuilding(id) {
+  const B = {
+    konbini: '<rect x="-44" y="-52" width="88" height="52" rx="4" fill="#ffffff" stroke="#c8cfe2" stroke-width="2"/><rect x="-44" y="-52" width="88" height="9" fill="#22946a"/><rect x="-44" y="-43" width="88" height="4" fill="#f2b632"/><rect x="-44" y="-39" width="88" height="4" fill="#e0343c"/><rect x="-36" y="-29" width="26" height="29" fill="#bfe6ff" stroke="#8fb8d8" stroke-width="1.5"/><path d="M-23 -29v29" stroke="#8fb8d8" stroke-width="1.5"/><rect x="-4" y="-29" width="34" height="18" fill="#bfe6ff" stroke="#8fb8d8" stroke-width="1.5"/><text x="0" y="-45" text-anchor="middle" font-size="7" font-weight="800" fill="#fff">HIKARI MART</text>',
+    resutoran: '<path d="M-46 -40L0 -62 46 -40z" fill="#7a3b2a"/><rect x="-40" y="-40" width="80" height="40" fill="#f3dfc1" stroke="#c9a77c" stroke-width="2"/><rect x="-24" y="-34" width="48" height="16" fill="#d2463c"/><path d="M-12 -34v16M0 -34v16M12 -34v16" stroke="#f3dfc1" stroke-width="1.5"/><text x="0" y="-22" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" font-family="sans-serif">さくら</text><rect x="-12" y="-16" width="24" height="16" fill="#5a3a2a"/><circle cx="-32" cy="-24" r="6" fill="#e0343c"/><circle cx="32" cy="-24" r="6" fill="#e0343c"/>',
+    eki: '<rect x="-56" y="-46" width="112" height="46" rx="3" fill="#e8ecf8" stroke="#b9c2de" stroke-width="2"/><path d="M-60 -46h120l-8 -10h-104z" fill="#3553d1"/><circle cx="0" cy="-30" r="9" fill="#fff" stroke="#3553d1" stroke-width="2.5"/><path d="M0 -30v-5M0 -30h4" stroke="#1c1f45" stroke-width="2" stroke-linecap="round"/><rect x="-48" y="-18" width="22" height="18" fill="#bfe6ff" stroke="#8fb8d8"/><rect x="26" y="-18" width="22" height="18" fill="#bfe6ff" stroke="#8fb8d8"/><rect x="-12" y="-16" width="24" height="16" fill="#3553d1" opacity=".85"/><text x="0" y="-4" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" font-family="sans-serif">駅</text>',
+    gakkou: '<rect x="-52" y="-44" width="104" height="44" fill="#fbf4e6" stroke="#d8c9a8" stroke-width="2"/><rect x="-12" y="-66" width="24" height="24" fill="#fbf4e6" stroke="#d8c9a8" stroke-width="2"/><circle cx="0" cy="-55" r="7" fill="#fff" stroke="#7b52e0" stroke-width="2"/><path d="M0 -55v-4M0 -55h3" stroke="#1c1f45" stroke-width="1.6"/><g fill="#bfe6ff" stroke="#8fb8d8"><rect x="-46" y="-36" width="14" height="11"/><rect x="-28" y="-36" width="14" height="11"/><rect x="14" y="-36" width="14" height="11"/><rect x="32" y="-36" width="14" height="11"/><rect x="-46" y="-20" width="14" height="11"/><rect x="32" y="-20" width="14" height="11"/></g><rect x="-10" y="-20" width="20" height="20" fill="#7b52e0"/><circle cx="-62" cy="-28" r="14" fill="#ffb7cc"/><rect x="-64" y="-16" width="4" height="16" fill="#8a5a3a"/>',
+    machi: '<rect x="-54" y="-34" width="34" height="34" fill="#fde1b8" stroke="#d9b07a" stroke-width="2"/><rect x="-17" y="-40" width="34" height="40" fill="#e6f0d8" stroke="#a9c48a" stroke-width="2"/><rect x="20" y="-34" width="34" height="34" fill="#fdd6d6" stroke="#d9a0a0" stroke-width="2"/><path d="M-58 -50h116" stroke="#e0861e" stroke-width="6" stroke-linecap="round"/><path d="M-50 -50v50M50 -50v50" stroke="#e0861e" stroke-width="5"/><text x="0" y="-54" text-anchor="middle" font-size="9" font-weight="800" fill="#7a4a10" font-family="sans-serif">商店街</text><circle cx="-36" cy="-42" r="4" fill="#e0343c"/><circle cx="0" cy="-44" r="4" fill="#e0343c"/><circle cx="36" cy="-42" r="4" fill="#e0343c"/><rect x="-46" y="-14" width="18" height="14" fill="#8a5a3a"/><rect x="-8" y="-16" width="16" height="16" fill="#5a7a3a"/><rect x="28" y="-14" width="18" height="14" fill="#8a3a3a"/>'
+  };
+  return B[id] || '';
+}
+const W_POS = { eki: [180, 98], konbini: [74, 206], resutoran: [286, 206], gakkou: [84, 352], machi: [276, 352] };
+function wMapSVG() {
+  const label = p => { const [x, y] = W_POS[p.id], pr = wPlaceProgress(p.id), visited = !!wState().visits[p.id]; return `<g class="w-pin" data-act="wPlace" data-p="${p.id}" role="button" tabindex="0" aria-label="${esc(p.pt)} (${esc(p.jp)}), ${pr.done} de ${pr.total} situações" transform="translate(${x} ${y})"><ellipse cx="0" cy="2" rx="58" ry="8" fill="#000" opacity=".12"/>${wBuilding(p.id)}<g transform="translate(0 16)"><rect x="-44" y="0" width="88" height="22" rx="11" fill="${p.color}"/><text x="0" y="15" text-anchor="middle" font-size="12" font-weight="800" fill="#fff" font-family="M PLUS Rounded 1c, sans-serif">${esc(p.jp)}</text></g>${pr.done === pr.total ? '<g transform="translate(44 -48)"><circle r="10" fill="#f2b632" stroke="#fff" stroke-width="2"/><path d="M-4 0l3 3 5-6" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>' : !visited ? '<g transform="translate(44 -48)"><circle r="9" fill="#e0343c" stroke="#fff" stroke-width="2"/><text y="4" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">!</text></g>' : ''}</g>`; };
+  return `<svg class="w-map" viewBox="0 0 360 420" role="group" aria-label="Mapa de Hikari-machi">
+    <defs><linearGradient id="wsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3ff"/><stop offset="1" stop-color="#e8f6ff"/></linearGradient></defs>
+    <rect width="360" height="420" rx="22" fill="#c8e6a8"/><rect width="360" height="54" rx="22" fill="url(#wsky)"/><rect y="30" width="360" height="24" fill="url(#wsky)"/>
+    <circle cx="318" cy="28" r="13" fill="#ffd877"/><path d="M30 26q10-10 22 0q8-8 18 2h-40z" fill="#fff"/>
+    <rect y="48" width="360" height="12" fill="#8a8fa8"/><path d="M0 51h360M0 57h360" stroke="#d4d7e6" stroke-width="1.5"/><path d="M8 48v12M28 48v12M48 48v12M68 48v12M88 48v12M108 48v12M128 48v12M148 48v12M168 48v12M188 48v12M208 48v12M228 48v12M248 48v12M268 48v12M288 48v12M308 48v12M328 48v12M348 48v12" stroke="#6d7290" stroke-width="2"/>
+    <rect x="236" y="40" width="70" height="20" rx="6" fill="#3553d1"/><rect x="242" y="44" width="10" height="8" rx="1" fill="#bfe6ff"/><rect x="258" y="44" width="10" height="8" rx="1" fill="#bfe6ff"/><rect x="274" y="44" width="10" height="8" rx="1" fill="#bfe6ff"/><rect x="290" y="44" width="10" height="8" rx="1" fill="#bfe6ff"/>
+    <rect x="166" y="120" width="28" height="300" fill="#d9dbe6"/><rect x="0" y="262" width="360" height="28" fill="#d9dbe6"/><path d="M180 128v284M8 276h344" stroke="#fff" stroke-width="3" stroke-dasharray="10 10"/>
+    <g fill="#5fae5a"><circle cx="20" cy="120" r="14"/><circle cx="338" cy="120" r="14"/><circle cx="150" cy="320" r="10"/><circle cx="212" cy="320" r="10"/><circle cx="24" cy="404" r="12"/><circle cx="336" cy="404" r="12"/></g>
+    <g fill="#ffb7cc"><circle cx="40" cy="112" r="8"/><circle cx="322" cy="246" r="7"/></g>
+    ${WORLD_PLACES.map(label).join('')}
+  </svg>`;
+}
+
+/* ---------- tela do mundo ---------- */
+const WUI = { place: null };
+function wOptsHTML() {
+  const w = wState();
+  const tg = (k, t) => `<button class="tg ${w.opt[k] ? 'on' : ''}" data-act="wOpt" data-k="${k}" aria-pressed="${!!w.opt[k]}">${t}</button>`;
+  return `<div class="w-opts" role="group" aria-label="Opções de leitura e áudio">${tg('ro', 'Romaji')}${tg('pt', 'Tradução')}${tg('listen', 'Ouvir primeiro')}<div class="seg w-speed" role="group" aria-label="Velocidade da voz">${[['lenta', 'Lenta'], ['normal', 'Normal'], ['rapida', 'Rápida']].map(([v, t]) => `<button class="${w.speed === v ? 'on' : ''}" data-act="wSpeed" data-v="${v}" aria-pressed="${w.speed === v}">${t}</button>`).join('')}</div></div>`;
+}
+function wWordsSummary() {
+  const w = wState(), keys = Object.keys(WW), found = keys.filter(k => w.words[k]);
+  return { found: found.length, total: keys.length, saved: found.filter(wWordSaved).length };
+}
+function viewWorld() {
+  wState();
+  if (WUI.place && WPL[WUI.place]) return viewWorldPlace(WPL[WUI.place]);
+  const w = wState(), ws = wWordsSummary();
+  const done = WORLD_SCENES.filter(sc => wDone(sc.id)).length;
+  const intro = !w.intro ? `<div class="card mascot-tip w-intro">${mascot('happy', 64)}<div><b>Bem-vindo(a) a Hikari-machi!</b><p style="margin:4px 0 8px">Aqui você usa japonês para viver pequenas situações: comprar, pedir comida, pegar trem, ir à escola. Toque num lugar do mapa para entrar. Você pode ouvir tudo antes de ler, e não existe pressa nem obrigação.</p><button class="btn btn-primary btn-small" data-act="wIntroOk">Entendi, vamos explorar!</button></div></div>` : '';
+  return `<div class="wrap w-root"><div class="page-title"><div><span class="jp">ひかり町</span><h1>Living Japanese World</h1></div></div>
+    <div class="stack">${intro}
+    <div class="card w-mapcard">${wMapSVG()}</div>
+    <section class="section"><h2 style="font-size:1.05rem">Lugares</h2><div class="w-places">${WORLD_PLACES.map(p => { const pr = wPlaceProgress(p.id); return `<button class="w-place-row" data-act="wPlace" data-p="${p.id}" style="--pc:${p.color}"><span class="w-pic jp">${esc(p.icon)}</span><span class="grow"><b><span class="jp">${esc(p.jp)}</span> · ${esc(p.pt)}</b><small>${esc(p.desc)}</small></span><span class="w-prog tabnum">${pr.done}/${pr.total}</span></button>`; }).join('')}</div></section>
+    <div class="card w-stats"><div><b class="tabnum">${done}</b><small>situações vividas</small></div><div><b class="tabnum">${ws.found}/${ws.total}</b><small>palavras descobertas</small></div><div><b class="tabnum">${ws.saved}</b><small>no Caderno</small></div></div>
+    <p class="muted" style="margin:0 2px;font-size:.82rem">O mundo é livre: as situações não contam como lições da Academia nem da Listening Academy. Cada situação dá XP só na primeira vez que você a conclui.</p></div></div>`;
+}
+function wGreet(p) {
+  const host = WORLD_CHARS[p.host]; if (!host || !host.greet) return '';
+  const w = wState(), back = (w.visits[p.id] || 0) > 1 && wPlaceProgress(p.id).done > 0;
+  const L = wLine(p.host + '|' + host.greet[back ? 1 : 0]);
+  return `<div class="w-greet">${wPortrait(p.host, 46)}<div class="w-bub"><b class="w-who">${esc(host.name)}</b><span class="jp w-jp">${esc(L.jp)}</span>${w.opt.ro ? `<span class="ro">${esc(L.ro)}</span>` : ''}${w.opt.pt ? `<span class="w-pt">${esc(L.pt)}</span>` : ''}</div>${AUDIO.supported ? `<button class="icon-btn" data-act="wSayText" data-text="${esc(L.say)}" data-sp="${p.host}" aria-label="Ouvir ${esc(host.name)}">${IC.sound}</button>` : ''}</div>`;
+}
+function wSceneCard(sc) {
+  const open = wOpen(sc), done = wDone(sc.id), st = wState().scenes[sc.id] || {};
+  const [ic, kt] = W_KIND[sc.kind];
+  const lock = !open ? `Depois de: ${sc.need.filter(id => !wDone(id)).map(id => WSC[id].title).join(', ')}` : '';
+  return `<button class="w-scene ${done ? 'done' : ''} ${open ? '' : 'locked'}" data-act="wStart" data-id="${sc.id}" ${open ? '' : 'aria-disabled="true"'}>
+    <span class="w-kic jp">${done ? '✓' : open ? ic : IC.lock}</span>
+    <span class="grow"><small class="eyebrow">${kt}${done ? ' · concluída' + (st.perfect ? ' sem erros' : '') : ''}</small><b>${esc(sc.title)}</b><small class="muted">${esc(open ? sc.desc : lock)}</small></span>
+    ${open && !done ? `<span class="w-xp tabnum">+${W_XP[sc.kind]} XP</span>` : ''}</button>`;
+}
+function viewWorldPlace(p) {
+  const w = wState();
+  const chars = Object.keys(WORLD_CHARS).filter(id => WORLD_CHARS[id].place === p.id && id !== 'ann' && (WORLD_SCENES.some(sc => sc.place === p.id && sc.kind !== 'evento' && sc.chars.includes(id)) || WORLD_SCENES.some(sc => sc.kind === 'evento' && sc.chars.includes(id) && wDone(sc.id))));
+  const words = wPlaceWords(p.id), found = words.filter(k => w.words[k]);
+  const events = wPlaceScenes(p.id, 'evento');
+  return `<div class="wrap w-placev" style="--pc:${p.color}">
+    <div class="w-ptop"><button class="icon-btn" data-act="wMap" aria-label="Voltar ao mapa">${IC.back}</button><span class="muted" style="font-size:.85rem">Hikari-machi</span></div>
+    <div class="w-banner"><div class="w-btxt"><span class="jp w-bjp">${esc(p.jp)}</span><b>${esc(p.pt)} · ${esc(p.name)}</b><small>${esc(p.desc)}</small></div><svg class="w-bsvg" viewBox="-70 -75 140 85" aria-hidden="true">${wBuilding(p.id)}</svg></div>
+    <div class="stack">${wGreet(p)}
+    <section class="section"><h2 style="font-size:1.02rem">Quem está aqui</h2><div class="w-chars">${chars.map(id => `<button class="w-char" data-act="wProfile" data-c="${id}">${wPortrait(id, 52)}<span>${esc(WORLD_CHARS[id].name)}</span><small>${esc(WORLD_CHARS[id].role)}</small></button>`).join('')}</div></section>
+    <section class="section"><h2 style="font-size:1.02rem">Situações</h2><div class="stack" style="gap:8px">${wPlaceScenes(p.id, 'main').map(wSceneCard).join('')}</div></section>
+    ${events.length ? `<section class="section"><h2 style="font-size:1.02rem">Explorar as ruas</h2><button class="card w-walk" data-act="wWalk"><span class="w-kic jp">歩</span><span class="grow"><b>Dar uma volta</b><small class="muted">Ande pelo bairro e veja o que acontece. ${events.filter(sc => wDone(sc.id)).length}/${events.length} acontecimentos descobertos.</small></span></button>${events.filter(sc => wDone(sc.id)).length ? `<div class="stack" style="gap:8px;margin-top:8px">${events.filter(sc => wDone(sc.id)).map(wSceneCard).join('')}</div>` : ''}</section>` : ''}
+    <section class="section"><h2 style="font-size:1.02rem">Palavras daqui <small class="muted tabnum">${found.length}/${words.length}</small></h2>
+      ${found.length ? `<div class="card w-words">${found.map(wWordRow).join('')}</div>` : ''}
+      ${found.length < words.length ? `<p class="muted" style="margin:6px 2px 0;font-size:.85rem">${words.length - found.length} palavra(s) ainda escondida(s) nas situações deste lugar.</p>` : ''}
+      ${found.some(k => !wWordSaved(k)) ? `<button class="btn btn-ghost btn-block" style="margin-top:8px" data-act="wSaveAll" data-keys="${found.join(',')}">Salvar as descobertas no Caderno e na Revisão</button>` : ''}</section>
+    </div></div>`;
+}
+function wWordRow(k) {
+  const w = WW[k], saved = wWordSaved(k);
+  return `<div class="w-wrow"><div class="grow"><span class="jp w-wjp">${esc(w.jp)}</span>${w.jp !== w.kana ? ` <span class="jp muted" style="font-size:.85rem">${esc(w.kana)}</span>` : ''}<span class="ro"> ${esc(w.ro)}</span><small class="w-wpt">${esc(w.pt)}</small></div>
+    ${AUDIO.supported ? `<button class="icon-btn" data-act="wSayText" data-text="${esc(w.say)}" aria-label="Ouvir ${esc(w.ro)}">${IC.sound}</button>` : ''}
+    <button class="icon-btn" data-act="wDict" data-k="${k}" aria-label="Abrir no dicionário"><span class="jp" style="font-weight:800">辞</span></button>
+    ${saved ? '<span class="w-saved" aria-label="No Caderno">✓</span>' : `<button class="icon-btn" data-act="wSave" data-k="${k}" aria-label="Salvar no Caderno e na Revisão">＋</button>`}</div>`;
+}
+
+/* ---------- palavras: Caderno, Revisão, Dicionário ---------- */
+function wEntry(k) {
+  const w = WW[k]; if (!w || typeof dictBuild !== 'function') return null;
+  dictBuild();
+  const r = KANA.kata2hira(w.say);
+  return (DICT.byWord[r] || []).find(e => e.items.includes(w.itemId)) || null;
+}
+function wWordSaved(k) {
+  const w = WW[k]; if (!w) return false;
+  const e = wEntry(k);
+  if (e && dictInNotebook(e)) return true;
+  const r = S.items[w.itemId]; return !!(r && r.seen);
+}
+/* se a palavra já está no Caderno por outra área (Academia, Chat, Dicionário...), não duplica;
+   senão entra como item do mundo (origem certa no Caderno e nada muda na Listening Academy) */
+function wSaveWord(k) {
+  const w = WW[k]; if (!w || wWordSaved(k)) return false;
+  markSeen(w.itemId);
+  wState().words[k] = wState().words[k] || Date.now();
+  save(); return true;
+}
+
+/* ---------- cena ---------- */
+let WV = null;
+function wStart(id) {
+  const sc = WSC[id]; if (!sc) return;
+  if (!wOpen(sc)) { toast('鍵', 'Faça antes: ' + sc.need.filter(x => !wDone(x)).map(x => WSC[x].title).join(', ') + '.'); return; }
+  stopAudio(); closeModal();
+  WV = { sc, log: [], mode: 'go', next: null, choice: null, wrong: 0, picked: [], miss: '', result: null };
+  $('#player').hidden = false; document.body.style.overflow = 'hidden';
+  $('#player').innerHTML = wPaneHTML();
+  wEnter(Object.keys(sc.nodes)[0]);
+}
+function wClose() {
+  stopAudio(); WV = null;
+  $('#player').hidden = true; $('#player').innerHTML = ''; document.body.style.overflow = '';
+  render(); setTimeout(flushPending, 200);
+}
+function wPaneHTML() {
+  const sc = WV.sc, p = WPL[sc.place];
+  return `<div class="w-pane" style="--pc:${p.color}">
+    <header class="w-head"><button class="icon-btn" data-act="wClose" aria-label="Sair da situação">${IC.back}</button>
+      <div class="grow" style="min-width:0"><small class="eyebrow">${esc(W_KIND[sc.kind][1])} · ${esc(p.pt)}</small><b class="w-htitle">${esc(sc.title)}</b></div>
+      <svg class="w-hsvg" viewBox="-70 -75 140 85" aria-hidden="true">${wBuilding(p.id)}</svg></header>
+    <div id="wOpts">${wOptsHTML()}</div>
+    <div class="w-log" id="wLog" aria-live="polite"></div>
+    <div class="w-foot" id="wFoot"></div></div>`;
+}
+function wLog(e) { WV.log.push(e); return WV.log.length - 1; }
+function wEnter(id, pre) {
+  if (!WV) return;
+  const sc = WV.sc, node = sc.nodes[id];
+  if (!node) return wFinish('');
+  if (node.b) { const b = node.b; return wEnter(b.done && wDone(b.done) ? b.y : b.n, pre); }
+  const speakList = (pre || []).slice();
+  if (node.n) wLog({ k: 'nar', txt: node.n });
+  [].concat(node.s || []).forEach(s => { const L = wLine(s); const i = wLog({ k: 'line', ...L }); L.key = 'w' + i; speakList.push(L); });
+  if (node.tip) wLog({ k: 'tip', txt: node.tip });
+  (node.t || []).forEach(k => { if (!WW[k]) return; const w = wState(); const seen = !!w.words[k]; if (!seen) w.words[k] = Date.now(); wLog({ k: 'teach', key: k, seen }); });
+  WV.miss = '';
+  if (node.p) {
+    WV.mode = 'pick'; WV.pick = node.p; WV.picked = [];
+    if (node.p.say) { const L = wLine(node.p.say); const i = wLog({ k: 'line', ...L, quiz: true }); L.key = 'w' + i; WV.pickLine = i; speakList.push(L); } else WV.pickLine = null;
+  } else if (node.o) { WV.mode = 'opts'; WV.choice = id; }
+  else if (node.end) { wFinish(node.end); return wAutoSay(speakList); }
+  else if (node.back) WV.mode = 'back';
+  else { WV.mode = 'go'; WV.next = node.go; }
+  save();
+  wRender();
+  wAutoSay(speakList);
+}
+function wAutoSay(list) { if (S.settings.sound !== false && list.length) wSay(list); }
+function wLineHTML(e, i) {
+  const o = wState().opt, me = e.sp === 'me', c = WORLD_CHARS[e.sp];
+  const hide = (e.quiz && !e.rev) || (o.listen && !e.rev && !me);
+  const name = me ? 'Você' : c ? c.name : '';
+  const text = hide
+    ? `<button class="w-hidden" data-act="wReveal" data-i="${i}">${IC.sound}<span>${e.quiz ? 'Ouça e escolha abaixo' : 'Ouça primeiro · toque para ver o texto'}</span></button>`
+    : `${e.open && e.parts.length ? `<div class="w-parts">${e.parts.map(pt => `<button class="w-part" data-act="wSayText" data-text="${esc(pt.replace(/[（(][^）)]*[）)]/g, ''))}" data-sp="${esc(e.sp)}">${esc(pt)}</button>`).join('')}</div>` : `<span class="jp w-jp">${esc(e.jp)}</span>`}${o.ro && e.ro ? `<span class="ro">${esc(e.ro)}</span>` : ''}${o.pt && e.pt ? `<span class="w-pt">${esc(e.pt)}</span>` : ''}`;
+  const acts = e.say && AUDIO.supported ? `<div class="w-acts"><button class="w-a" data-act="wPlay" data-i="${i}">${IC.sound}<span>Ouvir</span></button><button class="w-a" data-act="wSlow" data-i="${i}"><span>Devagar</span></button>${e.parts.length && !hide ? `<button class="w-a ${e.open ? 'on' : ''}" data-act="wParts" data-i="${i}" aria-pressed="${!!e.open}"><span>Por partes</span></button>` : ''}</div>` : '';
+  return `<div class="w-line ${me ? 'me' : ''} dlg-line" data-line="w${i}">${me ? '' : `<button class="w-av" data-act="wProfile" data-c="${esc(e.sp)}" aria-label="Sobre ${esc(name)}">${wPortrait(e.sp, 40)}</button>`}<div class="w-bub"><b class="w-who">${esc(name)}</b>${text}${acts}</div>${me ? wPortrait('me', 34) : ''}</div>`;
+}
+function wTeachHTML(e) {
+  const w = WW[e.key], saved = wWordSaved(e.key);
+  return `<div class="w-teach"><div class="w-teach-h"><span class="chip ${e.seen ? '' : 'nova'}">${e.seen ? 'Você já viu' : 'Nova'}</span>${w.expr ? '<span class="muted" style="font-size:.8rem">expressão</span>' : ''}</div>
+    <div class="w-teach-b"><span class="jp w-tjp">${esc(w.jp)}</span>${w.jp !== w.kana ? `<span class="jp muted">${esc(w.kana)}</span>` : ''}<span class="ro">${esc(w.ro)}</span><b class="w-tpt">${esc(w.pt)}</b>${w.note ? `<small class="muted">${esc(w.note)}</small>` : ''}</div>
+    <div class="w-teach-a">${AUDIO.supported ? `<button class="w-a" data-act="wSayText" data-text="${esc(w.say)}">${IC.sound}<span>Ouvir</span></button>` : ''}<button class="w-a" data-act="wDict" data-k="${e.key}"><span class="jp">辞</span><span>Dicionário</span></button>${saved ? '<span class="w-a done">✓ No Caderno</span>' : `<button class="w-a" data-act="wSave" data-k="${e.key}"><span>＋ Caderno e Revisão</span></button>`}</div></div>`;
+}
+function wEntryHTML(e, i) {
+  if (e.k === 'nar') return `<p class="w-nar">${esc(e.txt)}</p>`;
+  if (e.k === 'line') return wLineHTML(e, i);
+  if (e.k === 'tip') return `<div class="w-tip"><span class="eyebrow">Nota</span><span>${esc(e.txt)}</span></div>`;
+  if (e.k === 'teach') return wTeachHTML(e);
+  if (e.k === 'fb') return `<div class="w-fb w-fb-${e.tag}"><b>${e.tag === 'x' ? 'Ops! Mal-entendido' : e.tag === 'ok' ? 'Isso!' : 'Funciona'}</b><span>${esc(e.txt)}</span></div>`;
+  if (e.k === 'end') return wEndHTML(e);
+  return '';
+}
+function wEndHTML(e) {
+  const sc = WV ? WV.sc : WSC[e.sc];
+  const r = e.res;
+  const reward = r.xp ? `<b class="w-reward">+${r.xp} XP${r.coins ? ' · +' + r.coins + ' moedas' : ''}</b>` : `<span class="muted" style="font-size:.88rem">${r.first ? '' : 'Você já tinha concluído esta situação: repetir é ótimo para praticar, mas não dá XP de novo.'}</span>`;
+  const unsaved = sc.words.filter(k => !wWordSaved(k));
+  return `<div class="w-end card"><span class="eyebrow">${r.first ? 'Situação concluída!' : 'Concluída de novo'}</span>${e.txt ? `<p style="margin:2px 0 6px">${esc(e.txt)}</p>` : ''}${reward}${r.perfect ? '<small class="chip nova" style="align-self:flex-start">Sem mal-entendidos</small>' : ''}
+    <div class="w-words" style="margin-top:8px">${sc.words.map(wWordRow).join('')}</div>
+    ${unsaved.length ? `<button class="btn btn-ghost btn-block" data-act="wSaveAll" data-keys="${sc.words.join(',')}">Salvar ${unsaved.length > 1 ? 'as ' + unsaved.length + ' palavras' : 'a palavra'} no Caderno e na Revisão</button>` : ''}</div>`;
+}
+function wRender() {
+  if (!WV) return;
+  const log = $('#wLog'); if (!log) return;
+  log.innerHTML = WV.log.map(wEntryHTML).join('');
+  const f = $('#wFoot');
+  if (WV.mode === 'opts') {
+    const node = WV.sc.nodes[WV.choice], o = wState().opt;
+    f.innerHTML = `<p class="w-ask">Sua vez: o que você diz?</p><div class="w-optlist">${node.o.map((op, j) => { const L = wLine(op[0], true); return `<div class="w-opt-row"><button class="w-opt" data-act="wChoose" data-j="${j}"><span class="jp w-ojp">${esc(L.jp)}</span>${o.ro ? `<span class="ro">${esc(L.ro)}</span>` : ''}${o.pt ? `<span class="w-pt">${esc(L.pt)}</span>` : ''}</button>${L.say && AUDIO.supported ? `<button class="icon-btn" data-act="wSayText" data-text="${esc(L.say)}" aria-label="Ouvir esta resposta">${IC.sound}</button>` : ''}</div>`; }).join('')}</div>`;
+  } else if (WV.mode === 'pick') {
+    const p = WV.pick, o = wState().opt;
+    f.innerHTML = `<p class="w-ask">${esc(p.q)}</p>${WV.miss ? `<p class="w-miss" role="status">${esc(WV.miss)}</p>` : ''}<div class="w-pick">${p.items.map((it, j) => { const [jp, ro, pt] = it[0].includes('|') ? it[0].split('|') : ['', '', it[0]]; const bad = WV.picked.includes(j); return `<button class="w-pk ${bad ? 'bad' : ''} ${jp ? '' : 'ptonly'}" data-act="wPick" data-j="${j}" ${bad ? 'disabled' : ''}>${it[3] ? wVis(it[3]) : ''}${jp ? `<span class="jp w-pjp">${esc(jp)}</span>${o.ro ? `<span class="ro">${esc(ro)}</span>` : ''}` : `<span>${esc(pt)}</span>`}</button>`; }).join('')}</div>${p.say && AUDIO.supported ? `<button class="btn btn-ghost btn-block" data-act="wPlay" data-i="${WV.pickLine}">${IC.sound} Ouvir de novo</button>` : ''}`;
+  } else if (WV.mode === 'go') f.innerHTML = `<button class="btn btn-primary btn-block" data-act="wGo">Continuar</button>`;
+  else if (WV.mode === 'back') f.innerHTML = `<button class="btn btn-gold btn-block" data-act="wBack">Tentar de novo</button>`;
+  else if (WV.mode === 'end') {
+    const sc = WV.sc, nextSc = wPlaceScenes(sc.place, 'main').find(x => x.id !== sc.id && wOpen(x) && !wDone(x.id));
+    f.innerHTML = `<div class="w-endbtns">${nextSc ? `<button class="btn btn-primary btn-block" data-act="wStart" data-id="${nextSc.id}">Próxima: ${esc(nextSc.title)}</button>` : ''}<button class="btn btn-ghost btn-block" data-act="wReplay">Viver de novo</button><button class="btn btn-ghost btn-block" data-act="wClose">Voltar para ${esc(WPL[sc.place].pt.toLowerCase())}</button></div>`;
+  } else f.innerHTML = '';
+  requestAnimationFrame(() => { const l = $('#wLog'); if (l) l.scrollTop = l.scrollHeight; });
+}
+function wVis(v) {
+  const [kind, a, b] = v.split(':');
+  if (kind === 'cat') return `<svg class="w-vis" viewBox="0 0 60 48" aria-hidden="true"><path d="M14 18l4-12 8 9h10l8-9 4 12c4 4 6 9 6 14 0 9-10 14-22 14S10 41 10 32c0-5 1-10 4-14z" fill="${a}" stroke="#8a8fa8" stroke-width="2"/><circle cx="23" cy="27" r="2.4" fill="#2a2560"/><circle cx="37" cy="27" r="2.4" fill="#2a2560"/><path d="M27 33q3 3 6 0" stroke="#d8476a" stroke-width="2" fill="none"/><path d="M22 39q8 5 16 0" stroke="${b}" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="30" cy="42" r="3.4" fill="${b}"/></svg>`;
+  if (kind === 'arrow') { const d = { L: 'M30 42V18H14M20 12l-6 6 6 6', R: 'M30 42V18h16M40 12l6 6-6 6', B: 'M30 8v26M22 26l8 8 8-8' }[a]; return `<svg class="w-vis" viewBox="0 0 60 48" aria-hidden="true"><path d="${d}" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`; }
+  return '';
+}
+function wChoose(j) {
+  const node = WV.sc.nodes[WV.choice], op = node.o[j]; if (!op) return;
+  const L = wLine(op[0], true);
+  const i = wLog({ k: 'line', ...L }); L.key = 'w' + i;
+  if (op[1] === 'x') { WV.wrong++; wLog({ k: 'fb', tag: 'x', txt: op[3] || '' }); }
+  else if (op[3]) wLog({ k: 'fb', tag: 'k', txt: op[3] });
+  wEnter(op[2], [L]);
+}
+function wPick(j) {
+  const p = WV.pick, it = p.items[j]; if (!it || WV.picked.includes(j)) return;
+  if (it[1]) {
+    if (WV.pickLine != null) WV.log[WV.pickLine].rev = true;
+    const label = it[0].includes('|') ? it[0].split('|') : [it[0], '', ''];
+    wLog({ k: 'fb', tag: 'ok', txt: label[1] ? `${label[0]} (${label[1]}): ${label[2]}` : label[0] });
+    sfx('ok'); wEnter(p.go);
+  } else {
+    WV.wrong++; WV.picked.push(j); WV.miss = it[2] || p.miss || 'Não é esse. Ouça de novo.';
+    sfx('bad'); wRender();
+    if (WV.pickLine != null) wPlayLine(WV.pickLine);
+  }
+}
+function wPlayLine(i, slow) { const e = WV && WV.log[i]; if (e && e.say) wSay([{ say: e.say, pitch: e.pitch, key: 'w' + i }], slow); }
+function wFinish(txt) {
+  const sc = WV.sc, w = wState(), now = Date.now();
+  const st = w.scenes[sc.id] || (w.scenes[sc.id] = { done: 0, n: 0, perfect: false });
+  const first = !st.done, perfect = WV.wrong === 0;
+  let xp = 0, coins = 0;
+  if (first) { xp = W_XP[sc.kind] + (perfect ? 5 : 0); coins = sc.kind === 'evento' ? 2 : 5; st.done = now; st.perfect = perfect; }
+  else if (perfect && !st.perfect) { xp = 5; st.perfect = true; } // bônus sem erros, uma única vez
+  st.n = (st.n || 0) + 1; st.last = now;
+  sc.chars.forEach(c => { w.met[c] = (w.met[c] || 0) + 1; });
+  if (xp) addXP(xp);
+  if (coins) addCoins(coins);
+  WV.result = { xp, coins, first, perfect };
+  wLog({ k: 'end', txt, res: WV.result, sc: sc.id });
+  WV.mode = 'end';
+  if (xp) { sfx('level'); if (first) confetti(); }
+  checkAchievements(); save();
+  wRender();
+}
+function wWalk() {
+  const ev = wPlaceScenes(WUI.place || 'machi', 'evento'); if (!ev.length) return;
+  const fresh = ev.filter(sc => !wDone(sc.id));
+  wStart(pick(fresh.length ? fresh : ev).id);
+}
+function wProfileHTML(id) {
+  const c = WORLD_CHARS[id]; if (!c) return '';
+  const met = wState().met[id] || 0;
+  return `<div class="stack w-prof"><div class="w-prof-h">${wPortrait(id, 72)}<div><span class="jp" style="font-size:1.2rem;font-weight:800">${esc(c.jp)}</span><h2 style="font-size:1.15rem">${esc(c.name)}</h2><span class="muted">${esc(c.role)}${WPL[c.place] ? ' · ' + esc(WPL[c.place].pt) : ''}</span></div></div>
+    <p style="margin:0">${esc(c.bio || '')}</p>${c.likes ? `<p style="margin:0"><b>Gosta de:</b> ${esc(c.likes)}</p>` : ''}<p style="margin:0"><b>Jeito de falar:</b> ${esc(c.style || '')}</p>
+    <p class="muted" style="margin:0;font-size:.88rem">${met ? `Vocês já se encontraram ${met} ${met > 1 ? 'vezes' : 'vez'}.` : 'Vocês ainda não se encontraram.'}${c.chat ? ' Também conversa com você no Nihongo Chat.' : ''}</p>
+    <button class="btn btn-ghost btn-block" data-act="closeModal">Fechar</button></div>`;
+}
+
+/* avanço automático (testes): escolhe a resposta natural, acerta a escuta */
+function wAuto() {
+  if (!WV) return;
+  if (WV.mode === 'go') return wEnter(WV.next);
+  if (WV.mode === 'back') { WV.mode = 'opts'; return wRender(); }
+  if (WV.mode === 'opts') { const o = WV.sc.nodes[WV.choice].o; return wChoose(Math.max(0, o.findIndex(x => x[1] !== 'x'))); }
+  if (WV.mode === 'pick') return wPick(WV.pick.items.findIndex(i => i[1]));
+}
+
+/* ---------- ações ---------- */
+Object.assign(ACT, {
+  wPlace: el => { const id = el.dataset.p; if (!WPL[id]) return; const w = wState(); w.visits[id] = (w.visits[id] || 0) + 1; save(); WUI.place = id; if (view !== 'mundo') go('mundo'); else { render(); window.scrollTo(0, 0); } checkAchievements(); },
+  wMap: () => { WUI.place = null; render(); window.scrollTo(0, 0); },
+  wIntroOk: () => { wState().intro = Date.now(); save(); render(); },
+  wStart: el => wStart(el.dataset.id),
+  wReplay: () => { if (WV) wStart(WV.sc.id); },
+  wClose: () => wClose(),
+  wGo: () => { if (WV && WV.mode === 'go') wEnter(WV.next); },
+  wBack: () => { if (WV) { WV.mode = 'opts'; wRender(); } },
+  wChoose: el => { if (WV && WV.mode === 'opts') wChoose(+el.dataset.j); },
+  wPick: el => { if (WV && WV.mode === 'pick') wPick(+el.dataset.j); },
+  wPlay: el => wPlayLine(+el.dataset.i),
+  wSlow: el => wPlayLine(+el.dataset.i, true),
+  wParts: el => { const e = WV && WV.log[+el.dataset.i]; if (e) { e.open = !e.open; wRender(); } },
+  wReveal: el => { const e = WV && WV.log[+el.dataset.i]; if (!e) return; if (e.quiz) { wPlayLine(+el.dataset.i); return; } e.rev = true; wRender(); },
+  wSayText: el => { const c = WORLD_CHARS[el.dataset.sp]; wSay([{ say: el.dataset.text, pitch: c ? c.pitch : 1 }]); },
+  wOpt: el => { const w = wState(); w.opt[el.dataset.k] = !w.opt[el.dataset.k]; save(); if (WV) { const o = $('#wOpts'); if (o) o.innerHTML = wOptsHTML(); wRender(); } else render(); },
+  wSpeed: el => { const w = wState(); w.speed = el.dataset.v; save(); if (WV) { const o = $('#wOpts'); if (o) o.innerHTML = wOptsHTML(); } else render(); },
+  wSave: el => { if (wSaveWord(el.dataset.k)) toast('帳', 'No Caderno e na Revisão!'); if (WV) wRender(); else render(); },
+  wSaveAll: el => { let n = 0; el.dataset.keys.split(',').forEach(k => { if (wSaveWord(k)) n++; }); toast('帳', n ? n + (n > 1 ? ' palavras foram' : ' palavra foi') + ' para o Caderno e a Revisão.' : 'Essas palavras já estavam no Caderno.'); if (WV) wRender(); else render(); },
+  wDict: el => { const k = el.dataset.k, e = wEntry(k); if (e) dictOpen(e); else dictOpenWord(WW[k].jp); },
+  wProfile: el => { if (WORLD_CHARS[el.dataset.c]) openModal(wProfileHTML(el.dataset.c), 'w-sheet'); },
+  wWalk: () => wWalk(),
+  gotoWorld: () => { WUI.place = null; go('mundo'); }
+});
+
+/* ---------- integrações com as telas existentes ---------- */
+VIEWS.push('mundo');
+const _wNav = ACT.nav;
+ACT.nav = (el, e) => { if (el.dataset.view === 'mundo') WUI.place = null; return _wNav(el, e); };
+const _wRender = render;
+render = function () {
+  if (view === 'mundo' && S.profile.onboarded) {
+    $('#tabbar').hidden = false; ensureDaily();
+    $('#view').innerHTML = viewWorld();
+    document.querySelectorAll('.tab').forEach(t => { const on = t.dataset.view === 'mundo'; t.classList.toggle('active', on); t.setAttribute('aria-current', on ? 'page' : 'false'); });
+    updateTabDots(); return;
+  }
+  _wRender();
+};
+/* celebrações (subir de nível) esperam a situação terminar */
+const _wFlush = flushPending;
+flushPending = function () { if (WV) return; _wFlush(); };
+const _wOrigin = originOf;
+originOf = function (it) { return it && it.lesson === WORLD_LESSON ? 'Living Japanese World' : _wOrigin(it); };
+const _wHome = homeListenCard;
+homeListenCard = function () {
+  const done = WORLD_SCENES.filter(sc => wDone(sc.id)).length;
+  return `<section class="section"><div class="card w-homecard"><div class="mascot-tip" style="align-items:center"><span class="mod-ic big jp" style="font-size:1.3rem">街</span><div style="min-width:0"><span class="eyebrow">Novo · Living Japanese World</span><h3 style="font-size:1.05rem">Viva o japonês em Hikari-machi</h3><span class="muted" style="font-size:.85rem">${done ? done + ' situação(ões) vivida(s). Konbini, restaurante, estação, escola e rua comercial esperam por você.' : 'Compre no konbini, peça comida, pegue o trem e faça amigos na escola.'}</span></div></div><button class="btn btn-primary btn-small" data-act="gotoWorld">Explorar o mundo</button></div></section>` + _wHome();
+};
+ACHIEVEMENTS.push(
+  { id: 'world_first', icon: '街', name: 'Morador novo', desc: 'Conclua sua primeira situação no Living Japanese World.', test: s => !!(s.world && Object.values(s.world.scenes || {}).some(x => x && x.done)) },
+  { id: 'world_places', icon: '旅', name: 'Explorador de Hikari-machi', desc: 'Visite os cinco lugares do Living Japanese World.', test: s => !!(s.world && WORLD_PLACES.every(p => (s.world.visits || {})[p.id])) }
+);
+/* novidade da 8.0: aviso único para quem já usava o app */
+setTimeout(() => { try { const w = wState(); if (S.profile.onboarded && !w.news) { w.news = Date.now(); save(); toast('街', 'Novo na 8.0: Living Japanese World! Toque em “Mundo” para explorar.'); } } catch (e) {} }, 2600);
+
+/* ==========================================================
    INÍCIO DO APP (roda por último, depois de todos os módulos)
    ========================================================== */
 /* ---------- início do app ---------- */
@@ -17032,11 +18092,11 @@ setTimeout(() => { try { const d = dictState(); if (S.profile.onboarded && !d.ne
   checkAchievements();
   saveNow(); // grava o esquema novo logo após a migração (o backup do esquema antigo já foi guardado)
   setTimeout(flushPending, 400);
-  window.addEventListener('hashchange', () => { const v = location.hash.replace('#', ''); if (VIEWS.includes(v) && v !== view && !P && !CHV) { view = v; render(); } });
+  window.addEventListener('hashchange', () => { const v = location.hash.replace('#', ''); if (VIEWS.includes(v) && v !== view && !P && !CHV && !WV) { view = v; render(); } });
 })();
 
 /* gancho para testes automatizados */
-window.__NQ = { get S() { return S; }, get P() { return P; }, get CHV() { return CHV; }, get AUDIO() { return AUDIO; }, CHAT: { chars: CHAT_CHARS, scenes: CHAT_SCENES, canon: chCanon, evaluate: chEvaluate, knows: chKnows, node: chNode, state: chState, thread: chThread, initiative: chInitiative, unlocked: chUnlocked, scenesFor: chScenesFor, bestForm: chBestForm, want: chWant, pack: CHAT_PACK, analyze: chTalkAnalyze, talk: TALK, stickers: CH_STK, exGet: chExGet, sugg: chTalkSugg, reply: chTalkReply, seed(n) { CH_SEED = n; } }, CATS, LESSON, ITEM, DIALOGS, AUDIO_PACKS, numJp, levelInfo, dayDiff, normalize, setState(s) { S = s; saveNow(); render(); }, suspendSave() { saveSuspended = true; } };
+window.__NQ = { get S() { return S; }, get P() { return P; }, get CHV() { return CHV; }, get WV() { return WV; }, auto: wAuto, get AUDIO() { return AUDIO; }, CHAT: { chars: CHAT_CHARS, scenes: CHAT_SCENES, canon: chCanon, evaluate: chEvaluate, knows: chKnows, node: chNode, state: chState, thread: chThread, initiative: chInitiative, unlocked: chUnlocked, scenesFor: chScenesFor, bestForm: chBestForm, want: chWant, pack: CHAT_PACK, analyze: chTalkAnalyze, talk: TALK, stickers: CH_STK, exGet: chExGet, sugg: chTalkSugg, reply: chTalkReply, seed(n) { CH_SEED = n; } }, CATS, LESSON, ITEM, DIALOGS, AUDIO_PACKS, numJp, levelInfo, dayDiff, normalize, setState(s) { S = s; saveNow(); render(); }, suspendSave() { saveSuspended = true; } };
 
 </script>
 </body>

@@ -6,7 +6,7 @@ man = json.loads((src/'manifest.json').read_text())
 js = '\n'.join((src/f).read_text() for f in man['content'] + man['app'])
 shell = (src/'shell.html').read_text()
 # inline tab icons from IC object in app.js
-for name in ['home','academy','chat','review','book','user']:
+for name in ['home','academy','chat','world','review','book','user']:
     m = re.search(name + r": '(<svg.*?</svg>)'", js)
     shell = shell.replace('<!--IC_%s-->' % name, m.group(1))
 head = '''<title>Nihongo Quest</title>

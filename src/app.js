@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '7.0.0';
-const SCHEMA_VERSION = 7;
+const APP_VERSION = '8.0.0';
+const SCHEMA_VERSION = 8;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -57,13 +57,17 @@ function defaultState() {
     exStats: {}, skills: {}, log: {}, tests: [],
     chat: defaultChat(),
     lacad: defaultLacad(),
-    dict: defaultDict()
+    dict: defaultDict(),
+    world: defaultWorld()
   };
 }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
 function defaultLacad() { return { v: 1, lessons: {}, exams: {}, words: {}, dialogs: {}, speed: 1, stats: { a: 0, c: 0, ms: 0, byCat: {}, byType: {} } }; }
 /* 7.0: Dicionário (favoritos e recentes; salvar no Caderno usa S.items, como o resto do app) */
 function defaultDict() { return { v: 1, fav: {}, recent: [] }; }
+/* 8.0: Living Japanese World (visitas, situações vividas, personagens encontrados, palavras descobertas, opções de leitura/voz).
+   XP vai para S.xp; palavras salvas vão para S.items (Caderno/Revisão), como o resto do app. */
+function defaultWorld() { return { v: 1, visits: {}, scenes: {}, met: {}, words: {}, speed: 'normal', opt: { ro: true, pt: true, listen: false }, intro: 0, news: 0 }; }
 function defaultListening() {
   const ac = () => ({ a: 0, c: 0 });
   return {
@@ -138,6 +142,12 @@ const MIGRATIONS = {
     if (!isPlainObj(s.dict)) s.dict = defaultDict();
     s.migratedFrom7 = { schema: 6, at: Date.now() };
     return s;
+  },
+  7: s => { // 7.0 -> 8.0: só ACRESCENTA o Living Japanese World. XP, níveis, conquistas, histórico, Caderno, Revisão,
+    // Chat, Dicionário e progresso da Academia e da Listening Academy ficam intactos.
+    if (!isPlainObj(s.world)) s.world = defaultWorld();
+    s.migratedFrom8 = { schema: 7, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -172,6 +182,9 @@ function normalize(data) {
   if (!isPlainObj(s.dict)) s.dict = defaultDict();
   if (!isPlainObj(s.dict.fav)) s.dict.fav = {};
   if (!Array.isArray(s.dict.recent)) s.dict.recent = [];
+  if (!isPlainObj(s.world)) s.world = defaultWorld();
+  ['visits', 'scenes', 'met', 'words'].forEach(k => { if (!isPlainObj(s.world[k])) s.world[k] = {}; });
+  if (!isPlainObj(s.world.opt)) s.world.opt = defaultWorld().opt;
   s.xp = Math.max(0, Number(s.xp) || 0); s.coins = Math.max(0, Number(s.coins) || 0);
   s.schemaVersion = Math.max(SCHEMA_VERSION, Number(data.schemaVersion) || 0);
   s.appVersion = APP_VERSION;
@@ -514,6 +527,7 @@ function itemSource(it) {
   if (it.lesson.la) return 'listening';
   if (it.lesson.id === 'chat') return 'chat';
   if (it.lesson.id === 'dict') return 'dicionario';
+  if (it.lesson.id === 'world') return 'mundo';
   if (AUDIO_PACKS.includes(it.lesson)) return 'auditiva';
   return 'outro';
 }
