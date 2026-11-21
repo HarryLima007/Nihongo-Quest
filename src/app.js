@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '9.0.0';
-const SCHEMA_VERSION = 9;
+const APP_VERSION = '10.0.0';
+const SCHEMA_VERSION = 10;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -59,7 +59,8 @@ function defaultState() {
     lacad: defaultLacad(),
     dict: defaultDict(),
     world: defaultWorld(),
-    read: defaultRead()
+    read: defaultRead(),
+    journey: defaultJourney()
   };
 }
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
@@ -72,6 +73,9 @@ function defaultWorld() { return { v: 1, visits: {}, scenes: {}, met: {}, words:
 /* 9.0: Japanese Reading (lições e provas de leitura, opções de romaji/áudio, histórico). Caracteres, kanji e palavras
    estudados vão para S.items (Caderno/Revisão), como o resto do app. */
 function defaultRead() { return { v: 1, lessons: {}, exams: {}, opened: {}, log: [], ro: 'sempre', listen: false, speed: 'normal', xp: { d: '', n: 0 }, news: 0 }; }
+/* 10.0: Jornada integrada (recompensas únicas compartilhadas entre áreas futuras, como o Adventure Mode da 11.0,
+   e a última versão cujas novidades o aluno já viu). XP continua em S.xp e moedas em S.coins. */
+function defaultJourney() { return { v: 1, claimed: {}, seenVersion: '' }; }
 function defaultListening() {
   const ac = () => ({ a: 0, c: 0 });
   return {
@@ -157,6 +161,11 @@ const MIGRATIONS = {
     // Dicionário, Living Japanese World e progresso da Academia e da Listening Academy ficam intactos.
     if (!isPlainObj(s.read)) s.read = defaultRead();
     s.migratedFrom9 = { schema: 8, at: Date.now() };
+    return s;
+  },
+  9: s => { // 9.0 -> 10.0: só ACRESCENTA a jornada integrada (registro de recompensas únicas). Todo o resto fica intacto.
+    if (!isPlainObj(s.journey)) s.journey = defaultJourney();
+    s.migratedFrom10 = { schema: 9, at: Date.now() };
     return s;
   }
 };
@@ -816,7 +825,7 @@ function viewHome() {
     <section class="section"><div class="mascot-tip">${mascot('neutral', 56)}<div class="bubble"><b>${MASCOT_NAME}:</b> ${esc(st.state === 'broken' || st.state === 'new' || st.state === 'pending' ? stLabel + ' ' : '')}${esc(pick(MSG.tips))}</div></div></section>
     <section class="section"><div class="section-h"><h2>Progresso geral</h2><span class="muted tabnum">${prog}%</span></div>
       <div class="bar light" style="height:12px"><i style="width:${prog}%"></i></div>
-      <div class="stats-grid"><div class="kpi"><b>${countPassed(S)}<small class="muted" style="font-size:.9rem">/${TOTAL_LESSONS}</small></b><span>lições aprovadas</span></div><div class="kpi"><b>${seenItems().length}</b><span>palavras e frases estudadas</span></div></div></section>
+      <div class="stats-grid"><div class="kpi"><b>${countPassed(S)}<small class="muted" style="font-size:.9rem">/${TOTAL_LESSONS}</small></b><span>lições aprovadas</span></div><div class="kpi"><b>${nqUniqueCount(seenItems())}</b><span>palavras e frases estudadas</span></div></div></section>
     <section class="section"><div class="section-h"><h2>Missões de hoje</h2><span class="muted" style="font-size:.8rem">renovam à meia-noite</span></div><div class="card missions">${missions}</div></section>
     <section class="section"><div class="section-h"><h2>Seu estágio: ${esc(stInfo.name)}</h2><button class="link-btn" data-act="nav" data-view="academia">Ver mapa</button></div><p class="muted" style="margin:0 0 10px;font-size:.88rem">${esc(stInfo.jlpt)} · ${stp.pct}% concluído</p><div class="cat-grid">${cats}</div></section>
     </div>`;
@@ -952,6 +961,7 @@ function viewProfile() {
       <div class="row-btns"><button class="btn btn-primary btn-small" data-act="export">Exportar progresso</button><button class="btn btn-ghost btn-small" data-act="import">Importar progresso</button></div>
       <p class="muted" style="margin:0;font-size:.85rem">Cópia automática diária: ${autoBackupDay() ? 'feita em ' + esc(autoBackupDay()) + '.' : 'será feita no primeiro estudo de amanhã.'} ${autoBackupDay() ? '<button class="link-btn" data-act="restoreAuto">Restaurar esta cópia</button>' : ''}</p>
       <button class="link-btn" style="color:var(--bad);align-self:flex-start" data-act="resetAsk">Apagar todo o progresso</button></div></section>
+    <section class="section"><button class="row row-btn card nq-about-row" data-act="nav" data-view="sobre"><span class="mod-ic big jp" style="font-size:1.2rem">日</span><div class="grow" style="text-align:left;min-width:0"><b>Sobre o Nihongo Quest</b><div class="muted" style="font-size:.82rem">Criador, versões, créditos e direitos autorais</div></div><span aria-hidden="true">›</span></button></section>
     <p class="muted" style="text-align:center;font-size:.78rem">Nihongo Quest v${APP_VERSION} · dados v${S.schemaVersion}</p></div>`;
 }
 

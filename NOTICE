@@ -1,0 +1,46 @@
+Nihongo Quest — 日本語クエスト
+Copyright © 2026 Harry Lima. Todos os direitos reservados.
+
+Criador e responsável pelo projeto: Harry Lima.
+Site: https://harrylima007.github.io/Nihongo-Quest/
+Repositório: https://github.com/HarryLima007/Nihongo-Quest
+
+DIREITOS SOBRE OS MATERIAIS ORIGINAIS
+O código-fonte, os textos, as lições, os exercícios, os diálogos, os personagens,
+o mascote Hikari, as figurinhas e as ilustrações originais do Nihongo Quest não
+são distribuídos sob nenhuma licença de uso livre. Este arquivo NÃO é uma licença.
+
+Reutilizar, redistribuir, publicar em outro lugar ou modificar esses materiais
+depende de autorização prévia do criador. Usar o site para estudar é livre.
+
+Como o repositório é público no GitHub, os Termos de Serviço do GitHub permitem
+que outros usuários vejam o repositório e façam fork dele dentro da plataforma.
+Isso não concede nenhum outro direito sobre os materiais.
+
+A língua japonesa em si (alfabetos, leituras, regras gramaticais e expressões
+comuns) é de uso livre e não é reivindicada por este projeto.
+
+ASSISTÊNCIA DE IA
+Parte do código e do conteúdo foi produzida com o Claude Code (Anthropic), sob
+a direção e a revisão do criador.
+
+MATERIAIS E FERRAMENTAS DE TERCEIROS
+Continuam sob as licenças e os termos dos seus autores. Nada aqui reivindica
+direitos sobre eles.
+
+- Fontes M PLUS Rounded 1c e Nunito: carregadas do Google Fonts no momento do
+  uso (não são copiadas para o repositório). SIL Open Font License 1.1, de seus
+  respectivos autores.
+- Vozes: síntese de voz do próprio aparelho (Web Speech API do navegador). As
+  vozes pertencem ao sistema operacional ou ao navegador de quem usa e não são
+  distribuídas pelo app.
+- Hospedagem: GitHub Pages.
+- Somente para desenvolvimento e testes (não fazem parte do app publicado e não
+  estão no repositório; são instalados com npm quando os testes rodam):
+  Playwright (Apache License 2.0) e kuromoji.js (Apache License 2.0), com o
+  dicionário IPADIC que o acompanha (sob a licença própria do IPADIC).
+- Python: usado só para gerar o arquivo final (src/build.py).
+
+Não existe registro de marca nem registro formal de direitos autorais associado
+a este projeto até a data deste arquivo. Para pedir autorização ou tirar dúvidas,
+abra uma issue no repositório.

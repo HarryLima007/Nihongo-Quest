@@ -48,6 +48,7 @@
     "world.js",
     "reading-data.js",
     "reading.js",
+    "journey.js",
     "boot.js"
   ]
 }

@@ -1013,3 +1013,25 @@ button.conv:hover { background: var(--surface-2); }
 .rd-sign:not(.can) { background: #5a5f80; box-shadow: 0 0 0 2px #5a5f80; }
 .rd-sign .icon-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; background: rgba(255,255,255,.2); color: #fff; }
 .d-tabs button { white-space: nowrap; }
+
+/* ---------- 10.0: Sua jornada, Sobre, palavras unificadas ---------- */
+.nq-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.nq-tile{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 9px;border-radius:16px;border:1px solid var(--line);background:var(--surface);color:inherit;font:inherit;cursor:pointer;min-width:0;text-align:center;box-shadow:0 1px 0 #0000000d}
+.nq-tile:active{transform:scale(.97)}
+.nq-tile .nq-ic{font-size:1.25rem;font-weight:800;line-height:1;width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:var(--surface-2);color:var(--royal)}
+.nq-tile .nq-tn{font-weight:800;font-size:.8rem;line-height:1.15;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nq-tile .nq-ts{font-size:.68rem;color:var(--muted);line-height:1.2;font-variant-numeric:tabular-nums;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nq-tile.due .nq-ic{background:var(--gold-soft);color:var(--gold-ink)}
+@media (max-width:340px){.nq-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.nq-foot{text-align:center;font-size:.8rem;color:var(--muted);margin:18px 0 6px}
+.nq-foot .link-btn{font-size:.8rem;padding:0}
+.nq-also{color:var(--muted)}
+.nq-about .nq-id{display:flex;align-items:center;gap:14px}
+.nq-about .nq-jpname{font-size:1rem;color:var(--muted)}
+.nq-about .nq-url{overflow-wrap:anywhere;font-size:.88rem}
+.nq-about .nq-url a{color:var(--royal);font-weight:700}
+.nq-about .nq-hist{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:.9rem}
+.nq-about .nq-hist li.cur b{color:var(--royal)}
+.nq-about .nq-credits p{margin:0 0 8px;font-size:.9rem}
+.nq-about .nq-credits p:last-child{margin-bottom:0}
+.nq-about-row{width:100%;display:flex;align-items:center;gap:12px}

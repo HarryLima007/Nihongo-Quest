@@ -540,18 +540,19 @@ function viewNotebook() {
       if (nb.t === 'dificeis') { if (!(S.items[it.id].w > 0)) return false; } else if (nb.t !== 'todas' && g !== nb.t) return false;
       return statusOk(it.id) && match(it.jp, it.ro, it.pt, it.kanji, it.say);
     });
+    entries = nqPrimaries(entries); // 10.0: a mesma palavra estudada em várias áreas aparece uma vez só
     if (nb.t === 'dificeis') entries.sort((a, b) => S.items[b.id].w - S.items[a.id].w);
   }
   const dlgs = (nb.t === 'todas' || nb.t === 'dialogo') && nb.f === 'todas' ? DIALOGS.filter(d => S.listening.dialogs[d.id] && match(d.title, d.situ, ...d.lines.map(l => l.jp + ' ' + l.ro + ' ' + l.pt))) : [];
   const entryHTML = it => {
     const s = itemStatus(it.id), r = S.items[it.id], g = groupOf(it);
-    return `<div class="nb-entry"><div class="nb-top"><span class="jpw">${esc(it.jp2 || it.jp)}</span><span class="chip ${s}">${STATUS_LABEL[s]}</span>${speakBtn(sayOf(it))}</div>
+    return `<div class="nb-entry"><div class="nb-top"><span class="jpw">${esc(it.jp2 || it.jp)}</span><span class="chip ${s}">${STATUS_LABEL[s]}</span>${speakBtn(sayOf(it))}${nqDictBtn(it)}</div>
       <div><b>${esc(it.pt)}</b> <span class="ro">· ${esc(it.ro)}${it.alt ? ' · também ' + esc(it.alt) : ''}</span>${it.kanji ? ` <span class="ro">· kanji: <span class="jp">${esc(it.kanji)}</span></span>` : ''}</div>
       ${it.note ? `<div class="muted" style="font-size:.88rem">${esc(it.note)}</div>` : ''}
       ${it.when ? `<div class="muted" style="font-size:.88rem">Quando usar: ${esc(it.when)}</div>` : ''}
       ${it.reply ? `<div class="nb-ex"><span class="muted">Resposta adequada:</span><br><span class="jp" style="font-weight:700">${esc(it.reply.jp)}</span><br><span class="ro">${esc(it.reply.ro)}</span><br>${esc(it.reply.pt)}</div>` : ''}
       ${it.ex ? `<div class="nb-ex"><span class="jp" style="font-weight:700">${esc(it.ex.jp)}</span><br><span class="ro">${esc(it.ex.ro)}</span><br>${esc(it.ex.pt)}</div>` : ''}
-      <div class="nb-meta"><span class="chip nova">${GROUP_LABEL[g]}</span><span>${esc(originOf(it))}</span><span>· desde ${new Date(r.seen).toLocaleDateString('pt-BR')}</span>${r.c + r.w ? `<span class="tabnum">· ${r.c} acerto${r.c === 1 ? '' : 's'}, ${r.w} erro${r.w === 1 ? '' : 's'}</span>` : ''}${g === 'anime' ? `<button class="link-btn" style="padding:0" data-act="discOpen" data-id="${it.id}">Ver descoberta</button>` : ''}</div></div>`;
+      <div class="nb-meta"><span class="chip nova">${GROUP_LABEL[g]}</span><span>${esc(originOf(it))}</span>${nqAlsoIn(it.id)}<span>· desde ${new Date(r.seen).toLocaleDateString('pt-BR')}</span>${r.c + r.w ? `<span class="tabnum">· ${r.c} acerto${r.c === 1 ? '' : 's'}, ${r.w} erro${r.w === 1 ? '' : 's'}</span>` : ''}${g === 'anime' ? `<button class="link-btn" style="padding:0" data-act="discOpen" data-id="${it.id}">Ver descoberta</button>` : ''}</div></div>`;
   };
   // agrupa pela origem, mantendo a ordem do conteúdo
   const order = ALL_LESSONS.concat(AUDIO_PACKS, typeof LA_LESSONS !== 'undefined' ? LA_LESSONS : [], [CHAT_PACK], typeof DICT_LESSON !== 'undefined' ? [DICT_LESSON] : [], typeof WORLD_LESSON !== 'undefined' ? [WORLD_LESSON] : [], typeof RD_WORDS_PACK !== 'undefined' ? [RD_WORDS_PACK] : []);
@@ -567,7 +568,7 @@ function viewNotebook() {
     <div class="stack"><input class="search" id="nbSearch" type="search" placeholder="Buscar em japonês, romaji ou português" value="${esc(nb.q)}" aria-label="Buscar no caderno">
     <div class="filters">${NB_TYPES.map(([k, t]) => `<button class="filter ${nb.t === k ? 'on' : ''}" data-act="nbType" data-t="${k}">${t}</button>`).join('')}</div>
     <div class="filters">${fl.map(([k, t]) => `<button class="filter small ${nb.f === k ? 'on' : ''}" data-act="nbFilter" data-f="${k}">${t}</button>`).join('')}</div>
-    <p class="muted tabnum" style="margin:0;font-size:.85rem">${ids.length} itens estudados · ${Object.keys(S.listening.dialogs).length} diálogos${q || nb.f !== 'todas' || nb.t !== 'todas' ? ' · ' + total + ' encontrados' : ''}</p></div>
+    <p class="muted tabnum" style="margin:0;font-size:.85rem">${nqUniqueCount(ids)} itens estudados · ${Object.keys(S.listening.dialogs).length} diálogos${q || nb.f !== 'todas' || nb.t !== 'todas' ? ' · ' + total + ' encontrados' : ''}</p></div>
     <div id="nbList">${groups || (ids.length ? '<p class="muted">Nada encontrado com esse filtro.</p>' : `<div class="card mascot-tip" style="margin-top:14px;box-shadow:none">${mascot('neutral', 64)}<div><b>Seu caderno está vazio.</b><p class="muted" style="margin:4px 0 0">As palavras das lições, os treinos auditivos, as expressões e as descobertas do Detetive aparecem aqui, com áudio, romaji, tradução e exemplos.</p></div></div>`)}</div></div>`;
 }
 
