@@ -42,7 +42,7 @@ const keepOld = (now, old) => Object.fromEntries(Object.keys(old).map(k => [k, O
   for (const [name, V] of [['2.0', V20], ['2.1', V21]]) {
     const raw = await loadSave(page, V);
     const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-    ok(S.schemaVersion === 10 && S.appVersion === '10.0.0', name + ': migrado para o esquema 6 (' + S.schemaVersion + ', ' + S.appVersion + ')');
+    ok(S.schemaVersion === 11 && S.appVersion === '11.0.0', name + ': migrado para o esquema 6 (' + S.schemaVersion + ', ' + S.appVersion + ')');
     same(S.lessons, V.lessons, name + ': lições preservadas (' + Object.keys(S.lessons).length + ')');
     same(S.catExams, V.catExams, name + ': avaliações finais preservadas');
     same(keepOld(S.items, V.items), V.items, name + ': itens de revisão preservados campo a campo (' + Object.keys(V.items).length + ')');
@@ -56,7 +56,7 @@ const keepOld = (now, old) => Object.fromEntries(Object.keys(old).map(k => [k, O
     ok(S.history.length === V.history.length, name + ': histórico preservado (' + S.history.length + ')');
     const st = await page.evaluate(() => ({ bk: localStorage.getItem('nihongoQuest:backup:schema2'), auto: localStorage.getItem('nihongoQuest:backup:auto'), stored: JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion }));
     ok(st.bk === raw, name + ': cópia de segurança do save antigo guardada antes da migração');
-    ok(st.stored === 10, name + ': save regravado no esquema 7');
+    ok(st.stored === 11, name + ': save regravado no esquema 7');
     ok(st.auto && JSON.parse(st.auto).xp === V.xp, name + ': cópia automática diária criada');
     ok(Object.entries(S.items).every(([id, r]) => r.c > 0 ? r.d >= 1 : r.d === 0), name + ': dias de acerto (d) calculados para todos os itens');
     ok(Object.keys(S.skills).length > 0 && Object.keys(S.log).length > 0, name + ': estatísticas por habilidade e registro diário criados');

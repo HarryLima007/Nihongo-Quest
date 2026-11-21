@@ -31,14 +31,14 @@ const stub = `(() => {
   await page.goto(URL); await page.evaluate(r => { __NQ.suspendSave(); localStorage.clear(); localStorage.setItem('nihongoQuest:save', r); }, raw);
   await page.reload(); await closeModals(page);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 10 && S.appVersion === '10.0.0', '6.0: migrado para o esquema 7 (versão 7.0.0)');
+  ok(S.schemaVersion === 11 && S.appVersion === '11.0.0', '6.0: migrado para o esquema 7 (versão 7.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema6') === r, raw), 'backup do save 6.0 guardado (nihongoQuest:backup:schema6) antes de migrar');
   const keep = ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests'];
   keep.forEach(k => ok(JSON.stringify(S[k]) === JSON.stringify(V60[k]), 'preservado: ' + k));
   ok(JSON.stringify(S.chat.chars) === JSON.stringify(V60.chat.chars) && JSON.stringify(S.chat.threads) === JSON.stringify(V60.chat.threads), 'preservado: Chat (personagens e conversas)');
   ['lessons', 'exams', 'words', 'dialogs', 'stats', 'speed'].forEach(k => ok(JSON.stringify(S.lacad[k]) === JSON.stringify(V60.lacad[k]), 'preservado: Listening Academy · ' + k));
   ok(S.dict && S.dict.v === 1 && !Object.keys(S.dict.fav).length, 'dicionário criado vazio (favoritos e recentes)');
-  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 10, 'save regravado no esquema 8');
+  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 11, 'save regravado no esquema 8');
   ok(await page.evaluate(() => { laState(); return LA_LESSON.la1l1.wordRefs.every(w => !!__NQ.S.lacad.taught[w.id]) && !LA_LESSON.la1l2.wordRefs.some(w => __NQ.S.lacad.taught[w.id]); }), 'palavras ensinadas pela Listening reconstruídas só das lições já feitas');
 
   /* ---------- 2. currículo: avaliações não se contaminam ---------- */

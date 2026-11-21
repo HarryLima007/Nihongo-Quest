@@ -44,12 +44,12 @@ const stub = `(() => {
   await page.goto(URL); await page.evaluate(r => { __NQ.suspendSave(); localStorage.clear(); localStorage.setItem('nihongoQuest:save', r); }, raw);
   await page.reload(); await closeModals(page);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 10 && S.appVersion === '10.0.0', '8.0: migrado para o esquema 9 (versão 9.0.0)');
+  ok(S.schemaVersion === 11 && S.appVersion === '11.0.0', '8.0: migrado para o esquema 9 (versão 9.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema8') === r, raw), 'backup do save 8.0 guardado (nihongoQuest:backup:schema8) antes de migrar');
   ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict', 'world', 'lacad'].forEach(k => ok(JSON.stringify(S[k]) === JSON.stringify(V80[k]), 'preservado: ' + k));
   ok(JSON.stringify(S.chat.chars) === JSON.stringify(V80.chat.chars) && JSON.stringify(S.chat.threads) === JSON.stringify(V80.chat.threads), 'preservado: Chat (personagens e conversas)');
   ok(S.read && S.read.v === 1 && !Object.keys(S.read.lessons).length && S.read.ro === 'sempre', 'Leitura criada vazia, romaji “sempre” para iniciantes');
-  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 10, 'save regravado no esquema 9');
+  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 11, 'save regravado no esquema 9');
   const before = await page.evaluate(() => ({ lessons: JSON.stringify(__NQ.S.lessons), lacad: JSON.stringify(__NQ.S.lacad), catExams: JSON.stringify(__NQ.S.catExams), world: JSON.stringify(__NQ.S.world.scenes), xp: __NQ.S.xp }));
 
   /* ---------- 2. navegação ---------- */
@@ -270,7 +270,7 @@ const stub = `(() => {
 
   /* ---------- 12. persistência ---------- */
   await page.evaluate(() => { saveNow(); }); await page.reload(); await closeModals(page);
-  ok(await page.evaluate(() => __NQ.S.read.lessons.h1.passed && __NQ.S.schemaVersion === 10), 'progresso de leitura salvo após recarregar');
+  ok(await page.evaluate(() => __NQ.S.read.lessons.h1.passed && __NQ.S.schemaVersion === 11), 'progresso de leitura salvo após recarregar');
   ok(await page.evaluate(() => !!__NQ.S.achievements.read_first), 'conquista “Primeiras letras”');
 
   /* ---------- 13. celular pequeno ---------- */

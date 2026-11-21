@@ -31,13 +31,13 @@ const stub = `(() => {
   await page.goto(URL); await page.evaluate(r => { __NQ.suspendSave(); localStorage.clear(); localStorage.setItem('nihongoQuest:save', r); }, raw);
   await page.reload(); await closeModals(page);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 10 && S.appVersion === '10.0.0', '7.0: migrado para o esquema 8 (versão 8.0.0)');
+  ok(S.schemaVersion === 11 && S.appVersion === '11.0.0', '7.0: migrado para o esquema 8 (versão 8.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema7') === r, raw), 'backup do save 7.0 guardado (nihongoQuest:backup:schema7) antes de migrar');
   ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict'].forEach(k => ok(JSON.stringify(S[k]) === JSON.stringify(V70[k]), 'preservado: ' + k));
   ok(JSON.stringify(S.chat.chars) === JSON.stringify(V70.chat.chars) && JSON.stringify(S.chat.threads) === JSON.stringify(V70.chat.threads), 'preservado: Chat (personagens e conversas)');
   ok(JSON.stringify(S.lacad) === JSON.stringify(V70.lacad), 'preservado: Listening Academy inteira (lições, avaliações, ensinados, estatísticas)');
   ok(S.world && S.world.v === 1 && !Object.keys(S.world.scenes).length, 'mundo criado vazio');
-  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 10, 'save regravado no esquema 8');
+  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 11, 'save regravado no esquema 8');
   const before = await page.evaluate(() => ({ lessons: JSON.stringify(__NQ.S.lessons), lacad: JSON.stringify(__NQ.S.lacad), catExams: JSON.stringify(__NQ.S.catExams), xp: __NQ.S.xp }));
 
   /* ---------- 2. navegação: aba Mundo, mapa, lugar ---------- */
@@ -243,7 +243,7 @@ const stub = `(() => {
   await page.click('.tab[data-view="caderno"]');
   ok((await page.textContent('#view')).includes('袋'), 'palavra do mundo aparece no Caderno');
   await page.evaluate(() => { saveNow(); }); await page.reload(); await closeModals(page);
-  ok(await page.evaluate(() => __NQ.S.world.scenes.k1 && __NQ.S.world.scenes.k1.done && __NQ.S.schemaVersion === 10), 'progresso do mundo salvo após recarregar');
+  ok(await page.evaluate(() => __NQ.S.world.scenes.k1 && __NQ.S.world.scenes.k1.done && __NQ.S.schemaVersion === 11), 'progresso do mundo salvo após recarregar');
 
   /* ---------- 10. celular pequeno ---------- */
   const small = await mk({ viewport: { width: 360, height: 700 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1 });

@@ -30,12 +30,12 @@ const stub = `(() => {
   await page.goto(URL); await page.evaluate(r => { __NQ.suspendSave(); localStorage.clear(); localStorage.setItem('nihongoQuest:save', r); }, raw);
   await page.reload(); await closeModals(page);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 10 && S.appVersion === '10.0.0', '9.0: migrado para o esquema 10 (versão 10.0.0)');
+  ok(S.schemaVersion === 11 && S.appVersion === '11.0.0', '9.0: migrado para o esquema 10 (versão 10.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema9') === r, raw), 'backup do save 9.0 guardado (nihongoQuest:backup:schema9) antes de migrar');
   ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict', 'world', 'lacad', 'read', 'settings', 'profile', 'discoveries', 'listening'].forEach(k => ok(JSON.stringify(S[k]) === JSON.stringify(V90[k]), 'preservado: ' + k));
   ok(JSON.stringify(S.chat.chars) === JSON.stringify(V90.chat.chars) && JSON.stringify(S.chat.threads) === JSON.stringify(V90.chat.threads), 'preservado: Chat (personagens e conversas)');
   ok(S.journey && S.journey.v === 1 && !Object.keys(S.journey.claimed).length, 'jornada criada vazia (nenhuma recompensa paga na migração)');
-  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 10, 'save regravado no esquema 10');
+  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 11, 'save regravado no esquema 10');
 
   /* ---------- 2. Início: Sua jornada ---------- */
   const tiles = await page.$$eval('.nq-tiles .nq-tile', b => b.map(x => x.querySelector('.nq-tn').textContent));
@@ -66,12 +66,12 @@ const stub = `(() => {
   ok(about.includes('Nihongo Quest') && about.includes('日本語クエスト'), 'nome oficial: Nihongo Quest — 日本語クエスト');
   ok(about.includes('Harry Lima') && about.includes('criador e responsável'), 'criador e responsável: Harry Lima');
   ok(about.includes('projeto independente') && !/Ltda|S\.A\.|LLC|Inc\.|®|marca registrada/i.test(about), 'nenhuma empresa ou registro inventado');
-  ok(about.includes('Versão 10.0.0'), 'versão atual exibida');
+  ok(about.includes('Versão 11.0.0'), 'versão atual exibida');
   const hrefs = await page.$$eval('.nq-about a', a => a.map(x => ({ h: x.href, t: x.target, r: x.rel })));
   ok(hrefs.some(x => x.h === 'https://harrylima007.github.io/Nihongo-Quest/') && hrefs.some(x => x.h === 'https://github.com/HarryLima007/Nihongo-Quest'), 'links oficiais: site e repositório');
   ok(hrefs.every(x => x.t === '_blank' && x.r.includes('noopener')), 'links abrem em nova aba com noopener');
   const hist = await page.$$eval('.nq-hist li b', b => b.map(x => x.textContent));
-  ok(JSON.stringify(hist) === JSON.stringify(['10.0.0', '9.0.0', '8.0.0', '7.0.0', '6.0.0', '5.0.0', '4.0.0', '3.0.0', '2.1.0', '2.0.0', '1.0.0']), 'histórico com todas as versões');
+  ok(JSON.stringify(hist) === JSON.stringify(['11.0.0', '10.0.0', '9.0.0', '8.0.0', '7.0.0', '6.0.0', '5.0.0', '4.0.0', '3.0.0', '2.1.0', '2.0.0', '1.0.0']), 'histórico com todas as versões');
   ok(about.includes('© 2026 Harry Lima. Todos os direitos reservados.') && about.includes('autorização do criador'), 'direitos autorais: todos os direitos reservados, reutilização depende de autorização');
   ok(!/\bMIT\b|domínio público|Creative Commons|licença livre/i.test(about.replace('não têm licença de uso livre', '')), 'nenhuma licença permissiva declarada por engano');
   ok(about.includes('SIL Open Font License') && about.includes('Web Speech') && about.includes('kuromoji') && about.includes('Claude Code'), 'créditos de terceiros e assistência de IA declarados');
@@ -151,17 +151,17 @@ const stub = `(() => {
   /* ---------- 8. novidade única + persistência ---------- */
   await page.waitForTimeout(5400);
   const toastTxt = await page.evaluate(() => window.__toasts.join(' '));
-  ok(toastTxt.includes('Novo na 10.0') && await page.evaluate(() => __NQ.S.journey.seenVersion === '10.0.0'), 'aviso de novidades da 10.0 para quem já usava o app');
+  ok(toastTxt.includes('Novo na 11.0') && await page.evaluate(() => __NQ.S.journey.seenVersion === '11.0.0'), 'aviso de novidades da 10.0 para quem já usava o app');
   await page.evaluate(() => saveNow());
   await page.reload(); await closeModals(page); await page.waitForTimeout(5600);
-  ok(!(await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 10.0'), 'aviso não se repete');
-  ok(await page.evaluate(() => !!__NQ.S.journey.claimed['test:boss1'] && __NQ.S.schemaVersion === 10), 'recompensas registradas sobrevivem ao recarregar');
+  ok(!(await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 11.0'), 'aviso não se repete');
+  ok(await page.evaluate(() => !!__NQ.S.journey.claimed['test:boss1'] && __NQ.S.schemaVersion === 11), 'recompensas registradas sobrevivem ao recarregar');
 
   /* ---------- 9. aluno novo ---------- */
   const pn = await mk(); await pn.goto(URL); await pn.evaluate(() => { __NQ.suspendSave(); localStorage.clear(); }); await pn.reload();
   await pn.fill('#nameInput', 'Teste'); await pn.click('[data-act="onboard"]'); await pn.waitForTimeout(300);
   ok(await pn.isVisible('.nq-tiles') && (await pn.$$('.nq-tile')).length === 8, 'aluno novo: jornada aparece no Início');
-  ok(await pn.evaluate(() => __NQ.S.schemaVersion === 10 && __NQ.S.journey && __NQ.S.xp === 0), 'aluno novo: esquema 10, sem XP indevido');
+  ok(await pn.evaluate(() => __NQ.S.schemaVersion === 11 && __NQ.S.journey && __NQ.S.xp === 0), 'aluno novo: esquema 10, sem XP indevido');
   await pn.context().close();
 
   /* ---------- 10. 360px ---------- */
