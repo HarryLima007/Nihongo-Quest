@@ -53,20 +53,20 @@ const stub = `(() => {
 
   /* ---------- 1. migração 11.0 -> 12.0 ---------- */
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 13 && S.appVersion === '13.0.0', '11.0: migrado para o esquema 12 (versão 12.0.0)');
+  ok(S.schemaVersion === 14 && S.appVersion === '14.0.0', '11.0: migrado para o esquema 12 (versão 12.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema11') === r, raw), 'backup do save 11.0 guardado (nihongoQuest:backup:schema11) antes de migrar');
-  ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict', 'world', 'lacad', 'read', 'rpg', 'settings', 'profile', 'discoveries', 'listening'].forEach(k => ok(JSON.stringify(S[k]) === JSON.stringify(V11[k]), 'preservado: ' + k));
+  ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict', 'world', 'lacad', 'read', 'rpg', 'settings', 'profile', 'discoveries', 'listening'].forEach(k => ok(JSON.stringify(k === "dict" && S[k] ? { fav: S[k].fav, recent: S[k].recent } : S[k]) === JSON.stringify(k === "dict" && V11[k] ? { fav: V11[k].fav, recent: V11[k].recent } : V11[k]), 'preservado: ' + k));
   ok(JSON.stringify(S.journey.claimed) === JSON.stringify(V11.journey.claimed), 'preservado: recompensas únicas da jornada');
   ok(JSON.stringify(S.chat.chars) === JSON.stringify(V11.chat.chars) && JSON.stringify(S.chat.threads) === JSON.stringify(V11.chat.threads), 'preservado: Chat (personagens e conversas)');
   ok(S.rpg.coins === V11.rpg.coins && JSON.stringify(S.rpg.inv) === JSON.stringify(V11.rpg.inv) && JSON.stringify(S.rpg.quests) === JSON.stringify(V11.rpg.quests), 'preservado: aventura (moedas, itens e missões)');
   ok(S.vocab && S.vocab.v === 1 && !Object.keys(S.vocab.lessons).length && !Object.keys(S.vocab.exams).length, 'Academia de Vocabulário criada vazia (nada aprovado na migração)');
-  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 13, 'save regravado no esquema 12');
+  ok(await page.evaluate(() => JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion) === 14, 'save regravado no esquema 12');
   // idempotente: recarregar não muda nada; migrar de novo um save já com progresso não apaga o vocabulário
   await page.reload(); await closeModals(page);
   const S2 = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
   ok(S2.xp === S.xp && S2.coins === S.coins && JSON.stringify(S2.items) === JSON.stringify(S.items) && JSON.stringify(S2.vocab) === JSON.stringify(S.vocab), 'recarregar não altera o save (migração idempotente)');
   const reMig = await page.evaluate(() => { const s = JSON.parse(JSON.stringify(__NQ.S)); s.vocab.lessons.vfo1 = { passed: true, best: 100, attempts: 1 }; s.schemaVersion = 11; const n = normalize(s); return { v: n.schemaVersion, kept: !!(n.vocab.lessons.vfo1 && n.vocab.lessons.vfo1.passed), xp: n.xp === s.xp }; });
-  ok(reMig.v === 13 && reMig.kept && reMig.xp, 'migrar de novo não apaga o progresso de vocabulário ' + JSON.stringify(reMig));
+  ok(reMig.v === 14 && reMig.kept && reMig.xp, 'migrar de novo não apaga o progresso de vocabulário ' + JSON.stringify(reMig));
   ok(await page.evaluate(() => !!localStorage.getItem('nihongoQuest:backup:schema11')), 'backup continua guardado');
 
   /* ---------- 2. Academia → Palavras ---------- */
@@ -159,7 +159,7 @@ const stub = `(() => {
     const top = q => dictSearch(q).slice(0, 3).map(e => e.jp);
     return { parts, wa: dictSearch('wa')[0], ha: dictSearch('は')[0], part: top('particula'), kado: top('角'), sq: top('quadrado'), chifre: top('chifre'), tsuno: top('つの'), prof: top('professora'), sug: dictSearch('geladera').length === 0 ? dictSuggest('geladera') : null, dupl: (() => { const m = {}; DICT.list.forEach(e => { const k = e.jp + '|' + e.kana; m[k] = (m[k] || 0) + 1; }); return Object.values(m).filter(n => n > 1).length; })(), multi: DICT.list.filter(e => e.pt && e.pt.length > 1).length, n: DICT.list.length };
   });
-  ok(['は', 'が', 'を', 'に', 'で', 'へ', 'と', 'の', 'も', 'か', 'から', 'まで', 'よ', 'ね'].every(p => d.parts.includes(p)) && d.parts.length === 14, '14 partículas no Dicionário');
+  ok(['は', 'が', 'を', 'に', 'で', 'へ', 'と', 'の', 'も', 'か', 'から', 'まで', 'よ', 'ね'].every(p => d.parts.includes(p)) && d.parts.length >= 14, '14 partículas no Dicionário (e as da 14.0)');
   ok(d.wa && d.wa.particle && d.wa.jp === 'は' && d.ha && d.ha.particle, '“wa” e “は” acham a partícula は primeiro');
   ok(d.part.length >= 3, '“partícula” lista as partículas');
   ok(d.kado[0] === '角' && d.sq.includes('四角') && d.chifre.includes('角') && d.tsuno.includes('角'), 'quadrado → 四角, chifre/つの → 角, 角 com várias leituras ' + JSON.stringify([d.kado, d.sq, d.chifre, d.tsuno]));
@@ -185,10 +185,10 @@ const stub = `(() => {
 
   /* ---------- 9. persistência + novidade única ---------- */
   await page.waitForTimeout(5400);
-  ok((await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 13.0'), 'aviso de novidades da 12.0 para quem já usava o app');
+  ok((await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 14.0'), 'aviso de novidades da 12.0 para quem já usava o app');
   await page.evaluate(() => saveNow()); await page.reload(); await closeModals(page); await page.waitForTimeout(5600);
-  ok(!(await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 13.0'), 'aviso não se repete');
-  ok(await page.evaluate(() => __NQ.S.vocab.lessons.vfo1.passed && __NQ.S.schemaVersion === 13), 'progresso de vocabulário salvo após recarregar');
+  ok(!(await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 14.0'), 'aviso não se repete');
+  ok(await page.evaluate(() => __NQ.S.vocab.lessons.vfo1.passed && __NQ.S.schemaVersion === 14), 'progresso de vocabulário salvo após recarregar');
 
   /* ---------- 10. 360px ---------- */
   const wide = async label => { const o = await page.evaluate(() => { const w = document.documentElement.clientWidth; const bad = [...document.querySelectorAll('#view .card, #view .btn, #view h1, #view h2, #view .vc-cat, #player .btn, #player .opt')].filter(e => { const r = e.getBoundingClientRect(); return r.width && (r.right > w + 1 || r.left < -1); }).length; return { sw: document.documentElement.scrollWidth, bad }; }); ok(o.sw <= 360 && o.bad === 0, '360px sem rolagem lateral: ' + label + ' ' + JSON.stringify(o)); };
@@ -202,7 +202,7 @@ const stub = `(() => {
   /* ---------- 11. aluno novo ---------- */
   const pn = await mk();
   await pn.goto(URL); await pn.evaluate(() => localStorage.clear()); await pn.reload(); await pn.waitForTimeout(300);
-  ok(await pn.evaluate(() => __NQ.S.schemaVersion === 13 && __NQ.S.vocab && __NQ.S.vocab.v === 1 && __NQ.S.xp === 0), 'aluno novo: esquema 12, vocabulário vazio, sem XP indevido');
+  ok(await pn.evaluate(() => __NQ.S.schemaVersion === 14 && __NQ.S.vocab && __NQ.S.vocab.v === 1 && __NQ.S.xp === 0), 'aluno novo: esquema 12, vocabulário vazio, sem XP indevido');
 
   ok(errors.length === 0, 'sem erros no console ' + errors.slice(0, 3).join(' | '));
   await browser.close();

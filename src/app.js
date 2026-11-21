@@ -2,8 +2,8 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '13.0.0';
-const SCHEMA_VERSION = 13;
+const APP_VERSION = '14.0.0';
+const SCHEMA_VERSION = 14;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -74,7 +74,7 @@ function defaultLearn() { return { v: 1, h: {}, x: {}, f: {}, days: {}, snaps: {
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
 function defaultLacad() { return { v: 1, lessons: {}, exams: {}, words: {}, dialogs: {}, speed: 1, stats: { a: 0, c: 0, ms: 0, byCat: {}, byType: {} } }; }
 /* 7.0: Dicionário (favoritos e recentes; salvar no Caderno usa S.items, como o resto do app) */
-function defaultDict() { return { v: 1, fav: {}, recent: [] }; }
+function defaultDict() { return { v: 2, fav: {}, recent: [], hist: [], coll: {}, words: {}, opts: { wod: true } }; }
 /* 8.0: Living Japanese World (visitas, situações vividas, personagens encontrados, palavras descobertas, opções de leitura/voz).
    XP vai para S.xp; palavras salvas vão para S.items (Caderno/Revisão), como o resto do app. */
 function defaultWorld() { return { v: 1, visits: {}, scenes: {}, met: {}, words: {}, speed: 'normal', opt: { ro: true, pt: true, listen: false }, intro: 0, news: 0 }; }
@@ -196,6 +196,15 @@ const MIGRATIONS = {
     if (!isPlainObj(s.learn)) s.learn = defaultLearn();
     if (!s.migratedFrom13) s.migratedFrom13 = { schema: 12, at: Date.now() };
     return s;
+  },
+  13: s => { // 13.0 -> 14.0: Dicionário Geral. Só ACRESCENTA campos em S.dict (favoritos e recentes ficam intactos)
+    if (!isPlainObj(s.dict)) s.dict = defaultDict();
+    if (!Array.isArray(s.dict.hist)) s.dict.hist = [];
+    if (!isPlainObj(s.dict.coll)) s.dict.coll = {};
+    if (!isPlainObj(s.dict.words)) s.dict.words = {};
+    if (!isPlainObj(s.dict.opts)) s.dict.opts = { wod: true };
+    if (!s.migratedFrom14) s.migratedFrom14 = { schema: 13, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -230,6 +239,9 @@ function normalize(data) {
   if (!isPlainObj(s.dict)) s.dict = defaultDict();
   if (!isPlainObj(s.dict.fav)) s.dict.fav = {};
   if (!Array.isArray(s.dict.recent)) s.dict.recent = [];
+  if (!Array.isArray(s.dict.hist)) s.dict.hist = [];
+  ['coll', 'words'].forEach(k => { if (!isPlainObj(s.dict[k])) s.dict[k] = {}; });
+  if (!isPlainObj(s.dict.opts)) s.dict.opts = { wod: true };
   if (!isPlainObj(s.world)) s.world = defaultWorld();
   ['visits', 'scenes', 'met', 'words'].forEach(k => { if (!isPlainObj(s.world[k])) s.world[k] = {}; });
   if (!isPlainObj(s.world.opt)) s.world.opt = defaultWorld().opt;

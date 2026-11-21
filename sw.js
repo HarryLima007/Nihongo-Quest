@@ -1,0 +1,20 @@
+/* Nihongo Quest — service worker (14.0)
+   - App (HTML): rede primeiro, cópia guardada quando estiver sem internet (as atualizações chegam normalmente).
+   - Dicionário Geral (dict/v1/): cache primeiro. Os arquivos têm versão no caminho (v1), então nunca ficam velhos;
+     uma base nova vai para dict/v2/ e o cache antigo é apagado aqui. */
+const APP_CACHE = 'nq-app-v14';
+const DICT_CACHE = 'nq-dict-v1';
+const KEEP = [APP_CACHE, DICT_CACHE];
+self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(APP_CACHE).then(c => c.addAll(['./', 'nihongo-quest.html', 'index.html']).catch(() => {}))); });
+self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('nq-') && !KEEP.includes(k)).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
+self.addEventListener('fetch', e => {
+  const req = e.request; if (req.method !== 'GET') return;
+  const url = new URL(req.url); if (url.origin !== location.origin) return;
+  if (url.pathname.includes('/dict/v1/')) {
+    e.respondWith(caches.open(DICT_CACHE).then(async c => { const hit = await c.match(req, { ignoreSearch: true }); if (hit) return hit; const r = await fetch(req); if (r.ok) c.put(req, r.clone()); return r; }));
+    return;
+  }
+  if (req.mode === 'navigate' || /\.html?$|\/$/.test(url.pathname)) {
+    e.respondWith(fetch(req).then(r => { if (r.ok) { const cp = r.clone(); caches.open(APP_CACHE).then(c => c.put(req, cp)); } return r; }).catch(() => caches.match(req, { ignoreSearch: true }).then(h => h || caches.match('nihongo-quest.html'))));
+  }
+});

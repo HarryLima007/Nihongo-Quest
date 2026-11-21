@@ -43,6 +43,7 @@
     "listening-voice.js",
     "listening.js",
     "dict-data.js",
+    "dict-grammar.js",
     "dictionary.js",
     "world-data.js",
     "world.js",
@@ -54,6 +55,8 @@
     "vocab-data.js",
     "vocab.js",
     "learn.js",
+    "jmdict.js",
+    "jmdict-ui.js",
     "boot.js"
   ]
 }

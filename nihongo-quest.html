@@ -1386,6 +1386,105 @@ button.conv:hover { background: var(--surface-2); }
 .ln-wing{margin:6px 4px 0;font-size:.8rem;color:var(--muted);font-weight:700}
 .ln-prow{width:100%}
 
+/* ===== 14.0 — Dicionário Geral ===== */
+.jm-note { margin: 0 2px; font-size: .85rem; }
+.jm-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+.jm-tag { display: inline-block; font-size: .68rem; font-weight: 800; padding: 1px 7px; border-radius: 999px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); white-space: nowrap; vertical-align: middle; }
+.jm-tag.ok { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+.jm-tag.en { background: var(--gold-soft); color: var(--gold-ink); border-color: transparent; }
+.jm-tag.pos { color: var(--royal); }
+.jm-tag.reg { background: var(--gold-soft); color: var(--gold-ink); }
+.jm-tag.hon { color: var(--violet); }
+.jm-en { color: var(--muted); font-style: italic; }
+.jm-filters { display: flex; gap: 6px; overflow-x: auto; padding: 2px 2px 4px; scrollbar-width: none; }
+.jm-filters::-webkit-scrollbar { display: none; }
+.jm-chip { flex: none; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; font-size: .82rem; color: var(--text); }
+.jm-chip.on { background: var(--royal); border-color: var(--royal); color: #fff; }
+.jm-phrase-btn { align-self: flex-start; }
+.jm-kstrip { display: flex; flex-direction: column; gap: 6px; }
+.jm-kmini { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); text-align: left; min-width: 0; }
+.jm-kmini > .jp { font-size: 1.9rem; font-weight: 800; width: 44px; text-align: center; flex: none; }
+.jm-kmini > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+.jm-kmini b { overflow-wrap: anywhere; }
+.jm-kmini small { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.jm-status .jm-st-top { display: flex; gap: 12px; align-items: center; }
+.jm-status .jm-st-top > div { display: flex; flex-direction: column; }
+.jm-status .muted { font-size: .82rem; }
+.jm-st-ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-size: 1.3rem; font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--royal), var(--violet)); flex: none; }
+.jm-off.ok { color: var(--ok); font-weight: 700; font-size: .85rem; margin: 8px 0 0; }
+.jm-dl { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.jm-quick { display: flex; flex-wrap: wrap; gap: 8px; }
+.jm-wod-h { display: flex; justify-content: space-between; align-items: center; }
+.jm-credits { font-size: .78rem; color: var(--muted); margin-top: 10px; }
+.jm-credits summary { cursor: pointer; font-weight: 700; }
+.jm-credits p { margin: 6px 0; }
+.jm-credits a { color: inherit; }
+.jm-entry .d-head-b .icon-btn { font-size: 1.1rem; }
+.jm-senses { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
+.jm-sense { display: flex; flex-direction: column; gap: 3px; }
+.jm-sense::marker { font-weight: 800; color: var(--royal); }
+.jm-sense-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.jm-gl { font-weight: 600; }
+.jm-ex { margin-top: 4px; }
+.jm-ex ruby rt { font-size: .55em; color: var(--muted); }
+.jm-cred { color: var(--muted); font-size: .7rem; }
+.jm-anal { font-size: .78rem; align-self: flex-start; }
+.jm-nqchip { background: var(--ok-bg); color: var(--ok); }
+.jm-pa { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.jm-pitch { display: inline-flex; font-family: var(--f-jp, inherit); font-size: 1.05rem; }
+.jm-pitch span { padding: 2px 1px 0; border-top: 2px solid transparent; border-bottom: 2px solid transparent; }
+.jm-pitch .h { border-top-color: var(--royal); }
+.jm-pitch .l { border-bottom-color: var(--line); }
+.jm-pitch .d { border-right: 2px solid var(--royal); }
+.jm-conj summary { cursor: pointer; font-weight: 800; }
+.jm-conj table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: .9rem; }
+.jm-conj th { text-align: left; font-weight: 700; color: var(--muted); padding: 5px 6px 5px 0; width: 48%; }
+.jm-conj td { padding: 5px 0; border-bottom: 1px solid var(--line); }
+.jm-conj tr:last-child td { border-bottom: 0; }
+.jm-alt { margin: 0; line-height: 1.7; }
+.jm-alt small { color: var(--muted); font-size: .72rem; margin-left: 3px; }
+.jm-more { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+.jm-coll { display: flex; align-items: center; gap: 6px; }
+.jm-coll select { padding: 6px 8px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text); max-width: 190px; }
+.jm-newcoll { display: flex; gap: 6px; }
+.jm-newcoll .search { flex: 1; min-width: 0; }
+.jm-src { font-size: .72rem; margin: 0; }
+.jm-loading { padding: 30px 0; text-align: center; }
+.jm-k-top { display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.jm-k-big .jp { font-size: 4.6rem; font-weight: 800; line-height: 1; }
+.jm-k-svg { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.jm-strokes { width: 128px; height: 128px; background: var(--surface-2); border-radius: 14px; }
+.jm-strokes path { fill: none; stroke: var(--text); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: jmDraw .55s ease forwards; }
+.jm-strokes text { font-size: 7px; fill: var(--royal); font-weight: 700; }
+@keyframes jmDraw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .jm-strokes path { animation: none; stroke-dashoffset: 0; } }
+.jm-k-mean { margin: 0; font-weight: 700; font-size: 1.05rem; }
+.jm-k-facts { display: flex; flex-wrap: wrap; gap: 6px; }
+.jm-k-facts > span { padding: 5px 10px; border-radius: 12px; background: var(--surface-2); font-size: .82rem; }
+.jm-reads { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.jm-rl { width: 100%; color: var(--muted); font-weight: 700; font-size: .74rem; }
+.jm-read { display: inline-flex; flex-direction: column; align-items: center; padding: 5px 10px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); }
+.jm-read .jp { font-weight: 800; font-size: 1.05rem; }
+.jm-read small { color: var(--muted); font-size: .7rem; font-weight: 700; }
+.jm-read.on { border-color: var(--royal); box-shadow: 0 0 0 2px color-mix(in srgb, var(--royal) 35%, transparent); }
+.jm-phrase { display: flex; flex-direction: column; gap: 4px; }
+.jm-ph-q { font-size: 1.25rem; font-weight: 700; margin: 4px 0 0; overflow-wrap: anywhere; }
+.jm-toks { display: flex; flex-wrap: wrap; gap: 6px; }
+.jm-tok { display: inline-flex; flex-direction: column; align-items: flex-start; padding: 6px 10px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); text-align: left; max-width: 100%; }
+.jm-tok b { font-size: 1.15rem; }
+.jm-tok ruby rt { font-size: .5em; color: var(--muted); }
+.jm-tok small { color: var(--muted); font-size: .7rem; }
+.jm-tok .jm-tok-g { font-size: .78rem; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.jm-tok .jm-tok-l { color: var(--royal); font-weight: 700; }
+.jm-tok.prt { background: var(--gold-soft); border-color: transparent; }
+.jm-tok.punct { border: 0; background: none; padding: 6px 2px; }
+.jm-tok.unk { opacity: .7; }
+.jm-cmp { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 8px; }
+.jm-cmp-col { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 8px; border: 1px solid var(--line); border-radius: 12px; overflow-wrap: anywhere; }
+.jm-cmp-col ol { margin: 0; padding-left: 18px; font-size: .82rem; }
+.jm-cmp-col p { margin: 0; font-size: .88rem; }
+.jm-local .d-pt::after { content: ' · Nihongo Quest'; color: var(--ok); font-size: .7rem; font-weight: 800; }
+
 </style>
 <div class="app" id="app"><main id="view"></main></div>
 <nav class="tabbar" id="tabbar" aria-label="Navegação principal"><div class="tabbar-in">
@@ -10489,8 +10588,8 @@ const NQK = (function () {
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '13.0.0';
-const SCHEMA_VERSION = 13;
+const APP_VERSION = '14.0.0';
+const SCHEMA_VERSION = 14;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
 const PASS = 80;
@@ -10561,7 +10660,7 @@ function defaultLearn() { return { v: 1, h: {}, x: {}, f: {}, days: {}, snaps: {
 /* 6.0: Listening Academy (progresso próprio; XP, revisão e caderno continuam nos sistemas de sempre) */
 function defaultLacad() { return { v: 1, lessons: {}, exams: {}, words: {}, dialogs: {}, speed: 1, stats: { a: 0, c: 0, ms: 0, byCat: {}, byType: {} } }; }
 /* 7.0: Dicionário (favoritos e recentes; salvar no Caderno usa S.items, como o resto do app) */
-function defaultDict() { return { v: 1, fav: {}, recent: [] }; }
+function defaultDict() { return { v: 2, fav: {}, recent: [], hist: [], coll: {}, words: {}, opts: { wod: true } }; }
 /* 8.0: Living Japanese World (visitas, situações vividas, personagens encontrados, palavras descobertas, opções de leitura/voz).
    XP vai para S.xp; palavras salvas vão para S.items (Caderno/Revisão), como o resto do app. */
 function defaultWorld() { return { v: 1, visits: {}, scenes: {}, met: {}, words: {}, speed: 'normal', opt: { ro: true, pt: true, listen: false }, intro: 0, news: 0 }; }
@@ -10683,6 +10782,15 @@ const MIGRATIONS = {
     if (!isPlainObj(s.learn)) s.learn = defaultLearn();
     if (!s.migratedFrom13) s.migratedFrom13 = { schema: 12, at: Date.now() };
     return s;
+  },
+  13: s => { // 13.0 -> 14.0: Dicionário Geral. Só ACRESCENTA campos em S.dict (favoritos e recentes ficam intactos)
+    if (!isPlainObj(s.dict)) s.dict = defaultDict();
+    if (!Array.isArray(s.dict.hist)) s.dict.hist = [];
+    if (!isPlainObj(s.dict.coll)) s.dict.coll = {};
+    if (!isPlainObj(s.dict.words)) s.dict.words = {};
+    if (!isPlainObj(s.dict.opts)) s.dict.opts = { wod: true };
+    if (!s.migratedFrom14) s.migratedFrom14 = { schema: 13, at: Date.now() };
+    return s;
   }
 };
 function fillDefaults(target, def) {
@@ -10717,6 +10825,9 @@ function normalize(data) {
   if (!isPlainObj(s.dict)) s.dict = defaultDict();
   if (!isPlainObj(s.dict.fav)) s.dict.fav = {};
   if (!Array.isArray(s.dict.recent)) s.dict.recent = [];
+  if (!Array.isArray(s.dict.hist)) s.dict.hist = [];
+  ['coll', 'words'].forEach(k => { if (!isPlainObj(s.dict[k])) s.dict[k] = {}; });
+  if (!isPlainObj(s.dict.opts)) s.dict.opts = { wod: true };
   if (!isPlainObj(s.world)) s.world = defaultWorld();
   ['visits', 'scenes', 'met', 'words'].forEach(k => { if (!isPlainObj(s.world[k])) s.world[k] = {}; });
   if (!isPlainObj(s.world.opt)) s.world.opt = defaultWorld().opt;
@@ -17577,6 +17688,153 @@ const DICT_KREAD = {
 };
 
 /* ==========================================================
+   Nihongo Quest 14.0 — DICIONÁRIO: partículas e estruturas para consulta
+   Complementa as 14 partículas de DICT_PARTICLES (dict-data.js) com partículas de fim de frase, de limite e de
+   ligação, e com estruturas gramaticais frequentes. Mesmo formato: p (forma), ro, pt (sentidos curtos), intro,
+   fn ([função, explicação, [[japonês, romaji, tradução]…]]), cmp (comparação), err (erro comum), note.
+   kind: 'part' (partícula) ou 'gram' (estrutura). Texto próprio do Nihongo Quest.
+   ========================================================== */
+const DICT_GRAMMAR = [
+  { p: 'より', ro: 'yori', kind: 'part', pt: ['do que (comparação)', 'a partir de (formal)'],
+    intro: 'Marca o termo com que se compara: A は B より… = A é mais… do que B.',
+    fn: [['Comparação', 'O que vem antes de より é o ponto de referência.', [['今日は昨日より暑いです。', 'kyou wa kinou yori atsui desu.', 'Hoje está mais quente do que ontem.'], ['電車はバスより速い。', 'densha wa basu yori hayai.', 'O trem é mais rápido que o ônibus.']]],
+      ['Ponto de partida (formal)', 'Em avisos e textos formais, equivale a から.', [['会議は九時より始まります。', 'kaigi wa kuji yori hajimarimasu.', 'A reunião começa às nove.']]]],
+    cmp: 'より × ほうが: AのほうがBより… destaca A como o “mais”. Pode-se usar um só: 犬のほうが好き (gosto mais de cachorro).', err: 'Não traduza より por “mais”: o “mais” já está no adjetivo. 高い sozinho, com より, já significa “mais caro”.' },
+  { p: 'や', ro: 'ya', kind: 'part', pt: ['e (lista incompleta)', 'entre outros'],
+    intro: 'Liga substantivos dando exemplos, sem esgotar a lista.',
+    fn: [['Lista de exemplos', 'Indica que há outras coisas além das citadas. Muitas vezes termina com など.', [['りんごやバナナを買いました。', 'ringo ya banana o kaimashita.', 'Comprei maçã, banana (entre outras coisas).'], ['本やノートなどがあります。', 'hon ya nooto nado ga arimasu.', 'Há livros, cadernos etc.']]]],
+    cmp: 'や × と: と lista tudo; や dá exemplos.', err: 'や só liga substantivos. Para ligar verbos, use a forma て ou たり.' },
+  { p: 'だけ', ro: 'dake', kind: 'part', pt: ['só, apenas', 'tanto quanto'],
+    intro: 'Limita: “só isso”, sem tom negativo.',
+    fn: [['Limite', 'Vem logo depois do que é limitado. O verbo fica afirmativo.', [['水だけ飲みました。', 'mizu dake nomimashita.', 'Bebi só água.'], ['一人だけ来ました。', 'hitori dake kimashita.', 'Veio só uma pessoa.']]],
+      ['Tanto quanto', 'Com verbos de possibilidade: できるだけ (o máximo possível).', [['できるだけ早く来てください。', 'dekiru dake hayaku kite kudasai.', 'Venha o mais cedo possível.']]]],
+    cmp: 'だけ × しか: だけ + afirmativo (neutro); しか + negativo (“só… e é pouco”).', err: 'Não use だけ com verbo negativo para dizer “só”: 水しか飲まない, e não 水だけ飲まない (que significaria “não bebo só água”).' },
+  { p: 'しか', ro: 'shika', kind: 'part', pt: ['só, nada além de (com negativo)'],
+    intro: 'Sempre com o verbo na forma negativa. Dá a ideia de “só isso, e é pouco”.',
+    fn: [['Só (com negativo)', 'しか + negativo = “não… a não ser”.', [['百円しかありません。', 'hyaku en shika arimasen.', 'Só tenho cem ienes.'], ['日本語しか話せない。', 'nihongo shika hanasenai.', 'Só consigo falar japonês.']]]],
+    cmp: 'しか × だけ: 百円だけある (tenho só cem, neutro) × 百円しかない (só tenho cem, é pouco).', err: 'しか com verbo afirmativo é erro: ×百円しかあります.' },
+  { p: 'ばかり', ro: 'bakari', kind: 'part', pt: ['só (o tempo todo)', 'acabou de (たばかり)', 'cerca de'],
+    intro: 'Exagera a repetição (“só faz isso”) ou, depois do passado, indica algo que acabou de acontecer.',
+    fn: [['Só, o tempo todo', 'Muitas vezes com tom de crítica.', [['弟はゲームばかりしている。', 'otouto wa geemu bakari shite iru.', 'Meu irmão só fica jogando.']]],
+      ['Acabou de (〜たばかり)', 'Ação muito recente, do ponto de vista de quem fala.', [['日本に来たばかりです。', 'nihon ni kita bakari desu.', 'Acabei de chegar ao Japão.']]]],
+    cmp: 'たばかり × たところ: たところ é o momento exato; たばかり pode ser “recente” num sentido mais amplo (semanas).' },
+  { p: 'ほど', ro: 'hodo', kind: 'part', pt: ['tanto quanto (com negativo)', 'cerca de', 'quanto mais… mais'],
+    intro: 'Indica grau ou medida.',
+    fn: [['Não tanto quanto', 'A は B ほど〜ない = A não é tão… quanto B.', [['今日は昨日ほど寒くない。', 'kyou wa kinou hodo samuku nai.', 'Hoje não está tão frio quanto ontem.']]],
+      ['Cerca de', 'Quantidade aproximada (um pouco formal).', [['十分ほど待ってください。', 'juppun hodo matte kudasai.', 'Espere uns dez minutos.']]],
+      ['Quanto mais… mais (〜ば〜ほど)', 'Proporção.', [['練習すればするほど上手になる。', 'renshuu sureba suru hodo jouzu ni naru.', 'Quanto mais você pratica, melhor fica.']]]] },
+  { p: 'くらい', ro: 'kurai / gurai', alt: ['gurai'], kind: 'part', pt: ['cerca de, uns', 'pelo menos', 'tanto que'],
+    intro: 'Aproximação de quantidade ou grau. Também se escreve ぐらい.',
+    fn: [['Cerca de', 'Depois de números e quantidades.', [['駅まで五分くらいです。', 'eki made gofun kurai desu.', 'Até a estação são uns cinco minutos.']]],
+      ['Pelo menos, o mínimo', 'Algo considerado pouco ou fácil.', [['名前くらい書けるよ。', 'namae kurai kakeru yo.', 'Pelo menos o nome eu consigo escrever.']]]],
+    cmp: 'くらい × ごろ: para horários exatos use ごろ (三時ごろ = por volta das três); くらい é para quantidade e duração.' },
+  { p: 'など', ro: 'nado', kind: 'part', pt: ['etc., entre outros', 'coisas como'],
+    intro: 'Fecha uma lista de exemplos ou suaviza o que foi dito.',
+    fn: [['Etc.', 'Indica que a lista continua.', [['すしやてんぷらなどを食べました。', 'sushi ya tenpura nado o tabemashita.', 'Comi sushi, tempurá e outras coisas.']]],
+      ['Coisas como (suavizar ou desdenhar)', 'Pode soar modesto ou depreciativo.', [['私など、まだまだです。', 'watashi nado, madamada desu.', 'Alguém como eu ainda tem muito a aprender.']]]], note: 'Na fala casual aparece なんか com o mesmo sentido.' },
+  { p: 'でも', ro: 'demo', kind: 'part', pt: ['mas (no começo da frase)', 'até, mesmo', 'ou algo assim'],
+    intro: 'Tem usos bem diferentes conforme a posição.',
+    fn: [['Mas (conjunção)', 'No início da frase, contrasta com a anterior.', [['行きたい。でも、時間がない。', 'ikitai. demo, jikan ga nai.', 'Quero ir. Mas não tenho tempo.']]],
+      ['Até, mesmo', 'Depois de um substantivo: “até X”.', [['子どもでも分かる。', 'kodomo demo wakaru.', 'Até uma criança entende.']]],
+      ['Ou algo assim (sugestão)', 'Suaviza um convite.', [['お茶でも飲みませんか。', 'ocha demo nomimasen ka.', 'Que tal tomarmos um chá (ou algo assim)?']]]],
+    cmp: 'でも × けど: けど liga duas partes na mesma frase; でも começa uma frase nova.' },
+  { p: 'けど', ro: 'kedo', alt: ['keredo', 'keredomo'], kind: 'part', pt: ['mas, porém', 'introdução suave'],
+    intro: 'Liga duas ideias em contraste. Formas mais formais: けれど, けれども.',
+    fn: [['Contraste', 'Depois da forma casual ou educada.', [['高いけど、おいしい。', 'takai kedo, oishii.', 'É caro, mas é gostoso.']]],
+      ['Introdução suave', 'Prepara um pedido ou pergunta, às vezes deixando a frase em aberto.', [['すみません、ちょっと聞きたいんですけど…', 'sumimasen, chotto kikitai n desu kedo…', 'Com licença, eu queria perguntar uma coisa…']]]],
+    cmp: 'けど × が (conjunção): mesmo sentido; が é mais formal e escrito.' },
+  { p: 'ので', ro: 'node', kind: 'part', pt: ['porque, já que (explicação)'],
+    intro: 'Dá a causa de forma objetiva e educada.',
+    fn: [['Causa', 'Depois da forma casual; com substantivos e adjetivos -na vira なので.', [['雨なので、行きません。', 'ame na node, ikimasen.', 'Como está chovendo, não vou.'], ['疲れたので、早く寝ます。', 'tsukareta node, hayaku nemasu.', 'Como estou cansado, vou dormir cedo.']]]],
+    cmp: 'ので × から: から é mais direto e pessoal (bom para opiniões e ordens); ので soa mais educado, bom para justificativas.' },
+  { p: 'のに', ro: 'noni', kind: 'part', pt: ['apesar de, embora (com frustração)', 'para (finalidade)'],
+    intro: 'Mostra que o resultado contraria a expectativa, muitas vezes com queixa.',
+    fn: [['Apesar de', 'Resultado inesperado, com sentimento.', [['勉強したのに、落ちた。', 'benkyou shita noni, ochita.', 'Apesar de ter estudado, fui reprovado.']]],
+      ['Para (finalidade)', 'Com verbo no dicionário + のに: uso, custo ou tempo necessário.', [['この箱は本を入れるのに便利です。', 'kono hako wa hon o ireru noni benri desu.', 'Esta caixa é prática para guardar livros.']]]],
+    cmp: 'のに × けど: けど só contrasta; のに acrescenta frustração ou surpresa.' },
+  { p: 'し', ro: 'shi', kind: 'part', pt: ['e além disso (lista de motivos)'],
+    intro: 'Soma razões ou características, sugerindo que há mais.',
+    fn: [['Lista de razões', 'Depois da forma casual.', [['この店は安いし、おいしいし、いつも行きます。', 'kono mise wa yasui shi, oishii shi, itsumo ikimasu.', 'Esta loja é barata, gostosa… sempre vou lá.']]]] },
+  { p: 'って', ro: 'tte', kind: 'part', pt: ['citação casual (“disse que”)', 'tópico casual'],
+    intro: 'Versão falada de と (citação) e de は ou という (tópico).',
+    fn: [['Citação', 'Repete o que alguém disse ou ouviu.', [['明日休みだって。', 'ashita yasumi da tte.', 'Disseram que amanhã é folga.']]],
+      ['Tópico ou definição', '“Esse tal de…”, “o que é…”.', [['「すし」って何？', '"sushi" tte nani?', 'O que é “sushi”?']]]], note: 'É bem casual. Na escrita formal use と ou という.' },
+  { p: 'かな', ro: 'kana', alt: ['kashira'], kind: 'part', pt: ['será que…? (dúvida, falando consigo)'],
+    intro: 'Fim de frase que expressa dúvida ou pensamento em voz alta. かしら tem o mesmo sentido, com tom tradicionalmente feminino.',
+    fn: [['Dúvida', 'Depois da forma casual.', [['明日は晴れるかな。', 'ashita wa hareru kana.', 'Será que amanhã vai fazer sol?']]],
+      ['Pedido suave (〜てくれないかな)', 'Pedido indireto.', [['手伝ってくれないかな。', 'tetsudatte kurenai kana.', 'Será que você não me ajuda?']]]] },
+  { p: 'わ', ro: 'wa', kind: 'part', pt: ['ênfase suave (fim de frase)'],
+    intro: 'Partícula de fim de frase que dá ênfase leve. No Japão de Tóquio é associada à fala feminina; em Kansai é usada por todos.',
+    fn: [['Ênfase leve', 'Expressa sentimento ou decisão.', [['もう帰るわ。', 'mou kaeru wa.', 'Bom, já vou embora.']]]], note: 'Em anime e mangá aparece muito como marca de personagem (estilo de fala).' },
+  { p: 'ぞ', ro: 'zo', alt: ['ze'], kind: 'part', pt: ['ênfase forte (fim de frase, masculina)'],
+    intro: 'ぞ e ぜ dão força à frase. Muito comuns em anime; na vida real soam bruscas e masculinas.',
+    fn: [['Ênfase ou aviso', 'ぞ: afirma com força. ぜ: chama o outro para junto (“vamos!”).', [['行くぞ！', 'iku zo!', 'Vamos lá! / Eu vou!'], ['やろうぜ！', 'yarou ze!', 'Bora fazer!']]]], err: 'Evite com pessoas mais velhas ou desconhecidas: soa rude.' },
+  { p: 'ずつ', ro: 'zutsu', kind: 'part', pt: ['cada, de… em…'],
+    intro: 'Distribui uma quantidade igual por vez ou por pessoa.',
+    fn: [['Distribuição', 'Depois de números e quantidades.', [['一人二つずつ取ってください。', 'hitori futatsu zutsu totte kudasai.', 'Peguem dois cada um.'], ['少しずつ上手になる。', 'sukoshi zutsu jouzu ni naru.', 'Melhorar pouco a pouco.']]]] },
+  { p: 'こそ', ro: 'koso', kind: 'part', pt: ['é exatamente…, justamente'],
+    intro: 'Destaca com força: “é isso, e não outra coisa”.',
+    fn: [['Destaque', 'Substitui は ou が.', [['こちらこそ、よろしくお願いします。', 'kochira koso, yoroshiku onegai shimasu.', 'Eu é que agradeço (o prazer é meu).'], ['今年こそ合格する！', 'kotoshi koso goukaku suru!', 'Este ano eu passo, com certeza!']]]] },
+  { p: 'さえ', ro: 'sae', kind: 'part', pt: ['até, nem mesmo', 'basta (〜さえ〜ば)'],
+    intro: 'Mostra um caso extremo, ou a única condição necessária.',
+    fn: [['Até, nem mesmo', 'Caso extremo.', [['名前さえ書けない。', 'namae sae kakenai.', 'Não consegue escrever nem o nome.']]],
+      ['Basta (〜さえ〜ば)', 'Única condição.', [['時間さえあれば、行ける。', 'jikan sae areba, ikeru.', 'Basta ter tempo que eu consigo ir.']]]] },
+  // estruturas gramaticais
+  { p: '〜てもいい', ro: 'te mo ii', kind: 'gram', pt: ['pode…, tem permissão para…'],
+    intro: 'Forma て + もいい: dá ou pede permissão.',
+    fn: [['Permissão', 'Pergunta com か para pedir.', [['ここで写真を撮ってもいいですか。', 'koko de shashin o totte mo ii desu ka.', 'Posso tirar foto aqui?'], ['帰ってもいいよ。', 'kaette mo ii yo.', 'Pode ir embora.']]]],
+    cmp: '〜てもいい (pode) × 〜てはいけない (não pode) × 〜なくてもいい (não precisa).' },
+  { p: '〜てはいけない', ro: 'te wa ikenai', kind: 'gram', pt: ['não pode…, é proibido…'],
+    intro: 'Forma て + はいけない: proibição. Na fala vira 〜ちゃだめ / 〜ちゃいけない.',
+    fn: [['Proibição', 'Regras e avisos.', [['ここでたばこを吸ってはいけません。', 'koko de tabako o sutte wa ikemasen.', 'É proibido fumar aqui.'], ['見ちゃだめ！', 'micha dame!', 'Não olha!']]]] },
+  { p: '〜なければならない', ro: 'nakereba naranai', kind: 'gram', alt: ['nakya', 'nakucha'], pt: ['tenho que…, é preciso…'],
+    intro: 'Obrigação. Formas faladas: 〜なきゃ, 〜なくちゃ (o resto da frase fica subentendido).',
+    fn: [['Obrigação', 'Forma ない sem い + ければならない.', [['明日は早く起きなければなりません。', 'ashita wa hayaku okinakereba narimasen.', 'Amanhã tenho que acordar cedo.'], ['もう行かなきゃ。', 'mou ikanakya.', 'Já tenho que ir.']]]],
+    cmp: '〜なければならない (tem que) × 〜なくてもいい (não precisa).' },
+  { p: '〜たことがある', ro: 'ta koto ga aru', kind: 'gram', pt: ['já fiz… (experiência)'],
+    intro: 'Forma た + ことがある: experiência de vida.',
+    fn: [['Experiência', 'Para dizer “nunca”, use ことがない.', [['日本に行ったことがあります。', 'nihon ni itta koto ga arimasu.', 'Já fui ao Japão.'], ['すしを食べたことがない。', 'sushi o tabeta koto ga nai.', 'Nunca comi sushi.']]]],
+    err: 'Não use para coisas do dia a dia recente (×今朝ごはんを食べたことがある). É para experiências.' },
+  { p: '〜つもり', ro: 'tsumori', kind: 'gram', pt: ['pretender, ter a intenção de'],
+    intro: 'Verbo no dicionário (ou ない) + つもり: plano já decidido.',
+    fn: [['Intenção', 'Mais firme que a volitiva.', [['来年日本へ行くつもりです。', 'rainen nihon e iku tsumori desu.', 'Pretendo ir ao Japão no ano que vem.'], ['もう飲まないつもりだ。', 'mou nomanai tsumori da.', 'Pretendo não beber mais.']]]],
+    cmp: 'つもり × 〜ようと思う: つもり é um plano firme; ようと思う é uma decisão que está tomando agora.' },
+  { p: '〜ほうがいい', ro: 'hou ga ii', kind: 'gram', pt: ['é melhor…, deveria…'],
+    intro: 'Conselho. Forma た + ほうがいい é o mais comum; ない + ほうがいい para “é melhor não”.',
+    fn: [['Conselho', 'Recomendação direta.', [['薬を飲んだほうがいいですよ。', 'kusuri o nonda hou ga ii desu yo.', 'É melhor tomar o remédio.'], ['無理しないほうがいい。', 'muri shinai hou ga ii.', 'É melhor não se forçar.']]]] },
+  { p: '〜かもしれない', ro: 'kamoshirenai', kind: 'gram', pt: ['talvez, pode ser que'],
+    intro: 'Possibilidade (uns 50%). Educado: かもしれません. Casual: かも.',
+    fn: [['Possibilidade', 'Depois da forma casual; com substantivo e adjetivo -na, sem だ.', [['明日は雨かもしれません。', 'ashita wa ame kamoshiremasen.', 'Talvez chova amanhã.'], ['遅れるかも。', 'okureru kamo.', 'Pode ser que eu me atrase.']]]],
+    cmp: 'かもしれない (talvez) × でしょう / だろう (provavelmente) × はず (deve ser, com base lógica).' },
+  { p: '〜でしょう', ro: 'deshou', alt: ['darou'], kind: 'gram', pt: ['provavelmente', 'não é? (confirmação)'],
+    intro: 'Suposição ou pedido de confirmação. Casual: だろう / でしょ.',
+    fn: [['Suposição', 'Previsões, opiniões.', [['明日は晴れるでしょう。', 'ashita wa hareru deshou.', 'Amanhã provavelmente fará sol.']]],
+      ['Confirmação', 'Com entonação subindo.', [['これ、おいしいでしょ？', 'kore, oishii desho?', 'Isto é gostoso, não é?']]]] },
+  { p: '〜そうだ', ro: 'sou da', kind: 'gram', pt: ['parece que (aparência)', 'dizem que (ouvi dizer)'],
+    intro: 'Dois sentidos diferentes, conforme a forma que vem antes.',
+    fn: [['Aparência', 'Radical do verbo ou do adjetivo + そう: o que parece pela aparência.', [['このケーキはおいしそう。', 'kono keeki wa oishisou.', 'Este bolo parece gostoso.'], ['雨が降りそうだ。', 'ame ga furisou da.', 'Parece que vai chover.']]],
+      ['Ouvi dizer', 'Forma casual completa + そうだ: informação de outra pessoa.', [['明日は雨が降るそうです。', 'ashita wa ame ga furu sou desu.', 'Dizem que amanhã vai chover.']]]],
+    err: 'おいしいそう (com い) é “dizem que é gostoso”; おいしそう (sem い) é “parece gostoso”.' },
+  { p: '〜ようだ', ro: 'you da', alt: ['mitai', 'rashii'], kind: 'gram', pt: ['parece que (pela evidência)'],
+    intro: 'Conclusão a partir do que se observa. みたい é a versão falada; らしい indica o que se ouviu ou o que é típico.',
+    fn: [['Parece que', 'Evidência indireta.', [['誰か来たようです。', 'dareka kita you desu.', 'Parece que alguém chegou.'], ['風邪をひいたみたい。', 'kaze o hiita mitai.', 'Acho que peguei um resfriado.']]],
+      ['Como, igual a (〜のような)', 'Comparação.', [['夢のような話。', 'yume no you na hanashi.', 'Uma história como um sonho.']]]],
+    cmp: 'ようだ (deduzo pelo que vejo) × らしい (ouvi dizer / é típico de) × そうだ (aparência imediata).' },
+  { p: '〜ために', ro: 'tame ni', kind: 'gram', pt: ['para (finalidade)', 'por causa de'],
+    intro: 'Finalidade (com verbo de ação voluntária) ou causa (com passado ou substantivo).',
+    fn: [['Finalidade', 'Verbo no dicionário + ために.', [['日本で働くために、日本語を勉強しています。', 'nihon de hataraku tame ni, nihongo o benkyou shite imasu.', 'Estudo japonês para trabalhar no Japão.']]],
+      ['Causa', 'Formal, comum em notícias e avisos.', [['事故のために、電車が遅れています。', 'jiko no tame ni, densha ga okurete imasu.', 'Por causa de um acidente, os trens estão atrasados.']]]],
+    cmp: 'ために × ように: ために com ações que se controlam (estudar, economizar); ように com resultados ou verbos de possibilidade (conseguir falar, não esquecer).' },
+  { p: '〜はず', ro: 'hazu', kind: 'gram', pt: ['deve…, era para… (expectativa lógica)'],
+    intro: 'Certeza baseada em lógica ou informação.',
+    fn: [['Expectativa', 'Forma casual + はず (substantivo + の).', [['彼はもう着いたはずです。', 'kare wa mou tsuita hazu desu.', 'Ele já deve ter chegado.'], ['そんなはずはない。', 'sonna hazu wa nai.', 'Não pode ser!']]]] },
+  { p: '〜ながら', ro: 'nagara', kind: 'gram', pt: ['enquanto (ao mesmo tempo)', 'embora (literário)'],
+    intro: 'Radical do verbo (forma ます sem ます) + ながら: duas ações do mesmo sujeito ao mesmo tempo. A ação principal vem no fim.',
+    fn: [['Simultaneidade', 'O mesmo sujeito faz as duas coisas.', [['音楽を聞きながら勉強します。', 'ongaku o kikinagara benkyou shimasu.', 'Estudo ouvindo música.']]]],
+    err: 'Os dois verbos precisam ter o mesmo sujeito. Para “enquanto ele dormia, eu…”, use 間 (あいだ).' }
+];
+
+/* ==========================================================
    Nihongo Quest 7.0 — DICIONÁRIO JAPONÊS-PORTUGUÊS
    - Junta todas as palavras do app (Academia, Academia Auditiva, Listening Academy,
      Chat) + DICT_EXTRA, sem duplicar (mesma leitura e mesma escrita = uma entrada).
@@ -20403,6 +20661,7 @@ setTimeout(() => { try { const r = rdState(); if (S.profile.onboarded && !r.news
 const NQ_SITE = 'https://harrylima007.github.io/Nihongo-Quest/';
 const NQ_REPO = 'https://github.com/HarryLima007/Nihongo-Quest';
 const NQ_HISTORY = [
+  ['14.0.0', '2026-11-21', 'Dicionário completo: Dicionário Geral japonês-português com 217 mil entradas do JMdict, 13 mil kanji do KANJIDIC2 com ordem dos traços (KanjiVG), 32 mil frases de exemplo (Tatoeba), acento tonal, busca por português, romaji, kana, kanji e inglês com tolerância a erros, reconhecimento de conjugações em cadeia, análise de frases, 34 partículas e estruturas novas, coleções, histórico, comparação e uso offline; esquema 14.'],
   ['13.0.0', '2026-11-21', 'Learning Intelligence: Central de Aprendizagem (apresentado, estudado, lembrado e dominado em todas as áreas), Revisão inteligente 2.0, Painel de progresso por habilidade, avaliações com estimativa de nível inspirada no JLPT, prática de fala e formas conjugadas no Dicionário; esquema 13.'],
   ['12.0.0', '2026-11-21', 'Expansão de vocabulário: Academia de Vocabulário com 20 categorias e 631 palavras, Dicionário 2.0 com vários sentidos, leituras de kanji em contexto, 14 partículas e busca mais inteligente, e novas situações no Mundo; esquema 12.'],
   ['11.0.0', '2026-11-21', 'Adventure Mode RPG: o Vale Asahi em Kotoba no Kuni, com exploração, NPCs, missões, baús, equipamentos e batalhas por turnos em que o poder das palavras (言霊) usa só o vocabulário que você já estudou; esquema 11.'],
@@ -20572,6 +20831,7 @@ function viewAbout() {
       <p><b>Assistência de IA:</b> parte do código e do conteúdo foi produzida com o Claude Code (Anthropic), sob a direção e a revisão do criador.</p>
       <p><b>Personagens, mascote Hikari, figurinhas e ilustrações:</b> desenhos em SVG feitos para o projeto.</p>
       <p><b>Voz:</b> síntese de voz do próprio aparelho (Web Speech API). As vozes pertencem ao sistema ou ao navegador de quem usa e não são distribuídas pelo app.</p>
+      <p><b>Dados do Dicionário Geral</b> (pasta dict/, sob as licenças originais, não sob o aviso de direitos do Nihongo Quest): JMdict, KANJIDIC2 e KRADFILE, propriedade do Electronic Dictionary Research and Development Group (EDRDG), conforme a licença do Grupo (CC BY-SA 4.0, edrdg.org/edrdg/licence.html); frases do Tatoeba (CC BY 2.0 FR, com o crédito de cada autor); ordem dos traços do KanjiVG (Ulrich Apel e colaboradores, CC BY-SA 3.0, kanjivg.tagaini.net); acento tonal do Kanjium (Uros O., CC BY-SA 4.0); níveis JLPT de kanji de Jonathan Waller (CC BY, tanos.co.uk/jlpt); kanji parecidos de Lars Yencken (CC BY 3.0). As traduções para o português feitas pelo projeto a partir desses dados seguem a licença CC BY-SA 4.0. Detalhes em dict/v1/LICENSE.md.</p>
       <p><b>Fontes:</b> M PLUS Rounded 1c e Nunito, carregadas do Google Fonts, sob a SIL Open Font License 1.1, de seus respectivos autores.</p>
       <p><b>Hospedagem:</b> GitHub Pages.</p>
       <p><b>Ferramentas de desenvolvimento</b> (não fazem parte do app publicado): Playwright e kuromoji.js (Apache 2.0, com o dicionário IPADIC), usados só nos testes automáticos, e Python para gerar o arquivo final.</p>
@@ -20600,7 +20860,7 @@ Object.assign(ACT, {
   nqDict: el => dictOpenWord(el.dataset.jp)
 });
 /* novidade da 10.0: aviso único para quem já usava o app */
-setTimeout(() => { try { const j = S.journey; if (S.profile.onboarded && j && j.seenVersion !== APP_VERSION) { const old = j.seenVersion || S.migratedFrom10 || S.migratedFrom11 || S.migratedFrom12 || S.migratedFrom13; j.seenVersion = APP_VERSION; save(); if (old) toast('績', 'Novo na 13.0: “Seu professor” no Início, Revisão inteligente e o Painel de progresso com o seu domínio real. Abra Revisão → Meu progresso.'); } } catch (e) {} }, 5200);
+setTimeout(() => { try { const j = S.journey; if (S.profile.onboarded && j && j.seenVersion !== APP_VERSION) { const old = j.seenVersion || S.migratedFrom10 || S.migratedFrom11 || S.migratedFrom12 || S.migratedFrom13 || S.migratedFrom14; j.seenVersion = APP_VERSION; save(); if (old) toast('辞', 'Novo na 14.0: Dicionário Geral com mais de 200 mil palavras, kanji com ordem dos traços, conjugações e análise de frases. Abra Caderno → Dicionário.'); } } catch (e) {} }, 5200);
 
 /* ==========================================================
    Nihongo Quest 11.0 — ADVENTURE MODE (dados)
@@ -24223,6 +24483,1030 @@ function lnBackfill() {
   L.bf = 1; lnBump(); save();
 }
 setTimeout(() => { try { lnBackfill(); if (S.profile.onboarded) { lnSnapshot(); save(); } } catch (e) {} }, 300);
+
+/* ==========================================================
+   Nihongo Quest 14.0 — DICIONÁRIO GERAL: motor (sem interface)
+   Base: dict/v1/ (gerada por tools/dict/build-dict.mjs a partir do JMdict, KANJIDIC2, Tatoeba,
+   KanjiVG e Kanjium — licenças em dict/v1/LICENSE.md). Tudo é carregado sob demanda, em blocos
+   pequenos, e fica guardado pelo service worker (sw.js) para funcionar sem internet.
+   - Posição (ord) = ordem de frequência: as palavras comuns ficam nos primeiros blocos.
+   - Identificador estável de uma entrada = número do JMdict (ent_seq), campo i.
+   - Este arquivo não usa o DOM: os testes (tests/dict-general.js) o carregam no Node.
+   ========================================================== */
+const JMD = (() => {
+  const BASE = 'dict/v1/';
+  let loader = p => fetch(BASE + p, { cache: 'force-cache' }).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status + ' ' + p); return r.json(); });
+  const files = new Map(); // caminho -> Promise (com limite: os blocos menos usados saem da memória)
+  const MAX_FILES = 90;
+  function get(p) {
+    let pr = files.get(p);
+    if (pr) { files.delete(p); files.set(p, pr); return pr; }
+    pr = loader(p).catch(e => { files.delete(p); throw e; });
+    files.set(p, pr);
+    if (files.size > MAX_FILES) { const k = files.keys().next().value; if (k !== 'meta.json') files.delete(k); }
+    return pr;
+  }
+  let META = null, metaErr = null;
+  async function meta() { if (META) return META; try { META = await get('meta.json'); metaErr = null; return META; } catch (e) { metaErr = e; throw e; } }
+  async function available() { try { await meta(); return true; } catch (e) { return false; } }
+
+  /* ---------- kana ---------- */
+  const hira = s => String(s || '').replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+  const kata = s => String(s || '').replace(/[ぁ-ゖ]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0x60));
+  const strip = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const isJp = s => /[぀-ヿ㐀-䶿一-鿿々〆ヶ０-９Ａ-ｚ]/.test(s || '');
+  const isKanjiCh = ch => /[一-鿿㐀-䶿々〆]/.test(ch) || (ch && ch.codePointAt(0) >= 0x20000 && ch.codePointAt(0) <= 0x3134f);
+  const hasKanji = s => [...String(s || '')].some(isKanjiCh);
+  const RT = {};
+  ('a:あ i:い u:う e:え o:お ka:か ki:き ku:く ke:け ko:こ sa:さ shi:し si:し su:す se:せ so:そ ta:た chi:ち ti:ち tsu:つ tu:つ te:て to:と ' +
+    'na:な ni:に nu:ぬ ne:ね no:の ha:は hi:ひ fu:ふ hu:ふ he:へ ho:ほ ma:ま mi:み mu:む me:め mo:も ya:や yu:ゆ yo:よ ra:ら ri:り ru:る re:れ ro:ろ ' +
+    'wa:わ wi:ゐ we:ゑ wo:を ga:が gi:ぎ gu:ぐ ge:げ go:ご za:ざ ji:じ zi:じ zu:ず ze:ぜ zo:ぞ da:だ di:ぢ du:づ de:で do:ど ba:ば bi:び bu:ぶ be:べ bo:ぼ ' +
+    'pa:ぱ pi:ぴ pu:ぷ pe:ぺ po:ぽ kya:きゃ kyu:きゅ kyo:きょ sha:しゃ shu:しゅ sho:しょ she:しぇ sya:しゃ syu:しゅ syo:しょ cha:ちゃ chu:ちゅ cho:ちょ che:ちぇ ' +
+    'tya:ちゃ tyu:ちゅ tyo:ちょ cya:ちゃ cyu:ちゅ cyo:ちょ nya:にゃ nyu:にゅ nyo:にょ hya:ひゃ hyu:ひゅ hyo:ひょ mya:みゃ myu:みゅ myo:みょ rya:りゃ ryu:りゅ ryo:りょ ' +
+    'gya:ぎゃ gyu:ぎゅ gyo:ぎょ ja:じゃ ju:じゅ jo:じょ je:じぇ jya:じゃ jyu:じゅ jyo:じょ zya:じゃ zyu:じゅ zyo:じょ dya:ぢゃ dyu:ぢゅ dyo:ぢょ ' +
+    'bya:びゃ byu:びゅ byo:びょ pya:ぴゃ pyu:ぴゅ pyo:ぴょ fa:ふぁ fi:ふぃ fe:ふぇ fo:ふぉ fyu:ふゅ va:ゔぁ vi:ゔぃ vu:ゔ ve:ゔぇ vo:ゔぉ ' +
+    'thi:てぃ dhi:でぃ dhu:でゅ twu:とぅ dwu:どぅ wha:うぁ whi:うぃ whe:うぇ who:うぉ tsa:つぁ tse:つぇ tso:つぉ ye:いぇ ' +
+    'xa:ぁ xi:ぃ xu:ぅ xe:ぇ xo:ぉ la:ぁ li:ぃ lu:ぅ le:ぇ lo:ぉ xya:ゃ xyu:ゅ xyo:ょ xtsu:っ xtu:っ ltu:っ').split(' ').forEach(p => { const [a, b] = p.split(':'); RT[a] = b; });
+  /* romaji → hiragana. Aceita Hepburn, Kunrei e digitação de teclado (shi/si, tsu/tu, ou/ō/oo, n/nn/n', consoante dobrada).
+     Devolve '' quando sobra algo que não é romaji (aí a consulta é tratada só como português/inglês). */
+  function toKana(q) {
+    let s = strip(String(q || '').toLowerCase()).replace(/[âāà]/g, 'aa').replace(/[îīì]/g, 'ii').replace(/[ûūù]/g, 'uu').replace(/[êēè]/g, 'ee').replace(/[ôōò]/g, 'ou');
+    s = s.replace(/\s+/g, '').replace(/[-‐]/g, 'ー');
+    let out = '', i = 0;
+    while (i < s.length) {
+      const c = s[i], n1 = s[i + 1] || '';
+      if (c === 'ー') { out += 'ー'; i++; continue; }
+      if (c === "'") { i++; continue; }
+      if (c === 'n') {
+        if (n1 === "'") { out += 'ん'; i += 2; continue; }
+        if (n1 === 'n' && !'aiueoy'.includes(s[i + 2] || '_')) { out += 'ん'; i += 2; continue; }
+        if (!n1 || !'aiueoy'.includes(n1)) { out += 'ん'; i++; continue; }
+      }
+      if (c === 'm' && 'bpm'.includes(n1) && n1) { out += 'ん'; i++; continue; }
+      if (c === n1 && /[bcdfghjkpqrstvwxyz]/.test(c)) { out += 'っ'; i++; continue; }
+      if (c === 't' && n1 === 'c' && s[i + 2] === 'h') { out += 'っ'; i++; continue; }
+      let hit = false;
+      for (const L of [4, 3, 2, 1]) { const k = s.substr(i, L); if (RT[k]) { out += RT[k]; i += L; hit = true; break; } }
+      if (!hit) return '';
+    }
+    return out;
+  }
+  const RK = {}; Object.keys(RT).sort((a, b) => a.length - b.length || (a < b ? -1 : 1)).forEach(k => { if (!/^(si|ti|tu|hu|zi|di|du|sy|ty|cy|zy|jy|x|l|wh|tw|dw|dh|th|wi|we)/.test(k) || !RK[RT[k]]) { if (!RK[RT[k]] || /^(shi|chi|tsu|fu|ji|sh|ch|j)/.test(k)) RK[RT[k]] = k; } });
+  RK['ぢ'] = 'ji'; RK['づ'] = 'zu'; RK['を'] = 'o'; RK['ゐ'] = 'i'; RK['ゑ'] = 'e';
+  /* kana → romaji (Hepburn moderno, sem macrons: とうきょう = toukyou, como o resto do app) */
+  function toRomaji(kana) {
+    const s = hira(kana); let out = '';
+    for (let i = 0; i < s.length; i++) {
+      const two = s.substr(i, 2);
+      if (/[ゃゅょぁぃぅぇぉ]/.test(s[i + 1] || '') && RK[two]) { out += RK[two]; i++; continue; }
+      const ch = s[i];
+      if (ch === 'っ') { const nx = RK[s.substr(i + 1, /[ゃゅょ]/.test(s[i + 2] || '') ? 2 : 1)] || ''; out += nx.startsWith('ch') ? 't' : nx[0] || ''; continue; }
+      if (ch === 'ん') { out += /^[aiueoy]/.test(RK[s[i + 1]] || '') ? "n'" : 'n'; continue; }
+      if (ch === 'ー') { const m = out.match(/[aiueo]$/); out += m ? m[0] : ''; continue; }
+      out += RK[ch] || (/[a-z0-9]/i.test(ch) ? ch.toLowerCase() : /[\s　・]/.test(ch) ? ' ' : '');
+    }
+    return out;
+  }
+  /* chave fonética: ignora vogal longa e grafias alternativas (toukyou = tokyo = tōkyō; shi = si) */
+  function phon(s) {
+    let r = /[぀-ヿ]/.test(s) ? toRomaji(s) : strip(String(s).toLowerCase());
+    return r.replace(/[^a-z]/g, '').replace(/sh/g, 's').replace(/ch/g, 't').replace(/ts/g, 't').replace(/j/g, 'z').replace(/f/g, 'h').replace(/(.)\1+/g, '$1').replace(/ou/g, 'o').replace(/ei/g, 'e').replace(/n'/g, 'n');
+  }
+  function lev(a, b, max) {
+    if (Math.abs(a.length - b.length) > max) return max + 1;
+    let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+    for (let i = 1; i <= a.length; i++) { const cur = [i]; let lo = i; for (let j = 1; j <= b.length; j++) { cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); if (cur[j] < lo) lo = cur[j]; } if (lo > max) return max + 1; prev = cur; }
+    return prev[b.length];
+  }
+  const normW = s => strip(String(s || '').toLowerCase()).replace(/\([^)]*\)/g, ' ').replace(/[“”"'!?.,;:]/g, ' ').replace(/[-‐]/g, ' ').replace(/\s+/g, ' ').trim();
+
+  /* ---------- entradas ---------- */
+  function parse(a, ord) {
+    const [i, k = [], r = [], s = [], f = 100000, fl = 0, pt, pa, nq, qx, xn] = a;
+    return {
+      i, ord, f, c: !!(fl & 1), u: !!(fl & 2),
+      k: k.map(([t, m = '']) => ({ t, m: m ? m.split(',') : [] })),
+      r: r.map(([t, m = '', only = '', nok = 0]) => ({ t, m: m ? m.split(',') : [], only: only ? only.split(',') : [], nok: !!nok })),
+      s: s.map(([p = '', m = '', g = [], x = '', an = '', n = '', l = '', of = '', or = '']) => ({
+        pos: p ? p.split(',') : [], misc: m ? m.split(',') : [], g: g.map(t => { const mm = /^\[(lit|expl|fig|tm)\]/.exec(t); return mm ? { t: t.slice(mm[0].length), kind: mm[1] } : { t }; }),
+        x: x ? x.split('|') : [], a: an ? an.split('|') : [], n, l: l ? l.split('|').map(v => { const at = v.indexOf('~'), fl2 = v.slice(0, at); return { lang: fl2.replace(/[pw]+$/, ''), t: v.slice(at + 1), wasei: /w/.test(fl2.slice(3)) }; }) : [], of: of ? of.split('|') : [], or: or ? or.split('|') : []
+      })),
+      pt: (pt || []).map(([t, src, si = -1]) => ({ t, src, s: si })), pa: pa || [], nq: nq || [], qx: (qx || []).map(([jp, ro, ptx]) => ({ jp, ro, pt: ptx })), xn: xn || 0
+    };
+  }
+  const pad = n => String(n).padStart(3, '0');
+  async function entry(ord) { const m = await meta(); const a = (await get('e/' + pad(Math.floor(ord / m.shard)) + '.json'))[ord % m.shard]; return a ? parse(a, ord) : null; }
+  async function entries(ords) { return Promise.all(ords.map(entry)); }
+  async function summary(ord) { const m = await meta(); const a = (await get('m/' + pad(Math.floor(ord / m.shard)) + '.json'))[ord % m.shard]; if (!a) return null; const [w, r = '', p = '', g = '', fl = 0] = a; return { ord, w, r: r || w, p, g, c: !!(fl & 1), pt: !!(fl & 4) }; }
+  async function examples(ord) { const m = await meta(); const sh = Math.floor(ord / m.shard); if (!m.xShards.includes(sh)) return []; const x = await get('x/' + pad(sh) + '.json'); return (x[ord] || []).map(([s, jp, en, lv, tid, aj, ae, form]) => ({ s, jp, en, lv, tid: parseInt(tid, 36), aj, ae, form })); }
+  /* abre pela identificação estável (favoritos, Caderno): procura a escrita no índice e confere o número do JMdict */
+  async function entryById(id, key) {
+    const ords = key ? await jExact(key) : [];
+    for (const o of ords.slice(0, 40)) { const e = await entry(o); if (e && e.i === id) return e; }
+    return null;
+  }
+
+  /* ---------- índice japonês (chave = escrita ou leitura em hiragana) ---------- */
+  const jBucket = key => { const ch = [...key][0]; const cp = ch.codePointAt(0); if (cp >= 0x3040 && cp <= 0x30ff) return 'h' + cp.toString(16); if (isKanjiCh(ch) || ch === 'ヶ' || ch === '〆') return 'k' + (cp % 64); return 'o'; };
+  const jKey = s => { const t = String(s || '').trim().replace(/[\s　]/g, ''); return /^[぀-ヿー]+$/.test(t) ? hira(t) : t; };
+  async function jRows(b) { const m = await meta(); if (!m.jBuckets.includes(b)) return []; return get('j/' + b + '.json'); }
+  function lowerBound(rows, key) { let lo = 0, hi = rows.length; while (lo < hi) { const mid = (lo + hi) >> 1; if (rows[mid][0] < key) lo = mid + 1; else hi = mid; } return lo; }
+  async function jExact(q) {
+    const key = jKey(q); if (!key) return [];
+    const keys = [key]; const h = hira(key); if (h !== key) keys.push(h);
+    const out = [];
+    for (const k of keys) { const rows = await jRows(jBucket(k)); const i = lowerBound(rows, k); if (rows[i] && rows[i][0] === k) rows[i].slice(1).forEach(o => { if (!out.includes(o)) out.push(o); }); }
+    return out;
+  }
+  async function jPrefix(q, limit = 60) {
+    const key = jKey(q); if (!key) return [];
+    const rows = await jRows(jBucket(key)); const out = [];
+    for (let i = lowerBound(rows, key); i < rows.length && rows[i][0].startsWith(key); i++) out.push(rows[i]);
+    return out.sort((a, b) => Math.min(...a.slice(1)) - Math.min(...b.slice(1)) || a[0].length - b[0].length).slice(0, limit);
+  }
+  /* romaji/kana parecido: mesma chave fonética (vogal longa, grafia) ou 1 letra de diferença, no bloco da primeira letra */
+  async function jFuzzy(kana, { phonOnly = false, max = 1 } = {}) {
+    const key = hira(kana); if (!key) return [];
+    const rows = await jRows(jBucket(key)); const ph = phon(key), out = [];
+    for (const row of rows) {
+      const k = row[0]; if (!/^[぀-ゟー]+$/.test(k) || Math.abs(k.length - key.length) > 3) continue;
+      if (phon(k) === ph) out.push([0, row]); else if (!phonOnly && key.length >= 3 && lev(key, k, max) <= max) out.push([1, row]);
+    }
+    return out.sort((a, b) => a[0] - b[0] || Math.min(...a[1].slice(1)) - Math.min(...b[1].slice(1))).map(x => x[1]);
+  }
+
+  /* ---------- índice de significados (p = português, e = inglês) ---------- */
+  const wBucket = (lang, term) => lang + (/^[a-z0-9]{2}/.test(term) ? term.slice(0, 2) : /^[a-z0-9]/.test(term) ? term[0] + '_' : '__');
+  async function wRows(b) { const m = await meta(); if (!m.wBuckets.includes(b)) return []; return get('w/' + b + '.json'); }
+  async function wExact(lang, term) {
+    const t = normW(term); if (!t) return [];
+    const rows = await wRows(wBucket(lang, t)); const i = lowerBound(rows, t);
+    if (!rows[i] || rows[i][0] !== t) return [];
+    const r = rows[i], out = []; for (let j = 1; j < r.length; j += 2) out.push([r[j], r[j + 1]]); return out;
+  }
+  async function wPrefix(lang, term, limit = 12) {
+    const t = normW(term); if (t.length < 3) return [];
+    const rows = await wRows(wBucket(lang, t)); const out = [];
+    for (let i = lowerBound(rows, t); i < rows.length && rows[i][0].startsWith(t) && out.length < limit; i++) if (rows[i][0] !== t) out.push(rows[i][0]);
+    return out;
+  }
+  async function wFuzzy(lang, term, max) {
+    const t = normW(term); if (t.length < 4) return [];
+    const rows = await wRows(wBucket(lang, t)); const out = [];
+    rows.forEach(r => { if (Math.abs(r[0].length - t.length) <= max && !r[0].includes(' ')) { const d = lev(t, r[0], max); if (d && d <= max) out.push([d, r[0], r[1]]); } });
+    // também erro nas duas primeiras letras: troca de letras vizinhas
+    return out.sort((a, b) => a[0] - b[0] || a[2] - b[2]).map(x => x[1]).slice(0, 6);
+  }
+
+  /* ---------- kanji ---------- */
+  async function kanji(ch) { const m = await meta(); const b = 'k' + (ch.codePointAt(0) % 64); if (!m.kBuckets.includes(b)) return null; return (await get('k/' + b + '.json'))[ch] || null; }
+  async function strokes(ch) { const m = await meta(); const b = 'k' + (ch.codePointAt(0) % 64); if (!m.sBuckets.includes(b)) return null; const p = (await get('s/' + b + '.json'))[ch]; return p ? p.split('|') : null; }
+
+  /* ==========================================================
+     CONJUGAÇÕES — análise de formas flexionadas (deflexão)
+     Cada regra: [terminação da forma, terminação da base, tipos que a forma pode ter, tipo da base, nome da regra, fraca?]
+     Começa da forma digitada (sem tipo) e aplica as regras em cadeia; cada base só vale se o JMdict tiver a palavra com a
+     classe gramatical certa (v1, v5, vk, vs, adj-i…). Assim 書かなかった → 書かない → 書く, e 食べさせられる → 食べさせる → 食べる.
+     ========================================================== */
+  const U = 'うくぐすつぬぶむる', Ia = 'いきぎしちにびみり', Aa = 'わかがさたなばまら', Ea = 'えけげせてねべめれ', Oa = 'おこごそとのぼもろ';
+  const TE5 = { う: 'って', く: 'いて', ぐ: 'いで', す: 'して', つ: 'って', ぬ: 'んで', ぶ: 'んで', む: 'んで', る: 'って' };
+  const RULES = [];
+  const R = (inf, base, inT, outT, name, weak) => RULES.push({ inf, base, inT, outT, name, weak: !!weak });
+  const godan = (fn) => [...U].forEach((u, i) => fn(u, Ia[i], Aa[i], Ea[i], Oa[i]));
+  // educada (ます)
+  [['ます', 'polite'], ['ません', 'polite-neg'], ['ました', 'polite-past'], ['ませんでした', 'polite-past-neg'], ['ましょう', 'polite-vol'], ['まして', 'polite-te'], ['ませんか', 'polite-inv'], ['ましょうか', 'polite-vol']].forEach(([s, n]) => {
+    R(s, 'る', [], 'v1', n); godan((u, i) => R(i + s, u, [], 'v5', n)); R('き' + s, 'くる', [], 'vk', n); R('来' + s, '来る', [], 'vk', n); R('し' + s, 'する', [], 'vs', n);
+    R('い' + s, 'る', [], 'v5aru', n); // くださいます、いらっしゃいます、ございます
+  });
+  // negativa (ない tem forma de adjetivo -i: 書かなかった → 書かない)
+  R('ない', 'る', ['adj-i'], 'v1', 'neg'); godan((u, i, a) => R(a + 'ない', u, ['adj-i'], 'v5', 'neg'));
+  R('こない', 'くる', ['adj-i'], 'vk', 'neg'); R('来ない', '来る', ['adj-i'], 'vk', 'neg'); R('しない', 'する', ['adj-i'], 'vs', 'neg');
+  R('ず', 'る', [], 'v1', 'zu'); godan((u, i, a) => R(a + 'ず', u, [], 'v5', 'zu')); R('せず', 'する', [], 'vs', 'zu'); R('こず', 'くる', [], 'vk', 'zu');
+  R('ずに', 'る', [], 'v1', 'zuni'); godan((u, i, a) => R(a + 'ずに', u, [], 'v5', 'zuni')); R('せずに', 'する', [], 'vs', 'zuni');
+  R('ん', 'る', [], 'v1', 'neg-n', true); godan((u, i, a) => { if (u !== 'る') R(a + 'ん', u, [], 'v5', 'neg-n', true); });
+  // passado (た) e forma て, com たら / たり / ても / ては
+  const TA = [['', 'past'], ['ら', 'tara'], ['り', 'tari'], ['ろう', 'tarou']], TE = [['', 'te'], ['も', 'temo'], ['は', 'tewa']];
+  TA.forEach(([x, n]) => { R('た' + x, 'る', ['ta'], 'v1', n); R('きた' + x, 'くる', [], 'vk', n); R('来た' + x, '来る', [], 'vk', n); R('した' + x, 'する', [], 'vs', n); R('かった' + x, 'い', [], 'adj-i', n === 'past' ? 'adj-past' : n); R('った' + x, 'く', ['ta'], 'v5k-s', n); });
+  TE.forEach(([x, n]) => { R('て' + x, 'る', ['te'], 'v1', n); R('きて' + x, 'くる', ['te'], 'vk', n); R('来て' + x, '来る', ['te'], 'vk', n); R('して' + x, 'する', ['te'], 'vs', n); R('くて' + x, 'い', ['te'], 'adj-i', n === 'te' ? 'adj-te' : n); R('って' + x, 'く', ['te'], 'v5k-s', n); });
+  [...U].forEach(u => { const te = TE5[u], ta = te.slice(0, -1) + (te.endsWith('で') ? 'だ' : 'た'); TA.forEach(([x, n]) => R(ta + x, u, ['ta'], 'v5', n)); TE.forEach(([x, n]) => R(te + x, u, ['te'], 'v5', n)); });
+  // auxiliares depois da forma て (ている, てしまう…): voltam para a forma て
+  [['ている', 'v1', 'teiru'], ['てる', 'v1', 'teiru'], ['ておる', 'v5', 'teiru'], ['てしまう', 'v5', 'teshimau'], ['ちゃう', 'v5', 'teshimau'], ['ちまう', 'v5', 'teshimau'], ['ておく', 'v5', 'teoku'], ['とく', 'v5', 'teoku'], ['てある', 'v5', 'tearu'], ['てみる', 'v1', 'temiru'], ['ていく', 'v5', 'teiku'], ['てく', 'v5', 'teiku'], ['てくる', 'vk', 'tekuru'], ['てあげる', 'v1', 'teageru'], ['てくれる', 'v1', 'tekureru'], ['てもらう', 'v5', 'temorau'], ['ていただく', 'v5', 'temorau'], ['てほしい', 'adj-i', 'tehoshii'], ['てください', '', 'tekudasai'], ['てくださいませんか', '', 'tekudasai'], ['てすみません', '', 'tesumimasen'], ['てから', '', 'tekara'], ['てもいい', 'adj-i', 'temoii'], ['てはいけない', 'adj-i', 'tewaikenai'], ['ちゃいけない', 'adj-i', 'tewaikenai'], ['ちゃだめ', '', 'tewaikenai']].forEach(([s, t, n]) => {
+    R(s, 'て', t ? [t] : [], 'te', n);
+    if (s[0] === 'て') R('で' + s.slice(1), 'で', t ? [t] : [], 'te', n);
+    if (s.startsWith('ちゃ') || s.startsWith('ちま')) R('じ' + s.slice(1), 'で', t ? [t] : [], 'te', n);
+    if (s === 'とく') R('どく', 'で', ['v5'], 'te', n);
+  });
+  R('て', 'て', ['te'], 'te', '', true); // (marca interna)
+  RULES.pop();
+  // potencial, passiva, causativa
+  R('られる', 'る', ['v1'], 'v1', 'pot-pass'); R('れる', 'る', ['v1'], 'v1', 'pot-ranuki', true);
+  godan((u, i, a, e) => { R(e + 'る', u, ['v1'], 'v5', 'pot'); R(a + 'れる', u, ['v1'], 'v5', 'pass'); R(a + 'せる', u, ['v1'], 'v5', 'caus'); R(a + 'される', u, ['v1'], 'v5', 'caus-pass'); R(a + 'す', u, ['v5'], 'v5', 'caus-short', true); });
+  R('させる', 'る', ['v1'], 'v1', 'caus'); R('させる', 'する', ['v1'], 'vs', 'caus'); R('さす', 'る', ['v5'], 'v1', 'caus-short', true);
+  R('される', 'する', ['v1'], 'vs', 'pass'); R('できる', 'する', ['v1'], 'vs', 'pot-suru');
+  R('こられる', 'くる', ['v1'], 'vk', 'pot-pass'); R('来られる', '来る', ['v1'], 'vk', 'pot-pass'); R('これる', 'くる', ['v1'], 'vk', 'pot-ranuki', true); R('来れる', '来る', ['v1'], 'vk', 'pot-ranuki', true);
+  R('こさせる', 'くる', ['v1'], 'vk', 'caus'); R('来させる', '来る', ['v1'], 'vk', 'caus');
+  // condicional ば, volitiva, imperativa
+  R('れば', 'る', [], 'v1', 'ba'); godan((u, i, a, e) => R(e + 'ば', u, [], 'v5', 'ba')); R('くれば', 'くる', [], 'vk', 'ba'); R('来れば', '来る', [], 'vk', 'ba'); R('すれば', 'する', [], 'vs', 'ba'); R('ければ', 'い', [], 'adj-i', 'adj-ba');
+  R('よう', 'る', [], 'v1', 'vol'); godan((u, i, a, e, o) => R(o + 'う', u, [], 'v5', 'vol')); R('こよう', 'くる', [], 'vk', 'vol'); R('来よう', '来る', [], 'vk', 'vol'); R('しよう', 'する', [], 'vs', 'vol');
+  R('ろ', 'る', [], 'v1', 'imp'); R('よ', 'る', [], 'v1', 'imp', true); godan((u, i, a, e) => R(e, u, [], 'v5', 'imp', true)); R('こい', 'くる', [], 'vk', 'imp'); R('来い', '来る', [], 'vk', 'imp'); R('しろ', 'する', [], 'vs', 'imp'); R('せよ', 'する', [], 'vs', 'imp');
+  godan(u => R(u + 'な', u, [], 'v', 'imp-neg', true)); R('するな', 'する', [], 'vs', 'imp-neg', true); R('くるな', 'くる', [], 'vk', 'imp-neg', true);
+  R('なさい', 'る', [], 'v1', 'nasai'); godan((u, i) => R(i + 'なさい', u, [], 'v5', 'nasai')); R('しなさい', 'する', [], 'vs', 'nasai'); R('きなさい', 'くる', [], 'vk', 'nasai');
+  // desejo (たい é adjetivo -i: 食べたくない → 食べたい → 食べる), ながら, そう, すぎる
+  R('たい', 'る', ['adj-i'], 'v1', 'tai'); godan((u, i) => R(i + 'たい', u, ['adj-i'], 'v5', 'tai')); R('きたい', 'くる', ['adj-i'], 'vk', 'tai'); R('来たい', '来る', ['adj-i'], 'vk', 'tai'); R('したい', 'する', ['adj-i'], 'vs', 'tai');
+  R('たがる', 'る', ['v5'], 'v1', 'tagaru'); godan((u, i) => R(i + 'たがる', u, ['v5'], 'v5', 'tagaru')); R('したがる', 'する', ['v5'], 'vs', 'tagaru');
+  R('ながら', 'る', [], 'v1', 'nagara'); godan((u, i) => R(i + 'ながら', u, [], 'v5', 'nagara')); R('しながら', 'する', [], 'vs', 'nagara'); R('きながら', 'くる', [], 'vk', 'nagara');
+  R('そう', 'る', [], 'v1', 'sou'); godan((u, i) => R(i + 'そう', u, [], 'v5', 'sou')); R('そう', 'い', [], 'adj-i', 'adj-sou'); R('しそう', 'する', [], 'vs', 'sou');
+  R('すぎる', 'る', ['v1'], 'v1', 'sugiru'); godan((u, i) => R(i + 'すぎる', u, ['v1'], 'v5', 'sugiru')); R('すぎる', 'い', ['v1'], 'adj-i', 'sugiru'); R('しすぎる', 'する', ['v1'], 'vs', 'sugiru');
+  R('やすい', 'る', ['adj-i'], 'v1', 'yasui'); godan((u, i) => R(i + 'やすい', u, ['adj-i'], 'v5', 'yasui')); R('にくい', 'る', ['adj-i'], 'v1', 'nikui'); godan((u, i) => R(i + 'にくい', u, ['adj-i'], 'v5', 'nikui'));
+  R('たことがある', 'た', ['v5'], 'ta', 'experience'); R('だことがある', 'だ', ['v5'], 'ta', 'experience');
+  // adjetivo -i
+  R('くない', 'い', ['adj-i'], 'adj-i', 'adj-neg'); R('く', 'い', [], 'adj-i', 'adj-adv'); R('さ', 'い', [], 'adj-i', 'adj-sa', true); R('かろう', 'い', [], 'adj-i', 'adj-vol'); R('くなる', 'い', ['v5'], 'adj-i', 'adj-naru'); R('くありません', 'い', [], 'adj-i', 'adj-neg');
+  R('くて', 'い', ['te'], 'adj-i', 'adj-te'); R('き', 'い', [], 'adj-i', 'adj-ki', true); R('げ', 'い', [], 'adj-i', 'adj-sa', true);
+  R('です', '', [], 'any', 'desu'); R('でした', '', [], 'na', 'deshita'); R('だった', '', [], 'na', 'datta'); R('じゃない', '', ['adj-i'], 'na', 'janai'); R('ではない', '', ['adj-i'], 'na', 'janai'); R('じゃありません', '', [], 'na', 'janai'); R('ではありません', '', [], 'na', 'janai'); R('だ', '', [], 'na', 'da', true); R('な', '', [], 'na', 'na-adj', true); R('に', '', [], 'na', 'ni-adv', true); R('じゃなかった', '', [], 'na', 'janakatta'); R('ではなかった', '', [], 'na', 'janakatta');
+  // する verbal: 勉強する → 勉強 (substantivo + する)
+  R('する', '', ['vs'], 'vs-n', 'suru'); R('た', 'た', [], 'ta', '', true); RULES.pop();
+  // forma de ligação (連用形) sozinha: 読み、食べ — só como possibilidade
+  const BY_END = new Map(); RULES.forEach(r => { const k = r.inf.slice(-1); (BY_END.get(k) || BY_END.set(k, []).get(k)).push(r); });
+  const RULE_SET = RULES.filter(r => r.inf);
+  function deinflect(word) {
+    const out = [{ w: word, t: null, chain: [], weak: false }], seen = new Set([word + '|']);
+    for (let i = 0; i < out.length && out.length < 400; i++) {
+      const c = out[i]; if (c.chain.length >= 6) continue;
+      for (const r of RULE_SET) {
+        if (!c.w.endsWith(r.inf)) continue;
+        if (c.t !== null && c.t !== 'any' && !r.inT.includes(c.t) && !(c.t === 'v5k-s' && r.inT.includes('v5')) && !(c.t === 'v5aru' && r.inT.includes('v5'))) continue;
+        const stem = c.w.slice(0, c.w.length - r.inf.length);
+        if (!stem && r.outT !== 'vk' && r.base !== 'する' && r.base !== 'くる' && r.base !== '来る' && r.base !== 'い') continue;
+        const w = stem + r.base; if (!w) continue;
+        const key = w + '|' + r.outT; if (seen.has(key)) continue; seen.add(key);
+        out.push({ w, t: r.outT, chain: c.chain.concat(r.name ? [r.name] : []), weak: c.weak || r.weak });
+      }
+      if (c.t === null) { // forma de ligação: só a partir da forma digitada
+        godan((u, iRow) => { if (c.w.length >= 2 && c.w.endsWith(iRow)) { const w = c.w.slice(0, -1) + u; const key = w + '|v5'; if (!seen.has(key)) { seen.add(key); out.push({ w, t: 'v5', chain: ['stem'], weak: true }); } } });
+        if (c.w.length >= 2 && /[えけげせぜてでねへべぺめれいきぎしじちぢにひびぴみり]$/.test(c.w)) { const w = c.w + 'る'; const key = w + '|v1'; if (!seen.has(key)) { seen.add(key); out.push({ w, t: 'v1', chain: ['stem'], weak: true }); } }
+      }
+    }
+    return out.slice(1);
+  }
+  /* classe gramatical do JMdict compatível com o tipo pedido pela regra */
+  function posFits(e, t, w) {
+    const P = new Set(e.s.flatMap(s => s.pos));
+    const any = re => [...P].some(p => re.test(p));
+    switch (t) {
+      case 'v1': return any(/^v1/);
+      case 'v5': { const end = w.slice(-1); const map = { う: /^v5u/, く: /^v5k/, ぐ: /^v5g/, す: /^v5s/, つ: /^v5t/, ぬ: /^v5n/, ぶ: /^v5b/, む: /^v5m/, る: /^v5r|^v5aru/ }; return map[end] ? any(map[end]) : any(/^v5/); }
+      case 'v5k-s': return any(/^v5k-s/);
+      case 'v5aru': return any(/^v5aru/);
+      case 'vk': return any(/^vk/);
+      case 'vs': return any(/^vs-(i|s)|^vz/) || (w.endsWith('する') && any(/^vs/));
+      case 'vs-n': return any(/^vs$/);
+      case 'adj-i': return any(/^adj-i/);
+      case 'na': return any(/^adj-na|^n$|^adj-no|^pn|^n-adv|^adv/);
+      case 'v': return any(/^v/);
+      case 'te': case 'ta': return false;
+      default: return true;
+    }
+  }
+  /* analisa uma forma: devolve as possibilidades confirmadas no dicionário (base, entradas, cadeia de regras) */
+  async function analyze(q, { max = 6 } = {}) {
+    const word = String(q || '').trim().replace(/[。、！？!?\s　]/g, '');
+    if (!word || !/[぀-ゟ]$/.test(word)) return [];
+    const cands = deinflect(word), out = [];
+    for (const c of cands) {
+      if (!c.t || c.t === 'te' || c.t === 'ta') continue;
+      if (c.w.length < 1) continue;
+      const ords = await jExact(c.w); if (!ords.length) continue;
+      const es = (await entries(ords.slice(0, 8))).filter(e => e && posFits(e, c.t, c.w));
+      if (!es.length) continue;
+      out.push({ q: word, base: c.w, t: c.t, chain: c.chain, weak: c.weak, es });
+      if (out.length >= max * 3) break;
+    }
+    // menos passos e regras fortes primeiro; a mesma entrada só uma vez (fica a análise mais simples)
+    out.sort((a, b) => (a.weak - b.weak) || a.chain.length - b.chain.length || a.es[0].ord - b.es[0].ord);
+    const seen = new Set(), res = [];
+    for (const a of out) { a.es = a.es.filter(e => !seen.has(e.ord)); if (!a.es.length) continue; a.es.forEach(e => seen.add(e.ord)); res.push(a); if (res.length >= max) break; }
+    return res;
+  }
+
+  /* ---------- conjugação (para as fichas): gera as formas a partir da classe do JMdict ---------- */
+  function verbClass(e) {
+    const P = e.s.flatMap(s => s.pos);
+    if (P.some(p => /^v1/.test(p))) return 'v1';
+    if (P.includes('v5k-s')) return 'v5k-s';
+    if (P.some(p => /^v5aru/.test(p))) return 'v5aru';
+    if (P.includes('v5r-i')) return 'v5r-i';
+    const g = P.find(p => /^v5/.test(p)); if (g) return 'v5';
+    if (P.includes('vk')) return 'vk';
+    if (P.some(p => /^vs-(i|s)$/.test(p))) return 'vs-i';
+    if (P.includes('vz')) return 'vz';
+    if (P.includes('vs')) return 'vs';
+    if (P.includes('adj-ix')) return 'adj-ix';
+    if (P.includes('adj-i')) return 'adj-i';
+    if (P.includes('adj-na')) return 'adj-na';
+    return '';
+  }
+  function conjugate(w, cls) {
+    const T = (pairs) => pairs.filter(x => x[1]);
+    if (cls === 'vs') return conjugate(w + 'する', 'vs-i');
+    if (cls === 'adj-na') return T([['casual', w + 'だ'], ['neg', w + 'じゃない'], ['past', w + 'だった'], ['pastneg', w + 'じゃなかった'], ['polite', w + 'です'], ['politeneg', w + 'ではありません'], ['te', w + 'で'], ['adv', w + 'に'], ['attr', w + 'な'], ['ba', w + 'なら']]);
+    if (cls === 'adj-i' || cls === 'adj-ix') {
+      const st = cls === 'adj-ix' ? w.slice(0, -2) + 'よ' : w.slice(0, -1);
+      return T([['casual', w], ['neg', st + 'くない'], ['past', st + 'かった'], ['pastneg', st + 'くなかった'], ['polite', w + 'です'], ['politeneg', st + 'くないです'], ['te', st + 'くて'], ['adv', st + 'く'], ['ba', st + 'ければ'], ['naru', st + 'くなる']]);
+    }
+    let stem, a, i, e, o, te, ta;
+    const u = w.slice(-1), b = w.slice(0, -1);
+    if (cls === 'v1') { stem = b; a = i = b; e = b + 'れ'; o = b + 'よ'; te = b + 'て'; ta = b + 'た'; }
+    else if (cls === 'vk') { const k = b.slice(0, -1) + (b.endsWith('来') ? '来' : ''); const ki = b.endsWith('来') ? b : b.slice(0, -1) + 'き', ko = b.endsWith('来') ? b : b.slice(0, -1) + 'こ'; return T([['casual', w], ['polite', ki + 'ます'], ['neg', ko + 'ない'], ['politeneg', ki + 'ません'], ['past', ki + 'た'], ['politepast', ki + 'ました'], ['pastneg', ko + 'なかった'], ['te', ki + 'て'], ['teiru', ki + 'ている'], ['pot', ko + 'られる'], ['pass', ko + 'られる'], ['caus', ko + 'させる'], ['causpass', ko + 'させられる'], ['ba', (b.endsWith('来') ? b : b.slice(0, -1) + 'く') + 'れば'], ['tara', ki + 'たら'], ['vol', ko + 'よう'], ['imp', ko + 'い'], ['tai', ki + 'たい']]).map(x => { void k; return x; }); }
+    else if (cls === 'vs-i' || cls === 'vz') { const s0 = w.slice(0, -2); const z = cls === 'vz'; return T([['casual', w], ['polite', s0 + (z ? 'じます' : 'します')], ['neg', s0 + (z ? 'じない' : 'しない')], ['politeneg', s0 + (z ? 'じません' : 'しません')], ['past', s0 + (z ? 'じた' : 'した')], ['politepast', s0 + (z ? 'じました' : 'しました')], ['pastneg', s0 + (z ? 'じなかった' : 'しなかった')], ['te', s0 + (z ? 'じて' : 'して')], ['teiru', s0 + (z ? 'じている' : 'している')], ['pot', z ? s0 + 'じられる' : s0 + 'できる'], ['pass', s0 + (z ? 'じられる' : 'される')], ['caus', s0 + (z ? 'じさせる' : 'させる')], ['causpass', s0 + (z ? 'じさせられる' : 'させられる')], ['ba', s0 + (z ? 'ずれば' : 'すれば')], ['tara', s0 + (z ? 'じたら' : 'したら')], ['vol', s0 + (z ? 'じよう' : 'しよう')], ['imp', s0 + (z ? 'じろ' : 'しろ')], ['tai', s0 + (z ? 'じたい' : 'したい')]]); }
+    else { // godan
+      const k = U.indexOf(u); if (k < 0) return [];
+      stem = b + Ia[k]; a = b + Aa[k]; i = stem; e = b + Ea[k]; o = b + Oa[k] + 'う';
+      te = b + TE5[u]; ta = te.slice(0, -1) + (te.endsWith('で') ? 'だ' : 'た');
+      if (cls === 'v5k-s') { te = b + 'って'; ta = b + 'った'; }
+      if (cls === 'v5aru') stem = b + 'い';
+      const neg = cls === 'v5r-i' ? 'ない' : a + 'ない';
+      return T([['casual', w], ['polite', stem + 'ます'], ['neg', neg], ['politeneg', stem + 'ません'], ['past', ta], ['politepast', stem + 'ました'], ['pastneg', cls === 'v5r-i' ? 'なかった' : a + 'なかった'], ['te', te], ['teiru', te + 'いる'], ['pot', cls === 'v5r-i' ? '' : e + 'る'], ['pass', a + 'れる'], ['caus', a + 'せる'], ['causpass', a + 'せられる'], ['ba', e + 'ば'], ['tara', ta + 'ら'], ['vol', o], ['imp', cls === 'v5aru' ? stem : e], ['tai', i + 'たい']]);
+    }
+    return T([['casual', w], ['polite', stem + 'ます'], ['neg', a + 'ない'], ['politeneg', stem + 'ません'], ['past', ta], ['politepast', stem + 'ました'], ['pastneg', a + 'なかった'], ['te', te], ['teiru', te + 'いる'], ['pot', stem + 'られる'], ['pass', stem + 'られる'], ['caus', stem + 'させる'], ['causpass', stem + 'させられる'], ['ba', e + 'ば'], ['tara', ta + 'ら'], ['vol', o + 'う'], ['imp', stem + 'ろ'], ['tai', i + 'たい']]);
+  }
+  /* leitura de uma forma conjugada: troca a terminação da leitura da base (来る é tratado à parte) */
+  function readingOf(surface, base, baseReading) {
+    if (!hasKanji(surface)) return hira(surface);
+    let p = 0; while (p < surface.length && p < base.length && surface[p] === base[p]) p++;
+    if (base.endsWith('来る') && surface[p - 1] === '来') {
+      const rest = surface.slice(p), pre = baseReading.slice(0, -2);
+      return pre + (/^(な|よ|さ|ら|い$)/.test(rest) ? 'こ' : /^(る|れ)/.test(rest) ? 'く' : 'き') + rest;
+    }
+    const baseRest = base.slice(p), surfRest = surface.slice(p);
+    if (hasKanji(baseRest) || hasKanji(surfRest) || !baseReading.endsWith(hira(baseRest))) return '';
+    return baseReading.slice(0, baseReading.length - baseRest.length) + hira(surfRest);
+  }
+
+  /* ==========================================================
+     BUSCA COMPLETA — devolve resultados ordenados por relevância
+     ========================================================== */
+  const PT_ART = /^(o|a|os|as|um|uma|uns|umas) /;
+  function ptVariants(n) {
+    const out = [[n, 0]], add = (v, pen) => { v = v.trim(); if (v.length >= 2 && !out.some(x => x[0] === v)) out.push([v, pen]); };
+    const noArt = n.replace(PT_ART, ''); add(noArt, 1); add(n.replace(/-/g, ' '), 0); add(noArt.replace(/-/g, ' '), 1);
+    const v = noArt;
+    if (v.length > 3 && !/\s/.test(v)) {
+      if (/oes$|aes$/.test(v)) add(v.replace(/[oa]es$/, 'ao'), 4); if (/ais$/.test(v)) add(v.replace(/ais$/, 'al'), 4); if (/eis$/.test(v)) add(v.replace(/eis$/, 'el'), 4);
+      if (/res$|zes$|ses$/.test(v)) add(v.slice(0, -2), 4); if (/ns$/.test(v)) add(v.replace(/ns$/, 'm'), 4); if (/s$/.test(v)) add(v.slice(0, -1), 4);
+      if (/a$/.test(v)) add(v.slice(0, -1) + 'o', 6); // feminino → masculino (cansada → cansado)
+      if (/as$/.test(v)) add(v.slice(0, -2) + 'o', 7);
+    }
+    if (/^(o |a )?(ato de |de )/.test(v)) add(v.replace(/^(o |a )?(ato de |de )/, ''), 6);
+    return out;
+  }
+  async function search(q, opts = {}) {
+    q = String(q || '').trim(); const lim = opts.limit || 60;
+    const res = new Map(); // ord -> {ord, score, how}
+    const put = (ord, score, how, extra) => { const r = res.get(ord); if (!r || r.score < score) res.set(ord, Object.assign({ ord, score, how }, extra || {})); };
+    const out = { q, kind: '', results: [], forms: [], suggest: [], kanji: [], tooShort: false };
+    if (!q) return out;
+    if (isJp(q)) {
+      out.kind = 'jp';
+      const clean = q.replace(/[\s　。、！？!?「」『』（）()]/g, '');
+      const ex = await jExact(clean); ex.forEach((o, i) => put(o, 1000 - i * 0.01, 'exact'));
+      const kj = [...clean].filter(isKanjiCh);
+      if (kj.length && kj.length <= 4 && clean.length <= 6) out.kanji = [...new Set(kj)];
+      if (/[぀-ゟ]$/.test(clean)) { out.forms = await analyze(clean); out.forms.forEach((a, ai) => a.es.forEach((e, i) => put(e.ord, (a.weak ? 640 : 900) - ai * 5 - i, 'form', { form: a }))); }
+      // começo da palavra: só depois de 1 caractere de kanji ou 2 de kana (buscas curtas não despejam centenas de resultados)
+      const minPre = hasKanji(clean) ? 1 : 2;
+      if (clean.length >= minPre) (await jPrefix(clean, 40)).forEach(([k, ...ords]) => { if (k === jKey(clean)) return; ords.slice(0, 3).forEach((o, i) => put(o, 500 - (k.length - clean.length) * 8 - Math.min(150, o / 400) - i, 'prefix')); });
+      if (!res.size && !hasKanji(clean) && clean.length >= 3) { (await jFuzzy(clean)).slice(0, 12).forEach(([k, ...ords]) => { out.suggest.push({ k, ord: ords[0] }); }); }
+    } else {
+      out.kind = 'latin';
+      const n = normW(q);
+      if (n.length < 2) { out.tooShort = true; return out; }
+      // romaji
+      const kana = toKana(n);
+      if (kana && kana.length >= 1 && !/^ー/.test(kana)) {
+        const ex = await jExact(kana); ex.forEach((o, i) => put(o, 960 - i * 2 - Math.min(60, o / 2000), 'romaji'));
+        if (kana.length >= 2) (await jFuzzy(kana, { phonOnly: true })).slice(0, 25).forEach(([k, ...ords], ri) => ords.slice(0, 2).forEach((o, i) => put(o, (ex.length ? 640 : 930) - ri - i - Math.min(60, o / 2000), 'romaji')));
+        // romaji conjugado (tabemashita, yonda): reconhece a forma básica
+        if (kana.length >= 3 && !ex.length) { out.forms = await analyze(kana); out.forms.forEach((a, ai) => a.es.forEach((e, i) => put(e.ord, (a.weak ? 600 : 935) - ai * 5 - i, 'form', { form: a }))); }
+        if (kana.length >= 3) (await jPrefix(kana, 20)).forEach(([k, ...ords]) => { if (k !== kana && /^[぀-ゟー]+$/.test(k)) ords.slice(0, 1).forEach(o => put(o, 420 - (k.length - kana.length) * 10 - Math.min(80, o / 1500), 'romaji-prefix')); });
+      }
+      // português (revisado do app + traduções marcadas), depois inglês do JMdict
+      for (const [v, pen] of ptVariants(n)) (await wExact('p', v)).forEach(([o, sc]) => put(o, 880 + sc - pen * 10 - Math.min(30, o / 300), 'pt'));
+      const enVs = [[n, 0]]; if (!/^to /.test(n) && n.split(' ').length <= 3) enVs.push(['to ' + n, 2]);
+      for (const [v, pen] of enVs) (await wExact('e', v)).forEach(([o, sc]) => put(o, 700 + sc - pen * 10 - Math.min(30, o / 300), 'en'));
+      // várias palavras: entradas que têm todas
+      const words = n.split(' ').filter(w => w.length >= 2 && !/^(o|a|os|as|um|uma|de|do|da|the|to|of|a|an)$/.test(w));
+      if (words.length >= 2) for (const lang of ['p', 'e']) {
+        const lists = await Promise.all(words.map(w => wExact(lang, w)));
+        const cnt = new Map(); lists.forEach(l => l.forEach(([o, sc]) => cnt.set(o, (cnt.get(o) || [0, 0]).map((x, j) => x + (j ? sc : 1)))));
+        cnt.forEach(([c, sc], o) => { if (c === words.length) put(o, (lang === 'p' ? 600 : 520) + sc / c, lang === 'p' ? 'pt' : 'en'); });
+      }
+      if (!res.size || [...res.values()].every(r => r.score < 800)) {
+        const sug = new Set();
+        for (const lang of ['p', 'e']) (await wFuzzy(lang, n, n.length >= 7 ? 2 : 1)).forEach(t => sug.add(t));
+        if (kana && kana.length >= 3 && !res.size) (await jFuzzy(kana)).slice(0, 4).forEach(([k]) => sug.add(toRomaji(k)));
+        out.suggest = [...sug].filter(t => t !== n).slice(0, 6).map(k => ({ k }));
+      }
+    }
+    // filtro de relevância: se há resultado forte, os fracos saem; com resultado em português, o inglês só entra quando bate o significado inteiro
+    let list = [...res.values()].sort((a, b) => b.score - a.score || a.ord - b.ord);
+    if (list.some(r => r.how === 'pt')) list = list.filter(r => r.how !== 'en' || r.score >= 780);
+    const best = list.length ? list[0].score : 0;
+    if (best >= 880) list = list.filter(r => r.score >= Math.min(420, best - 520));
+    out.total = list.length;
+    out.results = list.slice(0, lim);
+    return out;
+  }
+
+  /* ==========================================================
+     ANÁLISE DE FRASE — divide em palavras pelo dicionário (o trecho mais longo que existe), reconhece conjugações
+     e partículas. Quando há mais de uma divisão possível, mostra a mais provável e avisa.
+     ========================================================== */
+  const PARTICLES = ['は', 'が', 'を', 'に', 'で', 'へ', 'と', 'の', 'も', 'や', 'か', 'から', 'まで', 'より', 'ね', 'よ', 'な', 'わ', 'ぞ', 'ぜ', 'さ', 'けど', 'けれど', 'ので', 'のに', 'し', 'でも', 'だけ', 'しか', 'ばかり', 'ほど', 'くらい', 'ぐらい', 'など', 'って', 'とか', 'かな', 'かしら', 'ながら', 'ずつ', 'こそ', 'さえ', 'すら', 'ほど', 'のみ'];
+  async function tokenize(text) {
+    const s = String(text || '').replace(/[\s　]+/g, ''); const toks = []; let i = 0;
+    while (i < s.length) {
+      const ch = s[i];
+      if (/[、。！？!?「」『』（）()・…〜~ー]/.test(ch) && !(ch === 'ー' && i > 0)) { toks.push({ s: ch, punct: true }); i++; continue; }
+      if (/[A-Za-z0-9０-９Ａ-Ｚａ-ｚ]/.test(ch)) { let j = i; while (j < s.length && /[A-Za-z0-9０-９Ａ-Ｚａ-ｚ.,]/.test(s[j])) j++; toks.push({ s: s.slice(i, j), latin: true }); i = j; continue; }
+      let best = null;
+      for (let L = Math.min(14, s.length - i); L >= 1; L--) {
+        const sub = s.slice(i, i + L); if (/[、。！？!?「」]/.test(sub)) continue;
+        const prevKana = i > 0 && /[ぁ-ゖ]/.test(s[i - 1]);
+        // partícula curta entre palavras: preferida a um trecho em kana que "come" a partícula seguinte
+        if (L <= 3 && PARTICLES.includes(sub) && toks.length && !toks[toks.length - 1].punct && (L === 1 || !best)) {
+          const ex = await jExact(sub); if (ex.length) { if (!best || best.s.length <= L || /^[ぁ-ゖ]+$/.test(best.s) && !best.form) { best = { s: sub, ords: ex, particle: true }; } break; }
+        }
+        const ex = await jExact(sub);
+        if (ex.length) {
+          // trecho só em kana e raro (ex.: これは como interjeição) perde para a divisão em palavras comuns
+          if (L >= 2 && /^[ぁ-ゖー]+$/.test(sub) && ex[0] > 30000 && !best) { best = { s: sub, ords: ex, weak: true }; continue; }
+          if (!best || best.weak) { best = { s: sub, ords: ex }; }
+          break;
+        }
+        if (L >= 2 && /[ぁ-ゖ]$/.test(sub)) { const fs = await analyze(sub, { max: 3 }); if (fs.length && !(fs[0].weak && L <= 2)) { if (!best || best.weak) best = { s: sub, ords: fs[0].es.map(e => e.ord), form: fs[0], forms: fs }; break; } }
+        void prevKana;
+      }
+      if (!best) { toks.push({ s: ch, unknown: true }); i++; continue; }
+      // です／だ depois de um substantivo: fica como palavra separada (学生です = 学生 + です)
+      if (best.form && best.form.chain.length === 1 && /^(desu|da|deshita|datta|janai|janakatta)$/.test(best.form.chain[0]) && s.startsWith(best.form.base, i)) best = { s: best.form.base, ords: best.ords };
+      if (best.particle || PARTICLES.includes(best.s)) { // partícula: escolhe a entrada que é partícula (は “wa”, não 葉 “folha”)
+        const es = await entries(best.ords.slice(0, 8)); const pe = es.find(e => e && e.s.some(x => x.pos.includes('prt')));
+        if (pe) { best.ords = [pe.ord].concat(best.ords.filter(o => o !== pe.ord)); best.particle = true; }
+      }
+      toks.push(best); i += best.s.length;
+    }
+    // junta kanji desconhecidos consecutivos
+    return toks;
+  }
+
+  /* ---------- rótulos em português (classes gramaticais e marcas do JMdict) ---------- */
+  const POS_PT = {
+    n: 'substantivo', 'n-adv': 'substantivo adverbial', 'n-t': 'substantivo (tempo)', 'n-pref': 'substantivo (prefixo)', 'n-suf': 'substantivo (sufixo)', 'n-pr': 'nome próprio',
+    pn: 'pronome', 'adj-i': 'adjetivo -i', 'adj-ix': 'adjetivo -i (いい/よい)', 'adj-na': 'adjetivo -na', 'adj-no': 'pode levar の', 'adj-pn': 'pré-nominal', 'adj-t': 'adjetivo -taru', 'adj-f': 'antes de substantivo', 'adj-ku': 'adjetivo -ku (arcaico)', 'adj-shiku': 'adjetivo -shiku (arcaico)', 'adj-nari': 'adjetivo -nari (arcaico)', 'adj-kari': 'adjetivo -kari (arcaico)',
+    adv: 'advérbio', 'adv-to': 'advérbio (com と)', aux: 'auxiliar', 'aux-v': 'verbo auxiliar', 'aux-adj': 'adjetivo auxiliar', conj: 'conjunção', cop: 'cópula', ctr: 'contador', exp: 'expressão', int: 'interjeição', num: 'número', pref: 'prefixo', prt: 'partícula', suf: 'sufixo', unc: 'não classificado',
+    v1: 'verbo ichidan (-ru)', 'v1-s': 'verbo ichidan (くれる)', v5u: 'verbo godan (-u)', v5k: 'verbo godan (-ku)', 'v5k-s': 'verbo godan (行く)', v5g: 'verbo godan (-gu)', v5s: 'verbo godan (-su)', v5t: 'verbo godan (-tsu)', v5n: 'verbo godan (-nu)', v5b: 'verbo godan (-bu)', v5m: 'verbo godan (-mu)', v5r: 'verbo godan (-ru)', 'v5r-i': 'verbo godan (irregular, ある)', v5aru: 'verbo godan honorífico (-aru)', 'v5u-s': 'verbo godan (-u, especial)',
+    vk: 'verbo irregular 来る', vs: 'substantivo que vira verbo com する', 'vs-i': 'verbo する', 'vs-s': 'verbo -suru (especial)', 'vs-c': 'verbo -su (arcaico)', vz: 'verbo -zuru', vi: 'intransitivo', vt: 'transitivo', vn: 'verbo -nu (irregular)', vr: 'verbo -ri (arcaico)', 'v2a-s': 'verbo nidan (arcaico)', 'v4r': 'verbo yodan (arcaico)', 'v4k': 'verbo yodan (arcaico)', 'v4s': 'verbo yodan (arcaico)', 'v4h': 'verbo yodan (arcaico)', 'v4t': 'verbo yodan (arcaico)', 'v4m': 'verbo yodan (arcaico)', 'v4b': 'verbo yodan (arcaico)', 'v4g': 'verbo yodan (arcaico)', 'v4n': 'verbo yodan (arcaico)', vunspec: 'verbo (classe não especificada)'
+  };
+  const POS_SHORT = p => !p ? '' : /^v1/.test(p) ? 'verbo' : /^v5|^vk|^vs-|^vz|^v[24]/.test(p) ? 'verbo' : p === 'vs' ? 'subst. (+する)' : /^adj-i/.test(p) ? 'adj. -i' : p === 'adj-na' ? 'adj. -na' : /^adj/.test(p) ? 'adjetivo' : /^n/.test(p) ? 'subst.' : p === 'exp' ? 'expressão' : p === 'int' ? 'interjeição' : p === 'prt' ? 'partícula' : POS_PT[p] || p;
+  const MISC_PT = {
+    abbr: 'abreviação', arch: 'arcaico', char: 'personagem', chn: 'linguagem infantil', col: 'coloquial', company: 'empresa', creat: 'criatura', dated: 'antiquado', dei: 'divindade', derog: 'pejorativo', doc: 'documento', euph: 'eufemismo', ev: 'evento', fam: 'familiar', fem: 'linguagem feminina', fict: 'ficção', form: 'formal', given: 'nome', group: 'grupo', hist: 'termo histórico', hon: 'honorífico (sonkeigo)', hum: 'humilde (kenjougo)', id: 'expressão idiomática', joc: 'brincadeira', leg: 'lenda', 'm-sl': 'gíria de mangá', male: 'linguagem masculina', myth: 'mitologia', 'net-sl': 'gíria da internet', obj: 'objeto', obs: 'obsoleto', 'on-mim': 'onomatopeia ou mimese', organization: 'organização', oth: 'outro', person: 'pessoa', place: 'lugar', poet: 'poético', pol: 'educado (teineigo)', product: 'produto', proverb: 'provérbio', quote: 'citação', rare: 'raro', relig: 'religião', sens: 'sensível', serv: 'serviço', ship: 'navio', sl: 'gíria', station: 'estação', surname: 'sobrenome', uk: 'geralmente escrito em kana', unclass: 'nome', vulg: 'vulgar', work: 'obra', X: 'impróprio', yoji: 'expressão de 4 kanji (yojijukugo)',
+    agric: 'agricultura', anat: 'anatomia', archeol: 'arqueologia', archit: 'arquitetura', art: 'arte', astron: 'astronomia', audvid: 'audiovisual', aviat: 'aviação', baseb: 'beisebol', biochem: 'bioquímica', biol: 'biologia', bot: 'botânica', boxing: 'boxe', Buddh: 'budismo', bus: 'negócios', cards: 'cartas', chem: 'química', chmyth: 'mitologia chinesa', Christn: 'cristianismo', civeng: 'engenharia civil', cloth: 'roupas', comp: 'informática', cryst: 'cristalografia', dent: 'odontologia', ecol: 'ecologia', econ: 'economia', elec: 'eletricidade', electr: 'eletrônica', embryo: 'embriologia', engr: 'engenharia', ent: 'entomologia', figskt: 'patinação', film: 'cinema', finc: 'finanças', fish: 'pesca', food: 'culinária', gardn: 'jardinagem', genet: 'genética', geogr: 'geografia', geol: 'geologia', geom: 'geometria', go: 'go (jogo)', golf: 'golfe', gramm: 'gramática', grmyth: 'mitologia grega', hanaf: 'hanafuda', horse: 'corrida de cavalos', internet: 'internet', jpmyth: 'mitologia japonesa', kabuki: 'kabuki', law: 'direito', ling: 'linguística', logic: 'lógica', MA: 'artes marciais', mahj: 'mahjong', manga: 'mangá', math: 'matemática', mech: 'mecânica', med: 'medicina', met: 'meteorologia', mil: 'militar', min: 'mineralogia', mining: 'mineração', motor: 'automobilismo', music: 'música', noh: 'noh', ornith: 'ornitologia', paleo: 'paleontologia', pathol: 'patologia', pharm: 'farmácia', phil: 'filosofia', photo: 'fotografia', physics: 'física', physiol: 'fisiologia', politics: 'política', print: 'impressão', prowres: 'luta livre', psy: 'psiquiatria', psyanal: 'psicanálise', psych: 'psicologia', rail: 'ferrovia', rommyth: 'mitologia romana', Shinto: 'xintoísmo', shogi: 'shogi', ski: 'esqui', sports: 'esportes', stat: 'estatística', stockm: 'bolsa de valores', sumo: 'sumô', surg: 'cirurgia', telec: 'telecomunicações', tradem: 'marca registrada', tv: 'televisão', vet: 'veterinária', vidg: 'videogame', zool: 'zoologia',
+    kyb: 'dialeto de Kyoto', osb: 'dialeto de Osaka', ksb: 'dialeto de Kansai', ktb: 'dialeto de Kantō', tsb: 'dialeto de Tosa', thb: 'dialeto de Tōhoku', tsug: 'dialeto de Tsugaru', kyu: 'dialeto de Kyūshū', rkb: 'dialeto de Ryūkyū', nab: 'dialeto de Nagano', hob: 'dialeto de Hokkaidō', bra: 'dialeto do Brasil (nipo-brasileiro)'
+  };
+  const FORM_PT = { iK: 'escrita irregular', ik: 'leitura irregular', oK: 'escrita antiga', ok: 'leitura antiga', ateji: 'ateji (kanji pelo som)', rK: 'escrita rara', rk: 'leitura rara', sK: 'só para busca', sk: 'só para busca', io: 'okurigana irregular', gikun: 'leitura especial (gikun)' };
+  const LANG_PT = { eng: 'inglês', por: 'português', fre: 'francês', ger: 'alemão', dut: 'holandês', ita: 'italiano', spa: 'espanhol', rus: 'russo', chi: 'chinês', kor: 'coreano', lat: 'latim', grc: 'grego antigo', gre: 'grego', san: 'sânscrito', ain: 'ainu', ara: 'árabe' };
+  const RULE_PT = {
+    polite: ['forma educada (ます)', 'c13l2'], 'polite-neg': ['educada, negativa (ません)', 'c13l2'], 'polite-past': ['educada, passado (ました)', 'c13l2'], 'polite-past-neg': ['educada, negativa no passado (ませんでした)', 'c13l2'], 'polite-vol': ['educada, convite (ましょう)', 'c13l2'], 'polite-te': ['educada, forma て (まして)', 'c13l2'], 'polite-inv': ['convite educado (ませんか)', 'c13l2'],
+    neg: ['negativa (ない)', 'c8l2'], zu: ['negativa formal/escrita (ず)', ''], zuni: ['“sem fazer” (ずに)', ''], 'neg-n': ['negativa coloquial (ん)', ''], past: ['passado (た)', 'c8l3'], tara: ['condicional (たら)', 'c16l6'], tari: ['listando ações (たり)', 'c13l12'], tarou: ['suposição no passado (たろう)', ''],
+    te: ['forma て', 'c13l3'], temo: ['“mesmo que” (ても)', 'c13l3'], tewa: ['forma ては', ''], teiru: ['em andamento ou estado (ている)', 'c13l4'], teshimau: ['acabou fazendo / por completo (てしまう、ちゃう)', 'c16l5'], teoku: ['deixar feito / preparar (ておく、とく)', 'c16l4'], tearu: ['estado resultante (てある)', ''], temiru: ['experimentar fazer (てみる)', 'c16l4'], teiku: ['ir fazendo (ていく)', ''], tekuru: ['vir fazendo (てくる)', ''],
+    teageru: ['fazer para alguém (てあげる)', ''], tekureru: ['alguém faz para mim (てくれる)', ''], temorau: ['receber um favor (てもらう)', ''], tehoshii: ['querer que alguém faça (てほしい)', ''], tekudasai: ['pedido (てください)', 'c13l3'], tesumimasen: ['desculpa por… (てすみません)', ''], tekara: ['depois de (てから)', ''], temoii: ['permissão (てもいい)', ''], tewaikenai: ['proibição (てはいけない)', ''],
+    'pot-pass': ['potencial ou passiva (られる)', 'c13l7'], 'pot-ranuki': ['potencial coloquial (sem ら)', 'c13l7'], pot: ['potencial (“conseguir”)', 'c13l7'], 'pot-suru': ['potencial de する (できる)', 'c13l7'], pass: ['passiva (れる / される)', 'c16l9'], caus: ['causativa (“fazer/deixar fazer”)', 'c16l10'], 'caus-pass': ['causativa-passiva (“ser obrigado a”)', 'c16l10'], 'caus-short': ['causativa curta (coloquial)', 'c16l10'],
+    ba: ['condicional (ば)', 'c16l7'], 'adj-ba': ['adjetivo, condicional (ければ)', 'c16l7'], vol: ['volitiva (“vamos…”, “vou…”)', 'c13l8'], imp: ['imperativa (ordem)', 'c13l9'], 'imp-neg': ['proibição (な)', 'c13l9'], nasai: ['ordem branda (なさい)', ''],
+    tai: ['querer fazer (たい)', 'c6l3'], tagaru: ['outra pessoa quer (たがる)', ''], nagara: ['ao mesmo tempo (ながら)', 'c13l13'], sou: ['“parece que vai…” (そう)', 'c14l9'], 'adj-sou': ['adjetivo, aparência (そう)', 'c14l9'], sugiru: ['demais (すぎる)', 'c14l10'], yasui: ['fácil de (やすい)', ''], nikui: ['difícil de (にくい)', ''], experience: ['experiência (たことがある)', 'c13l5'],
+    'adj-neg': ['adjetivo, negativa (くない)', 'c14l1'], 'adj-past': ['adjetivo, passado (かった)', 'c14l1'], 'adj-te': ['adjetivo, forma て (くて)', 'c14l1'], 'adj-adv': ['adjetivo → advérbio (く)', 'c14l5'], 'adj-sa': ['adjetivo → substantivo (さ / げ)', ''], 'adj-vol': ['adjetivo, suposição (かろう)', ''], 'adj-naru': ['ficar… (くなる)', 'c14l4'], 'adj-ki': ['forma literária (き)', ''],
+    desu: ['com です', ''], deshita: ['passado educado (でした)', ''], datta: ['passado (だった)', ''], janai: ['negativa (じゃない / ではない)', ''], janakatta: ['negativa no passado (じゃなかった)', ''], da: ['com だ', ''], 'na-adj': ['adjetivo -na antes de substantivo (な)', ''], 'ni-adv': ['advérbio (に)', ''], suru: ['substantivo + する (vira verbo)', 'c13l1'], stem: ['forma de ligação (連用形)', '']
+  };
+  const CONJ_PT = { casual: 'Dicionário (casual)', polite: 'Educada (ます)', neg: 'Negativa', politeneg: 'Educada negativa', past: 'Passado', politepast: 'Educada no passado', pastneg: 'Negativa no passado', te: 'Forma て', teiru: 'Em andamento (ている)', pot: 'Potencial', pass: 'Passiva', caus: 'Causativa', causpass: 'Causativa-passiva', ba: 'Condicional (ば)', tara: 'Condicional (たら)', vol: 'Volitiva', imp: 'Imperativa', tai: 'Desejo (たい)', adv: 'Advérbio', naru: 'Ficar (なる)', attr: 'Antes de substantivo', politeneg2: '' };
+
+  return {
+    BASE, setLoader: f => { loader = f; files.clear(); META = null; }, meta, available, metaError: () => metaErr, get,
+    hira, kata, toKana, toRomaji, phon, lev, normW, isJp, hasKanji, isKanjiCh,
+    entry, entries, summary, examples, entryById, jExact, jPrefix, jFuzzy, wExact, wPrefix, wFuzzy, kanji, strokes,
+    deinflect, analyze, posFits, verbClass, conjugate, readingOf, search, tokenize, ptVariants,
+    POS_PT, POS_SHORT, MISC_PT, FORM_PT, LANG_PT, RULE_PT, CONJ_PT, PARTICLES, RULES
+  };
+})();
+if (typeof module !== 'undefined' && module.exports) module.exports = JMD;
+
+/* ==========================================================
+   Nihongo Quest 14.0 — DICIONÁRIO GERAL: interface e integração
+   - A busca junta o dicionário do app (português revisado, exemplos, aprendizado) com o Dicionário Geral
+     (JMdict + KANJIDIC2 + Tatoeba). Sem o Dicionário Geral (arquivo aberto do disco, sem cache e sem internet),
+     tudo continua funcionando só com as palavras do app.
+   - Ficha completa: sentidos numerados, classe, registro, exemplos por sentido, acento tonal, conjugação,
+     kanji, palavras relacionadas, seu aprendizado. Ficha de kanji com ordem dos traços animada.
+   - Análise de frase, histórico de pesquisas, coleções, comparação, palavra aleatória, download para uso offline.
+   - Consultar NUNCA altera domínio, XP ou lições. Salvar no Caderno usa o mesmo S.items (sem duplicar).
+   ========================================================== */
+const JMUI = { ok: null, meta: null, nq: null, byKey: null, seq: 0, res: null, busy: false, filter: '', phrase: null, cmp: [], dl: null, cached: null, lastHist: '' };
+const JM_LESSON_OK = id => !!(id && typeof LESSON !== 'undefined' && LESSON[id]);
+const jmState = () => { const d = dictState(); if (!Array.isArray(d.hist)) d.hist = []; if (!isPlainObj(d.coll)) d.coll = {}; if (!isPlainObj(d.words)) d.words = {}; if (!isPlainObj(d.opts)) d.opts = { wod: true }; return d; };
+
+/* ---------- itens do Caderno para palavras que só existem no Dicionário Geral (e estruturas gramaticais) ---------- */
+function jmItemFrom(w) {
+  const id = 'jm:' + w.i;
+  if (!ITEM[id]) { ITEM[id] = { k: 'jm:' + w.i, jp: w.w, jp2: w.r && w.r !== w.w ? w.w + '（' + w.r + '）' : '', say: w.r || w.w, ro: JMD.toRomaji(w.r || w.w), pt: w.g, kanji: JMD.hasKanji(w.w) ? w.w : '', group: /^(exp|int)/.test(w.p || '') ? 'expressao' : 'palavra', id, lesson: DICT_LESSON, jm: w.i }; DICT_LESSON.items.push(ITEM[id]); }
+  return ITEM[id];
+}
+function jmGramItem(P) {
+  const id = 'dict:gram:' + P.p;
+  if (!ITEM[id]) { ITEM[id] = { k: 'gram:' + P.p, jp: P.p, say: P.p.replace(/^〜/, ''), ro: P.ro, pt: P.pt.join(' / '), group: 'palavra', particle: P, tag: 'particulas', note: P.intro, id, lesson: DICT_LESSON }; DICT_LESSON.items.push(ITEM[id]); }
+  return ITEM[id];
+}
+try { const d = S.dict || {}; Object.keys(d.words || {}).forEach(k => { const w = d.words[k]; if (w && w.nb && w.i) jmItemFrom(w); }); DICT_GRAMMAR.forEach(P => { if (S.items['dict:gram:' + P.p]) jmGramItem(P); }); } catch (e) {}
+
+/* estruturas e partículas extras entram no dicionário do app como verbetes próprios */
+const _jmDictBuild = dictBuild;
+dictBuild = function () {
+  if (DICT.built) return; _jmDictBuild();
+  DICT_GRAMMAR.forEach((P, i) => {
+    const e = { key: 'gram|' + P.p, kanji: '', kana: P.p, reading: KANA.kata2hira(P.p), ro: P.ro, pt: P.pt.slice(), pos: 'part', tags: ['particulas'], ex: [], notes: [], ctx: [], items: [], srcs: ['Dicionário · gramática'], particle: P, pi: 20 + i, dictId: 'dict:gram:' + P.p, gram: P.kind === 'gram' };
+    e.rank = DICT.list.length; e.jp = P.p;
+    const ptN = P.pt.map(p => dNorm(p));
+    e.k = { ro: KANA.phon(P.ro), roRaw: dNorm(P.ro).replace(/[^a-z]/g, ''), roAlt: (P.alt || []).map(a => a.replace(/[^a-z]/g, '')), kana: e.reading.replace(/^〜/, ''), pt: ptN, ptAlt: [], ptWords: ptN.flatMap(p => p.split(/[^a-z0-9à-ú]+/).filter(Boolean)).concat(P.kind === 'gram' ? ['gramatica', 'estrutura'] : ['particula', 'particulas']) };
+    // a mesma escrita já é um verbete (ex.: だけ): fica um verbete só na lista; o atalho de gramática abre a explicação
+    if (DICT.list.some(x => x.jp === e.jp && x.kana === e.kana)) { DICT.byKey[e.key] = e; return; }
+    DICT.list.push(e); DICT.byKey[e.key] = e; (DICT.byWord[e.k.kana] = DICT.byWord[e.k.kana] || []).push(e);
+  });
+};
+const _jmSaveLocal = dictSave;
+dictSave = function (e) { if (e && e.gram !== undefined && e.particle && e.dictId && e.dictId.startsWith('dict:gram:')) jmGramItem(e.particle); return _jmSaveLocal(e); };
+const _jmPartHTML = dictParticleHTML;
+dictParticleHTML = function (e) {
+  if (e.dictId && e.dictId.startsWith('dict:gram:')) jmGramItem(e.particle);
+  let h = _jmPartHTML(e);
+  if (e.gram) h = h.replace('<span class="chip nova d-poschip">Partícula</span>', '<span class="chip nova d-poschip">Estrutura gramatical</span>').replace('Partículas não têm um significado fixo: a função muda com a frase. Comece pela primeira função e vá somando as outras.', 'Estrutura para consulta. Os exemplos mostram o uso mais comum; o sentido exato depende do contexto.');
+  return h;
+};
+
+/* ---------- inicialização: meta do Dicionário Geral + ligação com as palavras do app ---------- */
+function jmInit() {
+  if (JMUI.ok !== null || JMUI.initP) return JMUI.initP;
+  JMUI.initP = (async () => {
+    if (!/^https?:$/.test(location.protocol)) { JMUI.ok = false; return false; }
+    try {
+      JMUI.meta = await JMD.meta();
+      const nq = await JMD.get('nq.json'); JMUI.nq = new Map(); JMUI.byKey = new Map();
+      nq.forEach(([o, k]) => { if (!JMUI.nq.has(o)) JMUI.nq.set(o, k); JMUI.byKey.set(k, o); });
+      JMUI.ok = true;
+    } catch (e) { JMUI.ok = false; }
+    JMUI.initP = null;
+    if (view === 'dicionario' && !P) dictRefreshList();
+    return JMUI.ok;
+  })();
+  return JMUI.initP;
+}
+const jmLocalOf = ord => { dictBuild(); const k = JMUI.nq && JMUI.nq.get(ord); return k ? DICT.byKey[k] || null : null; };
+const jmOrdOfLocal = e => (JMUI.byKey && e ? JMUI.byKey.get(e.key) : undefined);
+
+/* ---------- busca ---------- */
+let jmTimer = null;
+function jmSchedule() {
+  clearTimeout(jmTimer);
+  const q = dictUI.q.trim();
+  if (!q || JMUI.ok === false) { JMUI.res = null; return; }
+  JMUI.busy = true;
+  jmTimer = setTimeout(() => jmRun(q), 160);
+}
+async function jmRun(q) {
+  const my = ++JMUI.seq;
+  if (JMUI.ok === null) await jmInit();
+  if (!JMUI.ok) { JMUI.busy = false; if (my === JMUI.seq) dictRefreshList(); return; }
+  let r; try { r = await JMD.search(q, { limit: 80 }); } catch (e) { r = null; }
+  if (my !== JMUI.seq || dictUI.q.trim() !== q) return;
+  if (r) { r.sums = await Promise.all(r.results.map(x => JMD.summary(x.ord).catch(() => null))); r.kj = await Promise.all((r.kanji || []).map(ch => JMD.kanji(ch).catch(() => null))); }
+  if (my !== JMUI.seq) return;
+  JMUI.res = r; JMUI.busy = false;
+  dictRefreshList();
+  clearTimeout(JMUI.histT); JMUI.histT = setTimeout(() => jmAddHist(q), 2500);
+}
+function jmAddHist(q) { q = String(q || '').trim(); if (!q || q.length < 1 || dictUI.q.trim() !== q) return; const d = jmState(); d.hist = [q].concat(d.hist.filter(x => x !== q)).slice(0, 30); save(); }
+const JM_FILTERS = [['', 'Tudo'], ['c', 'Comuns'], ['v', 'Verbos'], ['a', 'Adjetivos'], ['n', 'Substantivos'], ['x', 'Expressões'], ['k', 'Com kanji'], ['h', 'Só kana'], ['s', 'Estudadas'], ['u', 'Não estudadas']];
+function jmStudied(ord) { const l = jmLocalOf(ord); if (l) return dictInNotebook(l); const m = jmState().words; const w = Object.values(m).find(x => x.o === ord); return !!(w && w.nb && S.items['jm:' + w.i] && S.items['jm:' + w.i].seen); }
+function jmPass(f, s) {
+  if (!f || !s) return true;
+  const p = s.p || '';
+  switch (f) {
+    case 'c': return s.c; case 'v': return /^v/.test(p) && p !== 'vs' || p === 'vs'; case 'a': return /^adj/.test(p); case 'n': return /^n/.test(p) || p === 'pn';
+    case 'x': return /^(exp|int)/.test(p); case 'k': return JMD.hasKanji(s.w); case 'h': return !JMD.hasKanji(s.w);
+    case 's': return jmStudied(s.ord); case 'u': return !jmStudied(s.ord);
+  }
+  return true;
+}
+const jmTag = (t, cls = '') => `<span class="jm-tag ${cls}">${esc(t)}</span>`;
+function jmRowHTML(s, extra = '') {
+  const l = jmLocalOf(s.ord), d = dictState();
+  const fav = l ? !!d.fav[l.key] : Object.keys(d.fav).some(k => k.startsWith('j:') && d.words && d.words[k] && d.words[k].o === s.ord);
+  const pt = l && l.pt.length ? l.pt.slice(0, 3).join('; ') : s.pt ? s.g : '';
+  const study = l && dictInNotebook(l) ? jmTag('No Caderno', 'ok') : '';
+  const ro = JMD.toRomaji(s.r || s.w);
+  return `<div class="d-row jm-row"><button class="d-main" data-act="jmOpen" data-o="${s.ord}"><span class="d-jp jp">${esc(s.w)}</span><span class="d-sub">${s.r && s.r !== s.w ? `<span class="jp">${esc(s.r)}</span> · ` : ''}${esc(ro)}${s.p ? ` · <span class="d-pos">${esc(JMD.POS_SHORT(s.p))}</span>` : ''}</span><span class="d-pt">${pt ? esc(pt) : `<span class="jm-en" lang="en">${esc(s.g)}</span>`}</span>${extra || s.c || study || !pt ? `<span class="jm-tags">${extra}${s.c ? jmTag('comum') : ''}${study}${!pt ? jmTag('EN', 'en') : ''}</span>` : ''}</button>
+    <div class="d-acts">${dictSnd(s.r || s.w, 'Ouvir ' + ro)}${fav ? `<span class="d-fav on" aria-label="Favorito">${DICT_STAR}</span>` : ''}</div></div>`;
+}
+function jmFormsHTML(forms) {
+  if (!forms || !forms.length) return '';
+  const main = forms[0], more = forms.slice(1, 4);
+  const one = (a, big) => {
+    const e = a.es[0], shown = (e.k.find(k => k.t === a.base) || e.k[0] || e.r[0]).t;
+    const steps = a.chain.slice().reverse().map(n => JMD.RULE_PT[n]).filter(Boolean);
+    const links = steps.map(s => s[1] && JM_LESSON_OK(s[1]) ? `<button class="link-btn" data-act="openLesson" data-id="${s[1]}">${esc(s[0])}</button>` : esc(s[0])).join(' → ');
+    return `<p style="margin:${big ? 0 : '6px 0 0'}">${big ? `<b class="jp">${esc(a.q)}</b> vem de ` : 'ou de '}<button class="link-btn jp" data-act="jmOpen" data-o="${e.ord}" style="font-weight:800">${esc(a.t === 'vs-n' ? shown + ' + する' : shown)}</button>${links ? ' · ' + links : ''}${a.weak ? ' <span class="jm-tag">possível</span>' : ''}</p>`;
+  };
+  return `<div class="card ln-form jm-form"><span class="eyebrow">${forms.length > 1 ? 'Forma conjugada · possíveis análises' : 'Forma conjugada reconhecida'}</span>${one(main, true)}${more.map(a => one(a, false)).join('')}${main.weak || forms.length > 1 ? '<p class="muted" style="margin:4px 0 0;font-size:.78rem">A mesma forma pode vir de palavras diferentes. Confira pelo contexto.</p>' : ''}</div>`;
+}
+function jmKanjiStrip(list) {
+  const ks = (list || []).filter(Boolean); if (!ks.length) return '';
+  return `<div class="jm-kstrip">${ks.map(k => `<button class="jm-kmini" data-act="jmKanji" data-k="${esc(k.c)}"><span class="jp">${esc(k.c)}</span><span><b>${esc((k.pt || k.en || []).slice(0, 3).join(', '))}</b><small class="jp">${esc([(k.on || []).slice(0, 2).join('・'), (k.kun || []).slice(0, 2).join('・')].filter(Boolean).join(' / '))}</small></span></button>`).join('')}</div>`;
+}
+
+/* lista de resultados: dicionário do app + Dicionário Geral, sem repetir a mesma palavra */
+const _jmLocalList = dictListHTML;
+dictListHTML = function () {
+  const q = dictUI.q.trim();
+  if (JMUI.ok === null && /^https?:$/.test(location.protocol)) jmInit();
+  if (JMUI.phrase && JMUI.phrase.q === q) return jmPhraseHTML();
+  if (!q || JMUI.ok === false) return q ? _jmLocalList() + (JMUI.ok === false && /^https?:$/.test(location.protocol) ? '<p class="muted jm-note">Dicionário Geral indisponível agora (sem internet e ainda não baixado). Mostrando as palavras do Nihongo Quest.</p>' : '') : dictHomeHTML();
+  const r = JMUI.res && JMUI.res.q === q ? JMUI.res : null;
+  if (!r) return `<p class="muted jm-note" aria-live="polite">Buscando…</p>` + _jmLocalList().replace(/<div class="card ln-form">[\s\S]*?<\/div>/, '');
+  dictBuild();
+  const local = dictSearch(q).slice(0, 40);
+  const seen = new Set(); const rows = [];
+  // palavras do app que não estão no Dicionário Geral (frases, expressões do app) e batem exatamente
+  const localExtra = local.filter(e => { const o = jmOrdOfLocal(e); return o === undefined || !r.results.some(x => x.ord === o); });
+  r.results.forEach((x, i) => { const s = r.sums[i]; if (!s || seen.has(x.ord)) return; seen.add(x.ord); if (jmPass(dictUI.filter, s)) rows.push({ s, how: x.how }); });
+  const exact = localExtra.filter(e => e.particle || e.k && (e.k.kana === KANA.kata2hira(q) || e.kanji === q || e.k.roRaw === dNorm(q).replace(/[^a-z]/g, '') || e.k.pt.includes(dNorm(q))));
+  const tail = localExtra.filter(e => !exact.includes(e)).slice(0, 4);
+  const filt = `<div class="jm-filters" role="toolbar" aria-label="Filtros">${JM_FILTERS.map(([k, t]) => `<button class="jm-chip ${dictUI.filter === k ? 'on' : ''}" data-act="jmFilter" data-f="${k}" aria-pressed="${dictUI.filter === k}">${t}</button>`).join('')}</div>`;
+  const phraseBtn = JMD.isJp(q) && q.replace(/\s/g, '').length >= 4 ? `<button class="btn btn-ghost btn-small jm-phrase-btn" data-act="jmPhrase">Analisar como frase (palavra por palavra)</button>` : '';
+  const kc = r.kj && r.kj.length ? jmKanjiStrip(r.kj) : '';
+  const forms = jmFormsHTML(r.forms);
+  const nores = !rows.length && !exact.length && !tail.length;
+  if (nores && JMD.isJp(q) && q.replace(/\s/g, '').length >= 4 && !dictUI.filter) { setTimeout(() => { if (dictUI.q.trim() === q && !JMUI.phrase) jmPhrase(q); }, 0); return '<p class="muted jm-note">Não é uma palavra só: analisando como frase…</p>'; }
+  if (nores) {
+    const sug = r.suggest || [], local2 = dictSuggest(q);
+    const chips = sug.map(x => `<button class="d-chip" data-act="dictTry" data-q="${esc(x.k)}"><span class="${JMD.isJp(x.k) ? 'jp' : ''}">${esc(x.k)}</span></button>`).join('') + local2.map(e => `<button class="d-chip" data-act="dictOpen" data-k="${esc(e.key)}"><span class="jp">${esc(e.jp)}</span><small>${esc(e.ro)} · ${esc(e.pt[0] || '')}</small></button>`).join('');
+    return `${forms}${kc}${phraseBtn}<div class="card mascot-tip" style="box-shadow:none">${mascot('neutral', 56)}<div><b>Nada encontrado para “${esc(q)}”${dictUI.filter ? ' com este filtro' : ''}.</b><p class="muted" style="margin:4px 0 0">${r.tooShort ? 'Digite pelo menos 2 letras.' : 'Tente outra grafia (ex.: <i>arigatou</i>, <i>ありがとう</i>), sem acento, em inglês, ou só o começo da palavra.'}</p></div></div>${dictUI.filter ? filt : ''}${chips ? `<section class="section" style="margin-top:4px"><h2 style="font-size:1rem">Você quis dizer…</h2><div class="d-chips">${chips}</div></section>` : ''}`;
+  }
+  const lim = dictUI.limit;
+  const localRow = e => dictRow(e).replace('class="d-row"', 'class="d-row jm-local"');
+  const body = exact.map(localRow).join('') + rows.slice(0, lim).map(x => jmRowHTML(x.s, x.how === 'form' ? jmTag('forma-base', 'ok') : '')).join('') + (rows.length <= lim ? tail.map(localRow).join('') : '');
+  const total = exact.length + rows.length + tail.length;
+  return `${forms}${kc}${phraseBtn}${filt}<p class="muted tabnum" style="margin:0 2px;font-size:.82rem">${total >= 80 ? 'Mais de 80' : total} resultado${total > 1 ? 's' : ''}${r.kind === 'latin' && rows.some(x => !x.s.pt) ? ' · <span class="jm-tag en">EN</span> = significado em inglês (JMdict), ainda sem tradução revisada' : ''}</p><div class="card d-list">${body}</div>${rows.length > lim ? `<button class="btn btn-ghost btn-block" data-act="dictMore">Ver mais</button>` : ''}`;
+};
+
+/* ---------- tela inicial do dicionário ---------- */
+function dictHomeHTML() {
+  if (dictUI.theme) return _jmLocalList();
+  const d = jmState(); dictBuild();
+  const chip = (k, jp, sub) => `<button class="d-chip" data-act="jmOpenKey" data-k="${esc(k)}"><span class="jp">${esc(jp)}</span><small>${esc(sub || '')}</small></button>`;
+  const keyChip = k => { const l = DICT.byKey[k]; if (l) return chip(k, l.jp, l.pt[0]); const w = d.words[k]; return w ? chip(k, w.w, w.g) : ''; };
+  const favs = Object.keys(d.fav).sort((a, b) => d.fav[b] - d.fav[a]).map(keyChip).filter(Boolean);
+  const rec = d.recent.map(keyChip).filter(Boolean);
+  const pool = DICT.list.filter(e => e.ex.length && e.pt.length);
+  const day = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 864e5);
+  const wod = d.opts.wod !== false && pool.length ? pool[(day * 7919) % pool.length] : null;
+  const colls = Object.keys(d.coll);
+  const m = JMUI.meta, ok = JMUI.ok;
+  const gramChips = DICT_PARTICLES.map(P => `<button class="d-chip" data-act="dictOpen" data-k="part|${esc(P.p)}"><span class="jp">${esc(P.p)}</span></button>`).join('') + DICT_GRAMMAR.map(P => `<button class="d-chip" data-act="dictOpen" data-k="gram|${esc(P.p)}"><span class="jp">${esc(P.p)}</span></button>`).join('');
+  const status = ok ? `<div class="card jm-status"><div class="jm-st-top"><span class="jm-st-ic jp">辞</span><div style="min-width:0"><b>Dicionário Geral</b><span class="muted">${m.counts.entries.toLocaleString('pt-BR')} entradas · ${m.counts.kanji.toLocaleString('pt-BR')} kanji · ${m.counts.examples.toLocaleString('pt-BR')} frases de exemplo</span></div></div>${jmOfflineHTML()}</div>`
+    : ok === false && /^https?:$/.test(location.protocol) ? `<div class="card jm-status"><b>Dicionário Geral indisponível agora</b><p class="muted" style="margin:4px 0 0;font-size:.85rem">Sem internet e sem cópia offline. As palavras do Nihongo Quest continuam disponíveis. Quando estiver conectado, use “Baixar para usar offline”.</p></div>` : '';
+  return `${status}
+    <div class="jm-quick"><button class="btn btn-ghost btn-small" data-act="jmRandom">Palavra aleatória</button><button class="btn btn-ghost btn-small" data-act="jmPhraseHelp">Analisar uma frase</button>${JMUI.cmp.length ? `<button class="btn btn-gold btn-small" data-act="jmCompare">Comparar (${JMUI.cmp.length})</button>` : ''}</div>
+    ${wod ? `<div class="card d-wod"><div class="jm-wod-h"><span class="eyebrow">Palavra do dia</span><button class="link-btn" data-act="jmWod" style="font-size:.78rem">Ocultar</button></div><div class="d-wod-in"><button class="d-main" data-act="dictOpen" data-k="${esc(wod.key)}"><span class="d-jp jp" style="font-size:1.7rem">${esc(wod.jp)}</span><span class="d-sub">${wod.kanji ? `<span class="jp">${esc(wod.kana)}</span> · ` : ''}${esc(wod.ro)}</span><span class="d-pt">${esc(wod.pt.slice(0, 2).join('; '))}</span></button>${dictSnd(wod.kana || wod.jp, 'Ouvir ' + wod.ro)}</div></div>` : d.opts.wod === false ? `<button class="link-btn" data-act="jmWod" style="font-size:.82rem;align-self:flex-start">Mostrar a palavra do dia</button>` : ''}
+    ${d.hist.length ? `<section class="section"><div class="section-h" style="margin:0"><h2 style="font-size:1.02rem">Pesquisas recentes</h2><button class="link-btn" data-act="jmHistClear">Limpar</button></div><div class="d-chips">${d.hist.slice(0, 12).map(h => `<button class="d-chip" data-act="dictTry" data-q="${esc(h)}"><span class="${JMD.isJp(h) ? 'jp' : ''}">${esc(h)}</span></button>`).join('')}</div></section>` : ''}
+    ${favs.length ? `<section class="section"><h2 style="font-size:1.02rem">Favoritos</h2><div class="d-chips">${favs.join('')}</div></section>` : ''}
+    ${colls.length ? `<section class="section"><h2 style="font-size:1.02rem">Coleções</h2><div class="d-chips">${colls.map(c => `<button class="d-chip" data-act="jmColl" data-c="${esc(c)}"><span>${esc(c)}</span><small>${d.coll[c].k.length} palavra${d.coll[c].k.length === 1 ? '' : 's'}</small></button>`).join('')}</div></section>` : ''}
+    ${rec.length ? `<section class="section"><h2 style="font-size:1.02rem">Vistas recentemente</h2><div class="d-chips">${rec.join('')}</div></section>` : ''}
+    <section class="section"><h2 style="font-size:1.02rem">Partículas e gramática</h2><div class="d-chips jm-gram">${gramChips}</div></section>
+    <section class="section"><h2 style="font-size:1.02rem">Explorar por tema</h2><div class="d-themes">${DICT_THEMES.map(([k, t, ic]) => `<button class="d-theme" data-act="dictTheme" data-t="${k}"><span class="jp">${ic}</span>${esc(t)}</button>`).join('')}</div></section>
+    <p class="muted" style="margin:14px 2px 0;font-size:.8rem">Consultar o dicionário não conta como lição nem muda o seu domínio ou XP. ${DICT.list.length} palavras e expressões vêm das lições do Nihongo Quest${ok ? ', com português revisado' : ''}.</p>
+    ${jmCreditsHTML()}`;
+}
+function jmCreditsHTML() {
+  return `<details class="jm-credits"><summary>Fontes e licenças dos dados</summary><p>Palavras do <b>JMdict</b> e kanji do <b>KANJIDIC2</b> e do <b>KRADFILE</b>, propriedade do Electronic Dictionary Research and Development Group (EDRDG), usados conforme a licença do Grupo (CC BY-SA 4.0): <a href="https://www.edrdg.org/edrdg/licence.html" target="_blank" rel="noopener">edrdg.org/edrdg/licence.html</a>.</p><p>Frases de exemplo do projeto <b>Tatoeba</b> (CC BY 2.0 FR, cada uma com o crédito dos autores), ligadas aos sentidos pelo JMdict_e_examp (EDRDG).</p><p>Ordem dos traços: <b>KanjiVG</b> (Ulrich Apel e colaboradores, CC BY-SA 3.0, <a href="https://kanjivg.tagaini.net" target="_blank" rel="noopener">kanjivg.tagaini.net</a>). Kanji parecidos: Lars Yencken, kanji confusion datasets (CC BY 3.0). Níveis JLPT dos kanji: Jonathan Waller, JLPT Resources (CC BY, <a href="http://www.tanos.co.uk/jlpt/" target="_blank" rel="noopener">tanos.co.uk/jlpt</a>), referência não oficial.</p><p>Acento tonal: “The pitch accent notation … were provided by Uros O. through his free database” (Kanjium, CC BY-SA 4.0).</p><p>Esses dados continuam sob as licenças originais (não sob o aviso de direitos do Nihongo Quest). Traduções para o português marcadas como “Nihongo Quest” foram feitas pelo projeto a partir dessas fontes e seguem a mesma licença CC BY-SA 4.0.</p></details>`;
+}
+
+/* ---------- download para uso offline (Cache API + service worker) ---------- */
+const JM_CACHE = 'nq-dict-v1';
+function jmAllFiles() {
+  const m = JMUI.meta; if (!m) return [];
+  const pad = n => String(n).padStart(3, '0'), out = ['meta.json', 'nq.json'];
+  for (let i = 0; i < m.shards; i++) { out.push('e/' + pad(i) + '.json', 'm/' + pad(i) + '.json'); }
+  m.xShards.forEach(i => out.push('x/' + pad(i) + '.json'));
+  m.jBuckets.forEach(b => out.push('j/' + b + '.json')); m.wBuckets.forEach(b => out.push('w/' + b + '.json'));
+  m.kBuckets.forEach(b => out.push('k/' + b + '.json')); m.sBuckets.forEach(b => out.push('s/' + b + '.json'));
+  return out;
+}
+const jmBytes = () => { const f = JMUI.meta && JMUI.meta.files; return f ? Object.values(f).reduce((a, x) => a + x[1], 0) : 0; };
+async function jmCountCached() {
+  if (!('caches' in window) || !JMUI.meta) return null;
+  try { const c = await caches.open(JM_CACHE); const keys = await c.keys(); JMUI.cached = keys.filter(k => k.url.includes('/dict/v1/')).length; } catch (e) { JMUI.cached = null; }
+  return JMUI.cached;
+}
+function jmOfflineHTML() {
+  if (!('caches' in window)) return '<p class="muted" style="margin:6px 0 0;font-size:.8rem">Este navegador não permite guardar o dicionário para uso offline. As palavras consultadas funcionam enquanto houver conexão.</p>';
+  const tot = jmAllFiles().length, mb = Math.round(jmBytes() / 1048576);
+  if (JMUI.dl) return `<div class="jm-dl"><div class="bar light"><i style="width:${Math.round(JMUI.dl.done / JMUI.dl.tot * 100)}%"></i></div><span class="muted tabnum" style="font-size:.8rem">Baixando… ${JMUI.dl.done} de ${JMUI.dl.tot} partes${JMUI.dl.err ? ' · ' + JMUI.dl.err + ' com erro (tente de novo depois)' : ''}</span></div>`;
+  if (JMUI.cached == null) { jmCountCached().then(n => { if (n != null && view === 'dicionario' && !dictUI.q) dictRefreshList(); }); return ''; }
+  const pct = Math.min(100, Math.round(JMUI.cached / tot * 100));
+  return pct >= 100 ? `<p class="jm-off ok">✓ Disponível sem internet (dicionário completo baixado).</p>` : `<p class="muted" style="margin:6px 0 0;font-size:.8rem">${JMUI.cached ? 'Já guardado para uso offline: ' + pct + '% (as palavras que você consulta ficam guardadas). ' : 'As palavras que você consulta ficam guardadas para uso offline. '}Para ter tudo sem internet, baixe o dicionário completo (cerca de ${mb} MB de espaço no aparelho).</p><button class="btn btn-ghost btn-small" data-act="jmDownload">Baixar para usar offline</button>`;
+}
+async function jmDownload() {
+  if (JMUI.dl || !JMUI.meta || !('caches' in window)) return;
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
+  const files = jmAllFiles(); const c = await caches.open(JM_CACHE);
+  const have = new Set((await c.keys()).map(k => k.url));
+  const base = new URL(JMD.BASE, location.href).href;
+  const todo = files.filter(f => !have.has(base + f));
+  JMUI.dl = { done: files.length - todo.length, tot: files.length, err: 0 }; dictRefreshList();
+  let i = 0;
+  const worker = async () => { while (i < todo.length) { const f = todo[i++]; try { const r = await fetch(base + f); if (r.ok) await c.put(base + f, r); else JMUI.dl.err++; } catch (e) { JMUI.dl.err++; } JMUI.dl.done++; if (JMUI.dl.done % 10 === 0 && view === 'dicionario' && !dictUI.q) dictRefreshList(); } };
+  await Promise.all([worker(), worker(), worker(), worker()]);
+  const err = JMUI.dl.err; JMUI.dl = null; await jmCountCached();
+  toast('辞', err ? 'Download interrompido em algumas partes. Tente de novo com conexão.' : 'Dicionário completo disponível sem internet.');
+  if (view === 'dicionario') dictRefreshList();
+}
+function jmRegisterSW() {
+  if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol) || /claude|anthropic/.test(location.hostname)) return;
+  try { navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (e) {}
+}
+
+/* ---------- ficha da palavra (Dicionário Geral) ---------- */
+const JM_SPECIAL_FORM = /(sK|iK|oK|rK)/, JM_SPECIAL_READ = /(sk|ik|ok|rk)/;
+function jmShown(e) { const k0 = e.k.find(k => !k.m.some(m => JM_SPECIAL_FORM.test(m))), r0 = e.r.find(r => !r.m.some(m => JM_SPECIAL_READ.test(m))) || e.r[0]; return { w: e.u || !k0 ? r0.t : k0.t, r: r0.t, k: k0 ? k0.t : '' }; }
+function jmRuby(jp) { return esc(jp).replace(/｜([^《]+)《([^》]+)》/g, '<ruby>$1<rt>$2</rt></ruby>'); }
+const jmPlain = jp => String(jp || '').replace(/｜([^《]+)《([^》]+)》/g, '$1');
+const jmPlainKana = jp => String(jp || '').replace(/｜([^《]+)《([^》]+)》/g, '$2');
+function jmMora(kana) { const out = []; for (const ch of hiraOrKata(kana)) { if (/[ゃゅょぁぃぅぇぉゎャュョァィゥェォヮ]/.test(ch) && out.length) out[out.length - 1] += ch; else out.push(ch); } return out; }
+function hiraOrKata(s) { return [...String(s || '')]; }
+function jmPitchHTML(reading, acc) {
+  const moras = jmMora(reading), n = Number(String(acc).split(',')[0]);
+  if (!moras.length || isNaN(n)) return '';
+  const hi = moras.map((_, i) => n === 0 ? i > 0 : n === 1 ? i === 0 : i > 0 && i < n);
+  const name = n === 0 ? 'heiban (plano)' : n === 1 ? 'atamadaka (alto no início)' : n === moras.length ? 'odaka (cai depois da palavra)' : 'nakadaka (cai no meio)';
+  return `<span class="jm-pitch" aria-label="Acento ${esc(acc)}: ${name}">${moras.map((m, i) => `<span class="${hi[i] ? 'h' : 'l'}${n > 0 && i === n - 1 ? ' d' : ''}">${esc(m)}</span>`).join('')}</span><small class="muted">${esc(name)}${String(acc).includes(',') ? ' · também ' + esc(String(acc).split(',').slice(1).join(', ')) : ''}</small>`;
+}
+function jmSenseHTML(s, i, exs) {
+  const pos = s.pos.map(p => JMD.POS_PT[p] || p), misc = s.misc.map(m => JMD.MISC_PT[m] || m);
+  const ref = r => { const [w] = r.split('・'); return `<button class="link-btn jp" data-act="dictTry" data-q="${esc(w)}">${esc(r.replace(/・\d+$/, ''))}</button>`; };
+  const ex = exs.filter(x => x.s === i + 1).slice(0, 2);
+  return `<li class="jm-sense">${pos.length || misc.length ? `<div class="jm-sense-tags">${pos.map(p => jmTag(p, 'pos')).join('')}${misc.map(m => jmTag(m, /coloquial|gíria|vulgar|pejorativo|infantil|internet|mangá/.test(m) ? 'reg' : /honorífico|humilde|educado|formal/.test(m) ? 'hon' : '')).join('')}</div>` : ''}
+    <span class="jm-gl" lang="en">${s.g.map(g => esc(g.t) + (g.kind === 'lit' ? ' <small>(literal)</small>' : g.kind === 'fig' ? ' <small>(figurado)</small>' : g.kind === 'expl' ? ' <small>(explicação)</small>' : '')).join('; ')}</span>
+    ${s.of.length || s.or.length ? `<small class="muted">Só para: <span class="jp">${esc(s.of.concat(s.or).join('、'))}</span></small>` : ''}
+    ${s.n ? `<small class="muted" lang="en">Nota (JMdict): ${esc(s.n)}</small>` : ''}
+    ${s.l.length ? `<small class="muted">Origem: ${s.l.map(l => (JMD.LANG_PT[l.lang] || l.lang) + (l.t ? ' “' + esc(l.t) + '”' : '') + (l.wasei ? ' (wasei, criado no Japão)' : '')).join('; ')}</small>` : ''}
+    ${s.x.length ? `<small class="muted">Veja também: ${s.x.map(ref).join(' · ')}</small>` : ''}${s.a.length ? `<small class="muted">Antônimo: ${s.a.map(ref).join(' · ')}</small>` : ''}
+    ${ex.map(jmExHTML).join('')}</li>`;
+}
+function jmExHTML(x) {
+  const plain = jmPlain(x.jp);
+  return `<div class="d-ex jm-ex"><div class="d-ex-top"><span class="jp d-ex-jp">${jmRuby(x.jp)}</span>${dictSnd(jmPlainKana(x.jp), 'Ouvir a frase')}</div><span lang="en">${esc(x.en)} <small class="muted">(inglês)</small></span><small class="jm-cred">Tatoeba nº ${x.tid}${x.aj ? ' · japonês: ' + esc(x.aj) : ''}${x.ae ? ' · inglês: ' + esc(x.ae) : ''} · CC BY 2.0 FR</small><button class="link-btn jm-anal" data-act="jmAnalyze" data-q="${esc(plain)}">Analisar a frase</button></div>`;
+}
+async function jmEntryHTML(e) {
+  const sh = jmShown(e), local = jmLocalOf(e.ord), d = jmState();
+  const favKey = local ? local.key : 'j:' + e.i, fav = !!d.fav[favKey];
+  const exs = await JMD.examples(e.ord).catch(() => []);
+  const ro = JMD.toRomaji(sh.r);
+  const kjs = [...new Set([...(sh.k || '')].filter(JMD.isKanjiCh))];
+  const kRecs = await Promise.all(kjs.map(c => JMD.kanji(c).catch(() => null)));
+  // relacionados: compostos que começam com a palavra, mesmo som, mesma escrita com outra leitura
+  const pre = (await JMD.jPrefix(sh.k || sh.r, 14).catch(() => [])).filter(([k]) => k !== (sh.k || JMD.hira(sh.r))).slice(0, 10);
+  const derived = (await Promise.all([...new Set(pre.map(([, o]) => o))].filter(o => o !== e.ord).map(o => JMD.summary(o).catch(() => null)))).filter(Boolean);
+  const homo = (await JMD.jExact(sh.r).catch(() => [])).filter(o => o !== e.ord).slice(0, 6);
+  const homoS = (await Promise.all(homo.map(o => JMD.summary(o).catch(() => null)))).filter(Boolean);
+  const cls = JMD.verbClass(e), conj = cls && !e.s.every(s => s.pos.includes('vs') && !s.pos.some(p => /^v[15k]|^vs-/.test(p)) && false) ? JMD.conjugate(sh.k && !e.u ? sh.k : sh.r, cls) : [];
+  const ptL = local && local.pt.length ? local.pt.map(t => ({ t, src: 'nq' })) : e.pt;
+  const srcName = { nq: 'revisado no Nihongo Quest', tr: 'tradução do Nihongo Quest a partir do JMdict' };
+  const ptSrc = [...new Set(ptL.map(x => x.src))];
+  const nqEx = (local ? local.ex.concat(dictAppExamples(local, 2)) : []).concat(e.qx).filter((x, i, a) => x && x.jp && a.findIndex(y => y.jp === x.jp) === i).slice(0, 3);
+  const altK = e.k.filter(k => k.t !== sh.w && !k.m.includes('sK')), altR = e.r.filter(r => r.t !== sh.r && !r.m.includes('sk'));
+  const inNb = local ? dictInNotebook(local) : !!(S.items['jm:' + e.i] && S.items['jm:' + e.i].seen);
+  const learn = local && typeof lnLearnHTML === 'function' ? lnLearnHTML(local) : (inNb ? `<section class="ln-dlearn"><span class="eyebrow">Seu aprendizado</span><p class="muted" style="margin:0;font-size:.85rem">No Caderno · ${esc(STATUS_LABEL[itemStatus('jm:' + e.i)] || '')}${S.items['jm:' + e.i].due ? ' · próxima revisão: ' + (S.items['jm:' + e.i].due <= Date.now() ? 'agora' : new Date(S.items['jm:' + e.i].due).toLocaleDateString('pt-BR')) : ''}</p></section>` : '');
+  const posAll = [...new Set(e.s.flatMap(s => s.pos))];
+  const isPart = posAll.includes('prt');
+  const gramLink = isPart ? (DICT_PARTICLES.concat(DICT_GRAMMAR).find(P => P.p === sh.r || P.p === sh.w)) : null;
+  const colls = Object.keys(d.coll);
+  const regs = [...new Set(e.s.flatMap(s => s.misc).filter(m => /^(col|sl|hon|hum|pol|form|vulg|fam|male|fem|chn|net-sl|m-sl|on-mim|arch|dated|obs|rare|poet|id|yoji|proverb)$/.test(m)))];
+  const cmpOn = JMUI.cmp.includes(e.ord);
+  return `<div class="d-entry jm-entry">
+    <div class="d-head"><div class="d-head-t"><span class="d-big jp">${esc(sh.w)}</span>${sh.w !== sh.r ? `<span class="d-read jp">${esc(sh.r)}</span>` : ''}<span class="d-ro">${esc(ro)}</span></div>
+      <div class="d-head-b">${dictSnd(sh.r, 'Ouvir a palavra', 'big')}<button class="btn btn-ghost btn-small d-snd" data-act="dictSaySlow" data-text="${esc(sh.r)}">Devagar</button><button class="icon-btn" data-act="jmCopy" data-o="${e.ord}" aria-label="Copiar palavra e significado">⧉</button></div></div>
+    <div class="d-chiprow">${e.c ? '<span class="chip nova">palavra comum</span>' : ''}${posAll.slice(0, 2).map(p => `<span class="chip d-poschip">${esc(JMD.POS_SHORT(p))}</span>`).join('')}${regs.slice(0, 3).map(m => `<span class="chip">${esc(JMD.MISC_PT[m] || m)}</span>`).join('')}${local ? '<span class="chip jm-nqchip">no Nihongo Quest</span>' : ''}</div>
+    ${ptL.length ? `<section><span class="eyebrow">Em português</span><ol class="d-means ${ptL.length > 1 ? '' : 'one'}">${ptL.map(x => `<li>${esc(x.t)}</li>`).join('')}</ol><small class="muted">${ptSrc.map(s => srcName[s] || s).join(' · ')}${ptSrc.includes('tr') ? '. Confira os sentidos abaixo.' : ''}</small></section>` : `<p class="muted jm-note" style="margin:0">Ainda sem tradução revisada para o português. Os significados abaixo são do JMdict, em inglês.</p>`}
+    ${e.pa.length ? `<section><span class="eyebrow">Acento tonal (padrão de Tóquio)</span>${e.pa.slice(0, 2).map(([r, a]) => `<div class="jm-pa"><span class="jp">${esc(r)}</span>${jmPitchHTML(r, a)}</div>`).join('')}<small class="muted">Fonte: Kanjium. A voz sintética do aparelho pode não reproduzir o acento exatamente.</small></section>` : ''}
+    <section><span class="eyebrow">${e.s.length > 1 ? e.s.length + ' sentidos' : 'Sentido'} · definição do JMdict (em inglês)</span><ol class="jm-senses">${e.s.map((s, i) => jmSenseHTML(s, i, exs)).join('')}</ol>${e.s.length > 1 ? '<p class="muted" style="margin:4px 0 0;font-size:.8rem">Os sentidos estão em ordem de uso. O certo depende do contexto: os exemplos ajudam a diferenciar.</p>' : ''}</section>
+    ${exs.filter(x => !e.s[x.s - 1]).length ? `<section><span class="eyebrow">Mais exemplos</span>${exs.filter(x => !e.s[x.s - 1]).slice(0, 2).map(jmExHTML).join('')}</section>` : ''}
+    ${nqEx.length ? `<section><span class="eyebrow">Exemplos do Nihongo Quest</span>${nqEx.map(x => `<div class="d-ex"><div class="d-ex-top"><span class="jp d-ex-jp">${esc(x.jp)}</span>${dictSnd(x.jp, 'Ouvir a frase')}</div><span class="ro">${esc(x.ro || '')}</span><span>${esc(x.pt || '')}</span></div>`).join('')}</section>` : ''}
+    ${gramLink ? `<section><span class="eyebrow">Gramática</span><button class="btn btn-ghost btn-small" data-act="dictOpen" data-k="${(DICT_GRAMMAR.includes(gramLink) ? 'gram|' : 'part|') + esc(gramLink.p)}">Como usar a partícula <span class="jp">${esc(gramLink.p)}</span></button></section>` : ''}
+    ${conj.length ? `<details class="jm-conj"><summary>Conjugação (${esc(JMD.POS_PT[posAll.find(p => /^v|^adj-(i|na)/.test(p))] || 'formas')})</summary><table>${conj.map(([k, f]) => `<tr><th>${esc(JMD.CONJ_PT[k] || k)}</th><td><button class="link-btn jp d-snd" data-act="dictSay" data-text="${esc(JMD.readingOf(f, sh.k && !e.u ? sh.k : sh.r, JMD.hira(sh.r)) || f)}">${esc(f)}</button></td></tr>`).join('')}</table><small class="muted">Formas geradas pelas regras de conjugação a partir da classe do verbo/adjetivo. Toque para ouvir.${JM_LESSON_OK('c13l2') ? ` <button class="link-btn" data-act="openLesson" data-id="c13l2">Lição sobre a forma ます</button>` : ''}</small></details>` : ''}
+    ${altK.length || altR.length ? `<section><span class="eyebrow">Outras escritas e leituras</span><p class="jm-alt">${altK.map(k => `<span class="jp">${esc(k.t)}</span>${k.m.length ? `<small>${esc(k.m.map(m => JMD.FORM_PT[m] || m).join(', '))}</small>` : ''}`).join(' · ')}${altK.length && altR.length ? ' · ' : ''}${altR.map(r => `<span class="jp">${esc(r.t)}</span>${r.m.length ? `<small>${esc(r.m.map(m => JMD.FORM_PT[m] || m).join(', '))}</small>` : ''}`).join(' · ')}</p></section>` : ''}
+    ${kRecs.some(Boolean) ? `<section><span class="eyebrow">Kanji desta palavra</span>${jmKanjiStrip(kRecs)}</section>` : ''}
+    ${derived.length ? `<section><span class="eyebrow">Compostos e expressões com esta palavra</span><div class="d-chips">${derived.map(s => `<button class="d-chip" data-act="jmOpen" data-o="${s.ord}"><span class="jp">${esc(s.w)}</span><small>${esc(s.g.split(/[;,]/)[0])}</small></button>`).join('')}</div></section>` : ''}
+    ${homoS.length ? `<section><span class="eyebrow">Mesmo som, outra palavra</span><div class="d-chips">${homoS.map(s => `<button class="d-chip" data-act="jmOpen" data-o="${s.ord}"><span class="jp">${esc(s.w)}</span><small>${esc(s.g.split(/[;,]/)[0])}</small></button>`).join('')}</div></section>` : ''}
+    ${learn}
+    <div class="d-btns"><button class="btn ${fav ? 'btn-gold' : 'btn-ghost'}" data-act="jmFav" data-o="${e.ord}" aria-pressed="${fav}">${DICT_STAR} ${fav ? 'Favorita' : 'Favoritar'}</button>
+      ${inNb ? `<span class="btn btn-ghost d-done" aria-disabled="true">✓ No Caderno</span>` : `<button class="btn btn-primary" data-act="jmSave" data-o="${e.ord}">Adicionar ao Caderno e à Revisão</button>`}</div>
+    <div class="jm-more"><label class="jm-coll"><span class="muted" style="font-size:.82rem">Coleção</span><select data-o="${e.ord}" class="jm-coll-sel" aria-label="Adicionar a uma coleção"><option value="">Adicionar a…</option>${colls.map(c => `<option value="${esc(c)}"${d.coll[c].k.includes(favKey) ? ' disabled' : ''}>${esc(c)}${d.coll[c].k.includes(favKey) ? ' ✓' : ''}</option>`).join('')}<option value="__new">+ Nova coleção</option></select></label><button class="btn btn-ghost btn-small" data-act="jmCmp" data-o="${e.ord}" aria-pressed="${cmpOn}">${cmpOn ? '✓ Na comparação' : 'Comparar'}</button></div>
+    <p class="muted jm-src">JMdict (EDRDG, CC BY-SA 4.0) · entrada nº ${e.i}</p>
+    <button class="btn btn-ghost btn-block" data-act="${P ? 'closeModal' : 'dictClose'}">Fechar</button></div>`;
+}
+async function jmOpen(ord, opts = {}) {
+  ord = Number(ord); if (isNaN(ord)) return;
+  if (!opts.keep) openModal('<div class="jm-loading"><p class="muted">Abrindo a ficha…</p></div><button class="btn btn-ghost btn-block" data-act="closeModal">Fechar</button>', 'd-sheet');
+  let e = null; try { e = await JMD.entry(ord); } catch (err) { e = null; }
+  if (!e) { const l = jmLocalOf(ord); if (l) return _jmDictOpen(l); openModal('<p class="muted">Não foi possível abrir esta ficha agora (sem conexão e sem cópia offline).</p><button class="btn btn-ghost btn-block" data-act="closeModal">Fechar</button>', 'd-sheet'); return; }
+  const d = jmState(), sh = jmShown(e), local = jmLocalOf(ord), key = local ? local.key : 'j:' + e.i;
+  if (!local) d.words[key] = Object.assign(d.words[key] || {}, { i: e.i, o: ord, w: sh.w, r: sh.r, k: sh.k || sh.r, g: jmGloss(e), p: (e.s[0] && e.s[0].pos[0]) || '', v: JMUI.meta && JMUI.meta.v });
+  d.recent = [key].concat(d.recent.filter(k => k !== key)).slice(0, 12); save();
+  if (dictUI.q) jmAddHistNow(dictUI.q);
+  JMUI.cur = e;
+  const html = await jmEntryHTML(e);
+  if (JMUI.cur !== e) return;
+  const sc = $('#modal .sheet'); const top = opts.keep && sc ? sc.scrollTop : 0;
+  openModal(html, 'd-sheet'); const s2 = $('#modal .sheet'); if (s2 && top) s2.scrollTop = top;
+}
+function jmAddHistNow(q) { clearTimeout(JMUI.histT); const d = jmState(); q = q.trim(); if (q) { d.hist = [q].concat(d.hist.filter(x => x !== q)).slice(0, 30); save(); } }
+function jmGloss(e) { return e.pt.length ? e.pt.slice(0, 3).map(x => x.t).join('; ') : e.s.slice(0, 2).map(s => s.g.slice(0, 3).map(g => g.t).join(', ')).join('; '); }
+async function jmOpenKey(k) {
+  dictBuild();
+  if (DICT.byKey[k]) return dictOpen(DICT.byKey[k]);
+  const w = jmState().words[k]; if (!w) return;
+  if (JMUI.ok === null) await jmInit();
+  if (JMUI.ok) { if (JMUI.meta.v === w.v && w.o != null) { const e = await JMD.entry(w.o).catch(() => null); if (e && e.i === w.i) return jmOpen(w.o); } const e = await JMD.entryById(w.i, w.k).catch(() => null); if (e) { w.o = e.ord; w.v = JMUI.meta.v; save(); return jmOpen(e.ord); } }
+  openModal(`<div class="d-entry"><div class="d-head"><div class="d-head-t"><span class="d-big jp">${esc(w.w)}</span>${w.r !== w.w ? `<span class="d-read jp">${esc(w.r)}</span>` : ''}</div><div class="d-head-b">${dictSnd(w.r, 'Ouvir', 'big')}</div></div><p>${esc(w.g)}</p><p class="muted" style="font-size:.85rem">Resumo guardado no aparelho. A ficha completa abre quando o Dicionário Geral estiver disponível.</p><button class="btn btn-ghost btn-block" data-act="closeModal">Fechar</button></div>`, 'd-sheet');
+}
+
+/* ---------- ficha de kanji ---------- */
+const JM_RAD = '一丨丶丿乙亅二亠人儿入八冂冖冫几凵刀力勹匕匚匸十卜卩厂厶又口囗土士夂夊夕大女子宀寸小尢尸屮山巛工己巾干幺广廴廾弋弓彐彡彳心戈戶手支攴文斗斤方无日曰月木欠止歹殳毋比毛氏气水火爪父爻爿片牙牛犬玄玉瓜瓦甘生用田疋疒癶白皮皿目矛矢石示禸禾穴立竹米糸缶网羊羽老而耒耳聿肉臣自至臼舌舛舟艮色艸虍虫血行衣襾見角言谷豆豕豸貝赤走足身車辛辰辵邑酉釆里金長門阜隶隹雨靑非面革韋韭音頁風飛食首香馬骨高髟鬥鬯鬲鬼魚鳥鹵鹿麥麻黃黍黑黹黽鼎鼓鼠鼻齊齒龍龜龠';
+function jmStrokeSVG(paths) {
+  return `<svg class="jm-strokes" viewBox="0 0 109 109" role="img" aria-label="Ordem dos traços (${paths.length} traços)">${paths.map((p, i) => `<path d="${esc(p)}" pathLength="1" style="animation-delay:${(i * 0.62).toFixed(2)}s"/>`).join('')}${paths.map((p, i) => { const m = /^[Mm]\s*([\d.]+)[,\s]+([\d.]+)/.exec(p); return m ? `<text x="${(+m[1] - 4).toFixed(1)}" y="${(+m[2] - 2).toFixed(1)}">${i + 1}</text>` : ''; }).join('')}</svg>`;
+}
+async function jmKanjiHTML(ch, sel) {
+  const k = await JMD.kanji(ch); if (!k) return null;
+  const st = k.st ? await JMD.strokes(ch).catch(() => null) : null;
+  const words = k.w || [];
+  const sums = await Promise.all(words.map(([o]) => JMD.summary(o).catch(() => null)));
+  const kunStem = r => JMD.hira(r.replace(/-/g, '')).split('.')[0];
+  const readOf = r => JMD.hira(r.replace(/-/g, '')).split('.')[0];
+  const groups = new Map(); words.forEach((w, i) => { if (!sums[i]) return; const g = w[3] === '*' ? '*' : w[3]; (groups.get(g) || groups.set(g, []).get(g)).push([w, sums[i]]); });
+  const allR = (k.on || []).map(r => ['on', r]).concat((k.kun || []).map(r => ['kun', r]));
+  const pick = sel || '';
+  const shownWords = pick === '*' ? groups.get('*') || [] : pick ? groups.get(readOf(pick)) || [] : words.map((w, i) => [w, sums[i]]).filter(x => x[1]).slice(0, 18);
+  const rBtn = ([t, r, same]) => { const key = readOf(r), n = (groups.get(key) || []).length; const oks = (same || [r]).filter(x => x.includes('.')).map(x => x.split('.')[1]); const okuri = t === 'kun' && oks.length ? `<span class="jp">${esc(kunStem(r).replace(/-/g, '〜'))}</span><small class="jp">(${esc(oks.join('・'))})</small>` : `<span class="jp">${esc(r.replace(/-/g, '〜'))}</span>`; return `<button class="jm-read ${pick === r ? 'on' : ''}" data-act="jmKRead" data-k="${esc(ch)}" data-r="${esc(r)}" aria-pressed="${pick === r}">${okuri}<small>${esc(JMD.toRomaji(readOf(r)))}${n ? ' · ' + n : ''}</small></button>`; };
+  const rad = k.rad ? JM_RAD[k.rad - 1] : '';
+  const sim = [...(k.sim || '')], comp = [...(k.cp || '')].filter(c => c !== ch);
+  const simRecs = await Promise.all(sim.map(c => JMD.kanji(c).catch(() => null)));
+  return `<div class="d-entry jm-kanji">
+    <div class="jm-k-top"><div class="jm-k-big"><span class="jp">${esc(ch)}</span></div>${st ? `<div class="jm-k-svg">${jmStrokeSVG(st)}<button class="link-btn" data-act="jmKanji" data-k="${esc(ch)}" style="font-size:.8rem">Animar de novo</button></div>` : ''}</div>
+    <section><span class="eyebrow">Significados</span><p class="jm-k-mean">${k.pt ? esc(k.pt.join(', ')) : `<span lang="en">${esc((k.en || []).join(', '))}</span>`}</p>${k.pt && k.en ? `<small class="muted" lang="en">Em inglês: ${esc(k.en.join(', '))}</small>` : !k.pt ? '<small class="muted">Significados do KANJIDIC2 em inglês (sem versão em português para este kanji).</small>' : ''}</section>
+    <div class="jm-k-facts">${k.sc ? `<span><b class="tabnum">${k.sc}</b> traços</span>` : ''}${rad ? `<span>Radical <b class="jp">${esc(rad)}</b> <small class="tabnum">nº ${k.rad}</small></span>` : ''}${k.j ? `<span>JLPT <b>${esc(k.j)}</b><small>*</small></span>` : ''}${k.g ? `<span>${k.g <= 6 ? k.g + 'º ano escolar' : k.g === 8 ? 'jōyō (ensino médio)' : 'jinmeiyō (nomes)'}</span>` : ''}${k.fr ? `<span>nº <b class="tabnum">${k.fr}</b> em frequência nos jornais</span>` : ''}</div>
+    ${allR.length ? `<section><span class="eyebrow">Leituras · toque para ver palavras</span>${k.on ? `<div class="jm-reads"><small class="jm-rl">On'yomi (origem chinesa)</small>${k.on.map(r => rBtn(['on', r])).join('')}</div>` : ''}${k.kun ? `<div class="jm-reads"><small class="jm-rl">Kun'yomi (japonesa)</small>${k.kun.filter((r, i, a) => a.findIndex(x => readOf(x) === readOf(r)) === i).map(r => rBtn(['kun', r, k.kun.filter(x => readOf(x) === readOf(r))])).join('')}</div>` : ''}${groups.has('*') ? `<div class="jm-reads"><button class="jm-read ${pick === '*' ? 'on' : ''}" data-act="jmKRead" data-k="${esc(ch)}" data-r="*">Leituras especiais<small>${groups.get('*').length}</small></button></div>` : ''}${k.na ? `<small class="muted">Em nomes próprios: <span class="jp">${esc(k.na.slice(0, 8).join('、'))}</span></small>` : ''}<p class="muted" style="margin:6px 0 0;font-size:.8rem">A leitura depende da palavra: o mesmo kanji muda de som conforme o contexto. Aprenda cada leitura junto com uma palavra real.${allR.length ? ' ' + dictSnd(allR.map(([, r]) => readOf(r)).join('、'), 'Ouvir as leituras') : ''}</p></section>` : ''}
+    ${shownWords.length ? `<section><span class="eyebrow">${pick === '*' ? 'Palavras com leitura especial (a palavra inteira tem uma leitura própria)' : pick ? 'Palavras com a leitura ' + esc(readOf(pick)) : 'Palavras com este kanji'}${k.wn > words.length && !pick ? ' · ' + k.wn.toLocaleString('pt-BR') + ' no total' : ''}</span><div class="d-chips">${shownWords.map(([w, s]) => `<button class="d-chip" data-act="jmOpen" data-o="${s.ord}"><span class="jp">${esc(w[1])}</span><small><span class="jp">${esc(w[2])}</span> · ${esc(s.g.split(/[;,]/)[0])}</small></button>`).join('')}</div>${pick ? `<button class="link-btn" data-act="jmKRead" data-k="${esc(ch)}" data-r="" style="font-size:.82rem;margin-top:4px">Ver todas</button>` : ''}</section>` : ''}
+    ${comp.length ? `<section><span class="eyebrow">Componentes</span><div class="d-chips">${comp.map(c => `<button class="d-chip jm-comp" data-act="jmKanji" data-k="${esc(c)}"><span class="jp">${esc(c)}</span></button>`).join('')}</div></section>` : ''}
+    ${simRecs.some(Boolean) ? `<section><span class="eyebrow">Kanji parecidos (não confunda)</span>${jmKanjiStrip(simRecs)}</section>` : ''}
+    <p class="muted jm-src">KANJIDIC2 e KRADFILE (EDRDG, CC BY-SA 4.0)${st ? ' · traços: KanjiVG (CC BY-SA 3.0)' : ''}${k.j ? ' · *JLPT: listas de J. Waller (CC BY), referência não oficial' : ''}${sim.length ? ' · parecidos: L. Yencken (CC BY 3.0)' : ''}</p>
+    <button class="btn btn-ghost btn-block" data-act="${P ? 'closeModal' : 'dictClose'}">Fechar</button></div>`;
+}
+async function jmKanji(ch, sel) {
+  if (JMUI.ok === null) await jmInit();
+  if (!JMUI.ok) { closeModal(); dictUI.q = ch; if (view !== 'dicionario') go('dicionario'); else render(); return; }
+  const keep = sel !== undefined && $('#modal .jm-kanji');
+  const top = keep ? $('#modal .sheet').scrollTop : 0;
+  if (!keep) openModal('<div class="jm-loading"><p class="muted">Abrindo o kanji…</p></div>', 'd-sheet');
+  const h = await jmKanjiHTML(ch, sel).catch(() => null);
+  if (!h) { openModal(`<p>Sem dados para <span class="jp">${esc(ch)}</span> no KANJIDIC2.</p><button class="btn btn-ghost btn-block" data-act="closeModal">Fechar</button>`, 'd-sheet'); return; }
+  openModal(h, 'd-sheet'); if (top) $('#modal .sheet').scrollTop = top;
+}
+
+/* ---------- análise de frase ---------- */
+async function jmPhrase(q) {
+  q = String(q || '').trim(); if (!q) return;
+  if (JMUI.ok === null) await jmInit();
+  if (!JMUI.ok) { toast('辞', 'A análise de frases precisa do Dicionário Geral (conecte-se ou baixe para usar offline).'); return; }
+  JMUI.phrase = { q, busy: true }; dictRefreshList();
+  const toks = await JMD.tokenize(q).catch(() => []);
+  const sums = await Promise.all(toks.map(t => t.ords ? JMD.summary(t.ords[0]).catch(() => null) : null));
+  if (!JMUI.phrase || JMUI.phrase.q !== q) return;
+  // tradução: só quando a frase inteira existe no Nihongo Quest (revisada)
+  const plain = q.replace(/[\s　]/g, '');
+  let tr = null; const norm = s => String(s || '').replace(/[\s　。、！？!?]/g, '');
+  for (const L of ALL_LESSONS) { const it = L.items.find(x => x.jp && norm(x.jp) === norm(plain)); if (it) { tr = it.pt; break; } }
+  if (!tr && typeof LA_LESSONS !== 'undefined') for (const L of LA_LESSONS) { const it = L.items.find(x => x.jp && norm(x.jp) === norm(plain)); if (it) { tr = it.pt; break; } }
+  JMUI.phrase = { q, toks, sums, tr };
+  dictRefreshList();
+}
+const jmPartRo = (t, rd) => t.particle && t.s === 'は' ? 'wa' : t.particle && t.s === 'へ' ? 'e' : JMD.toRomaji(rd || t.s);
+function jmPhraseHTML() {
+  const ph = JMUI.phrase;
+  if (ph.busy) return '<p class="muted jm-note">Analisando a frase…</p>';
+  const parts = ph.toks.map((t, i) => {
+    const s = ph.sums[i];
+    if (t.punct || t.latin) return `<span class="jm-tok punct">${esc(t.s)}</span>`;
+    if (!s) return `<span class="jm-tok unk"><b class="jp">${esc(t.s)}</b><small>não reconhecido</small></span>`;
+    const rd = t.form ? JMD.readingOf(t.s, t.form.base, JMD.hira(s.r)) : (JMD.hasKanji(t.s) ? (s.w === t.s ? s.r : '') : t.s);
+    const lab = t.particle ? 'partícula' : t.form ? (JMD.RULE_PT[t.form.chain[0]] || [''])[0] : JMD.POS_SHORT(s.p);
+    return `<button class="jm-tok ${t.particle ? 'prt' : ''}" data-act="jmOpen" data-o="${s.ord}"><b class="jp">${rd && rd !== t.s ? `<ruby>${esc(t.s)}<rt>${esc(rd)}</rt></ruby>` : esc(t.s)}</b><small>${esc(jmPartRo(t, rd))}</small><span class="jm-tok-g">${t.form ? `<span class="jp">${esc(s.w)}</span>: ` : ''}${esc(s.g.split(/[;]/)[0])}</span><small class="jm-tok-l">${esc(lab || '')}${t.form && t.form.weak || t.weak ? ' · possível' : ''}</small></button>`;
+  }).join('');
+  const ro = ph.toks.map((t, i) => { const s = ph.sums[i]; if (!s || t.punct) return t.s && t.punct ? '' : ''; const rd = t.form ? JMD.readingOf(t.s, t.form.base, JMD.hira(s.r)) : JMD.hasKanji(t.s) ? (s.w === t.s ? s.r : '') : t.s; return jmPartRo(t, rd || ''); }).filter(Boolean).join(' ');
+  const amb = ph.toks.some(t => t.weak || t.unknown || (t.form && (t.form.weak || (t.forms && t.forms.length > 1))));
+  return `<div class="card jm-phrase"><div class="section-h" style="margin:0"><span class="eyebrow">Análise da frase</span><button class="link-btn" data-act="jmPhraseClose">Voltar à busca</button></div>
+    <p class="jp jm-ph-q">${esc(ph.q)}</p>${dictSnd(ph.q.replace(/[\s　]/g, ''), 'Ouvir a frase')}
+    <p class="ro" style="margin:2px 0 6px">${esc(ro)}</p>
+    ${ph.tr ? `<p style="margin:0 0 6px"><b>Tradução:</b> ${esc(ph.tr)} <small class="muted">(frase do Nihongo Quest)</small></p>` : '<p class="muted" style="margin:0 0 6px;font-size:.82rem">Sem tradução pronta para esta frase: veja o sentido de cada parte abaixo. O Nihongo Quest não inventa traduções automáticas.</p>'}
+    <div class="jm-toks">${parts}</div>
+    <p class="muted" style="margin:8px 0 0;font-size:.78rem">A divisão é feita pelo dicionário (o trecho mais longo que existe) e pelas regras de conjugação. ${amb ? '<b>Algumas partes podem ter outra leitura</b> (marcadas como “possível”): confira pelo contexto.' : 'Toque numa parte para abrir a ficha.'}</p></div>`;
+}
+
+/* ---------- comparação ---------- */
+async function jmCompareHTML() {
+  const es = (await Promise.all(JMUI.cmp.map(o => JMD.entry(o).catch(() => null)))).filter(Boolean);
+  return `<div class="d-entry"><span class="eyebrow">Comparar palavras</span><div class="jm-cmp" style="--n:${es.length}">${es.map(e => { const sh = jmShown(e), l = jmLocalOf(e.ord); const pt = l && l.pt.length ? l.pt : e.pt.map(x => x.t); return `<div class="jm-cmp-col"><button class="d-main" data-act="jmOpen" data-o="${e.ord}"><span class="d-jp jp">${esc(sh.w)}</span><span class="d-sub jp">${esc(sh.r)}</span></button>${dictSnd(sh.r, 'Ouvir')}<small class="muted">${esc([...new Set(e.s.flatMap(s => s.pos))].slice(0, 2).map(JMD.POS_SHORT).join(', '))}${e.c ? ' · comum' : ''}</small>${pt.length ? `<p><b>${esc(pt.slice(0, 3).join('; '))}</b></p>` : ''}<ol>${e.s.slice(0, 4).map(s => `<li lang="en">${esc(s.g.slice(0, 3).map(g => g.t).join(', '))}${s.misc.length ? ` <small>(${esc(s.misc.map(m => JMD.MISC_PT[m] || m).join(', '))})</small>` : ''}</li>`).join('')}</ol><button class="link-btn" data-act="jmCmpDel" data-o="${e.ord}" style="font-size:.8rem">Tirar da comparação</button></div>`; }).join('')}</div>
+    <button class="btn btn-ghost btn-block" data-act="closeModal">Fechar</button></div>`;
+}
+
+/* ---------- ações ---------- */
+const _jmDictOpen = dictOpen;
+dictOpen = function (e) {
+  if (!e) return;
+  const o = jmOrdOfLocal(e);
+  if (!e.particle && o !== undefined && JMUI.ok) { dictRecent(e); return jmOpen(o); }
+  return _jmDictOpen(e);
+};
+const _jmOpenWord = dictOpenWord;
+dictOpenWord = function (jp) {
+  dictBuild();
+  const e = dictFind(jp, jp) || dictSearch(jp)[0];
+  if (e) return dictOpen(e);
+  (async () => {
+    if (JMUI.ok === null) await jmInit();
+    if (JMUI.ok) { const r = await JMD.search(jp, { limit: 3 }).catch(() => null); if (r && r.results.length) return jmOpen(r.results[0].ord); }
+    _jmOpenWord(jp);
+  })();
+};
+function jmCopy(text) {
+  const done = () => toast('⧉', 'Copiado.');
+  try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, () => toast('⧉', 'Não foi possível copiar neste navegador.')); return; } } catch (e) {}
+  toast('⧉', 'Não foi possível copiar neste navegador.');
+}
+Object.assign(ACT, {
+  jmOpen: el => { JMUI.lastQ = dictUI.q; jmOpen(el.dataset.o); },
+  jmOpenKey: el => jmOpenKey(el.dataset.k),
+  jmKanji: el => jmKanji(el.dataset.k),
+  jmKRead: el => jmKanji(el.dataset.k, el.dataset.r || ''),
+  jmFilter: el => { dictUI.filter = el.dataset.f; dictUI.limit = 40; dictRefreshList(); },
+  jmPhrase: () => jmPhrase(dictUI.q),
+  jmAnalyze: el => { closeModal(); dictUI.q = el.dataset.q; dictUI.theme = ''; if (P) closePlayer(); if (view !== 'dicionario') go('dicionario'); else render(); jmPhrase(el.dataset.q); },
+  jmPhraseClose: () => { JMUI.phrase = null; jmSchedule(); dictRefreshList(); },
+  jmPhraseHelp: () => { dictUI.q = ''; render(); const s = $('#dictSearch'); if (s) { s.placeholder = 'Cole ou digite uma frase em japonês'; s.focus(); } toast('文', 'Digite ou cole uma frase em japonês e toque em “Analisar como frase”.'); },
+  jmRandom: async () => { if (JMUI.ok === null) await jmInit(); if (!JMUI.ok) { const pool = DICT.list.filter(e => e.pt.length && !e.particle); if (pool.length) _jmDictOpen(pool[Math.floor(Math.random() * pool.length)]); return; } jmOpen(Math.floor(Math.random() * Math.min(JMUI.meta.counts.common, 20000))); },
+  jmWod: () => { const d = jmState(); d.opts.wod = d.opts.wod === false; save(); dictRefreshList(); },
+  jmHistClear: () => { jmState().hist = []; save(); dictRefreshList(); },
+  jmDownload: () => jmDownload(),
+  jmCopy: () => { const e = JMUI.cur; if (!e) return; const sh = jmShown(e); jmCopy(`${sh.w}${sh.w !== sh.r ? '（' + sh.r + '）' : ''} — ${jmGloss(e)}`); },
+  jmFav: async el => { const e = JMUI.cur; if (!e) return; const l = jmLocalOf(e.ord), d = jmState(); const k = l ? l.key : 'j:' + e.i; if (d.fav[k]) delete d.fav[k]; else d.fav[k] = Date.now(); save(); toast('★', d.fav[k] ? 'Adicionada aos favoritos.' : 'Removida dos favoritos.'); jmOpen(e.ord, { keep: true }); },
+  jmSave: el => {
+    const e = JMUI.cur; if (!e) return; const l = jmLocalOf(e.ord);
+    if (l && dictItemId(l)) { dictSave(l); }
+    else { const d = jmState(), k = 'j:' + e.i, sh = jmShown(e); const w = d.words[k] = Object.assign(d.words[k] || {}, { i: e.i, o: e.ord, w: sh.w, r: sh.r, k: sh.k || sh.r, g: jmGloss(e) + (e.pt.length ? '' : ' (inglês)'), p: (e.s[0] && e.s[0].pos[0]) || '', nb: Date.now(), v: JMUI.meta.v }); jmItemFrom(w); markSeen('jm:' + e.i); save(); }
+    toast('帳', 'No Caderno e na Revisão. Não conta como lição nem dá XP.'); jmOpen(e.ord, { keep: true });
+  },
+  jmCmp: el => { const o = Number(el.dataset.o); JMUI.cmp = JMUI.cmp.includes(o) ? JMUI.cmp.filter(x => x !== o) : JMUI.cmp.concat(o).slice(-3); toast('⇆', JMUI.cmp.includes(o) ? 'Na comparação (' + JMUI.cmp.length + '). Abra pelo início do Dicionário.' : 'Fora da comparação.'); jmOpen(o, { keep: true }); },
+  jmCmpDel: async el => { JMUI.cmp = JMUI.cmp.filter(x => x !== Number(el.dataset.o)); if (JMUI.cmp.length) openModal(await jmCompareHTML(), 'd-sheet'); else { closeModal(); dictRefreshList(); } },
+  jmCompare: async () => openModal(await jmCompareHTML(), 'd-sheet'),
+  jmColl: el => { const d = jmState(), c = d.coll[el.dataset.c]; if (!c) return; dictBuild(); const items = c.k.map(k => { const l = DICT.byKey[k]; if (l) return `<button class="d-chip" data-act="jmOpenKey" data-k="${esc(k)}"><span class="jp">${esc(l.jp)}</span><small>${esc(l.pt[0] || '')}</small></button>`; const w = d.words[k]; return w ? `<button class="d-chip" data-act="jmOpenKey" data-k="${esc(k)}"><span class="jp">${esc(w.w)}</span><small>${esc(String(w.g).split(/[;,]/)[0])}</small></button>` : ''; }).join('');
+    openModal(`<div class="d-entry"><span class="eyebrow">Coleção</span><h2 style="margin:0">${esc(el.dataset.c)}</h2><div class="d-chips">${items || '<p class="muted">Vazia.</p>'}</div><button class="btn btn-ghost btn-small" data-act="jmCollDel" data-c="${esc(el.dataset.c)}">Apagar esta coleção</button><button class="btn btn-ghost btn-block" data-act="closeModal">Fechar</button></div>`, 'd-sheet'); },
+  jmCollDel: el => { const d = jmState(); if (d.coll[el.dataset.c] && el.dataset.confirm !== '1') { el.dataset.confirm = '1'; el.textContent = 'Toque de novo para apagar'; return; } delete d.coll[el.dataset.c]; save(); closeModal(); dictRefreshList(); toast('辞', 'Coleção apagada (as palavras continuam no dicionário e no Caderno).'); },
+  jmCollNew: () => { const inp = $('#jmCollName'); const n = inp && inp.value.trim().slice(0, 40); const e = JMUI.cur; if (!n || !e) return; const d = jmState(), l = jmLocalOf(e.ord), k = l ? l.key : 'j:' + e.i; (d.coll[n] = d.coll[n] || { t: Date.now(), k: [] }); if (!d.coll[n].k.includes(k)) d.coll[n].k.push(k); save(); toast('辞', 'Adicionada à coleção “' + n + '”.'); jmOpen(e.ord, { keep: true }); }
+});
+document.addEventListener('change', ev => {
+  const t = ev.target; if (!t.classList || !t.classList.contains('jm-coll-sel')) return;
+  const e = JMUI.cur; if (!e) return; const v = t.value; if (!v) return;
+  if (v === '__new') { t.closest('.jm-more').insertAdjacentHTML('afterend', `<div class="jm-newcoll"><input class="search" id="jmCollName" maxlength="40" placeholder="Nome da coleção (ex.: Anime, Trabalho)"><button class="btn btn-primary btn-small" data-act="jmCollNew">Criar e adicionar</button></div>`); t.value = ''; const i = $('#jmCollName'); if (i) i.focus(); return; }
+  const d = jmState(), l = jmLocalOf(e.ord), k = l ? l.key : 'j:' + e.i;
+  if (d.coll[v] && !d.coll[v].k.includes(k)) { d.coll[v].k.push(k); save(); toast('辞', 'Adicionada à coleção “' + v + '”.'); }
+  jmOpen(e.ord, { keep: true });
+});
+// busca: a lista local aparece na hora; o Dicionário Geral completa logo depois
+document.addEventListener('input', ev => { if (ev.target.id === 'dictSearch') { if (JMUI.phrase && JMUI.phrase.q !== dictUI.q.trim()) JMUI.phrase = null; jmSchedule(); } });
+document.addEventListener('keydown', ev => { if (ev.target.id === 'dictSearch' && ev.key === 'Enter') { const q = dictUI.q.trim(); if (q) jmAddHistNow(q); } });
+const _jmDictView = viewDictionary;
+viewDictionary = function () { const h = _jmDictView(); if (dictUI.q && !JMUI.res) jmSchedule(); return h.replace('placeholder="Português, romaji, かな ou 漢字"', 'placeholder="Português, romaji, かな, 漢字, inglês ou uma frase"'); };
+const _jmTry = ACT.dictTry;
+ACT.dictTry = el => { JMUI.phrase = null; _jmTry(el); jmSchedule(); };
+const _jmClear = ACT.dictClear;
+ACT.dictClear = () => { JMUI.phrase = null; JMUI.res = null; _jmClear(); };
+jmRegisterSW();
+setTimeout(() => { if (view === 'dicionario') jmInit(); }, 300);
 
 /* ==========================================================
    INÍCIO DO APP (roda por último, depois de todos os módulos)

@@ -35,6 +35,13 @@ direitos sobre eles.
   vozes pertencem ao sistema operacional ou ao navegador de quem usa e não são
   distribuídas pelo app.
 - Hospedagem: GitHub Pages.
+- Dados do Dicionário Geral (pasta dict/ e traduções em tools/dict/pt/): JMdict,
+  KANJIDIC2 e KRADFILE (EDRDG, CC BY-SA 4.0), frases do Tatoeba (CC BY 2.0 FR),
+  ordem dos traços do KanjiVG (CC BY-SA 3.0), acento tonal do Kanjium
+  (CC BY-SA 4.0), níveis JLPT de J. Waller (CC BY) e kanji parecidos de
+  L. Yencken (CC BY 3.0). Esses dados e as traduções derivadas deles NÃO estão
+  cobertos pelo “todos os direitos reservados” acima: seguem as licenças dos
+  autores. Detalhes em dict/v1/LICENSE.md.
 - Somente para desenvolvimento e testes (não fazem parte do app publicado e não
   estão no repositório; são instalados com npm quando os testes rodam):
   Playwright (Apache License 2.0) e kuromoji.js (Apache License 2.0), com o
