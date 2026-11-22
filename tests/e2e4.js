@@ -42,7 +42,7 @@ const keepOld = (now, old) => Object.fromEntries(Object.keys(old).map(k => [k, O
   for (const [name, V] of [['2.0', V20], ['2.1', V21]]) {
     const raw = await loadSave(page, V);
     const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-    ok(S.schemaVersion === 14 && S.appVersion === '15.0.0', name + ': migrado para o esquema 6 (' + S.schemaVersion + ', ' + S.appVersion + ')');
+    ok(S.schemaVersion === 14 && S.appVersion === '16.0.0', name + ': migrado para o esquema 6 (' + S.schemaVersion + ', ' + S.appVersion + ')');
     same(S.lessons, V.lessons, name + ': lições preservadas (' + Object.keys(S.lessons).length + ')');
     same(S.catExams, V.catExams, name + ': avaliações finais preservadas');
     same(keepOld(S.items, V.items), V.items, name + ': itens de revisão preservados campo a campo (' + Object.keys(V.items).length + ')');

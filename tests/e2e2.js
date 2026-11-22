@@ -60,7 +60,7 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
   same(after.shop, before.shop, 'loja preservada'); same(after.settings, { romaji: before.settings.romaji, sound: before.settings.sound, theme: before.settings.theme }, 'configurações preservadas');
   same(after.history, before.history.length, 'histórico preservado'); same(after.name, before.profile.name, 'perfil preservado');
   const mig = await page.evaluate(raw => ({ v: __NQ.S.schemaVersion, app: __NQ.S.appVersion, lst: !!__NQ.S.listening && __NQ.S.listening.level, disc: typeof __NQ.S.discoveries, bk: localStorage.getItem('nihongoQuest:backup') === raw, bk1: localStorage.getItem('nihongoQuest:backup:schema1') === raw, stored: JSON.parse(localStorage.getItem('nihongoQuest:save')).schemaVersion }), v1raw);
-  ok(mig.v === 14 && mig.app === '15.0.0' && mig.lst === 'iniciante' && mig.disc === 'object' && mig.stored === 14, 'migração da v1 para o esquema atual ' + JSON.stringify(mig));
+  ok(mig.v === 14 && mig.app === '16.0.0' && mig.lst === 'iniciante' && mig.disc === 'object' && mig.stored === 14, 'migração da v1 para o esquema atual ' + JSON.stringify(mig));
   ok(mig.bk && mig.bk1, 'cópia de segurança do save v1 criada antes da migração');
   await closeModals(page);
   await page.screenshot({ path: shots + '/01-home-v2.png', fullPage: true });
@@ -198,7 +198,7 @@ const snap = p => p.evaluate(() => { const S = __NQ.S; return { name: S.profile.
   await page.reload(); await closeModals(page);
   ok((await page.evaluate(() => JSON.stringify({ d: __NQ.S.discoveries, l: __NQ.S.listening, xp: __NQ.S.xp }))) === s1, 'descobertas e progresso auditivo persistem após recarregar');
   await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="export"]'); const exp = await page.inputValue('#exportText'); await page.click('#modal [data-act="closeModal"]');
-  ok(JSON.parse(exp).schemaVersion === 14 && JSON.parse(exp).appVersion === '15.0.0', 'exportação 6.0');
+  ok(JSON.parse(exp).schemaVersion === 14 && JSON.parse(exp).appVersion === '16.0.0', 'exportação 6.0');
   await page.click('[data-act="resetAsk"]'); await page.click('[data-act="resetConfirm"]'); await page.fill('#nameInput', 'X'); await page.click('[data-act="onboard"]');
   await page.click('.tab[data-view="perfil"]'); await page.click('[data-act="import"]'); await page.$eval('#importText', (e, v) => { e.value = v; }, exp); await page.click('[data-act="importCheck"]'); await page.click('[data-act="importConfirm"]');
   ok((await page.evaluate(() => JSON.stringify({ d: __NQ.S.discoveries, l: __NQ.S.listening, xp: __NQ.S.xp }))) === s1, 'importação 3.0 restaura tudo');

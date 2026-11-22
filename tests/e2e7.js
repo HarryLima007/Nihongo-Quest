@@ -7,6 +7,7 @@ const path = require('path'); const fs = require('fs');
 const URL = 'file://' + path.resolve(__dirname, '../dist/nihongo-quest.html');
 const V50 = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'v5.0-save.json'), 'utf8'));
 Object.values(V50.chat.chars).forEach(c => { if (c && typeof c === 'object') c.lastAt = Date.now(); });
+{ const _d = new Date(), _t = _d.getFullYear() + '-' + String(_d.getMonth() + 1).padStart(2, '0') + '-' + String(_d.getDate()).padStart(2, '0'); if (V50.daily) V50.daily.day = _t; ['xp', 'ini'].forEach(k => { if (V50.chat[k]) V50.chat[k].day = _t; }); } // fixtures datadas: evita virada de dia
 let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++; };
 const same = (a, b, m) => ok(JSON.stringify(a) === JSON.stringify(b), m + (JSON.stringify(a) === JSON.stringify(b) ? '' : ' → ' + JSON.stringify(a).slice(0, 300)));
 const stub = `(() => {
@@ -46,7 +47,7 @@ const night = `(() => { const R = Date; const off = new R(2026, 10, 20, 23, 10).
   const page = await mk();
   const raw = await loadSave(page, V50);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 14 && S.appVersion === '15.0.0', '5.0: migrado para o esquema 6 (versão 6.0.0)');
+  ok(S.schemaVersion === 14 && S.appVersion === '16.0.0', '5.0: migrado para o esquema 6 (versão 6.0.0)');
   ok(await page.evaluate(() => localStorage.getItem('nihongoQuest:backup:schema5')) === raw, '5.0: cópia de segurança do save antigo (backup:schema5) antes da migração');
   same(S.lessons, V50.lessons, '5.0: progresso da Academia preservado');
   same(S.catExams, V50.catExams, '5.0: avaliações preservadas');

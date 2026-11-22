@@ -102,9 +102,10 @@ const JMD = (() => {
       i, ord, f, c: !!(fl & 1), u: !!(fl & 2),
       k: k.map(([t, m = '']) => ({ t, m: m ? m.split(',') : [] })),
       r: r.map(([t, m = '', only = '', nok = 0]) => ({ t, m: m ? m.split(',') : [], only: only ? only.split(',') : [], nok: !!nok })),
-      s: s.map(([p = '', m = '', g = [], x = '', an = '', n = '', l = '', of = '', or = '', pg = '']) => ({
+      s: s.map(([p = '', m = '', g = [], x = '', an = '', n = '', l = '', of = '', or = '', pg = '', po = '']) => ({
         pos: p ? p.split(',') : [], misc: m ? m.split(',') : [], g: g.map(gk),
         pt: pg ? pg.map(gk) : [], // 15.0: português do sentido (tradução automática JMdict-PT, não revisada)
+        ptSrc: pg ? po || 'mt' : '', // 16.0: mt/cg = JMdict-PT; wn = WordNet; tr = tradução do app (IA); em = nome/empréstimo igual
         x: x ? x.split('|') : [], a: an ? an.split('|') : [], n, l: l ? l.split('|').map(v => { const at = v.indexOf('~'), fl2 = v.slice(0, at); return { lang: fl2.replace(/[pw]+$/, ''), t: v.slice(at + 1), wasei: /w/.test(fl2.slice(3)) }; }) : [], of: of ? of.split('|') : [], or: or ? or.split('|') : []
       })),
       pt: (pt || []).map(([t, src, si = -1]) => ({ t, src, s: si })), pa: pa || [], nq: nq || [], qx: (qx || []).map(([jp, ro, ptx]) => ({ jp, ro, pt: ptx })), xn: xn || 0

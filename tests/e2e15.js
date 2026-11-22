@@ -35,7 +35,7 @@ const noScroll = page => page.evaluate(() => { const sw = document.documentEleme
 
   /* 1. migração */
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 14 && S.appVersion === '15.0.0', '13.0: migrado para o esquema 14 (versão 14.0.0)');
+  ok(S.schemaVersion === 14 && S.appVersion === '16.0.0', '13.0: migrado para o esquema 14 (versão 14.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema13') === r, raw), 'backup do save 13.0 guardado (nihongoQuest:backup:schema13)');
   ['xp', 'coins', 'streak', 'lessons', 'items', 'vocab', 'rpg', 'read', 'world', 'lacad', 'journey', 'settings'].forEach(k => ok(JSON.stringify(S[k]) === JSON.stringify(V13[k]), 'preservado: ' + k));
   ok(JSON.stringify(S.learn.h) === JSON.stringify(V13.learn.h), 'preservado: histórico da Central de Aprendizagem');

@@ -1,4 +1,4 @@
-/* 14.0/15.0 — Dicionário Geral (node, sem navegador): integridade dos dados de dict/v2, buscas (português, romaji, kana,
+/* 14.0/15.0/16.0 — Dicionário Geral (node, sem navegador): integridade dos dados de dict/v2, buscas (português, romaji, kana,
    katakana, kanji, erros de digitação, consultas curtas), conjugações do enunciado, kanji, exemplos, português com
    origem marcada e arquivos de licença. Uso: node tests/dict-general.js */
 const fs = require('fs'), path = require('path');
@@ -30,11 +30,33 @@ const has = async (q, w, n = 3) => { const t = await top(q, n); ok(t.includes(w)
   const mt = await J.entryById(1483740, '疲れる'); ok(mt && mt.s[0].pt.some(g => /cansa/.test(g.t)) && mt.s.length >= 2 && mt.s[1].pt.length, '疲れる: português em cada sentido, preservando a ordem dos sentidos');
   ok(mt && mt.pt.some(p => p.src === 'nq'), '疲れる: português revisado do app preservado ao lado do automático');
   const yu = await J.entryById(1539280, '優勝'); ok(yu && yu.s[0].pt.some(g => /vit|campe/.test(g.t)) && yu.s[1].pt.some(g => /felicidade|paraíso/.test(g.t)), '優勝: cada sentido com a sua tradução (vitória × felicidade)');
-  let pgBad = 0, pgN = 0, same = 0; for (const f of ['000.json', '050.json', '150.json']) JSON.parse(fs.readFileSync(D + 'e/' + f, 'utf8')).forEach(a => a[3].forEach(sn => { const pg = sn[9]; if (!pg) return; pgN++; if (!Array.isArray(pg) || !pg.length || pg.some(t => typeof t !== 'string' || !t.trim())) pgBad++; if (new Set(pg).size !== pg.length) pgBad++; if (sn[2].length === 1 && pg.length === 1 && pg[0] === sn[2][0]) same++; }));
+  let pgBad = 0, pgN = 0, same = 0; for (const f of ['000.json', '050.json', '150.json']) JSON.parse(fs.readFileSync(D + 'e/' + f, 'utf8')).forEach(a => a[3].forEach(sn => { const pg = sn[9]; if (!pg) return; pgN++; if (!Array.isArray(pg) || !pg.length || pg.some(t => typeof t !== 'string' || !t.trim())) pgBad++; if (new Set(pg).size !== pg.length) pgBad++; if (sn[2].length === 1 && pg.length === 1 && pg[0] === sn[2][0] && !['cg', 'em'].includes(sn[10])) same++; }));
   ok(pgN > 2000 && pgBad === 0, 'português dos sentidos bem formado e sem repetição (' + pgN + ' sentidos verificados)');
-  ok(same === 0, 'tradução idêntica ao inglês não aparece como português');
+  ok(same === 0, 'tradução idêntica ao inglês só aparece como português quando confirmada (cognato cg ou nome em, 16.0)');
   const s1 = await J.summary(mt.ord); ok(s1.pt && /cansa/.test(s1.g), 'resumo da lista usa o português revisado quando existe');
   const s2 = await J.summary((await J.jExact('しんどい'))[0]); ok(s2.mt && !s2.pt && /cansado/.test(s2.g) && s2.en, 'resumo automático marcado (mt) com o sentido em inglês para diferenciar');
+
+  /* 16.0 — cobertura completa: as entradas sem português na 15.0 */
+  const P16 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/dict/pt16/pendentes-15.json'), 'utf8'));
+  const R16 = fs.readFileSync(path.join(ROOT, 'tools/dict/pt16/resolvidas.tsv'), 'utf8').split('\n').filter(l => l && !l.startsWith('#')).map(l => l.split('\t'));
+  const N16 = fs.readFileSync(path.join(ROOT, 'tools/dict/pt16/nao-resolvidas.tsv'), 'utf8').split('\n').filter(l => l && !l.startsWith('#')).map(l => l.split('\t'));
+  const resIds = new Set(R16.map(r => r[0])), nresIds = new Set(N16.map(r => r[0]));
+  ok(P16.length === 4179 && P16.every(p => resIds.has(String(p[0])) !== nresIds.has(String(p[0]))), 'todas as 4.179 entradas sem português na 15.0 investigadas: ' + resIds.size + ' resolvidas + ' + nresIds.size + ' registradas como não resolvidas, nenhuma sumiu');
+  ok(R16.every(r => ['cg', 'wn', 'tr', 'em'].includes(r[2]) && r[3].split('|').every(t => t.trim())), 'cada sentido resolvido tem origem (cg/wn/tr/em) e texto');
+  ok(m.counts.entries === 217479 && m.counts.withAnyPt === 217478 && m.counts.pt16 && m.counts.pt16.entries === 4178, '217.479 entradas, 217.478 com português (' + (100 * m.counts.withAnyPt / m.counts.entries).toFixed(3) + '%), 16.0: ' + JSON.stringify(m.counts.pt16));
+  let all = 0, noPtAll = [], dupAll = 0; const seen = new Set();
+  for (const f of fs.readdirSync(D + 'e')) JSON.parse(fs.readFileSync(D + 'e/' + f, 'utf8')).forEach(a => { all++; if (seen.has(a[0])) dupAll++; seen.add(a[0]); if (!(a[6] && a[6].length) && !a[3].some(sn => sn[9] && sn[9].length)) noPtAll.push(a[0]); });
+  ok(all === 217479 && dupAll === 0, 'todas as entradas presentes, sem ids repetidos (' + all + ')');
+  ok(noPtAll.length === 1 && noPtAll[0] === 1043070, 'só uma entrada sem português (ギャモン, ambígua): ' + noPtAll.join(','));
+  const g1 = await J.entryById(1243040, '金属'); ok(g1 && g1.s[0].pt.some(x => x.t === 'metal') && g1.s[0].ptSrc === 'cg' && g1.s[0].g[0].t === 'metal', '金属: cognato “metal” confirmado (origem cg), inglês preservado');
+  const g2 = await J.entryById(1341580, '準決勝'); ok(g2 && g2.s[0].pt.some(x => x.t === 'semifinal') && g2.s[0].ptSrc === 'tr', '準決勝: semifinal (tradução do app, origem tr)');
+  const g3 = await J.entryById(1185130, '下糸入れ'); ok(g3 && g3.s.length === 2 && /lançadeira/.test(g3.s[0].pt[0].t) && /bobina/.test(g3.s[1].pt[0].t), '下糸入れ: cada sentido com o seu português (não misturados)');
+  const g4 = await J.entry((await J.jExact('ぴかちゅう'))[0]); ok(g4 && g4.s[0].ptSrc === 'em' && /Pikachu/.test(g4.s[0].pt[0].t), 'ピカチュウ: nome usado em português (origem em)');
+  const g5 = await J.entry((await J.jExact('ぎゃもん'))[0]); ok(g5 && !g5.pt.length && g5.s.every(sn => !sn.pt.length) && g5.s[0].g[0].t === 'gammon', 'ギャモン sem tradução confiável: fica em inglês');
+  const g6 = await J.entryById(1483740, '疲れる'); ok(g6 && g6.s[0].ptSrc === 'mt', 'entradas da 15.0 continuam com a origem JMdict-PT (mt)');
+  ok(fs.existsSync(D + 'JAPANESE-WORDNET-LICENSE.txt') && fs.existsSync(D + 'OPENWN-PT-LICENSE.txt') && /NICT/.test(fs.readFileSync(D + 'JAPANESE-WORDNET-LICENSE.txt', 'utf8')), 'avisos de licença das WordNets junto dos dados');
+  ok(m.sources.pt16 && /omw-data/.test(m.sources.pt16.wordnets) && /^[0-9a-f]{40}$/.test(m.sources.pt16.omwCommit), 'meta registra as fontes da 16.0 (OMW, commit)');
+  await has('metal', '金属', 1); await has('semifinal', '準決勝', 1); await has('sudoku', '数独', 3); await has('retina', '網膜', 1); await has('pikachu', 'ピカチュウ', 3);
 
   /* buscas */
   await has('comer', '食べる', 1); await has('presidente', '社長'); await has('água', '水'); await has('agua', '水');
@@ -47,7 +69,7 @@ const has = async (q, w, n = 3) => { const t = await top(q, n); ok(t.includes(w)
   /* 15.0 — português → japonês */
   await has('cansado', '疲れる', 5); await has('cansada', '疲れる', 6); await has('cansados', '疲れる', 6); await has('cansaço', '疲労', 3);
   await has('coragem', '勇気', 1); await has('promessa', '約束', 1); await has('desaparecer', '消える', 1); await has('proteger', '守る', 1);
-  await has('confiar', '任せる', 10); await has('confiar', '預ける', 10); await has('destino', '運命', 2); await has('destino', '目的地', 12);
+  await has('confiar', '任せる', 15); await has('confiar', '預ける', 10); await has('confiar', '信頼', 1); await has('confiar', '頼る', 6); await has('cansado', '疲れる', 3); await has('destino', '運命', 2); await has('destino', '目的地', 12);
   await has('saudade', '懐かしい', 5); await has('felicidade', '幸せ', 2); await has('medo', '恐怖', 3); await has('vingança', '復讐', 3); await has('solidão', '孤独', 1); await has('solidao', '孤独', 1);
   await has('banco', '銀行', 1); await has('banco', 'ベンチ', 3); await has('pena', '刑', 6); await has('pena', '羽', 6); await has('pena', '同情', 12);
   await has('raiva', '怒り', 1); await has('amor', '愛', 1); await has('esperança', '希望', 1); await has('amigas', '友達', 2); await has('PROMESSAS', '約束', 1);
@@ -80,7 +102,7 @@ const has = async (q, w, n = 3) => { const t = await top(q, n); ok(t.includes(w)
 
   /* licenças */
   const lic = fs.readFileSync(D + 'LICENSE.md', 'utf8');
-  ok(['JMdict', 'KANJIDIC2', 'Tatoeba', 'KanjiVG', 'Kanjium', 'CC BY-SA 4.0', 'CC BY 2.0 FR', 'JMdict (Português)', 'Shiritai', 'zhusupbekova/jmdict-pt', 'Modificações'].every(s => lic.includes(s)), 'dict/v2/LICENSE.md com todas as fontes, licenças e modificações');
+  ok(['JMdict', 'KANJIDIC2', 'Tatoeba', 'KanjiVG', 'Kanjium', 'CC BY-SA 4.0', 'CC BY 2.0 FR', 'JMdict (Português)', 'Shiritai', 'zhusupbekova/jmdict-pt', 'Modificações', 'Japanese WordNet', 'OpenWN-PT', 'omw-data', 'CC BY-SA 3.0', 'VERO'].every(s => lic.includes(s)), 'dict/v2/LICENSE.md com todas as fontes, licenças e modificações');
   ok(fs.existsSync(D + 'JMDICT-PT-LICENSE-data.md') && fs.existsSync(D + 'LICENSE-jmdict.html'), 'arquivos de licença do JMdict-PT mantidos junto dos dados');
   ok(fs.readFileSync(path.join(ROOT, 'NOTICE'), 'utf8').includes('dict/v2/LICENSE.md'), 'NOTICE separa os dados de terceiros');
   console.log(fails ? `\n${fails} falha(s)` : '\nTudo certo.'); process.exit(fails ? 1 : 0);

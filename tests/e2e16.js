@@ -34,7 +34,7 @@ const noScroll = page => page.evaluate(() => { const sw = document.documentEleme
 
   /* 1. save real da 14.0 */
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 14 && S.appVersion === '15.0.0', '14.0: aberto na 15.0.0 sem mudar o esquema (14)');
+  ok(S.schemaVersion === 14 && S.appVersion === '16.0.0', '14.0: aberto na 16.0.0 sem mudar o esquema (14)');
   ['xp', 'coins', 'streak', 'lessons', 'items', 'history', 'achievements', 'vocab', 'rpg', 'read', 'world', 'lacad', 'chat', 'learn', 'journey', 'settings', 'dict'].forEach(k => {
     const a = JSON.parse(JSON.stringify(S[k])), b = JSON.parse(JSON.stringify(V14[k]));
     if (k === 'journey') { delete a.seenVersion; delete b.seenVersion; } if (k === 'learn') [a, b].forEach(x => Object.values(x.snaps || {}).forEach(v => delete v.t)); // retrato diário do progresso: só a hora muda
@@ -71,7 +71,7 @@ const noScroll = page => page.evaluate(() => { const sw = document.documentEleme
   await search('しんどい'); await page.click('#dictList [data-act="jmOpen"]'); await page.waitForTimeout(900);
   let m = await page.$eval('#modal', e => e.innerText);
   ok(/cansado/.test(m) && /INGLÊS|inglês/.test(m) && /tired/i.test(m), 'ficha: português de cada sentido com o inglês do JMdict abaixo');
-  ok(/tradução automática do inglês \(JMdict-PT\), sem revisão humana/.test(m), 'ficha: aviso de tradução automática (não revisada)');
+  ok(/tradução automática do inglês \(JMdict-PT\)/.test(m) && /Sem revisão humana/.test(m), 'ficha: aviso de tradução automática (não revisada)');
   ok(!/undefined|null|NaN/.test(m), 'ficha sem campos vazios');
   ok((await noScroll(page)).bad === 0, 'ficha em 360px sem rolagem horizontal');
   const ord = await page.evaluate(() => JMUI.cur.ord), xp0 = await page.evaluate(() => __NQ.S.xp);
@@ -106,7 +106,7 @@ const noScroll = page => page.evaluate(() => { const sw = document.documentEleme
   ok(await page.evaluate(() => !!(navigator.serviceWorker && navigator.serviceWorker.controller)), 'service worker ativo');
   await page.goto(BASE + 'nihongo-quest.html#dicionario'); await closeModals(); await page.waitForFunction(() => JMUI.ok === true, null, { timeout: 15000 }).catch(() => {});
   await search('coragem');
-  ok(await page.evaluate(async () => (await caches.keys()).includes('nq-dict-v2') && !(await caches.keys()).includes('nq-dict-v1')), 'cache do dicionário v2 (o v1 da 14.0 é apagado)');
+  ok(await page.evaluate(async () => (await caches.keys()).includes('nq-dict-v2-16') && !(await caches.keys()).includes('nq-dict-v1')), 'cache do dicionário v2 (o v1 da 14.0 é apagado)');
   await ctx.setOffline(true);
   await page.reload(); await closeModals(); await page.waitForFunction(() => JMUI.ok === true, null, { timeout: 15000 }).catch(() => {});
   t = await search('coragem'); ok(/勇気/.test(t), 'sem internet: busca em português repetida pelo cache');
