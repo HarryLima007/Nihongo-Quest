@@ -31,7 +31,7 @@ const stub = `(() => {
   await page.goto(URL); await page.evaluate(r => { __NQ.suspendSave(); localStorage.clear(); localStorage.setItem('nihongoQuest:save', r); }, raw);
   await page.reload(); await closeModals(page);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 14 && S.appVersion === '14.0.0', '6.0: migrado para o esquema 7 (versão 7.0.0)');
+  ok(S.schemaVersion === 14 && S.appVersion === '15.0.0', '6.0: migrado para o esquema 7 (versão 7.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema6') === r, raw), 'backup do save 6.0 guardado (nihongoQuest:backup:schema6) antes de migrar');
   const keep = ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests'];
   keep.forEach(k => ok(JSON.stringify(S[k]) === JSON.stringify(V60[k]), 'preservado: ' + k));

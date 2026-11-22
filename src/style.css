@@ -1467,3 +1467,12 @@ button.conv:hover { background: var(--surface-2); }
 .jm-cmp-col ol { margin: 0; padding-left: 18px; font-size: .82rem; }
 .jm-cmp-col p { margin: 0; font-size: .88rem; }
 .jm-local .d-pt::after { content: ' · Nihongo Quest'; color: var(--ok); font-size: .7rem; font-weight: 800; }
+/* 15.0 — português no Dicionário Geral */
+.jm-tag.auto { background: transparent; color: var(--muted); border-style: dashed; font-weight: 700; }
+.jm-enh { display: block; font-size: .74rem; color: var(--muted); font-style: italic; margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.jm-sep { margin: 0; padding: 8px 12px 4px; font-size: .76rem; font-weight: 800; color: var(--muted); border-top: 1px dashed var(--line); }
+.jm-gl-pt { display: block; font-weight: 700; }
+.jm-gl.sub { display: block; font-weight: 500; font-size: .84rem; color: var(--muted); }
+.jm-lbl { font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; opacity: .8; }
+.jm-mt { margin: 8px 0 0; font-size: .76rem; color: var(--muted); line-height: 1.4; }
+.jm-mt .jm-tag { margin-right: 4px; }

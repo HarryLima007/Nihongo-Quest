@@ -46,7 +46,7 @@ const night = `(() => { const R = Date; const off = new R(2026, 10, 20, 23, 10).
   const page = await mk();
   const raw = await loadSave(page, V50);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 14 && S.appVersion === '14.0.0', '5.0: migrado para o esquema 6 (versão 6.0.0)');
+  ok(S.schemaVersion === 14 && S.appVersion === '15.0.0', '5.0: migrado para o esquema 6 (versão 6.0.0)');
   ok(await page.evaluate(() => localStorage.getItem('nihongoQuest:backup:schema5')) === raw, '5.0: cópia de segurança do save antigo (backup:schema5) antes da migração');
   same(S.lessons, V50.lessons, '5.0: progresso da Academia preservado');
   same(S.catExams, V50.catExams, '5.0: avaliações preservadas');

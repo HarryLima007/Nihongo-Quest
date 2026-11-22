@@ -1,14 +1,14 @@
 /* ==========================================================
-   Nihongo Quest 14.0 — DICIONÁRIO GERAL: motor (sem interface)
-   Base: dict/v1/ (gerada por tools/dict/build-dict.mjs a partir do JMdict, KANJIDIC2, Tatoeba,
-   KanjiVG e Kanjium — licenças em dict/v1/LICENSE.md). Tudo é carregado sob demanda, em blocos
+   Nihongo Quest 15.0 — DICIONÁRIO GERAL: motor (sem interface)
+   Base: dict/v2/ (gerada por tools/dict/build-dict.mjs a partir do JMdict, JMdict-PT, KANJIDIC2, Tatoeba,
+   KanjiVG e Kanjium — licenças em dict/v2/LICENSE.md). Tudo é carregado sob demanda, em blocos
    pequenos, e fica guardado pelo service worker (sw.js) para funcionar sem internet.
    - Posição (ord) = ordem de frequência: as palavras comuns ficam nos primeiros blocos.
    - Identificador estável de uma entrada = número do JMdict (ent_seq), campo i.
    - Este arquivo não usa o DOM: os testes (tests/dict-general.js) o carregam no Node.
    ========================================================== */
 const JMD = (() => {
-  const BASE = 'dict/v1/';
+  const BASE = 'dict/v2/';
   let loader = p => fetch(BASE + p, { cache: 'force-cache' }).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status + ' ' + p); return r.json(); });
   const files = new Map(); // caminho -> Promise (com limite: os blocos menos usados saem da memória)
   const MAX_FILES = 90;
@@ -95,14 +95,16 @@ const JMD = (() => {
   const normW = s => strip(String(s || '').toLowerCase()).replace(/\([^)]*\)/g, ' ').replace(/[“”"'!?.,;:]/g, ' ').replace(/[-‐]/g, ' ').replace(/\s+/g, ' ').trim();
 
   /* ---------- entradas ---------- */
+  const gk = t => { const mm = /^\[(lit|expl|fig|tm)\]/.exec(t); return mm ? { t: t.slice(mm[0].length), kind: mm[1] } : { t }; };
   function parse(a, ord) {
     const [i, k = [], r = [], s = [], f = 100000, fl = 0, pt, pa, nq, qx, xn] = a;
     return {
       i, ord, f, c: !!(fl & 1), u: !!(fl & 2),
       k: k.map(([t, m = '']) => ({ t, m: m ? m.split(',') : [] })),
       r: r.map(([t, m = '', only = '', nok = 0]) => ({ t, m: m ? m.split(',') : [], only: only ? only.split(',') : [], nok: !!nok })),
-      s: s.map(([p = '', m = '', g = [], x = '', an = '', n = '', l = '', of = '', or = '']) => ({
-        pos: p ? p.split(',') : [], misc: m ? m.split(',') : [], g: g.map(t => { const mm = /^\[(lit|expl|fig|tm)\]/.exec(t); return mm ? { t: t.slice(mm[0].length), kind: mm[1] } : { t }; }),
+      s: s.map(([p = '', m = '', g = [], x = '', an = '', n = '', l = '', of = '', or = '', pg = '']) => ({
+        pos: p ? p.split(',') : [], misc: m ? m.split(',') : [], g: g.map(gk),
+        pt: pg ? pg.map(gk) : [], // 15.0: português do sentido (tradução automática JMdict-PT, não revisada)
         x: x ? x.split('|') : [], a: an ? an.split('|') : [], n, l: l ? l.split('|').map(v => { const at = v.indexOf('~'), fl2 = v.slice(0, at); return { lang: fl2.replace(/[pw]+$/, ''), t: v.slice(at + 1), wasei: /w/.test(fl2.slice(3)) }; }) : [], of: of ? of.split('|') : [], or: or ? or.split('|') : []
       })),
       pt: (pt || []).map(([t, src, si = -1]) => ({ t, src, s: si })), pa: pa || [], nq: nq || [], qx: (qx || []).map(([jp, ro, ptx]) => ({ jp, ro, pt: ptx })), xn: xn || 0
@@ -111,7 +113,7 @@ const JMD = (() => {
   const pad = n => String(n).padStart(3, '0');
   async function entry(ord) { const m = await meta(); const a = (await get('e/' + pad(Math.floor(ord / m.shard)) + '.json'))[ord % m.shard]; return a ? parse(a, ord) : null; }
   async function entries(ords) { return Promise.all(ords.map(entry)); }
-  async function summary(ord) { const m = await meta(); const a = (await get('m/' + pad(Math.floor(ord / m.shard)) + '.json'))[ord % m.shard]; if (!a) return null; const [w, r = '', p = '', g = '', fl = 0] = a; return { ord, w, r: r || w, p, g, c: !!(fl & 1), pt: !!(fl & 4) }; }
+  async function summary(ord) { const m = await meta(); const a = (await get('m/' + pad(Math.floor(ord / m.shard)) + '.json'))[ord % m.shard]; if (!a) return null; const [w, r = '', p = '', g = '', fl = 0, en = ''] = a; return { ord, w, r: r || w, p, g, c: !!(fl & 1), pt: !!(fl & 4), mt: !!(fl & 8), en }; }
   async function examples(ord) { const m = await meta(); const sh = Math.floor(ord / m.shard); if (!m.xShards.includes(sh)) return []; const x = await get('x/' + pad(sh) + '.json'); return (x[ord] || []).map(([s, jp, en, lv, tid, aj, ae, form]) => ({ s, jp, en, lv, tid: parseInt(tid, 36), aj, ae, form })); }
   /* abre pela identificação estável (favoritos, Caderno): procura a escrita no índice e confere o número do JMdict */
   async function entryById(id, key) {
@@ -360,6 +362,7 @@ const JMD = (() => {
      BUSCA COMPLETA — devolve resultados ordenados por relevância
      ========================================================== */
   const PT_ART = /^(o|a|os|as|um|uma|uns|umas) /;
+  const EXACT = 200; // igual a tools/dict/build-dict.mjs
   function ptVariants(n) {
     const out = [[n, 0]], add = (v, pen) => { v = v.trim(); if (v.length >= 2 && !out.some(x => x[0] === v)) out.push([v, pen]); };
     const noArt = n.replace(PT_ART, ''); add(noArt, 1); add(n.replace(/-/g, ' '), 0); add(noArt.replace(/-/g, ' '), 1);
@@ -371,6 +374,8 @@ const JMD = (() => {
       if (/as$/.test(v)) add(v.slice(0, -2) + 'o', 7);
     }
     if (/^(o |a )?(ato de |de )/.test(v)) add(v.replace(/^(o |a )?(ato de |de )/, ''), 6);
+    // particípio → verbo (cansado → cansar, perdido → perder/perdir): só como alternativa, abaixo da forma digitada
+    out.slice().forEach(([w, pen]) => { if (w.length > 5 && !/\s/.test(w)) { if (/ado$/.test(w)) add(w.slice(0, -3) + 'ar', pen + 3); if (/ido$/.test(w)) { add(w.slice(0, -3) + 'er', pen + 3); add(w.slice(0, -3) + 'ir', pen + 3); } } });
     return out;
   }
   async function search(q, opts = {}) {
@@ -403,16 +408,24 @@ const JMD = (() => {
         if (kana.length >= 3 && !ex.length) { out.forms = await analyze(kana); out.forms.forEach((a, ai) => a.es.forEach((e, i) => put(e.ord, (a.weak ? 600 : 935) - ai * 5 - i, 'form', { form: a }))); }
         if (kana.length >= 3) (await jPrefix(kana, 20)).forEach(([k, ...ords]) => { if (k !== kana && /^[぀-ゟー]+$/.test(k)) ords.slice(0, 1).forEach(o => put(o, 420 - (k.length - kana.length) * 10 - Math.min(80, o / 1500), 'romaji-prefix')); });
       }
-      // português (revisado do app + traduções marcadas), depois inglês do JMdict
-      for (const [v, pen] of ptVariants(n)) (await wExact('p', v)).forEach(([o, sc]) => put(o, 880 + sc - pen * 10 - Math.min(30, o / 300), 'pt'));
+      // português: do app, traduções elaboradas e tradução automática por sentido (JMdict-PT); depois inglês do JMdict.
+      // No índice, significado inteiro = EXACT + pontos; a palavra dentro de um significado maior fica abaixo de EXACT
+      // e aparece como “relacionado”.
+      let ptExact = 0;
+      for (const [v, pen] of ptVariants(n)) (await wExact('p', v)).forEach(([o, sc]) => {
+        if (sc >= EXACT) { ptExact++; put(o, 900 + (sc - EXACT) - pen * 10 - Math.min(8, o / 2500), 'pt'); }
+        else put(o, 640 + sc - pen * 10 - Math.min(8, o / 2500), 'pt-rel');
+      });
       const enVs = [[n, 0]]; if (!/^to /.test(n) && n.split(' ').length <= 3) enVs.push(['to ' + n, 2]);
-      for (const [v, pen] of enVs) (await wExact('e', v)).forEach(([o, sc]) => put(o, 700 + sc - pen * 10 - Math.min(30, o / 300), 'en'));
+      for (const [v, pen] of enVs) (await wExact('e', v)).forEach(([o, sc]) => put(o, (sc >= EXACT ? 760 + sc - EXACT : 560 + sc) - pen * 10 - Math.min(30, o / 300), 'en'));
+      // romaji que também é palavra em português (medo = めど): o português vem na frente
+      if (ptExact) res.forEach(r => { if (r.how === 'romaji' && r.score > 890) r.score = 890 - (1000 - r.score) / 10; });
       // várias palavras: entradas que têm todas
       const words = n.split(' ').filter(w => w.length >= 2 && !/^(o|a|os|as|um|uma|de|do|da|the|to|of|a|an)$/.test(w));
       if (words.length >= 2) for (const lang of ['p', 'e']) {
         const lists = await Promise.all(words.map(w => wExact(lang, w)));
         const cnt = new Map(); lists.forEach(l => l.forEach(([o, sc]) => cnt.set(o, (cnt.get(o) || [0, 0]).map((x, j) => x + (j ? sc : 1)))));
-        cnt.forEach(([c, sc], o) => { if (c === words.length) put(o, (lang === 'p' ? 600 : 520) + sc / c, lang === 'p' ? 'pt' : 'en'); });
+        cnt.forEach(([c, sc], o) => { if (c === words.length) put(o, (lang === 'p' ? 600 : 520) + Math.min(EXACT, sc / c) / 2, lang === 'p' ? 'pt-rel' : 'en'); });
       }
       if (!res.size || [...res.values()].every(r => r.score < 800)) {
         const sug = new Set();
@@ -423,7 +436,9 @@ const JMD = (() => {
     }
     // filtro de relevância: se há resultado forte, os fracos saem; com resultado em português, o inglês só entra quando bate o significado inteiro
     let list = [...res.values()].sort((a, b) => b.score - a.score || a.ord - b.ord);
-    if (list.some(r => r.how === 'pt')) list = list.filter(r => r.how !== 'en' || r.score >= 780);
+    // com correspondência exata em português, o inglês sai (evita falsos amigos: “mar” = to mar)
+    if (list.some(r => r.how === 'pt')) list = list.filter(r => r.how !== 'en');
+    else if (list.some(r => r.how === 'pt-rel')) list = list.filter(r => r.how !== 'en' || r.score >= 780);
     const best = list.length ? list[0].score : 0;
     if (best >= 880) list = list.filter(r => r.score >= Math.min(420, best - 520));
     out.total = list.length;

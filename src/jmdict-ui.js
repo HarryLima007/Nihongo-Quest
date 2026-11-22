@@ -107,10 +107,13 @@ const jmTag = (t, cls = '') => `<span class="jm-tag ${cls}">${esc(t)}</span>`;
 function jmRowHTML(s, extra = '') {
   const l = jmLocalOf(s.ord), d = dictState();
   const fav = l ? !!d.fav[l.key] : Object.keys(d.fav).some(k => k.startsWith('j:') && d.words && d.words[k] && d.words[k].o === s.ord);
-  const pt = l && l.pt.length ? l.pt.slice(0, 3).join('; ') : s.pt ? s.g : '';
+  const cur = l && l.pt.length ? l.pt.slice(0, 3).join('; ') : s.pt ? s.g : '';
+  const auto = !cur && s.mt; // 15.0: português automático (JMdict-PT), não revisado
+  const pt = cur || (auto ? s.g : '');
   const study = l && dictInNotebook(l) ? jmTag('No Caderno', 'ok') : '';
   const ro = JMD.toRomaji(s.r || s.w);
-  return `<div class="d-row jm-row"><button class="d-main" data-act="jmOpen" data-o="${s.ord}"><span class="d-jp jp">${esc(s.w)}</span><span class="d-sub">${s.r && s.r !== s.w ? `<span class="jp">${esc(s.r)}</span> · ` : ''}${esc(ro)}${s.p ? ` · <span class="d-pos">${esc(JMD.POS_SHORT(s.p))}</span>` : ''}</span><span class="d-pt">${pt ? esc(pt) : `<span class="jm-en" lang="en">${esc(s.g)}</span>`}</span>${extra || s.c || study || !pt ? `<span class="jm-tags">${extra}${s.c ? jmTag('comum') : ''}${study}${!pt ? jmTag('EN', 'en') : ''}</span>` : ''}</button>
+  const enHint = JMUI.enHint && pt && s.en ? `<small class="jm-enh" lang="en">${esc(s.en)}</small>` : '';
+  return `<div class="d-row jm-row"><button class="d-main" data-act="jmOpen" data-o="${s.ord}"><span class="d-jp jp">${esc(s.w)}</span><span class="d-sub">${s.r && s.r !== s.w ? `<span class="jp">${esc(s.r)}</span> · ` : ''}${esc(ro)}${s.p ? ` · <span class="d-pos">${esc(JMD.POS_SHORT(s.p))}</span>` : ''}</span><span class="d-pt">${pt ? esc(pt) : `<span class="jm-en" lang="en">${esc(s.g)}</span>`}</span>${enHint}${extra || s.c || study || !pt || auto ? `<span class="jm-tags">${extra}${s.c ? jmTag('comum') : ''}${study}${auto ? jmTag('auto', 'auto') : ''}${!pt ? jmTag('EN', 'en') : ''}</span>` : ''}</button>
     <div class="d-acts">${dictSnd(s.r || s.w, 'Ouvir ' + ro)}${fav ? `<span class="d-fav on" aria-label="Favorito">${DICT_STAR}</span>` : ''}</div></div>`;
 }
 function jmFormsHTML(forms) {
@@ -159,9 +162,16 @@ dictListHTML = function () {
   }
   const lim = dictUI.limit;
   const localRow = e => dictRow(e).replace('class="d-row"', 'class="d-row jm-local"');
-  const body = exact.map(localRow).join('') + rows.slice(0, lim).map(x => jmRowHTML(x.s, x.how === 'form' ? jmTag('forma-base', 'ok') : '')).join('') + (rows.length <= lim ? tail.map(localRow).join('') : '');
+  // 15.0: em buscas em português, o sentido em inglês aparece pequeno para diferenciar (banco: bank / bench), e as
+  // palavras em que o termo só aparece dentro de um significado maior vêm depois, como “relacionadas”
+  JMUI.enHint = r.kind === 'latin' && rows.some(x => x.how === 'pt' || x.how === 'pt-rel');
+  const shown = rows.slice(0, lim); const firstRel = shown.findIndex(x => x.how === 'pt-rel');
+  const relSep = `<p class="jm-sep">${firstRel > 0 || exact.length ? 'Relacionadas' : 'Nenhum significado igual a'} ${firstRel > 0 || exact.length ? '· “' + esc(q) + '” aparece dentro do significado' : '“' + esc(q) + '”. Palavras com o termo dentro do significado:'}</p>`;
+  const body = exact.map(localRow).join('') + shown.map((x, i) => (i === firstRel ? relSep : '') + jmRowHTML(x.s, x.how === 'form' ? jmTag('forma-base', 'ok') : '')).join('') + (rows.length <= lim ? tail.map(localRow).join('') : '');
+  JMUI.enHint = false;
   const total = exact.length + rows.length + tail.length;
-  return `${forms}${kc}${phraseBtn}${filt}<p class="muted tabnum" style="margin:0 2px;font-size:.82rem">${total >= 80 ? 'Mais de 80' : total} resultado${total > 1 ? 's' : ''}${r.kind === 'latin' && rows.some(x => !x.s.pt) ? ' · <span class="jm-tag en">EN</span> = significado em inglês (JMdict), ainda sem tradução revisada' : ''}</p><div class="card d-list">${body}</div>${rows.length > lim ? `<button class="btn btn-ghost btn-block" data-act="dictMore">Ver mais</button>` : ''}`;
+  const notes = r.kind === 'latin' ? [rows.some(x => !x.s.pt && x.s.mt && !jmLocalOf(x.s.ord)) ? '<span class="jm-tag auto">auto</span> = tradução automática, não revisada' : '', rows.some(x => !x.s.pt && !x.s.mt && !jmLocalOf(x.s.ord)) ? '<span class="jm-tag en">EN</span> = só em inglês (JMdict)' : ''].filter(Boolean).join(' · ') : '';
+  return `${forms}${kc}${phraseBtn}${filt}<p class="muted tabnum" style="margin:0 2px;font-size:.82rem">${total >= 80 ? 'Mais de 80' : total} resultado${total > 1 ? 's' : ''}${notes ? ' · ' + notes : ''}</p><div class="card d-list">${body}</div>${rows.length > lim ? `<button class="btn btn-ghost btn-block" data-act="dictMore">Ver mais</button>` : ''}`;
 };
 
 /* ---------- tela inicial do dicionário ---------- */
@@ -178,7 +188,7 @@ function dictHomeHTML() {
   const colls = Object.keys(d.coll);
   const m = JMUI.meta, ok = JMUI.ok;
   const gramChips = DICT_PARTICLES.map(P => `<button class="d-chip" data-act="dictOpen" data-k="part|${esc(P.p)}"><span class="jp">${esc(P.p)}</span></button>`).join('') + DICT_GRAMMAR.map(P => `<button class="d-chip" data-act="dictOpen" data-k="gram|${esc(P.p)}"><span class="jp">${esc(P.p)}</span></button>`).join('');
-  const status = ok ? `<div class="card jm-status"><div class="jm-st-top"><span class="jm-st-ic jp">辞</span><div style="min-width:0"><b>Dicionário Geral</b><span class="muted">${m.counts.entries.toLocaleString('pt-BR')} entradas · ${m.counts.kanji.toLocaleString('pt-BR')} kanji · ${m.counts.examples.toLocaleString('pt-BR')} frases de exemplo</span></div></div>${jmOfflineHTML()}</div>`
+  const status = ok ? `<div class="card jm-status"><div class="jm-st-top"><span class="jm-st-ic jp">辞</span><div style="min-width:0"><b>Dicionário Geral</b><span class="muted">${m.counts.entries.toLocaleString('pt-BR')} entradas${m.counts.withAnyPt ? ' (' + m.counts.withAnyPt.toLocaleString('pt-BR') + ' com português)' : ''} · ${m.counts.kanji.toLocaleString('pt-BR')} kanji · ${m.counts.examples.toLocaleString('pt-BR')} frases de exemplo</span></div></div>${jmOfflineHTML()}</div>`
     : ok === false && /^https?:$/.test(location.protocol) ? `<div class="card jm-status"><b>Dicionário Geral indisponível agora</b><p class="muted" style="margin:4px 0 0;font-size:.85rem">Sem internet e sem cópia offline. As palavras do Nihongo Quest continuam disponíveis. Quando estiver conectado, use “Baixar para usar offline”.</p></div>` : '';
   return `${status}
     <div class="jm-quick"><button class="btn btn-ghost btn-small" data-act="jmRandom">Palavra aleatória</button><button class="btn btn-ghost btn-small" data-act="jmPhraseHelp">Analisar uma frase</button>${JMUI.cmp.length ? `<button class="btn btn-gold btn-small" data-act="jmCompare">Comparar (${JMUI.cmp.length})</button>` : ''}</div>
@@ -193,11 +203,11 @@ function dictHomeHTML() {
     ${jmCreditsHTML()}`;
 }
 function jmCreditsHTML() {
-  return `<details class="jm-credits"><summary>Fontes e licenças dos dados</summary><p>Palavras do <b>JMdict</b> e kanji do <b>KANJIDIC2</b> e do <b>KRADFILE</b>, propriedade do Electronic Dictionary Research and Development Group (EDRDG), usados conforme a licença do Grupo (CC BY-SA 4.0): <a href="https://www.edrdg.org/edrdg/licence.html" target="_blank" rel="noopener">edrdg.org/edrdg/licence.html</a>.</p><p>Frases de exemplo do projeto <b>Tatoeba</b> (CC BY 2.0 FR, cada uma com o crédito dos autores), ligadas aos sentidos pelo JMdict_e_examp (EDRDG).</p><p>Ordem dos traços: <b>KanjiVG</b> (Ulrich Apel e colaboradores, CC BY-SA 3.0, <a href="https://kanjivg.tagaini.net" target="_blank" rel="noopener">kanjivg.tagaini.net</a>). Kanji parecidos: Lars Yencken, kanji confusion datasets (CC BY 3.0). Níveis JLPT dos kanji: Jonathan Waller, JLPT Resources (CC BY, <a href="http://www.tanos.co.uk/jlpt/" target="_blank" rel="noopener">tanos.co.uk/jlpt</a>), referência não oficial.</p><p>Acento tonal: “The pitch accent notation … were provided by Uros O. through his free database” (Kanjium, CC BY-SA 4.0).</p><p>Esses dados continuam sob as licenças originais (não sob o aviso de direitos do Nihongo Quest). Traduções para o português marcadas como “Nihongo Quest” foram feitas pelo projeto a partir dessas fontes e seguem a mesma licença CC BY-SA 4.0.</p></details>`;
+  return `<details class="jm-credits"><summary>Fontes e licenças dos dados</summary><p>Palavras do <b>JMdict</b> e kanji do <b>KANJIDIC2</b> e do <b>KRADFILE</b>, propriedade do Electronic Dictionary Research and Development Group (EDRDG), usados conforme a licença do Grupo (CC BY-SA 4.0): <a href="https://www.edrdg.org/edrdg/licence.html" target="_blank" rel="noopener">edrdg.org/edrdg/licence.html</a>.</p><p>Frases de exemplo do projeto <b>Tatoeba</b> (CC BY 2.0 FR, cada uma com o crédito dos autores), ligadas aos sentidos pelo JMdict_e_examp (EDRDG).</p><p>Ordem dos traços: <b>KanjiVG</b> (Ulrich Apel e colaboradores, CC BY-SA 3.0, <a href="https://kanjivg.tagaini.net" target="_blank" rel="noopener">kanjivg.tagaini.net</a>). Kanji parecidos: Lars Yencken, kanji confusion datasets (CC BY 3.0). Níveis JLPT dos kanji: Jonathan Waller, JLPT Resources (CC BY, <a href="http://www.tanos.co.uk/jlpt/" target="_blank" rel="noopener">tanos.co.uk/jlpt</a>), referência não oficial.</p><p>Acento tonal: “The pitch accent notation … were provided by Uros O. through his free database” (Kanjium, CC BY-SA 4.0).</p><p>Português dos sentidos marcado como <b>tradução automática</b>: <b>JMdict (Português)</b> — camada de tradução © Shiritai, CC BY-SA 4.0; baseada no JMdict © James William Breen e EDRDG, usado sob CC BY-SA 4.0 nos termos da EDRDG. Tradução automática do inglês com correções da comunidade, sem revisão humana completa. Fonte: <a href="https://github.com/zhusupbekova/jmdict-pt" target="_blank" rel="noopener">github.com/zhusupbekova/jmdict-pt</a>. Modificações do Nihongo Quest: maiúscula inicial ajustada, repetições no mesmo sentido removidas e traduções idênticas ao inglês não exibidas como português (detalhes em dict/v2/LICENSE.md).</p><p>Esses dados continuam sob as licenças originais (não sob o aviso de direitos do Nihongo Quest). Traduções para o português marcadas como “Nihongo Quest” foram feitas pelo projeto a partir dessas fontes e seguem a mesma licença CC BY-SA 4.0.</p></details>`;
 }
 
 /* ---------- download para uso offline (Cache API + service worker) ---------- */
-const JM_CACHE = 'nq-dict-v1';
+const JM_CACHE = 'nq-dict-v2';
 function jmAllFiles() {
   const m = JMUI.meta; if (!m) return [];
   const pad = n => String(n).padStart(3, '0'), out = ['meta.json', 'nq.json'];
@@ -210,7 +220,7 @@ function jmAllFiles() {
 const jmBytes = () => { const f = JMUI.meta && JMUI.meta.files; return f ? Object.values(f).reduce((a, x) => a + x[1], 0) : 0; };
 async function jmCountCached() {
   if (!('caches' in window) || !JMUI.meta) return null;
-  try { const c = await caches.open(JM_CACHE); const keys = await c.keys(); JMUI.cached = keys.filter(k => k.url.includes('/dict/v1/')).length; } catch (e) { JMUI.cached = null; }
+  try { const c = await caches.open(JM_CACHE); const keys = await c.keys(); JMUI.cached = keys.filter(k => k.url.includes('/' + JMD.BASE)).length; } catch (e) { JMUI.cached = null; }
   return JMUI.cached;
 }
 function jmOfflineHTML() {
@@ -256,12 +266,14 @@ function jmPitchHTML(reading, acc) {
   const name = n === 0 ? 'heiban (plano)' : n === 1 ? 'atamadaka (alto no início)' : n === moras.length ? 'odaka (cai depois da palavra)' : 'nakadaka (cai no meio)';
   return `<span class="jm-pitch" aria-label="Acento ${esc(acc)}: ${name}">${moras.map((m, i) => `<span class="${hi[i] ? 'h' : 'l'}${n > 0 && i === n - 1 ? ' d' : ''}">${esc(m)}</span>`).join('')}</span><small class="muted">${esc(name)}${String(acc).includes(',') ? ' · também ' + esc(String(acc).split(',').slice(1).join(', ')) : ''}</small>`;
 }
+const jmKind = g => g.kind === 'lit' ? ' <small>(literal)</small>' : g.kind === 'fig' ? ' <small>(figurado)</small>' : g.kind === 'expl' ? ' <small>(explicação)</small>' : '';
 function jmSenseHTML(s, i, exs) {
   const pos = s.pos.map(p => JMD.POS_PT[p] || p), misc = s.misc.map(m => JMD.MISC_PT[m] || m);
+  const ptG = s.pt && s.pt.length ? `<span class="jm-gl-pt">${s.pt.map(g => esc(g.t) + jmKind(g)).join('; ')}</span>` : '';
   const ref = r => { const [w] = r.split('・'); return `<button class="link-btn jp" data-act="dictTry" data-q="${esc(w)}">${esc(r.replace(/・\d+$/, ''))}</button>`; };
   const ex = exs.filter(x => x.s === i + 1).slice(0, 2);
   return `<li class="jm-sense">${pos.length || misc.length ? `<div class="jm-sense-tags">${pos.map(p => jmTag(p, 'pos')).join('')}${misc.map(m => jmTag(m, /coloquial|gíria|vulgar|pejorativo|infantil|internet|mangá/.test(m) ? 'reg' : /honorífico|humilde|educado|formal/.test(m) ? 'hon' : '')).join('')}</div>` : ''}
-    <span class="jm-gl" lang="en">${s.g.map(g => esc(g.t) + (g.kind === 'lit' ? ' <small>(literal)</small>' : g.kind === 'fig' ? ' <small>(figurado)</small>' : g.kind === 'expl' ? ' <small>(explicação)</small>' : '')).join('; ')}</span>
+    ${ptG}<span class="jm-gl${ptG ? ' sub' : ''}" lang="en">${ptG ? '<span class="jm-lbl">inglês</span> ' : ''}${s.g.map(g => esc(g.t) + jmKind(g)).join('; ')}</span>
     ${s.of.length || s.or.length ? `<small class="muted">Só para: <span class="jp">${esc(s.of.concat(s.or).join('、'))}</span></small>` : ''}
     ${s.n ? `<small class="muted" lang="en">Nota (JMdict): ${esc(s.n)}</small>` : ''}
     ${s.l.length ? `<small class="muted">Origem: ${s.l.map(l => (JMD.LANG_PT[l.lang] || l.lang) + (l.t ? ' “' + esc(l.t) + '”' : '') + (l.wasei ? ' (wasei, criado no Japão)' : '')).join('; ')}</small>` : ''}
@@ -287,6 +299,7 @@ async function jmEntryHTML(e) {
   const cls = JMD.verbClass(e), conj = cls && !e.s.every(s => s.pos.includes('vs') && !s.pos.some(p => /^v[15k]|^vs-/.test(p)) && false) ? JMD.conjugate(sh.k && !e.u ? sh.k : sh.r, cls) : [];
   const ptL = local && local.pt.length ? local.pt.map(t => ({ t, src: 'nq' })) : e.pt;
   const srcName = { nq: 'revisado no Nihongo Quest', tr: 'tradução do Nihongo Quest a partir do JMdict' };
+  const mtN = e.s.filter(s => s.pt && s.pt.length).length;
   const ptSrc = [...new Set(ptL.map(x => x.src))];
   const nqEx = (local ? local.ex.concat(dictAppExamples(local, 2)) : []).concat(e.qx).filter((x, i, a) => x && x.jp && a.findIndex(y => y.jp === x.jp) === i).slice(0, 3);
   const altK = e.k.filter(k => k.t !== sh.w && !k.m.includes('sK')), altR = e.r.filter(r => r.t !== sh.r && !r.m.includes('sk'));
@@ -302,9 +315,9 @@ async function jmEntryHTML(e) {
     <div class="d-head"><div class="d-head-t"><span class="d-big jp">${esc(sh.w)}</span>${sh.w !== sh.r ? `<span class="d-read jp">${esc(sh.r)}</span>` : ''}<span class="d-ro">${esc(ro)}</span></div>
       <div class="d-head-b">${dictSnd(sh.r, 'Ouvir a palavra', 'big')}<button class="btn btn-ghost btn-small d-snd" data-act="dictSaySlow" data-text="${esc(sh.r)}">Devagar</button><button class="icon-btn" data-act="jmCopy" data-o="${e.ord}" aria-label="Copiar palavra e significado">⧉</button></div></div>
     <div class="d-chiprow">${e.c ? '<span class="chip nova">palavra comum</span>' : ''}${posAll.slice(0, 2).map(p => `<span class="chip d-poschip">${esc(JMD.POS_SHORT(p))}</span>`).join('')}${regs.slice(0, 3).map(m => `<span class="chip">${esc(JMD.MISC_PT[m] || m)}</span>`).join('')}${local ? '<span class="chip jm-nqchip">no Nihongo Quest</span>' : ''}</div>
-    ${ptL.length ? `<section><span class="eyebrow">Em português</span><ol class="d-means ${ptL.length > 1 ? '' : 'one'}">${ptL.map(x => `<li>${esc(x.t)}</li>`).join('')}</ol><small class="muted">${ptSrc.map(s => srcName[s] || s).join(' · ')}${ptSrc.includes('tr') ? '. Confira os sentidos abaixo.' : ''}</small></section>` : `<p class="muted jm-note" style="margin:0">Ainda sem tradução revisada para o português. Os significados abaixo são do JMdict, em inglês.</p>`}
+    ${ptL.length ? `<section><span class="eyebrow">Em português</span><ol class="d-means ${ptL.length > 1 ? '' : 'one'}">${ptL.map(x => `<li>${esc(x.t)}</li>`).join('')}</ol><small class="muted">${ptSrc.map(s => srcName[s] || s).join(' · ')}${ptSrc.includes('tr') || mtN ? '. Confira os sentidos abaixo.' : ''}</small></section>` : mtN ? '' : `<p class="muted jm-note" style="margin:0">Ainda sem tradução para o português. Os significados abaixo são do JMdict, em inglês.</p>`}
     ${e.pa.length ? `<section><span class="eyebrow">Acento tonal (padrão de Tóquio)</span>${e.pa.slice(0, 2).map(([r, a]) => `<div class="jm-pa"><span class="jp">${esc(r)}</span>${jmPitchHTML(r, a)}</div>`).join('')}<small class="muted">Fonte: Kanjium. A voz sintética do aparelho pode não reproduzir o acento exatamente.</small></section>` : ''}
-    <section><span class="eyebrow">${e.s.length > 1 ? e.s.length + ' sentidos' : 'Sentido'} · definição do JMdict (em inglês)</span><ol class="jm-senses">${e.s.map((s, i) => jmSenseHTML(s, i, exs)).join('')}</ol>${e.s.length > 1 ? '<p class="muted" style="margin:4px 0 0;font-size:.8rem">Os sentidos estão em ordem de uso. O certo depende do contexto: os exemplos ajudam a diferenciar.</p>' : ''}</section>
+    <section><span class="eyebrow">${e.s.length > 1 ? e.s.length + ' sentidos' : 'Sentido'}${mtN ? '' : ' · definição do JMdict (em inglês)'}</span><ol class="jm-senses">${e.s.map((s, i) => jmSenseHTML(s, i, exs)).join('')}</ol>${e.s.length > 1 ? '<p class="muted" style="margin:4px 0 0;font-size:.8rem">Os sentidos estão em ordem de uso. O certo depende do contexto: os exemplos ajudam a diferenciar.</p>' : ''}${mtN ? `<p class="jm-mt"><span class="jm-tag auto">auto</span> Português dos sentidos: tradução automática do inglês (JMdict-PT), sem revisão humana. Pode ter erros; o inglês do JMdict fica logo abaixo para conferir.</p>` : ''}</section>
     ${exs.filter(x => !e.s[x.s - 1]).length ? `<section><span class="eyebrow">Mais exemplos</span>${exs.filter(x => !e.s[x.s - 1]).slice(0, 2).map(jmExHTML).join('')}</section>` : ''}
     ${nqEx.length ? `<section><span class="eyebrow">Exemplos do Nihongo Quest</span>${nqEx.map(x => `<div class="d-ex"><div class="d-ex-top"><span class="jp d-ex-jp">${esc(x.jp)}</span>${dictSnd(x.jp, 'Ouvir a frase')}</div><span class="ro">${esc(x.ro || '')}</span><span>${esc(x.pt || '')}</span></div>`).join('')}</section>` : ''}
     ${gramLink ? `<section><span class="eyebrow">Gramática</span><button class="btn btn-ghost btn-small" data-act="dictOpen" data-k="${(DICT_GRAMMAR.includes(gramLink) ? 'gram|' : 'part|') + esc(gramLink.p)}">Como usar a partícula <span class="jp">${esc(gramLink.p)}</span></button></section>` : ''}
@@ -336,7 +349,8 @@ async function jmOpen(ord, opts = {}) {
   openModal(html, 'd-sheet'); const s2 = $('#modal .sheet'); if (s2 && top) s2.scrollTop = top;
 }
 function jmAddHistNow(q) { clearTimeout(JMUI.histT); const d = jmState(); q = q.trim(); if (q) { d.hist = [q].concat(d.hist.filter(x => x !== q)).slice(0, 30); save(); } }
-function jmGloss(e) { return e.pt.length ? e.pt.slice(0, 3).map(x => x.t).join('; ') : e.s.slice(0, 2).map(s => s.g.slice(0, 3).map(g => g.t).join(', ')).join('; '); }
+function jmMtGloss(e) { return e.s.filter(s => s.pt && s.pt.length).slice(0, 2).map(s => s.pt.slice(0, 3).map(g => g.t).join(', ')).join('; '); }
+function jmGloss(e) { return e.pt.length ? e.pt.slice(0, 3).map(x => x.t).join('; ') : jmMtGloss(e) || e.s.slice(0, 2).map(s => s.g.slice(0, 3).map(g => g.t).join(', ')).join('; '); }
 async function jmOpenKey(k) {
   dictBuild();
   if (DICT.byKey[k]) return dictOpen(DICT.byKey[k]);
@@ -430,7 +444,7 @@ function jmPhraseHTML() {
 /* ---------- comparação ---------- */
 async function jmCompareHTML() {
   const es = (await Promise.all(JMUI.cmp.map(o => JMD.entry(o).catch(() => null)))).filter(Boolean);
-  return `<div class="d-entry"><span class="eyebrow">Comparar palavras</span><div class="jm-cmp" style="--n:${es.length}">${es.map(e => { const sh = jmShown(e), l = jmLocalOf(e.ord); const pt = l && l.pt.length ? l.pt : e.pt.map(x => x.t); return `<div class="jm-cmp-col"><button class="d-main" data-act="jmOpen" data-o="${e.ord}"><span class="d-jp jp">${esc(sh.w)}</span><span class="d-sub jp">${esc(sh.r)}</span></button>${dictSnd(sh.r, 'Ouvir')}<small class="muted">${esc([...new Set(e.s.flatMap(s => s.pos))].slice(0, 2).map(JMD.POS_SHORT).join(', '))}${e.c ? ' · comum' : ''}</small>${pt.length ? `<p><b>${esc(pt.slice(0, 3).join('; '))}</b></p>` : ''}<ol>${e.s.slice(0, 4).map(s => `<li lang="en">${esc(s.g.slice(0, 3).map(g => g.t).join(', '))}${s.misc.length ? ` <small>(${esc(s.misc.map(m => JMD.MISC_PT[m] || m).join(', '))})</small>` : ''}</li>`).join('')}</ol><button class="link-btn" data-act="jmCmpDel" data-o="${e.ord}" style="font-size:.8rem">Tirar da comparação</button></div>`; }).join('')}</div>
+  return `<div class="d-entry"><span class="eyebrow">Comparar palavras</span><div class="jm-cmp" style="--n:${es.length}">${es.map(e => { const sh = jmShown(e), l = jmLocalOf(e.ord); const pt = l && l.pt.length ? l.pt : e.pt.length ? e.pt.map(x => x.t) : (jmMtGloss(e) ? [jmMtGloss(e)] : []); return `<div class="jm-cmp-col"><button class="d-main" data-act="jmOpen" data-o="${e.ord}"><span class="d-jp jp">${esc(sh.w)}</span><span class="d-sub jp">${esc(sh.r)}</span></button>${dictSnd(sh.r, 'Ouvir')}<small class="muted">${esc([...new Set(e.s.flatMap(s => s.pos))].slice(0, 2).map(JMD.POS_SHORT).join(', '))}${e.c ? ' · comum' : ''}</small>${pt.length ? `<p><b>${esc(pt.slice(0, 3).join('; '))}</b></p>` : ''}<ol>${e.s.slice(0, 4).map(s => `<li lang="en">${esc(s.g.slice(0, 3).map(g => g.t).join(', '))}${s.misc.length ? ` <small>(${esc(s.misc.map(m => JMD.MISC_PT[m] || m).join(', '))})</small>` : ''}</li>`).join('')}</ol><button class="link-btn" data-act="jmCmpDel" data-o="${e.ord}" style="font-size:.8rem">Tirar da comparação</button></div>`; }).join('')}</div>
     <button class="btn btn-ghost btn-block" data-act="closeModal">Fechar</button></div>`;
 }
 
@@ -477,7 +491,7 @@ Object.assign(ACT, {
   jmSave: el => {
     const e = JMUI.cur; if (!e) return; const l = jmLocalOf(e.ord);
     if (l && dictItemId(l)) { dictSave(l); }
-    else { const d = jmState(), k = 'j:' + e.i, sh = jmShown(e); const w = d.words[k] = Object.assign(d.words[k] || {}, { i: e.i, o: e.ord, w: sh.w, r: sh.r, k: sh.k || sh.r, g: jmGloss(e) + (e.pt.length ? '' : ' (inglês)'), p: (e.s[0] && e.s[0].pos[0]) || '', nb: Date.now(), v: JMUI.meta.v }); jmItemFrom(w); markSeen('jm:' + e.i); save(); }
+    else { const d = jmState(), k = 'j:' + e.i, sh = jmShown(e); const w = d.words[k] = Object.assign(d.words[k] || {}, { i: e.i, o: e.ord, w: sh.w, r: sh.r, k: sh.k || sh.r, g: jmGloss(e) + (e.pt.length || jmMtGloss(e) ? '' : ' (inglês)'), p: (e.s[0] && e.s[0].pos[0]) || '', nb: Date.now(), v: JMUI.meta.v }); jmItemFrom(w); markSeen('jm:' + e.i); save(); }
     toast('帳', 'No Caderno e na Revisão. Não conta como lição nem dá XP.'); jmOpen(e.ord, { keep: true });
   },
   jmCmp: el => { const o = Number(el.dataset.o); JMUI.cmp = JMUI.cmp.includes(o) ? JMUI.cmp.filter(x => x !== o) : JMUI.cmp.concat(o).slice(-3); toast('⇆', JMUI.cmp.includes(o) ? 'Na comparação (' + JMUI.cmp.length + '). Abra pelo início do Dicionário.' : 'Fora da comparação.'); jmOpen(o, { keep: true }); },

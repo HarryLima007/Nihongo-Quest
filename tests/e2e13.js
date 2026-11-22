@@ -53,7 +53,7 @@ const stub = `(() => {
 
   /* ---------- 1. migração 11.0 -> 12.0 ---------- */
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 14 && S.appVersion === '14.0.0', '11.0: migrado para o esquema 12 (versão 12.0.0)');
+  ok(S.schemaVersion === 14 && S.appVersion === '15.0.0', '11.0: migrado para o esquema 12 (versão 12.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema11') === r, raw), 'backup do save 11.0 guardado (nihongoQuest:backup:schema11) antes de migrar');
   ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict', 'world', 'lacad', 'read', 'rpg', 'settings', 'profile', 'discoveries', 'listening'].forEach(k => ok(JSON.stringify(k === "dict" && S[k] ? { fav: S[k].fav, recent: S[k].recent } : S[k]) === JSON.stringify(k === "dict" && V11[k] ? { fav: V11[k].fav, recent: V11[k].recent } : V11[k]), 'preservado: ' + k));
   ok(JSON.stringify(S.journey.claimed) === JSON.stringify(V11.journey.claimed), 'preservado: recompensas únicas da jornada');
@@ -185,9 +185,9 @@ const stub = `(() => {
 
   /* ---------- 9. persistência + novidade única ---------- */
   await page.waitForTimeout(5400);
-  ok((await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 14.0'), 'aviso de novidades da 12.0 para quem já usava o app');
+  ok((await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 15.0'), 'aviso de novidades da 12.0 para quem já usava o app');
   await page.evaluate(() => saveNow()); await page.reload(); await closeModals(page); await page.waitForTimeout(5600);
-  ok(!(await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 14.0'), 'aviso não se repete');
+  ok(!(await page.evaluate(() => window.__toasts.join(' '))).includes('Novo na 15.0'), 'aviso não se repete');
   ok(await page.evaluate(() => __NQ.S.vocab.lessons.vfo1.passed && __NQ.S.schemaVersion === 14), 'progresso de vocabulário salvo após recarregar');
 
   /* ---------- 10. 360px ---------- */
