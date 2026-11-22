@@ -1,5 +1,5 @@
 /* ==========================================================
-   Nihongo Quest 15.0 — construção da base do Dicionário Geral (dict/v2/; a 14.0 usava dict/v1/)
+   Nihongo Quest 15.0/16.0 — construção da base do Dicionário Geral (dict/v2/; a 14.0 usava dict/v1/)
    Fontes (ver docs/DICIONARIO-14.md e dict/v1/LICENSE.md):
    - JMdict (EDRDG, CC BY-SA 4.0) — entradas completas, via @johnmorrisdotca/jisho 2.11.0 (modo seguro)
    - Tatoeba (CC BY 2.0 FR) ligadas aos sentidos pelo JMdict_e_examp (EDRDG, CC BY-SA 4.0), via o mesmo pacote
@@ -19,7 +19,9 @@
      curl -o cache/accents.txt https://raw.githubusercontent.com/mifunetoshiro/kanjium/master/data/source_files/raw/accents.txt
      git clone https://github.com/zhusupbekova/jmdict-pt && git -C jmdict-pt checkout e41652621c7fc239cb85aa7b023406bd258a1c92
        → copie data/*.jsonl, data/source.json, LICENSE, LICENSE-data.md e LICENSE-jmdict.html para cache/jmdict-pt/
-     node build-dict.mjs   → ../../dict/v1/
+     16.0: git clone https://github.com/omwn/omw-data cache/omw-data (commit em cache/omw-data/COMMIT) e o .dic do pacote npm
+       dictionary-pt@4.0.0 em cache/vero/index.dic (só verificação); node resolve-pt16.mjs → pt16/resolvidas.tsv
+     node build-dict.mjs   → ../../dict/v2/
    ========================================================== */
 import fs from 'fs'; import path from 'path'; import { fileURLToPath, pathToFileURL } from 'url';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -181,6 +183,19 @@ function mtSense(id, si, gl) {
   return out;
 }
 
+/* 16.0: português das entradas que ficaram sem nenhum na 15.0 (pt16/resolvidas.tsv, gerado por resolve-pt16.mjs).
+   Por sentido, com a origem: cg = cognato do JMdict-PT confirmado como português (OpenWN-PT/Wiktionary/VERO);
+   wn = correspondência pela WordNet (Japanese WordNet × OpenWN-PT/Wiktionary, checada pelo inglês do sentido);
+   tr = tradução do Nihongo Quest (IA, sem revisão humana); em = nome/empréstimo usado igual em português. */
+const R16 = new Map(); const r16St = { cg: 0, wn: 0, tr: 0, em: 0, entries: 0 };
+const R16F = path.join(HERE, 'pt16/resolvidas.tsv');
+if (fs.existsSync(R16F)) for (const line of fs.readFileSync(R16F, 'utf8').split('\n')) {
+  if (!line.trim() || line.startsWith('#')) continue;
+  const [idS, siS, src, t] = line.split('\t'); const id = Number(idS); if (!E.has(id) || !t) continue;
+  (R16.get(id) || R16.set(id, new Map()).get(id)).set(Number(siS), [src, t.split('|').filter(Boolean)]);
+}
+log('16.0: entradas com português por sentido de pt16/resolvidas.tsv', R16.size);
+
 /* ---------- 5. exemplos (Tatoeba) ---------- */
 const EX = new Map();
 for (const f of files(path.join(J, 'examples')).filter(f => /^s\d+\.data\.js$/.test(f))) {
@@ -277,8 +292,11 @@ function indexGloss(lang, text, id, si, gi, bonus) {
     const parts = String(text).replace(/\[(lit|expl|fig|tm)\]/g, '').replace(/\([^)]*\)/g, ' ').split(/\s*[,;/]\s*/).map(normW).filter(Boolean);
     if (parts.length > 1) parts.forEach((x, pi) => phrases.push([x, 2 + pi]));
     phrases.slice().forEach(([ph, pp]) => {
-      const m = PT_LEAD.exec(ph); if (m && m[2].split(' ').length <= 3) phrases.push([m[2], pp + 14]); // ficar cansado → cansado
+      // 16.0: a forma derivada não paga a posição inteira da glosa (疲れる: “ficar cansado” é a 5ª glosa, mas 疲れた = cansado)
+      const back = Math.min(gi, 1) * 4 - gi * 4;
+      const m = PT_LEAD.exec(ph); if (m && m[2].split(' ').length <= 3) phrases.push([m[2], pp + 7 + back]); // ficar cansado → cansado
       const r = /^(\S+?)r se$/.exec(ph); if (r) phrases.push([r[1] + 'r', pp + 10]); // cansar-se → cansar
+      const v = /^(\S+[aei]r) (em|de|a|com|por|para|no|na|do|da)$/.exec(ph); if (v) phrases.push([v[1], pp + 6]); // confiar em → confiar
     });
   }
   phrases.forEach(([ph, pen]) => { if (ph && ph.split(' ').length <= 5) addW(lang, ph, id, EXACT + Math.max(1, base - pen)); });
@@ -306,8 +324,10 @@ for (let i = 0; i < ids.length; i += SHARD) {
     const trim = a => { while (a.length && (a[a.length - 1] == null || a[a.length - 1] === '')) a.pop(); return a; };
     const same = []; SAME = same;
     const pg = e.s.map((s, si) => mtSense(id, si, s.g)); if (pg.some(l => l.length)) nMt++;
+    const po = e.s.map(() => ''); // 16.0: origem do português do sentido quando não é o JMdict-PT comum
+    if (R16.has(id) && !PT.has(id) && !pg.some(l => l.length)) { let any = false; R16.get(id).forEach(([src, gl], si) => { if (si < pg.length && gl.length) { pg[si] = gl; po[si] = src; r16St[src]++; any = true; } }); if (any) r16St.entries++; }
     SAME = null;
-    shard.push(trim([out.i, out.k, out.r, out.s.map((s, si) => trim([s.p, s.m, s.g, s.x, s.a, s.n, s.l, s.of, s.or, pg[si].length ? pg[si] : ''])), out.f, (out.c ? 1 : 0) | (out.u ? 2 : 0), out.pt, out.pa, out.nq, out.qx, out.xn]));
+    shard.push(trim([out.i, out.k, out.r, out.s.map((s, si) => trim([s.p, s.m, s.g, s.x, s.a, s.n, s.l, s.of, s.or, pg[si].length ? pg[si] : '', po[si]])), out.f, (out.c ? 1 : 0) | (out.u ? 2 : 0), out.pt, out.pa, out.nq, out.qx, out.xn]));
     { // resumo para a lista de resultados: forma mostrada, leitura, classe, significado curto, marcas
       const k0 = e.k.find(x => !x[1] || !/(sK|iK|oK|rK)/.test(x[1])), r0 = e.r.find(x => !x[1] || !/(sk|ik|ok)/.test(x[1])) || e.r[0];
       const shown = out.u || !k0 ? r0[0] : k0[0];
@@ -405,15 +425,18 @@ log('kanji', nK, 'com português', nKpt, 'com palavras', nKw);
 
 /* ---------- 8. meta ---------- */
 const sha = d => { let n = 0, sz = 0; for (const f of fs.readdirSync(path.join(OUT, d))) { n++; sz += fs.statSync(path.join(OUT, d, f)).size; } return [n, sz]; };
-const counts = { entries: nEntries, common: COMMON.size, expressions: nExpr, withPt: nPt, ptNq: [...PT.values()].filter(l => l.some(x => x.src === 'nq')).length, ptTr: [...PT.values()].filter(l => l.some(x => x.src === 'tr') && !l.some(x => x.src === 'nq')).length, ptMt: nMt, withAnyPt: nAnyPt, mtGlosses: mtSt.translated, mtSenses: mtSt.sensesPt, senses: mtSt.senses, glosses: mtSt.glosses, mtSame: mtSt.same, withExamples: nEx, examples: [...EX.values()].reduce((a, l) => a + l.length, 0), withAccent: nAcc, kanji: nK, kanjiPt: nKpt, kanjiStrokes: STROKES.size, jKeys, wTerms };
+const counts = { entries: nEntries, common: COMMON.size, expressions: nExpr, withPt: nPt, ptNq: [...PT.values()].filter(l => l.some(x => x.src === 'nq')).length, ptTr: [...PT.values()].filter(l => l.some(x => x.src === 'tr') && !l.some(x => x.src === 'nq')).length, ptMt: nMt, withAnyPt: nAnyPt, mtGlosses: mtSt.translated, mtSenses: mtSt.sensesPt, senses: mtSt.senses, glosses: mtSt.glosses, mtSame: mtSt.same, pt16: r16St, withExamples: nEx, examples: [...EX.values()].reduce((a, l) => a + l.length, 0), withAccent: nAcc, kanji: nK, kanjiPt: nKpt, kanjiStrokes: STROKES.size, jKeys, wTerms };
 const meta = {
   v: DICT_VERSION, built: new Date().toISOString().slice(0, 10), shard: SHARD, shards: nShard, counts,
   files: Object.fromEntries(['e', 'x', 'm', 'j', 'w', 'k', 's'].map(d => [d, sha(d)])),
   xShards: fs.readdirSync(path.join(OUT, 'x')).map(f => parseInt(f, 10)).sort((a, b) => a - b), jBuckets: [...JIDX.keys()].sort(), wBuckets: [...WB.keys()].sort(), kBuckets: [...KB.keys()].sort(), sBuckets: [...SB.keys()].sort(),
-  sources: { jmdict: manifest.release, kanjidic2_jisho: KDREL, kanjium: 'accents.txt (master)', package: '@johnmorrisdotca/jisho 2.11.0', jmdictPt: { repo: 'https://github.com/zhusupbekova/jmdict-pt', commit: MT_COMMIT, snapshot: MT_SNAP, license: 'CC BY-SA 4.0 (camada de tradução © Shiritai)', kind: 'tradução automática (gpt-4.1-mini) com correções da comunidade; não revisada' } }
+  sources: { jmdict: manifest.release, kanjidic2_jisho: KDREL, kanjium: 'accents.txt (master)', package: '@johnmorrisdotca/jisho 2.11.0', jmdictPt: { repo: 'https://github.com/zhusupbekova/jmdict-pt', commit: MT_COMMIT, snapshot: MT_SNAP, license: 'CC BY-SA 4.0 (camada de tradução © Shiritai)', kind: 'tradução automática (gpt-4.1-mini) com correções da comunidade; não revisada' },
+    pt16: { resolver: 'tools/dict/resolve-pt16.mjs', wordnets: 'Open Multilingual Wordnet omw-data (Japanese WordNet © 2009, 2010 NICT; OpenWN-PT CC BY-SA 3.0; Wiktionary CC BY-SA 3.0; Princeton WordNet 3.0)', omwCommit: fs.existsSync(path.join(HERE, 'cache/omw-data/COMMIT')) ? fs.readFileSync(path.join(HERE, 'cache/omw-data/COMMIT'), 'utf8').trim() : '', kinds: { cg: 'cognato do JMdict-PT confirmado como português', wn: 'WordNet (Japanese WordNet × OpenWN-PT/Wiktionary)', tr: 'tradução do Nihongo Quest (IA, sem revisão humana)', em: 'nome ou empréstimo usado igual em português' } } }
 };
 fs.writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify(meta));
 ['LICENSE-data.md', 'LICENSE-jmdict.html'].forEach(f => fs.copyFileSync(path.join(JPT, f), path.join(OUT, f === 'LICENSE-data.md' ? 'JMDICT-PT-LICENSE-data.md' : 'LICENSE-jmdict.html')));
+// 16.0: avisos das WordNets usadas na resolução (a licença da Japanese WordNet exige o aviso em todas as cópias)
+[['jpn/LICENSE', 'JAPANESE-WORDNET-LICENSE.txt'], ['por/LICENSE', 'OPENWN-PT-LICENSE.txt'], ['wikt/LICENSE', 'WIKTIONARY-WORDNET-LICENSE.txt'], ['eng/LICENSE', 'PRINCETON-WORDNET-LICENSE.txt']].forEach(([a, b]) => { const f = path.join(HERE, 'cache/omw-data/wns', a); if (fs.existsSync(f)) fs.copyFileSync(f, path.join(OUT, b)); });
 const LIC = path.join(HERE, 'LICENSE.md'); if (fs.existsSync(LIC)) fs.copyFileSync(LIC, path.join(OUT, 'LICENSE.md'));
 // ligação palavra do app (chave local) -> posição no dicionário geral
 fs.writeFileSync(path.join(OUT, 'nq.json'), JSON.stringify(NQKEY.map(([id, k]) => [ORD.get(id), k])));

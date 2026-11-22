@@ -31,7 +31,7 @@ const stub = `(() => {
   const page = await mk();
   const raw = await loadSave(page, V30);
   let S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 14 && S.appVersion === '15.0.0', '3.0: migrado para o esquema 6');
+  ok(S.schemaVersion === 14 && S.appVersion === '16.0.0', '3.0: migrado para o esquema 6');
   same(S.lessons, V30.lessons, '3.0: lições preservadas');
   same(S.catExams, V30.catExams, '3.0: avaliações preservadas');
   same(Object.fromEntries(Object.keys(V30.items).map(k => [k, S.items[k]])), V30.items, '3.0: itens de revisão idênticos');

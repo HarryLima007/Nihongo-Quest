@@ -1476,3 +1476,4 @@ button.conv:hover { background: var(--surface-2); }
 .jm-lbl { font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; opacity: .8; }
 .jm-mt { margin: 8px 0 0; font-size: .76rem; color: var(--muted); line-height: 1.4; }
 .jm-mt .jm-tag { margin-right: 4px; }
+.jm-src { font-size: .68rem; color: var(--muted); font-weight: 400; border: 1px solid var(--line, rgba(127,127,127,.35)); border-radius: 6px; padding: 0 4px; margin-left: 2px; white-space: nowrap; }

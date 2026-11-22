@@ -2,7 +2,7 @@
 /* ==========================================================
    Nihongo Quest — lógica do app
    ========================================================== */
-const APP_VERSION = '15.0.0';
+const APP_VERSION = '16.0.0';
 const SCHEMA_VERSION = 14;
 const SAVE_KEY = 'nihongoQuest:save';
 const BACKUP_KEY = 'nihongoQuest:backup';
