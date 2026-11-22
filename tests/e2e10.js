@@ -44,7 +44,7 @@ const stub = `(() => {
   await page.goto(URL); await page.evaluate(r => { __NQ.suspendSave(); localStorage.clear(); localStorage.setItem('nihongoQuest:save', r); }, raw);
   await page.reload(); await closeModals(page);
   const S = await page.evaluate(() => JSON.parse(JSON.stringify(__NQ.S)));
-  ok(S.schemaVersion === 14 && S.appVersion === '14.0.0', '8.0: migrado para o esquema 9 (versão 9.0.0)');
+  ok(S.schemaVersion === 14 && S.appVersion === '15.0.0', '8.0: migrado para o esquema 9 (versão 9.0.0)');
   ok(await page.evaluate(r => localStorage.getItem('nihongoQuest:backup:schema8') === r, raw), 'backup do save 8.0 guardado (nihongoQuest:backup:schema8) antes de migrar');
   ['xp', 'coins', 'streak', 'lessons', 'catExams', 'achievements', 'history', 'items', 'exStats', 'skills', 'stats', 'shop', 'tests', 'dict', 'world', 'lacad'].forEach(k => ok(JSON.stringify(k === "dict" && S[k] ? { fav: S[k].fav, recent: S[k].recent } : S[k]) === JSON.stringify(k === "dict" && V80[k] ? { fav: V80[k].fav, recent: V80[k].recent } : V80[k]), 'preservado: ' + k));
   ok(JSON.stringify(S.chat.chars) === JSON.stringify(V80.chat.chars) && JSON.stringify(S.chat.threads) === JSON.stringify(V80.chat.threads), 'preservado: Chat (personagens e conversas)');
